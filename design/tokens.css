@@ -1,0 +1,31 @@
+/*
+ * Infinium — design tokens (seed)
+ * STATUS: fallback values from the brief. Phase 2 replaces these with
+ * clusters extracted programmatically from the logo PNG (design/
+ * Infinium-Technology-Introducing-Our-Business-2.png). Do not treat
+ * these as final until scripts/extract-palette.mjs has run and its
+ * output has been reviewed against this set.
+ */
+
+@theme {
+  --color-void:      #05070C;  /* page background — near-black, blue-shifted */
+  --color-abyss:     #0A1020;  /* raised surfaces, cards */
+  --color-navy:      #0E2350;  /* deep facet */
+  --color-cobalt:    #1E4FD8;  /* brand core — the logo's dominant blue */
+  --color-signal:    #4C8DFF;  /* interactive / accent / focus ring */
+  --color-ice:       #A9C6EC;  /* muted body text, hairlines */
+  --color-glass:     #E6F0FD;  /* refraction highlight */
+  --color-paper:     #FFFFFF;  /* headings, logo lockup */
+}
+
+/*
+ * Discipline: the page is black and white with blue used as a scalpel.
+ * Cobalt/Signal appear on interactive states, the hero object, data-viz
+ * strokes — nothing else. If more than ~8% of a viewport is blue, cut.
+ *
+ * Hairlines: 1px, --color-ice at 12% opacity. Structural dividers
+ * between every major section.
+ *
+ * Grid: 12 columns, 1440px max content width, 88px desktop gutters
+ * collapsing to 20px.
+ */
