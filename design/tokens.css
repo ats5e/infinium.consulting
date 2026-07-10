@@ -1,21 +1,24 @@
 /*
- * Infinium — design tokens (seed)
- * STATUS: fallback values from the brief. Phase 2 replaces these with
- * clusters extracted programmatically from the logo PNG (design/
- * Infinium-Technology-Introducing-Our-Business-2.png). Do not treat
- * these as final until scripts/extract-palette.mjs has run and its
- * output has been reviewed against this set.
+ * Infinium — design tokens
+ * STATUS: extracted 2026-07-10 via scripts/extract-palette.mjs (k-means,
+ * alpha-filtered) from design/Infinium-Technology-Introducing-Our-Business-2.png.
+ * Raw clusters, darkest → lightest (share of opaque non-white pixels):
+ *   #22365d 21.8% · #2f4b83 13.7% · #2f55b6 7.5% · #365eee 8.3%
+ *   #677ea5 3.4% · #73a8fb 5.9% · #93a9bf 22.3% · #9ac7f8 13.8% · #cddef1 3.3%
+ * void/abyss are authored (logo bg is transparent): near-black shifted to
+ * the navy facet's hue (~222°). Brief fallbacks noted inline for the diff.
  */
 
 @theme {
-  --color-void:      #05070C;  /* page background — near-black, blue-shifted */
-  --color-abyss:     #0A1020;  /* raised surfaces, cards */
-  --color-navy:      #0E2350;  /* deep facet */
-  --color-cobalt:    #1E4FD8;  /* brand core — the logo's dominant blue */
-  --color-signal:    #4C8DFF;  /* interactive / accent / focus ring */
-  --color-ice:       #A9C6EC;  /* muted body text, hairlines */
-  --color-glass:     #E6F0FD;  /* refraction highlight */
-  --color-paper:     #FFFFFF;  /* headings, logo lockup */
+  --color-void:      #05070C;  /* page background — authored, hue-matched to navy facet */
+  --color-abyss:     #0A1020;  /* raised surfaces, cards — authored, navy deepened */
+  --color-navy:      #22365D;  /* deep facet — extracted (fallback was #0E2350) */
+  --color-cobalt:    #365EEE;  /* brand core — extracted (fallback was #1E4FD8) */
+  --color-signal:    #73A8FB;  /* interactive / accent / focus ring — extracted (fallback #4C8DFF) */
+  --color-ice:       #9AC7F8;  /* muted body text, hairlines — extracted (fallback #A9C6EC) */
+  --color-steel:     #93A9BF;  /* desaturated facet grey — secondary labels, borders on light */
+  --color-glass:     #CDDEF1;  /* refraction highlight — extracted (fallback #E6F0FD) */
+  --color-paper:     #FFFFFF;  /* headings, wordmark, logo lockup */
 }
 
 /*
