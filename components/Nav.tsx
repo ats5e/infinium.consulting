@@ -38,10 +38,8 @@ export function Nav() {
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-50 h-16 transition-colors duration-(--duration-base) ease-(--ease-out-expo) ${
-        scrolled || open
-          ? "bg-void/80 backdrop-blur-md border-b hairline"
-          : "bg-transparent"
+      className={`fixed inset-x-0 top-0 z-50 h-14 border-b hairline transition-colors duration-(--duration-base) ease-(--ease-out-expo) ${
+        scrolled || open ? "bg-void/85 backdrop-blur-md" : "bg-void/60 backdrop-blur-sm"
       }`}
     >
       <nav
@@ -49,18 +47,18 @@ export function Nav() {
         className="mx-auto flex h-full max-w-(--container-content) items-center justify-between px-(--spacing-gutter)"
       >
         <Link href="/" aria-label="Infinium Technology — home" className="relative z-50">
-          <Lockup className="text-[15px]" />
+          <Lockup className="h-6" />
         </Link>
 
         {/* desktop */}
-        <div className="hidden items-center gap-8 lg:flex">
+        <div className="hidden items-center gap-7 lg:flex">
           {LINKS.map(({ href, label }) => (
             <Link
               key={href}
               href={href}
               aria-current={pathname === href ? "page" : undefined}
-              className={`link-wipe font-mono text-(length:--text-label) uppercase tracking-[0.14em] transition-colors duration-(--duration-fast) ${
-                pathname?.startsWith(href) ? "text-paper" : "text-steel hover:text-glass"
+              className={`font-mono text-[11px] uppercase tracking-[0.14em] transition-colors duration-(--duration-fast) ${
+                pathname?.startsWith(href) ? "text-paper" : "text-steel hover:text-paper"
               }`}
             >
               {label}
@@ -68,9 +66,9 @@ export function Nav() {
           ))}
           <Link
             href="/contact"
-            className="inline-flex h-10 items-center whitespace-nowrap bg-cobalt px-5 font-mono text-(length:--text-label) uppercase tracking-[0.14em] text-paper transition-colors duration-(--duration-fast) ease-(--ease-out-expo) hover:bg-signal hover:text-void"
+            className="inline-flex h-8 items-center whitespace-nowrap border border-ice/30 px-4 font-mono text-[11px] uppercase tracking-[0.14em] text-glass transition-colors duration-(--duration-fast) ease-(--ease-out-expo) hover:border-signal hover:text-paper"
           >
-            Start a conversation
+            Get in touch
           </Link>
         </div>
 

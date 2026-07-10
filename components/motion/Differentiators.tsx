@@ -27,12 +27,17 @@ export function Differentiators({ items }: { items: Differentiator[] }) {
   const [pinned, setPinned] = useState(false);
 
   useEffect(() => {
-    const ok =
-      window.matchMedia("(min-width: 1024px) and (pointer: fine)").matches &&
-      !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    setPinned(ok);
-    if (!ok || !section.current) return;
+    const mq = window.matchMedia(
+      "(min-width: 1024px) and (pointer: fine) and (prefers-reduced-motion: no-preference)"
+    );
+    const update = () => setPinned(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
 
+  useEffect(() => {
+    if (!pinned || !section.current) return;
     gsap.registerPlugin(ScrollTrigger);
     const st = ScrollTrigger.create({
       trigger: section.current,
@@ -43,7 +48,7 @@ export function Differentiators({ items }: { items: Differentiator[] }) {
       },
     });
     return () => st.kill();
-  }, [items.length]);
+  }, [pinned, items.length]);
 
   if (!pinned) {
     return (

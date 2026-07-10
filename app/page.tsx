@@ -5,6 +5,7 @@ import { Reveal } from "@/components/motion/Reveal";
 import { Counter } from "@/components/motion/Counter";
 import { TeamSection } from "@/components/TeamSection";
 import { ContactBand } from "@/components/ContactBand";
+import { QBricksWord } from "@/components/QBricksWord";
 import { siteImage } from "@/lib/images";
 
 const PILLARS = [
@@ -130,7 +131,7 @@ export default function Home() {
             <ul className="mt-8 space-y-3">
               <li>
                 <Link href="/products/qbricks" className="link-wipe text-ice transition-colors duration-(--duration-fast) hover:text-paper">
-                  QBricks — governed, AI-ready data without pipelines
+                  <QBricksWord /> — governed, AI-ready data without pipelines
                 </Link>
               </li>
               <li>
@@ -140,6 +141,27 @@ export default function Home() {
               </li>
             </ul>
           </Reveal>
+        </div>
+      </section>
+
+      {/* partner stack — certified on every one */}
+      <section className="border-t hairline">
+        <div className="mx-auto max-w-(--container-content) px-(--spacing-gutter) py-14">
+          <div className="flex flex-col gap-8 md:flex-row md:items-center md:justify-between">
+            <p className="eyebrow max-w-56">
+              software partnerships — every consultant certified by the provider
+            </p>
+            <ul className="grid flex-1 grid-cols-2 gap-px md:grid-cols-4">
+              {["Quantexa", "Alteryx", "Microsoft Fabric", "Databricks"].map((p) => (
+                <li
+                  key={p}
+                  className="border hairline p-5 text-center font-mono text-(length:--text-label) uppercase tracking-[0.14em] text-glass"
+                >
+                  {p}
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </section>
 

@@ -27,9 +27,19 @@ export function Hero({ staticImage }: { staticImage: SiteImage }) {
   const [reduced, setReduced] = useState(false);
 
   useEffect(() => {
-    const rm = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    setReduced(rm);
-    setWebgl(!rm && window.matchMedia("(min-width: 768px) and (pointer: fine)").matches);
+    const rmq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const glq = window.matchMedia("(min-width: 768px) and (pointer: fine)");
+    const update = () => {
+      setReduced(rmq.matches);
+      setWebgl(!rmq.matches && glq.matches);
+    };
+    update();
+    rmq.addEventListener("change", update);
+    glq.addEventListener("change", update);
+    return () => {
+      rmq.removeEventListener("change", update);
+      glq.removeEventListener("change", update);
+    };
   }, []);
 
   useEffect(() => {

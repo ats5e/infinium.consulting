@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Script from "next/script";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
-import { inter, outfit, plexMono } from "./fonts";
+import { generalSans, inter, plexMono, quicksandBrand } from "./fonts";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { SmoothScroll } from "@/components/motion/SmoothScroll";
@@ -65,7 +65,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${outfit.variable} ${inter.variable} ${plexMono.variable}`}
+      className={`${generalSans.variable} ${inter.variable} ${plexMono.variable} ${quicksandBrand.variable}`}
     >
       <body>
         <Script id="load-seq" strategy="beforeInteractive">

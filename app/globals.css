@@ -38,8 +38,8 @@
   --text-step-2: clamp(1.5625rem, 1.4828rem + 0.327vw, 1.777rem);
   --text-step-3: clamp(1.9531rem, 1.7984rem + 0.6346vw, 2.3697rem);
   --text-step-4: clamp(2.4414rem, 2.1755rem + 1.0906vw, 3.1573rem);
-  --text-step-5: clamp(3.0518rem, 2.6216rem + 1.7649vw, 4.2085rem);
-  --text-hero: clamp(3rem, 7vw, 8.5rem);
+  --text-step-5: clamp(2.6rem, 2.24rem + 1.5vw, 3.6rem);
+  --text-hero: clamp(2.75rem, 4.8vw, 5.5rem);
 
   --spacing-gutter: clamp(1.25rem, 6.11vw, 5.5rem); /* 20px → 88px */
   --container-content: 90rem; /* 1440px */
@@ -51,15 +51,17 @@
  * custom properties for plain CSS below (inline theme vars are not emitted).
  */
 @theme inline {
-  --font-display: var(--font-outfit), system-ui, sans-serif;
+  --font-display: var(--font-general-sans), system-ui, sans-serif;
   --font-body: var(--font-inter), system-ui, sans-serif;
   --font-mono: var(--font-plex-mono), ui-monospace, monospace;
+  --font-qbricks: var(--font-quicksand-brand), var(--font-general-sans), sans-serif;
 }
 
 :root {
-  --font-display: var(--font-outfit), system-ui, sans-serif;
+  --font-display: var(--font-general-sans), system-ui, sans-serif;
   --font-body: var(--font-inter), system-ui, sans-serif;
   --font-mono: var(--font-plex-mono), ui-monospace, monospace;
+  --font-qbricks: var(--font-quicksand-brand), var(--font-general-sans), sans-serif;
 }
 
 /* hairline — the single most characteristic structural move */

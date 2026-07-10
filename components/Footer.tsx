@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Lockup } from "@/components/Lockup";
+import { QBricksWord } from "@/components/QBricksWord";
 
 const COLUMNS = [
   {
@@ -46,7 +47,7 @@ export function Footer() {
                         href={l.href}
                         className="link-wipe text-(length:--text-body-sm) text-ice transition-colors duration-(--duration-fast) hover:text-paper"
                       >
-                        {l.text}
+                        {l.text === "QBricks" ? <QBricksWord className="text-[0.875rem]" /> : l.text}
                       </Link>
                     </li>
                   ))}

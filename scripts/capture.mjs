@@ -36,7 +36,12 @@ for (const width of WIDTHS) {
     await page.mouse.wheel(0, -height * 2);
     await page.waitForTimeout(900);
     const name = route === "/" ? "home" : route.slice(1).replaceAll("/", "-");
-    await page.screenshot({ path: `${OUT}/${name}-${width}.png`, fullPage: true });
+    await page.screenshot({
+      path: `${OUT}/${name}-${width}.png`,
+      fullPage: true,
+      animations: "disabled",
+      timeout: 45_000,
+    });
     console.log(`${name} @ ${width}`);
   }
   await ctx.close();

@@ -44,7 +44,8 @@ function Polyhedron({ progress }: { progress: React.RefObject<number> }) {
           chromaticAberration={0.5}
           anisotropicBlur={0.3}
           distortion={0.2}
-          samples={8}
+          samples={10}
+          resolution={1024}
           backside
           backsideThickness={0.6}
           color="#cddef1"
@@ -72,7 +73,7 @@ function Polyhedron({ progress }: { progress: React.RefObject<number> }) {
 export default function GlassObject({ progress }: { progress: React.RefObject<number> }) {
   return (
     <Canvas
-      dpr={[1, 1.75]}
+      dpr={[1, 2]}
       camera={{ position: [0, 0, 4.2], fov: 42 }}
       gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
       className="!absolute inset-0"

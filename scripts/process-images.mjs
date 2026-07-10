@@ -40,9 +40,11 @@ for (const file of files.sort()) {
 
   const fullWidth = Math.min(meta.width, 3200); // enhanced masters exceed display needs
   for (const [suffix, width] of [["", fullWidth], ["-half", Math.round(fullWidth / 2)]]) {
-    const base = src.clone().resize({ width }).withMetadata({});
-    await base.clone().avif({ quality: 55, effort: 6 }).toFile(path.join(OUT, `${name}${suffix}.avif`));
-    await base.clone().webp({ quality: 78 }).toFile(path.join(OUT, `${name}${suffix}.webp`));
+    // gentle sharpen on downscale keeps the glass edges crisp; higher
+    // quality floors avoid banding/grain-smear on the dark gradients
+    const base = src.clone().resize({ width }).sharpen({ sigma: 0.8, m1: 0.6, m2: 2 }).withMetadata({});
+    await base.clone().avif({ quality: 68, effort: 6 }).toFile(path.join(OUT, `${name}${suffix}.avif`));
+    await base.clone().webp({ quality: 86 }).toFile(path.join(OUT, `${name}${suffix}.webp`));
   }
 
   const lqipBuf = await src.clone().resize({ width: 20 }).webp({ quality: 30 }).toBuffer();

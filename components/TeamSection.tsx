@@ -18,13 +18,16 @@ const TEAM = [
 export function TeamSection({ intro }: { intro?: string }) {
   return (
     <section className="border-t hairline">
-      <div className="mx-auto max-w-(--container-content) px-(--spacing-gutter) py-20">
+      <div className="mx-auto max-w-(--container-content) px-(--spacing-gutter) py-16">
         <p className="eyebrow">our team</p>
-        {intro ? <p className="mt-6 max-w-2xl text-(length:--text-step-1) text-glass">{intro}</p> : null}
-        <Reveal className="mt-12 grid gap-12 md:grid-cols-2">
+        {intro ? <p className="mt-5 max-w-2xl text-(length:--text-step-1) text-glass">{intro}</p> : null}
+        <Reveal className="mt-10 grid gap-px md:grid-cols-2">
           {TEAM.map((m) => (
-            <article key={m.name} className="group border hairline transition-[border-color,transform] duration-(--duration-fast) ease-(--ease-out-expo) hover:-translate-y-0.5 hover:border-signal/60">
-              <picture>
+            <article
+              key={m.name}
+              className="flex gap-6 border hairline p-6 transition-[border-color] duration-(--duration-fast) ease-(--ease-out-expo) hover:border-signal/60"
+            >
+              <picture className="shrink-0">
                 <source type="image/avif" srcSet={`${m.img}.avif`} />
                 <img
                   src={`${m.img}.webp`}
@@ -33,13 +36,13 @@ export function TeamSection({ intro }: { intro?: string }) {
                   height={800}
                   loading="lazy"
                   decoding="async"
-                  className="block aspect-square w-full object-cover"
+                  className="block size-28 object-cover sm:size-36"
                 />
               </picture>
-              <div className="p-6">
+              <div className="min-w-0">
                 <h3 className="text-(length:--text-step-1)">{m.name}</h3>
                 <p className="eyebrow mt-1">{m.role}</p>
-                <p className="mt-4 text-(length:--text-body-sm) leading-relaxed text-ice">{m.bio}</p>
+                <p className="mt-3 text-(length:--text-body-sm) leading-relaxed text-ice">{m.bio}</p>
               </div>
             </article>
           ))}

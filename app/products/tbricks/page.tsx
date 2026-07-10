@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Reveal } from "@/components/motion/Reveal";
 import { GlassImage } from "@/components/GlassImage";
 import { ContactBand } from "@/components/ContactBand";
+import { QBricksWord } from "@/components/QBricksWord";
 import { siteImage } from "@/lib/images";
 
 export const metadata: Metadata = {
@@ -64,7 +65,7 @@ export default function TBricks() {
           </Reveal>
           <p className="mt-10">
             <Link href="/products/qbricks" className="link-wipe font-mono text-(length:--text-label) uppercase tracking-[0.14em] text-signal">
-              Related: QBricks →
+              Related: <QBricksWord className="text-[11.5px] tracking-[0.08em]" /> →
             </Link>
           </p>
         </div>
