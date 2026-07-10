@@ -25,14 +25,16 @@ export function Reveal({
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      el.setAttribute("data-inview", "");
-      return;
-    }
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    // Content is visible in the server HTML; hiding happens here, after
+    // hydration, and only for groups below the initial viewport — so the
+    // reveal never delays first paint or LCP.
+    if (el.getBoundingClientRect().top < window.innerHeight * 0.95) return;
+    el.setAttribute("data-armed", "");
     const io = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          el.setAttribute("data-inview", "");
+          el.removeAttribute("data-armed");
           io.disconnect();
         }
       },

@@ -73,13 +73,23 @@ export function Differentiators({ items }: { items: Differentiator[] }) {
             <p className="eyebrow">a few things we’re great at</p>
             <div className="mt-10 space-y-10">
               {items.map((d, i) => (
-                <article
-                  key={d.n}
-                  className="transition-opacity duration-(--duration-base) ease-(--ease-out-expo)"
-                  style={{ opacity: active === i ? 1 : 0.28 }}
-                >
-                  <p className="font-mono text-(length:--text-label) tracking-[0.14em] text-signal">{d.n}</p>
-                  <h3 className="mt-3 text-(length:--text-step-3)">{d.title}</h3>
+                /* inactive items dim via colour, not opacity — steel keeps
+                   WCAG contrast where a 0.28 alpha would fail axe */
+                <article key={d.n}>
+                  <p
+                    className={`font-mono text-(length:--text-label) tracking-[0.14em] transition-colors duration-(--duration-base) ease-(--ease-out-expo) ${
+                      active === i ? "text-signal" : "text-steel"
+                    }`}
+                  >
+                    {d.n}
+                  </p>
+                  <h3
+                    className={`mt-3 text-(length:--text-step-3) transition-colors duration-(--duration-base) ease-(--ease-out-expo) ${
+                      active === i ? "text-paper" : "text-steel"
+                    }`}
+                  >
+                    {d.title}
+                  </h3>
                   <div
                     className="grid transition-[grid-template-rows] duration-(--duration-slow) ease-(--ease-out-expo)"
                     style={{ gridTemplateRows: active === i ? "1fr" : "0fr" }}

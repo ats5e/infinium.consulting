@@ -6,7 +6,10 @@
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test": "playwright test",
+    "test:smoke": "playwright test tests/smoke.spec.ts",
+    "lhci": "lhci autorun"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.4.0",
@@ -21,7 +24,7 @@
     "react-dom": "19.2.7",
     "react-hook-form": "^7.81.0",
     "sharp": "^0.35.3",
-    "three": "^0.185.1",
+    "three": "^0.182.0",
     "zod": "^4.4.3"
   },
   "devDependencies": {
@@ -33,7 +36,7 @@
     "@types/node": "^20",
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
-    "@types/three": "^0.185.1",
+    "@types/three": "^0.182.0",
     "eslint": "^9",
     "eslint-config-next": "16.2.10",
     "tailwindcss": "^4",

@@ -100,11 +100,14 @@
   }
 }
 
-/* group scroll-reveals — driven by components/motion/Reveal.tsx */
+/*
+ * Group scroll-reveals — driven by components/motion/Reveal.tsx.
+ * Server HTML is fully visible; [data-armed] is added by JS after
+ * hydration for below-fold groups only, so LCP is never gated on the
+ * animation. Removing the attribute plays the reveal.
+ */
 @media (prefers-reduced-motion: no-preference) {
   [data-reveal] > * {
-    opacity: 0;
-    transform: translateY(24px);
     transition:
       opacity var(--duration-slow) var(--ease-out-expo),
       transform var(--duration-slow) var(--ease-out-expo);
@@ -115,9 +118,10 @@
   [data-reveal] > :nth-child(5) { transition-delay: 320ms; }
   [data-reveal] > :nth-child(6) { transition-delay: 400ms; }
   [data-reveal] > :nth-child(n + 7) { transition-delay: 480ms; }
-  [data-reveal][data-inview] > * {
-    opacity: 1;
-    transform: none;
+  [data-reveal][data-armed] > * {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: none;
   }
 }
 

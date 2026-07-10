@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import Script from "next/script";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { inter, outfit, plexMono } from "./fonts";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
@@ -81,6 +83,13 @@ export default function RootLayout({
         <main id="main">{children}</main>
         <Footer />
         <SmoothScroll />
+        {/* the injected scripts only exist on Vercel's edge — locally they 404 */}
+        {process.env.VERCEL ? (
+          <>
+            <Analytics />
+            <SpeedInsights />
+          </>
+        ) : null}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }}

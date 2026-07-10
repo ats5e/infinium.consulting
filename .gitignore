@@ -48,3 +48,6 @@ design/raw/*
 .lighthouseci/
 test-results/
 playwright-report/
+
+# delivery captures — large, regenerate with scripts/capture.mjs
+design/screens/

@@ -59,8 +59,8 @@ export function Hero({ staticImage }: { staticImage: SiteImage }) {
   }, [reduced]);
 
   return (
-    <section ref={section} className="relative h-svh md:h-[180svh]" aria-label="Introduction">
-      <div className="sticky top-0 flex h-svh items-center overflow-hidden pt-16">
+    <section ref={section} className="relative min-h-svh md:h-[180svh]" aria-label="Introduction">
+      <div className="flex min-h-svh items-center overflow-hidden pb-16 pt-28 md:sticky md:top-0 md:h-svh md:pb-0 md:pt-16">
         <div className="mx-auto grid w-full max-w-(--container-content) grid-cols-1 items-center gap-10 px-(--spacing-gutter) md:grid-cols-12">
           <div ref={copy} className="relative z-10 md:col-span-7">
             <p className="eyebrow load-copy">we build, not just advise</p>
