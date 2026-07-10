@@ -38,7 +38,8 @@ for (const file of files.sort()) {
   const src = sharp(path.join(RAW, file));
   const meta = await src.metadata();
 
-  for (const [suffix, width] of [["", meta.width], ["-half", Math.round(meta.width / 2)]]) {
+  const fullWidth = Math.min(meta.width, 3200); // enhanced masters exceed display needs
+  for (const [suffix, width] of [["", fullWidth], ["-half", Math.round(fullWidth / 2)]]) {
     const base = src.clone().resize({ width }).withMetadata({});
     await base.clone().avif({ quality: 55, effort: 6 }).toFile(path.join(OUT, `${name}${suffix}.avif`));
     await base.clone().webp({ quality: 78 }).toFile(path.join(OUT, `${name}${suffix}.webp`));

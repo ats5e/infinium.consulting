@@ -4,6 +4,12 @@
   "raw": true,
   "suffix": "Shot on a Phase One with a 120mm macro. Pure black seamless background, #05070C. Single hard key light from upper-left, cobalt rim light from the right. Volumetric haze, visible caustics, chromatic dispersion at the edges. Extreme depth of field falloff. Physically accurate glass refraction. Cinematic, restrained, editorial. No text, no letters, no logos, no watermarks, no people, no faces, no user interfaces, no circuit boards, no neon, no lens flare cliché, no stock-photo composition.",
   "seeds": [7, 1337, 9001],
+  "decisions": {
+    "hero": "v1 (client, 2026-07-10) — topaz High Fidelity V2 enhanced to 12544x5376; master is design/raw/hero-v1.png; OG base cropped from it",
+    "tbricks": "v3 (client) — the warm-temperature variant",
+    "data-engineering": "v2", "data-science": "v3", "digital-transformation": "v1",
+    "governance": "v3", "qbricks": "red set, pick pending", "about-difc": "v1", "careers": "v3"
+  },
   "slots": [
     {
       "id": "hero",
@@ -50,7 +56,8 @@
       "ratio": "4:3",
       "width": 2048,
       "height": 1536,
-      "prompt": "A modular lattice of interlocking translucent bricks, self-assembling, each brick internally illuminated with a different intensity. Ordered, industrial, beautiful."
+      "prompt": "A modular lattice of interlocking translucent glass bricks, self-assembling, each brick internally illuminated with a different intensity of deep crimson-red light, hex #D6111F, with brighter scarlet highlights. Strictly monochromatic red-and-black palette — no blue, no orange, no purple, no green. Ordered, industrial, beautiful.",
+      "note": "client-directed: QBricks carries its own red/black product identity (#D6111F core, #FF4A50 accent — extracted from qbricks.vercel.app). The one non-cobalt slot by design."
     },
     {
       "id": "tbricks",
