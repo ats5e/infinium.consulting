@@ -1,0 +1,200 @@
+{
+  "about-difc": {
+    "variants": [
+      {
+        "src": "/img/about-difc-v1",
+        "w": 2496,
+        "h": 1664,
+        "lqip": "data:image/webp;base64,UklGRmAAAABXRUJQVlA4IFQAAACwAwCdASoUAA0APxFysFAsJqSisAgBgCIJaQAAQrkyZLJUQCMEAAD+7qC0HYqhTFVUQFfjMj7ol8dhw07C8puW3hTQyfXVX0tz8lRnzGpPdpjgIAA="
+      },
+      {
+        "src": "/img/about-difc-v2",
+        "w": 2496,
+        "h": 1664,
+        "lqip": "data:image/webp;base64,UklGRlYAAABXRUJQVlA4IEoAAACwAwCdASoUAA0APxFyslAsJqSisAgBgCIJaQAAWp7RabKySJHDAAD+7pNi3IyV/t6qUzHmrq9SGGRYQwOrW7ye7giG2arNczkAAA=="
+      },
+      {
+        "src": "/img/about-difc-v3",
+        "w": 2496,
+        "h": 1664,
+        "lqip": "data:image/webp;base64,UklGRloAAABXRUJQVlA4IE4AAACwAwCdASoUAA0APxFysFAsJqSisAgBgCIJaQAASpRiLNS/R/9UAAD+6ddKmw7yDOAt8egZja3AXfHQfDLNxi8PE69heG5Q2xFn0eoBAAA="
+      }
+    ]
+  },
+  "careers": {
+    "variants": [
+      {
+        "src": "/img/careers-v1",
+        "w": 2496,
+        "h": 1664,
+        "lqip": "data:image/webp;base64,UklGRlwAAABXRUJQVlA4IFAAAADwAwCdASoUAA0APxFysFAsJqSisAgBgCIJaACdMoADTtGVPzvtE5tAAP7r8VBPWo74tROmnRe0qGRjmCk6ura7A6nOTmFdGCXvTWLJwXe4AA=="
+      },
+      {
+        "src": "/img/careers-v2",
+        "w": 2496,
+        "h": 1664,
+        "lqip": "data:image/webp;base64,UklGRnQAAABXRUJQVlA4IGgAAABQBACdASoUAA0APxFysVAsJqSisAgBgCIJbACdL13qdAWaS+PTFlILb2bAAP7jMPXjj10Rm+JSm38ka07AWc8/bD069sH9ZtATuJ+s4ose1TH/IMXHHeu6vw0Lexv+ws0J/Fy3pgAAAA=="
+      },
+      {
+        "src": "/img/careers-v3",
+        "w": 2496,
+        "h": 1664,
+        "lqip": "data:image/webp;base64,UklGRnwAAABXRUJQVlA4IHAAAAAwBACdASoUAA0APxF0sVCsJqSisAgBgCIJZACdMoGv/gOeKo/9yIuskgAA/VH79OWpJQDdWa2GVaobJ6pqgNomr+CEW8I1Qgn92o28fJ79w3DxVmHYPHTINcK6viw7235AHFhVisPIORRbb7GNAAAA"
+      }
+    ]
+  },
+  "data-engineering": {
+    "variants": [
+      {
+        "src": "/img/data-engineering-v1",
+        "w": 2752,
+        "h": 1536,
+        "lqip": "data:image/webp;base64,UklGRmQAAABXRUJQVlA4IFgAAADwAwCdASoUAAsAPxFwsFAsJiSisAgBgCIJYwCdEf/gPIHVNxMQ9zoAAP7u1tYC3Y9YOKC7dtlf4vf9C+T+SBm6Wh361+jTnLFPy3+yuyJIBbXVItriIAAA"
+      },
+      {
+        "src": "/img/data-engineering-v2",
+        "w": 2752,
+        "h": 1536,
+        "lqip": "data:image/webp;base64,UklGRnwAAABXRUJQVlA4IHAAAADwBACdASoUAAsAPxFysFAsJqSisAgBgCIJbACdMoRwIs1/yM/+A27heYr/91URNgAA/vDfp3l29fquhYQjuNJ74r3sKI5MxP5Ujsm2nb5vpKdRENzMIjtVLOazUmiYR8nietS4I8raFeYSsIw2pmAA"
+      },
+      {
+        "src": "/img/data-engineering-v3",
+        "w": 2752,
+        "h": 1536,
+        "lqip": "data:image/webp;base64,UklGRnoAAABXRUJQVlA4IG4AAADwAwCdASoUAAsAPxFysFAsJqSisAgBgCIJbACdL1Ds/wGx/iO+2o4AAP7pQOFko2lfsl9WGtynzfjI2g+v7S4wrLm0v8pyzmh4z9DUAY4tn/r7Scq8g7E9ASCucCiyGLkckClvpHuar/maXAAAAA=="
+      }
+    ]
+  },
+  "data-science": {
+    "variants": [
+      {
+        "src": "/img/data-science-v1",
+        "w": 2752,
+        "h": 1536,
+        "lqip": "data:image/webp;base64,UklGRkgAAABXRUJQVlA4IDwAAABwAwCdASoUAAsAPxF0slCsJqSisAgBgCIJYwAAW+qYVW3DxSgA/vDHDCnkab/H4vsw+mPhvq704TYgAAA="
+      },
+      {
+        "src": "/img/data-science-v2",
+        "w": 2752,
+        "h": 1536,
+        "lqip": "data:image/webp;base64,UklGRkAAAABXRUJQVlA4IDQAAABwAwCdASoUAAsAPxFysVCsJqSisAgBgCIJaQAAW+vTlHmzM7AA/vDERgAd+DCRXyv3jgAA"
+      },
+      {
+        "src": "/img/data-science-v3",
+        "w": 2752,
+        "h": 1536,
+        "lqip": "data:image/webp;base64,UklGRmAAAABXRUJQVlA4IFQAAAAQBACdASoUAAsAPxFysFAsJqSisAgBgCIJYwC06B6R+B4+jmXdfo9pQAD+7HwtDIpWc0BIMR2s+kx9WmZmzx5FtYArbJuON9UFQ60YLCeRKYXcoAA="
+      }
+    ]
+  },
+  "digital-transformation": {
+    "variants": [
+      {
+        "src": "/img/digital-transformation-v1",
+        "w": 2752,
+        "h": 1536,
+        "lqip": "data:image/webp;base64,UklGRkYAAABXRUJQVlA4IDoAAADQAgCdASoUAAsAPxFwsFAsJiSisAgBgCIJQBkTBa5AAP7wB0GjW2bHLMNFUAyudVvkF9txb4xbAAAA"
+      },
+      {
+        "src": "/img/digital-transformation-v2",
+        "w": 2752,
+        "h": 1536,
+        "lqip": "data:image/webp;base64,UklGRmYAAABXRUJQVlA4IFoAAAAwBACdASoUAAsAPxFysFAsJqSisAgBgCIJYgC7G1/2QABrLBhXkw+EHYAA/vDLpbU0rROBkJbiswTPJ25jjHPhvuQ+acmpYI24a1dnGZxqZ/xlJROb+RNMQAA="
+      },
+      {
+        "src": "/img/digital-transformation-v3",
+        "w": 2752,
+        "h": 1536,
+        "lqip": "data:image/webp;base64,UklGRnAAAABXRUJQVlA4IGQAAADQAwCdASoUAAsAPxF2sVCsJySisAgBgCIJZABTAAerLpIKl8mrXrIA/vDMs5PbTeDOIfEqymkhQlQY+uMFfbWIEaxbRhJ/qj04dSF9g55AMUxS1/CSPbE8RIgO4wE0ZK/dcAAA"
+      }
+    ]
+  },
+  "governance": {
+    "variants": [
+      {
+        "src": "/img/governance-v1",
+        "w": 2752,
+        "h": 1536,
+        "lqip": "data:image/webp;base64,UklGRjgAAABXRUJQVlA4ICwAAADQAgCdASoUAAsAPxFysFAsJqSisAgBgCIJZwAAe/QAAP7wPlA8ejRuRIYAAA=="
+      },
+      {
+        "src": "/img/governance-v2",
+        "w": 2752,
+        "h": 1536,
+        "lqip": "data:image/webp;base64,UklGRkYAAABXRUJQVlA4IDoAAAAQAwCdASoUAAsAPxFysFAsJqSisAgBgCIJaQAAetEwiXAA/vABttzkwXPP7iI0tmmfNK4Na86XFQAA"
+      },
+      {
+        "src": "/img/governance-v3",
+        "w": 2752,
+        "h": 1536,
+        "lqip": "data:image/webp;base64,UklGRlIAAABXRUJQVlA4IEYAAACwAwCdASoUAAsAPxF0sVCsJqSisAgBgCIJQBadBDjofLk0xWD0AAD+qgAmzituuH92Qo8fTyrV7UB8JiEWz7mfNvEAAAAA"
+      }
+    ]
+  },
+  "hero": {
+    "variants": [
+      {
+        "src": "/img/hero-v1",
+        "w": 3136,
+        "h": 1344,
+        "lqip": "data:image/webp;base64,UklGRkwAAABXRUJQVlA4IEAAAAAQAwCdASoUAAkAPxFysFAsJqSisAgBgCIJQBkTBCnyycAA/vDHrUBzT48wyrItmSN8F4f1NLcG9hDsly0shgAA"
+      },
+      {
+        "src": "/img/hero-v2",
+        "w": 3136,
+        "h": 1344,
+        "lqip": "data:image/webp;base64,UklGRnIAAABXRUJQVlA4IGYAAAAwBACdASoUAAkAPxF0tFAsJyUisAgBgCIJaACdMoADSRRXVnX+/fT+VUAA/vDGuZk041h7xWshqjvdTS71CmDfRTle4RaY3bCyIE797qiGEsvtulggJP0IC3sJv8TlqZc90TsAAAA="
+      },
+      {
+        "src": "/img/hero-v3",
+        "w": 3136,
+        "h": 1344,
+        "lqip": "data:image/webp;base64,UklGRmIAAABXRUJQVlA4IFYAAAAQBACdASoUAAkAPxFysFAsJqSisAgBgCIJaAC06CHpfn3d9bB7uC5GoAD+8NSqEmp1YCy7Gei/UHDUckagJUbDpVn2xL2cbafWrCOICQlLVaaxKLwAAA=="
+      }
+    ]
+  },
+  "qbricks": {
+    "variants": [
+      {
+        "src": "/img/qbricks-v1",
+        "w": 2368,
+        "h": 1792,
+        "lqip": "data:image/webp;base64,UklGRn4AAABXRUJQVlA4IHIAAADQAwCdASoUAA8APxFysFAsJqSisAgBgCIJbACdACHe7oEn9ylz8wAA/tqkzIMbTM3A2wAbdZv+I5cPSbBcvtT97PnvZ0H64uZ//vg3ecstdAQTlwWHT6o5DMuuwy5kNE3QzxWkPR5QcZt5a5APNKucYAA="
+      },
+      {
+        "src": "/img/qbricks-v2",
+        "w": 2368,
+        "h": 1792,
+        "lqip": "data:image/webp;base64,UklGRmoAAABXRUJQVlA4IF4AAABQBACdASoUAA8APxFysFCsJqSisAgBgCIJbACxC8IIAAwAZEIW1bnnOSgAAP7w03ysGePDRK/w74MpQ5AOYOC7oyO0krqo3mFioHNYUuGmE0DwY4Xw93YgVwAuAAAA"
+      },
+      {
+        "src": "/img/qbricks-v3",
+        "w": 2368,
+        "h": 1792,
+        "lqip": "data:image/webp;base64,UklGRoIAAABXRUJQVlA4IHYAAADwAwCdASoUAA8APxFysFAsJqSisAgBgCIJZgCdMoACphCwUEeEX7UAAP6/nmFLuwXDnrs9G16ZQuoIXXvFpzJYEY15m6GD4SnYVJC054iEZQvVlTgFHTdT1vIJPomFxZ4k3hnoRgRi7RXBrADDj7qhloOxlAAA"
+      }
+    ]
+  },
+  "tbricks": {
+    "variants": [
+      {
+        "src": "/img/tbricks-v1",
+        "w": 2368,
+        "h": 1792,
+        "lqip": "data:image/webp;base64,UklGRowAAABXRUJQVlA4IIAAAACwBACdASoUAA8APxFysFAsJqSisAgBgCIJbACdMoRwN0AAJb/UgU9KdvAyPvXAAP7jUH1RAUGxZ2fze3obQ7S8aZW2tfpRIA6JHpuE7rvLjn11APyFXzI31dJRuY1HMNoXoDdCVOaCRMuzpJ5BlyNDk8y77nbZwI+KSzgz3LRAAA=="
+      },
+      {
+        "src": "/img/tbricks-v2",
+        "w": 2368,
+        "h": 1792,
+        "lqip": "data:image/webp;base64,UklGRo4AAABXRUJQVlA4IIIAAACQBACdASoUAA8APxFysFAsJqSisAgBgCIJbACdMoR3H1Htv8B7xYLyJsdAz5gA/u6J99nxjUMeEhzD9R3QVuGpeyuDuxspI9GkontoUlC0YQ1qMmBUzB6c8qP0gT58Gvlt0LyomlBJRtwbjcvlWkt2x6XrBVPjbI9DJMCP0VClIAAA"
+      },
+      {
+        "src": "/img/tbricks-v3",
+        "w": 2368,
+        "h": 1792,
+        "lqip": "data:image/webp;base64,UklGRnQAAABXRUJQVlA4IGgAAAAQBACdASoUAA8APxFysFAsJqSisAgBgCIJQBdgBDpkKJboBarhXX3XAAD+8NNYKuf5rEQPP4c9V4pIHHXQOlRKMXz+QfiNge5VoTP0w3aKmVpTLfeupFWLELRwz7q8lfjkauLubgAAAA=="
+      }
+    ]
+  }
+}

@@ -1,0 +1,82 @@
+{
+  "model": "bfl/flux-1.1-pro-ultra",
+  "modelNote": "imagen-4-ultra rejected: caps at 1280x720/1024x768. FLUX Ultra accepts native ratios at ~3MP with raw:true (natural photographic rendering). Enhance pass: topaz/standard-enhance on the winning hero only.",
+  "raw": true,
+  "suffix": "Shot on a Phase One with a 120mm macro. Pure black seamless background, #05070C. Single hard key light from upper-left, cobalt rim light from the right. Volumetric haze, visible caustics, chromatic dispersion at the edges. Extreme depth of field falloff. Physically accurate glass refraction. Cinematic, restrained, editorial. No text, no letters, no logos, no watermarks, no people, no faces, no user interfaces, no circuit boards, no neon, no lens flare cliché, no stock-photo composition.",
+  "seeds": [7, 1337, 9001],
+  "slots": [
+    {
+      "id": "hero",
+      "ratio": "21:9",
+      "width": 2688,
+      "height": 1152,
+      "prompt": "A single large faceted polyhedron of optical glass, suspended and slowly rotating, its interior fractured into a lattice of thin internal planes. Cobalt and ice-blue light refracts through it and scatters across the void below. The object is complete but the light passing through it is resolving into ordered structure.",
+      "variants": [
+        "composition: object centered, monumental scale, generous negative space either side",
+        "composition: object off-axis in the right third, light scattering into the empty left field",
+        "composition: low camera angle looking slightly up at the object, refracted light raking forward toward the lens"
+      ]
+    },
+    {
+      "id": "data-engineering",
+      "ratio": "16:9",
+      "width": 2048,
+      "height": 1152,
+      "prompt": "Molten light entering a chaotic upper region and emerging below through a precisely machined glass manifold as parallel, laminar beams of uniform width. Disorder above, order below, the transition sharp."
+    },
+    {
+      "id": "data-science",
+      "ratio": "16:9",
+      "width": 2048,
+      "height": 1152,
+      "prompt": "Hundreds of tiny glass spheres suspended in a black void, connected by hairline filaments of cobalt light. Dense clusters form and dissolve. Two clusters resolving into one — entity resolution as an optical event."
+    },
+    {
+      "id": "digital-transformation",
+      "ratio": "16:9",
+      "width": 2048,
+      "height": 1152,
+      "prompt": "A dark monolithic block of rough basalt dissolving from its trailing edge into a swarm of clean, weightless, translucent blue cubes that reassemble ahead of it into a lighter, modular structure."
+    },
+    {
+      "id": "governance",
+      "ratio": "16:9",
+      "width": 2048,
+      "height": 1152,
+      "prompt": "Twelve perfectly parallel translucent planes stacked in deep space, each one etched with a fine grid. A single beam of cobalt light passes through all twelve without deviation, its path traceable and unbroken. Precision as an aesthetic."
+    },
+    {
+      "id": "qbricks",
+      "ratio": "4:3",
+      "width": 2048,
+      "height": 1536,
+      "prompt": "A modular lattice of interlocking translucent bricks, self-assembling, each brick internally illuminated with a different intensity. Ordered, industrial, beautiful."
+    },
+    {
+      "id": "tbricks",
+      "ratio": "4:3",
+      "width": 2048,
+      "height": 1536,
+      "prompt": "A modular lattice of interlocking translucent bricks arranged as a stress-test rig, warmer internal light temperature, one brick isolated and lit under examination."
+    },
+    {
+      "id": "about-difc",
+      "ratio": "3:2",
+      "width": 2304,
+      "height": 1536,
+      "prompt": "An abstract architectural interior of black glass and polished stone, hard geometry, dawn light entering from a single high aperture. Institutional, quiet, expensive. No recognisable building."
+    },
+    {
+      "id": "careers",
+      "ratio": "3:2",
+      "width": 2304,
+      "height": 1536,
+      "prompt": "An empty, immaculate glass-walled workspace at dawn. Cobalt light. Human absence implying human arrival."
+    },
+    {
+      "id": "og-card",
+      "ratio": "1200:630",
+      "note": "cropped in code from the winning hero variant — tight crop on the object, heavy negative space right for the logo lockup composited at build time"
+    }
+  ]
+}
