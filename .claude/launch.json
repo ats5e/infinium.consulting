@@ -3,14 +3,22 @@
   "configurations": [
     {
       "name": "dev",
-      "runtimeExecutable": "pnpm",
-      "runtimeArgs": ["dev"],
+      "runtimeExecutable": "/Users/jackhenrydonaldson/Library/pnpm/bin/pnpm",
+      "runtimeArgs": [
+        "dev"
+      ],
       "port": 3000
     },
     {
       "name": "typecompare",
       "runtimeExecutable": "python3",
-      "runtimeArgs": ["-m", "http.server", "8123", "-d", "/private/tmp/claude-501/-Users-jackhenrydonaldson-infinium-consulting/d7465ea4-0391-45b9-9a7d-3620064e2a7d/scratchpad/typecompare"],
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "8123",
+        "-d",
+        "/private/tmp/claude-501/-Users-jackhenrydonaldson-infinium-consulting/d7465ea4-0391-45b9-9a7d-3620064e2a7d/scratchpad/typecompare"
+      ],
       "port": 8123
     }
   ]

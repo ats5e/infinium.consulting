@@ -374,7 +374,27 @@ Level 02, Innovation One, DIFC, Dubai, UAE. LinkedIn (public URL).
 
 ## Products, QBricks, TBricks, Careers — new pages
 
-Drafted in Phase 4 once defect #7 (claim mapping) is answered. Careers
-empty state direction: "We hire practitioners. There are no open roles
-right now — when there are, they'll be here. If you think we should know
-about you anyway, we probably should." + speculative application email.
+**Claim mapping (client answered via https://qbricks.vercel.app/):**
+QBricks = automated ETL/pipeline building + compute optimisation;
+TBricks = automated model testing + ESG reporting (inferred by
+elimination — veto window open until products pages publish).
+
+### QBricks source material (captured 2026-07-10 from qbricks.vercel.app)
+
+- Positioning: "No more data pipelines. Turn your systems of record into
+  governed, A.I.-ready data products, in hours, not months or years."
+- Category: streaming data-management platform; governance enforced at
+  the point of ingestion (ODCS / Open Data Contract).
+- Pillars: governed agentic mesh (human in the loop) · automatic pipeline
+  building · data lineage + knowledge graphs · local compute (Databricks /
+  Fabric / Snowflake / own DB via SQL push-down) · fully auditable ·
+  catalogue of catalogues · materialised views.
+- Angle: cost — trusted data as the most expensive line on the AI bill;
+  works against systems of record (Temenos, Flexcube, SWIFT, Murex,
+  Calypso, Salesforce…) feeding a governed lakehouse.
+- Tone note: the QBricks site numbers ($650B, 100×, 2×, MIT 95%) cite
+  external analysts — reuse on infinium site only with the same citations.
+
+Careers empty state direction: "We hire practitioners. There are no open
+roles right now — when there are, they'll be here. If you think we should
+know about you anyway, we probably should." + speculative application email.

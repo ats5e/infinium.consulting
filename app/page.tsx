@@ -1,103 +1,92 @@
-import Image from "next/image";
+import { Lockup } from "@/components/Lockup";
+
+/*
+ * Phase 2 brand specimen — a working surface to verify tokens, type and
+ * chrome against the design plan. Replaced by the real Home in Phase 4.
+ */
+
+const swatches = [
+  ["void", "#05070C"],
+  ["abyss", "#0A1020"],
+  ["navy", "#22365D"],
+  ["cobalt", "#365EEE"],
+  ["signal", "#73A8FB"],
+  ["ice", "#9AC7F8"],
+  ["steel", "#93A9BF"],
+  ["glass", "#CDDEF1"],
+  ["paper", "#FFFFFF"],
+] as const;
 
 export default function Home() {
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <main className="mx-auto max-w-(--container-content) px-(--spacing-gutter) py-16">
+      <Lockup className="text-base" />
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
+      <section className="mt-20 border-t hairline pt-10">
+        <p className="eyebrow">we build</p>
+        <h1 className="mt-6 text-(length:--text-hero) leading-[0.95] tracking-[-0.03em] -ml-[0.06em]">
+          Data engineering.
+          <br />
+          For tomorrow.
+        </h1>
+        <p className="mt-8 max-w-xl text-lg text-ice">
+          We deliver across data engineering, data science, digital
+          transformation, and governance — combining certified expertise in
+          data with deep domain knowledge in AML, KYC, and credit risk.
+        </p>
+        <div className="mt-10 flex items-center gap-8">
           <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            href="#"
+            className="inline-flex min-h-11 items-center bg-cobalt px-6 font-mono text-(length:--text-label) uppercase tracking-[0.14em] text-paper transition-colors duration-(--duration-fast) ease-(--ease-out-expo) hover:bg-signal hover:text-void"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
+            Start a conversation
           </a>
           <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            href="#"
+            className="font-mono text-(length:--text-label) uppercase tracking-[0.14em] text-steel transition-colors hover:text-signal"
           >
-            Read our docs
+            Get in touch
           </a>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+      </section>
+
+      <section className="mt-20 border-t hairline pt-10">
+        <p className="eyebrow">palette — extracted from the logo</p>
+        <ul className="mt-8 grid grid-cols-3 gap-px sm:grid-cols-9">
+          {swatches.map(([name, hex]) => (
+            <li key={name} className="border hairline">
+              <div className="aspect-square" style={{ background: hex }} />
+              <div className="p-2 font-mono text-[10px] uppercase tracking-[0.14em] text-steel">
+                {name}
+                <br />
+                {hex}
+              </div>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section className="mt-20 border-t hairline pt-10">
+        <p className="eyebrow">type scale — minor third, fluid</p>
+        <div className="mt-8 space-y-6">
+          <p className="font-display text-(length:--text-step-5) font-medium text-paper">
+            Refraction under pressure
+          </p>
+          <p className="font-display text-(length:--text-step-3) font-medium text-paper">
+            We build, not just advise
+          </p>
+          <p className="max-w-2xl text-(length:--text-body) text-glass">
+            Most technology consultancies offer the same thing: frameworks,
+            recommendations, and a long handover. We work differently — body
+            face is Inter, optical sizing on, −0.011em tracking.
+          </p>
+          <p className="font-mono text-(length:--text-label) uppercase tracking-[0.14em] text-steel">
+            40+ specialists · 17 nationalities ·{" "}
+            <span className="tabular-nums">2026</span> — IBM Plex Mono carries
+            the technical register
+          </p>
+        </div>
+      </section>
+    </main>
   );
 }
