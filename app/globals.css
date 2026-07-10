@@ -76,6 +76,93 @@
   color: var(--color-steel);
 }
 
+/* link underline: wipes in from the left, exits to the right */
+@utility link-wipe {
+  position: relative;
+
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -3px;
+    height: 1px;
+    width: 100%;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform var(--duration-base) var(--ease-out-expo);
+  }
+
+  &:hover::after,
+  &:focus-visible::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+}
+
+/* group scroll-reveals — driven by components/motion/Reveal.tsx */
+@media (prefers-reduced-motion: no-preference) {
+  [data-reveal] > * {
+    opacity: 0;
+    transform: translateY(24px);
+    transition:
+      opacity var(--duration-slow) var(--ease-out-expo),
+      transform var(--duration-slow) var(--ease-out-expo);
+  }
+  [data-reveal] > :nth-child(2) { transition-delay: 80ms; }
+  [data-reveal] > :nth-child(3) { transition-delay: 160ms; }
+  [data-reveal] > :nth-child(4) { transition-delay: 240ms; }
+  [data-reveal] > :nth-child(5) { transition-delay: 320ms; }
+  [data-reveal] > :nth-child(6) { transition-delay: 400ms; }
+  [data-reveal] > :nth-child(n + 7) { transition-delay: 480ms; }
+  [data-reveal][data-inview] > * {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/*
+ * Page-load orchestration — runs once per session (inline script in
+ * layout.tsx sets data-load="pending" pre-paint, flips to "go" on load).
+ * Sequence: hairlines draw (800ms) → display lines clip-reveal (60ms
+ * stagger) → hero object rises (1200ms) → nav. Total < 2s.
+ */
+[data-load] .load-hairline {
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--duration-slow) var(--ease-out-expo);
+}
+[data-load] .load-line > span {
+  clip-path: inset(0 0 100% 0);
+  transform: translateY(0.2em);
+  transition:
+    clip-path var(--duration-slow) var(--ease-out-expo),
+    transform var(--duration-slow) var(--ease-out-expo);
+}
+[data-load] .load-line:nth-child(2) > span { transition-delay: 260ms; }
+[data-load] .load-hero {
+  opacity: 0;
+  scale: 1.04;
+  transition:
+    opacity var(--duration-grand) var(--ease-out-expo) 500ms,
+    scale var(--duration-grand) var(--ease-out-expo) 500ms;
+}
+[data-load] .load-nav {
+  opacity: 0;
+  transition: opacity var(--duration-slow) var(--ease-out-expo) 900ms;
+}
+[data-load] .load-copy {
+  opacity: 0;
+  transition: opacity var(--duration-slow) var(--ease-out-expo) 700ms;
+}
+[data-load="pending"] .load-line > span { transition-delay: 200ms; }
+[data-load="go"] .load-hairline { transform: scaleX(1); }
+[data-load="go"] .load-line > span { clip-path: inset(0 0 -0.2em 0); transform: none; }
+[data-load="go"] .load-line:nth-child(2) > span { transition-delay: 260ms; }
+[data-load="go"] .load-hero { opacity: 1; scale: 1; }
+[data-load="go"] .load-nav,
+[data-load="go"] .load-copy { opacity: 1; }
+
 @layer base {
   html {
     scroll-behavior: smooth;
