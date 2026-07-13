@@ -1,92 +1,176 @@
-import { Lockup } from "@/components/Lockup";
+import Link from "next/link";
+import { Hero } from "@/components/hero/Hero";
+import { Differentiators } from "@/components/motion/Differentiators";
+import { Reveal } from "@/components/motion/Reveal";
+import { Counter } from "@/components/motion/Counter";
+import { TeamSection } from "@/components/TeamSection";
+import { ContactBand } from "@/components/ContactBand";
+import { PartnerLogos } from "@/components/PartnerLogos";
+import { QBricksWord } from "@/components/QBricksWord";
+import { ExperienceConsole } from "@/components/ExperienceConsole";
+import { SignalArchitecture } from "@/components/SignalArchitecture";
+import { siteImage } from "@/lib/images";
 
-/*
- * Phase 2 brand specimen — a working surface to verify tokens, type and
- * chrome against the design plan. Replaced by the real Home in Phase 4.
- */
+const PILLARS = [
+  {
+    title: "Strategy that ships.",
+    body: "Every recommendation is shaped around the first production release, the evidence it needs, and the controls that will keep it alive.",
+  },
+  {
+    title: "Engineered in the DIFC.",
+    body: "Built inside one of the world’s most demanding financial centres — close to the institutions, regulators and pace that define the work.",
+  },
+  {
+    title: "Financial services only.",
+    body: "No generic transformation theatre. Every engagement draws on banking, risk, compliance, data and markets experience from day one.",
+  },
+];
 
-const swatches = [
-  ["void", "#05070C"],
-  ["abyss", "#0A1020"],
-  ["navy", "#22365D"],
-  ["cobalt", "#365EEE"],
-  ["signal", "#73A8FB"],
-  ["ice", "#9AC7F8"],
-  ["steel", "#93A9BF"],
-  ["glass", "#CDDEF1"],
-  ["paper", "#FFFFFF"],
-] as const;
+const DIFFERENTIATORS = [
+  {
+    n: ".1",
+    title: "We speak financial services fluently",
+    body: "Most technology firms learn your industry as they go. We don’t. Our team has spent decades inside the banks, regulators, and institutions we now serve. We understand the constraints, the compliance obligations, and the operational realities before the first conversation. You won’t spend time educating us on the basics.",
+    image: siteImage("data-science"),
+    alt: "Glass spheres connected by filaments of cobalt light, two clusters resolving into one",
+  },
+  {
+    n: ".2",
+    title: "We build the technology, not just the blueprint",
+    body: "Advice is easy. Delivery is harder. Infinium combines strategic consulting with hands-on engineering, backed by proprietary products already running in production at financial institutions. When we recommend an approach, it’s because we’ve built it ourselves — and we can build it for you.",
+    image: siteImage("data-engineering"),
+    alt: "Chaotic light resolving through a glass manifold into parallel laminar beams",
+  },
+  {
+    n: ".3",
+    title: "We stay until it works",
+    body: "Engagements at Infinium don’t end with a handover. We stay close — through implementation, into production, and beyond. Our rolling engagement model means clients draw on our capacity whenever they need it, without restarting from scratch. The relationships we build run for years, not weeks.",
+    image: siteImage("governance"),
+    alt: "Parallel translucent planes traversed by a single unbroken beam of cobalt light",
+  },
+];
 
 export default function Home() {
   return (
-    <main className="mx-auto max-w-(--container-content) px-(--spacing-gutter) py-16">
-      <Lockup className="text-base" />
+    <>
+      <Hero staticImage={siteImage("hero")} />
 
-      <section className="mt-20 border-t hairline pt-10">
-        <p className="eyebrow">we build</p>
-        <h1 className="mt-6 text-(length:--text-hero) leading-[0.95] tracking-[-0.03em] -ml-[0.06em]">
-          Data engineering.
-          <br />
-          For tomorrow.
-        </h1>
-        <p className="mt-8 max-w-xl text-lg text-ice">
-          We deliver across data engineering, data science, digital
-          transformation, and governance — combining certified expertise in
-          data with deep domain knowledge in AML, KYC, and credit risk.
-        </p>
-        <div className="mt-10 flex items-center gap-8">
-          <a
-            href="#"
-            className="inline-flex min-h-11 items-center bg-cobalt px-6 font-mono text-(length:--text-label) uppercase tracking-[0.14em] text-paper transition-colors duration-(--duration-fast) ease-(--ease-out-expo) hover:bg-signal hover:text-void"
-          >
-            Start a conversation
-          </a>
-          <a
-            href="#"
-            className="font-mono text-(length:--text-label) uppercase tracking-[0.14em] text-steel transition-colors hover:text-signal"
-          >
-            Get in touch
-          </a>
-        </div>
-      </section>
-
-      <section className="mt-20 border-t hairline pt-10">
-        <p className="eyebrow">palette — extracted from the logo</p>
-        <ul className="mt-8 grid grid-cols-3 gap-px sm:grid-cols-9">
-          {swatches.map(([name, hex]) => (
-            <li key={name} className="border hairline">
-              <div className="aspect-square" style={{ background: hex }} />
-              <div className="p-2 font-mono text-[10px] uppercase tracking-[0.14em] text-steel">
-                {name}
-                <br />
-                {hex}
-              </div>
-            </li>
+      {/* pillars — a set, not a sequence: no numbering */}
+      <section aria-label="What defines Infinium">
+        <Reveal className="mx-auto grid max-w-(--container-content) gap-px px-(--spacing-gutter) py-20 md:grid-cols-3">
+          {PILLARS.map((p, i) => (
+            <article key={p.title} className="group relative overflow-hidden border hairline bg-abyss/25 p-8 transition-[border-color,transform,background] duration-(--duration-base) ease-(--ease-out-expo) hover:-translate-y-1 hover:border-signal/60 hover:bg-abyss/55">
+              <span aria-hidden className="absolute right-6 top-6 font-mono text-[10px] uppercase tracking-[0.08em] text-steel transition-colors group-hover:text-signal">
+                0{i + 1}
+              </span>
+              <span aria-hidden className="absolute inset-x-0 top-0 h-px origin-left scale-x-0 bg-signal shadow-[0_0_20px_var(--color-signal)] transition-transform duration-(--duration-base) group-hover:scale-x-100" />
+              <h2 className="text-(length:--text-step-1)">{p.title}</h2>
+              <p className="mt-4 text-(length:--text-body-sm) leading-relaxed text-ice">{p.body}</p>
+            </article>
           ))}
-        </ul>
+        </Reveal>
       </section>
 
-      <section className="mt-20 border-t hairline pt-10">
-        <p className="eyebrow">type scale — minor third, fluid</p>
-        <div className="mt-8 space-y-6">
-          <p className="font-display text-(length:--text-step-5) font-medium text-paper">
-            Refraction under pressure
-          </p>
-          <p className="font-display text-(length:--text-step-3) font-medium text-paper">
-            We build, not just advise
-          </p>
-          <p className="max-w-2xl text-(length:--text-body) text-glass">
-            Most technology consultancies offer the same thing: frameworks,
-            recommendations, and a long handover. We work differently — body
-            face is Inter, optical sizing on, −0.011em tracking.
-          </p>
-          <p className="font-mono text-(length:--text-label) uppercase tracking-[0.14em] text-steel">
-            40+ specialists · 17 nationalities ·{" "}
-            <span className="tabular-nums">2026</span> — IBM Plex Mono carries
-            the technical register
-          </p>
+      <ExperienceConsole />
+
+      {/* why infinium + the two real numbers */}
+      <section className="border-t hairline">
+        <div className="mx-auto grid max-w-(--container-content) gap-12 px-(--spacing-gutter) py-20 md:grid-cols-12">
+          <Reveal className="md:col-span-7">
+            <p className="eyebrow">why infinium</p>
+            <h2 className="mt-6 text-(length:--text-step-3)">
+              Most technology consultancies offer the same thing: frameworks,
+              recommendations, and a long handover. We work differently.
+            </h2>
+            <p className="mt-6 max-w-2xl text-ice">
+              We combine strategic advisory with hands-on engineering —
+              designing solutions and building them ourselves, on proprietary
+              technology developed for the challenges financial institutions
+              face. Our team has operated inside the world’s leading financial
+              hubs. We understand the regulatory landscape, the operational
+              constraints, and the pace at which institutions move.
+            </p>
+          </Reveal>
+          <Reveal className="flex gap-12 md:col-span-5 md:flex-col md:justify-center">
+            <div>
+              <p className="font-display text-(length:--text-step-5) font-medium text-paper">
+                <Counter value={40} suffix="+" />
+              </p>
+              <p className="eyebrow mt-2">specialists</p>
+            </div>
+            <div>
+              <p className="font-display text-(length:--text-step-5) font-medium text-paper">
+                <Counter value={17} />
+              </p>
+              <p className="eyebrow mt-2">nationalities</p>
+            </div>
+          </Reveal>
         </div>
       </section>
-    </main>
+
+      <SignalArchitecture />
+
+      <Differentiators items={DIFFERENTIATORS} />
+
+      {/* we serve / we build */}
+      <section className="border-t hairline">
+        <div className="mx-auto grid max-w-(--container-content) gap-16 px-(--spacing-gutter) py-20 md:grid-cols-2">
+          <Reveal>
+            <p className="eyebrow">we serve</p>
+            <h2 className="mt-6 text-(length:--text-step-2)">
+              End-to-end technology engagements across the financial services
+              value chain — from strategy through production engineering and
+              beyond.
+            </h2>
+            <ul className="mt-8 space-y-3">
+              {["Digital transformation", "Data engineering", "Data science", "Governance"].map((s) => (
+                <li key={s}>
+                  <Link href="/services" className="link-wipe text-ice transition-colors duration-(--duration-fast) hover:text-paper">
+                    {s}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </Reveal>
+          <Reveal>
+            <p className="eyebrow">we build</p>
+            <h2 className="mt-6 text-(length:--text-step-2)">
+              We don’t just consult. Our proprietary product suite is developed
+              in-house, deployed with clients, and maintained by the team that
+              built it.
+            </h2>
+            <ul className="mt-8 space-y-3">
+              <li>
+                <Link href="/products/qbricks" className="link-wipe text-ice transition-colors duration-(--duration-fast) hover:text-paper">
+                  <QBricksWord /> — governed, AI-ready data without pipelines
+                </Link>
+              </li>
+              <li>
+                <Link href="/products/tbricks" className="link-wipe text-ice transition-colors duration-(--duration-fast) hover:text-paper">
+                  TBricks — automated model testing and ESG reporting
+                </Link>
+              </li>
+            </ul>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* partner stack — certified on every one */}
+      <section className="border-t hairline">
+        <div className="mx-auto max-w-(--container-content) px-(--spacing-gutter) py-14">
+          <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
+            <p className="eyebrow max-w-56 shrink-0">
+              software partnerships — every consultant certified by the provider
+            </p>
+            <div className="flex-1 lg:max-w-3xl">
+              <PartnerLogos tileClass="px-6 py-5" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <TeamSection />
+      <ContactBand />
+    </>
   );
 }

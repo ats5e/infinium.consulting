@@ -38,8 +38,8 @@
   --text-step-2: clamp(1.5625rem, 1.4828rem + 0.327vw, 1.777rem);
   --text-step-3: clamp(1.9531rem, 1.7984rem + 0.6346vw, 2.3697rem);
   --text-step-4: clamp(2.4414rem, 2.1755rem + 1.0906vw, 3.1573rem);
-  --text-step-5: clamp(3.0518rem, 2.6216rem + 1.7649vw, 4.2085rem);
-  --text-hero: clamp(3rem, 7vw, 8.5rem);
+  --text-step-5: clamp(2.6rem, 2.24rem + 1.5vw, 3.6rem);
+  --text-hero: clamp(2.75rem, 4.8vw, 5.5rem);
 
   --spacing-gutter: clamp(1.25rem, 6.11vw, 5.5rem); /* 20px → 88px */
   --container-content: 90rem; /* 1440px */
@@ -51,15 +51,19 @@
  * custom properties for plain CSS below (inline theme vars are not emitted).
  */
 @theme inline {
-  --font-display: var(--font-outfit), system-ui, sans-serif;
-  --font-body: var(--font-inter), system-ui, sans-serif;
-  --font-mono: var(--font-plex-mono), ui-monospace, monospace;
+  --font-display: var(--font-geist), system-ui, sans-serif;
+  --font-body: var(--font-geist), system-ui, sans-serif;
+  --font-mono: var(--font-geist), system-ui, sans-serif;
+  --font-qbricks: var(--font-quicksand-brand), var(--font-geist), sans-serif;
 }
 
 :root {
-  --font-display: var(--font-outfit), system-ui, sans-serif;
-  --font-body: var(--font-inter), system-ui, sans-serif;
-  --font-mono: var(--font-plex-mono), ui-monospace, monospace;
+  --font-display: var(--font-geist), system-ui, sans-serif;
+  --font-body: var(--font-geist), system-ui, sans-serif;
+  --font-mono: var(--font-geist), system-ui, sans-serif;
+  --font-qbricks: var(--font-quicksand-brand), var(--font-geist), sans-serif;
+  --pointer-x: 50vw;
+  --pointer-y: 24vh;
 }
 
 /* hairline — the single most characteristic structural move */
@@ -68,17 +72,110 @@
 }
 
 @utility eyebrow {
-  font-family: var(--font-mono);
+  font-family: var(--font-display);
   font-size: var(--text-label);
-  font-weight: 400;
-  letter-spacing: 0.14em;
+  font-weight: 500;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--color-steel);
 }
 
+/* link underline: wipes in from the left, exits to the right */
+@utility link-wipe {
+  position: relative;
+
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -3px;
+    height: 1px;
+    width: 100%;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform var(--duration-base) var(--ease-out-expo);
+  }
+
+  &:hover::after,
+  &:focus-visible::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+}
+
+/*
+ * Group scroll-reveals — driven by components/motion/Reveal.tsx.
+ * Server HTML is fully visible; [data-armed] is added by JS after
+ * hydration for below-fold groups only, so LCP is never gated on the
+ * animation. Removing the attribute plays the reveal.
+ */
+@media (prefers-reduced-motion: no-preference) {
+  [data-reveal] > * {
+    transition:
+      opacity var(--duration-slow) var(--ease-out-expo),
+      transform var(--duration-slow) var(--ease-out-expo);
+  }
+  [data-reveal] > :nth-child(2) { transition-delay: 80ms; }
+  [data-reveal] > :nth-child(3) { transition-delay: 160ms; }
+  [data-reveal] > :nth-child(4) { transition-delay: 240ms; }
+  [data-reveal] > :nth-child(5) { transition-delay: 320ms; }
+  [data-reveal] > :nth-child(6) { transition-delay: 400ms; }
+  [data-reveal] > :nth-child(n + 7) { transition-delay: 480ms; }
+  [data-reveal][data-armed] > * {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: none;
+  }
+}
+
+/*
+ * Page-load orchestration — runs once per session (inline script in
+ * layout.tsx sets data-load="pending" pre-paint, flips to "go" on load).
+ * Sequence: hairlines draw (800ms) → display lines clip-reveal (60ms
+ * stagger) → hero object rises (1200ms) → nav. Total < 2s.
+ */
+[data-load] .load-hairline {
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--duration-slow) var(--ease-out-expo);
+}
+[data-load] .load-line > span {
+  clip-path: inset(0 0 100% 0);
+  transform: translateY(0.2em);
+  transition:
+    clip-path var(--duration-slow) var(--ease-out-expo),
+    transform var(--duration-slow) var(--ease-out-expo);
+}
+[data-load] .load-line:nth-child(2) > span { transition-delay: 260ms; }
+[data-load] .load-hero {
+  opacity: 0;
+  scale: 1.04;
+  transition:
+    opacity var(--duration-grand) var(--ease-out-expo) 500ms,
+    scale var(--duration-grand) var(--ease-out-expo) 500ms;
+}
+[data-load] .load-nav {
+  opacity: 0;
+  transition: opacity var(--duration-slow) var(--ease-out-expo) 900ms;
+}
+[data-load] .load-copy {
+  opacity: 0;
+  transition: opacity var(--duration-slow) var(--ease-out-expo) 700ms;
+}
+[data-load="pending"] .load-line > span { transition-delay: 200ms; }
+[data-load="go"] .load-hairline { transform: scaleX(1); }
+/* generous negative insets — descenders (g, y) must never be clipped */
+[data-load="go"] .load-line > span { clip-path: inset(-0.3em -0.2em -0.6em -0.2em); transform: none; }
+[data-load="go"] .load-line:nth-child(2) > span { transition-delay: 260ms; }
+[data-load="go"] .load-hero { opacity: 1; scale: 1; }
+[data-load="go"] .load-nav,
+[data-load="go"] .load-copy { opacity: 1; }
+
 @layer base {
   html {
     scroll-behavior: smooth;
+    background: var(--color-void);
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -95,6 +192,10 @@
     letter-spacing: -0.011em;
     font-optical-sizing: auto;
     -webkit-font-smoothing: antialiased;
+    min-height: 100svh;
+    overflow-x: clip;
+    position: relative;
+    isolation: isolate;
   }
 
   ::selection {
@@ -116,5 +217,89 @@
     color: var(--color-paper);
     letter-spacing: -0.02em;
     text-wrap: balance;
+  }
+}
+
+.site-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at var(--pointer-x) var(--pointer-y), rgba(115, 168, 251, 0.18), transparent 22rem),
+    radial-gradient(circle at 12% 18%, rgba(54, 94, 238, 0.22), transparent 34rem),
+    radial-gradient(circle at 84% 78%, rgba(154, 199, 248, 0.09), transparent 30rem),
+    linear-gradient(180deg, var(--color-void) 0%, #070b14 44%, var(--color-void) 100%);
+}
+
+.site-backdrop::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0.48;
+  background-image:
+    linear-gradient(rgba(154, 199, 248, 0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(154, 199, 248, 0.045) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(ellipse at 50% 28%, black 0%, transparent 72%);
+}
+
+.site-backdrop::after {
+  content: "";
+  position: absolute;
+  inset: -20%;
+  opacity: 0.22;
+  background:
+    conic-gradient(from 180deg at 50% 50%, transparent 0deg, rgba(54, 94, 238, 0.42) 70deg, transparent 135deg, rgba(115, 168, 251, 0.22) 210deg, transparent 300deg),
+    radial-gradient(circle at 50% 50%, rgba(115, 168, 251, 0.18), transparent 42%);
+  filter: blur(60px);
+  animation: aurora-drift 22s linear infinite;
+}
+
+.data-node {
+  width: 0.58rem;
+  height: 0.58rem;
+  border: 1px solid rgba(154, 199, 248, 0.45);
+  background: rgba(5, 7, 12, 0.82);
+  box-shadow: 0 0 18px rgba(115, 168, 251, 0.58), inset 0 0 10px rgba(115, 168, 251, 0.24);
+  transform: rotate(45deg);
+}
+
+.data-node:nth-child(2n) {
+  width: 0.82rem;
+  height: 0.82rem;
+  border-color: rgba(115, 168, 251, 0.78);
+}
+
+.timeline-rail {
+  position: relative;
+}
+
+.timeline-rail::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(115, 168, 251, 0.72), transparent);
+  transform: translateY(-1px);
+}
+
+@keyframes aurora-drift {
+  0% {
+    transform: rotate(0deg) scale(1);
+  }
+  50% {
+    transform: rotate(180deg) scale(1.08);
+  }
+  100% {
+    transform: rotate(360deg) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-backdrop::after {
+    animation: none;
   }
 }
