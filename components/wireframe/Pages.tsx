@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { GlassImage } from "@/components/GlassImage";
+import { Hero } from "@/components/hero/Hero";
+import { PartnerLogos } from "@/components/PartnerLogos";
 import { QBricksWord } from "@/components/QBricksWord";
 import { Reveal } from "@/components/motion/Reveal";
 import {
@@ -58,22 +60,7 @@ function Placeholder({ label }: { label: string }) {
 export function HomeWirePage() {
   return (
     <>
-      <HeroSection
-        eyebrow="Banking & financial services consultancy"
-        title="Engineering with context."
-        body="We help the world's leading financial services firms transform their businesses through industry expertise, AI and automation. With a management team that has operated in financial markets for more than 30 years, across most of the world's financial centres, we bring a unique combination of deep industry knowledge and complex engineering, offering best in class technology and consulting solutions to accelerate our clients businesses."
-        actions={[
-          { href: "/contact", label: "Let's meet" },
-          { href: "/services", label: "Our services", secondary: true },
-          { href: "/solutions", label: "Our solutions", secondary: true },
-        ]}
-        stats={[
-          { value: "22", label: "Leading global FS clients" },
-          { value: "100+", label: "Projects completed" },
-          { value: "30", label: "Fintech solution technologies" },
-          { value: "2", label: "Global offices" },
-        ]}
-      />
+      <Hero staticImage={siteImage("hero")} />
 
       <ContentSection>
         <p className="eyebrow">An award-winning consultancy</p>
@@ -102,6 +89,7 @@ export function HomeWirePage() {
             {
               eyebrow: "What we do",
               title: "A specialist alternative to the big-brand consultancies",
+              slot: "digital-transformation" as const,
               body: "Financial services firms trust us to provide market-leading strategy, specialist transformation and AI-enabled automation solutions. We help our clients rapidly deliver business outcomes.",
               cta: "Learn more →",
               href: "/services",
@@ -109,6 +97,7 @@ export function HomeWirePage() {
             {
               eyebrow: "Who we work with",
               title: "The world's leading firms across regulated finance",
+              slot: "about-difc" as const,
               body: "From Amsterdam and Dubai, we serve the EU, Nordic and Middle East (GCC) markets, across capital markets, banking, insurance, wealth and asset management. Our typical clients are C-suite and senior leaders with a transformation agenda, who are looking to accelerate the business with the use of AI and automation.",
               cta: "Read case studies →",
               href: "/insights",
@@ -116,6 +105,7 @@ export function HomeWirePage() {
             {
               eyebrow: "How we do it",
               title: "Extreme engineering, applied with industry context",
+              slot: "data-engineering" as const,
               body: "Hands-on practitioners pair deep financial services expertise with disciplined, engineering-led delivery. Packaged methodologies, proven patterns and automation mean we start delivering from day one, measurable outcomes, not slideware.",
               cta: "Our services →",
               href: "/services",
@@ -123,16 +113,39 @@ export function HomeWirePage() {
             {
               eyebrow: "Our solutions",
               title: "QBricks and VBricks, disruptive by design",
+              slot: "qbricks" as const,
               body: "Our extreme-engineered solutions optimise the delivery value chain end to end: pre-built, proven components that compress implementations from years to months and significantly accelerate return on investment.",
               cta: "Explore QBricks & VBricks →",
               href: "/solutions",
             },
           ].map((item) => (
-            <Link key={item.title} href={item.href} className="block border hairline bg-abyss/25 p-8 transition-[border-color,transform,background] duration-(--duration-base) ease-(--ease-out-expo) hover:-translate-y-1 hover:border-signal/60 hover:bg-abyss/50">
-              <p className="eyebrow text-signal">{item.eyebrow}</p>
-              <h2 className="mt-4 text-(length:--text-step-2) leading-tight">{item.title}</h2>
-              <p className="mt-5 leading-relaxed text-ice">{item.body}</p>
-              <p className="mt-7 font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-signal">{item.cta}</p>
+            <Link
+              key={item.title}
+              href={item.href}
+              className="group relative block overflow-hidden border hairline transition-[border-color] duration-(--duration-base) ease-(--ease-out-expo) hover:border-signal/60"
+            >
+              <picture aria-hidden className="absolute inset-0">
+                <source
+                  type="image/avif"
+                  srcSet={`${siteImage(item.slot).avifMob} 800w, ${siteImage(item.slot).avifHalf} ${Math.round(siteImage(item.slot).width / 2)}w`}
+                  sizes="(min-width: 768px) 50vw, 66vw"
+                />
+                <img
+                  src={siteImage(item.slot).webpHalf}
+                  alt=""
+                  loading="lazy"
+                  decoding="async"
+                  className="h-full w-full object-cover transition-transform duration-(--duration-grand) ease-(--ease-out-expo) group-hover:scale-[1.03]"
+                  style={{ backgroundImage: `url(${siteImage(item.slot).lqip})`, backgroundSize: "cover" }}
+                />
+              </picture>
+              <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-void/97 via-void/78 to-void/30" />
+              <div className="relative flex min-h-[22rem] flex-col justify-end p-8">
+                <p className="eyebrow text-signal">{item.eyebrow}</p>
+                <h2 className="mt-4 text-(length:--text-step-2) leading-tight">{item.title}</h2>
+                <p className="mt-5 max-w-xl leading-relaxed text-glass">{item.body}</p>
+                <p className="mt-7 font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-signal">{item.cta}</p>
+              </div>
             </Link>
           ))}
         </div>
@@ -148,7 +161,7 @@ export function HomeWirePage() {
             </p>
             <p className="mt-8"><SecondaryLink href="/solutions">See what we've built →</SecondaryLink></p>
           </Reveal>
-          <PageImage slot="qbricks" alt="Abstract glass engineering structure" />
+          <PageImage slot="tbricks" alt="Abstract glass engineering structure" />
         </div>
       </ContentSection>
 
@@ -184,6 +197,15 @@ export function HomeWirePage() {
 }
 
 /* ---- Services ---------------------------------------------------------- */
+
+const SERVICE_IMAGE: Record<string, Parameters<typeof siteImage>[0]> = {
+  "data-and-ai": "data-science",
+  "digital-and-automation": "data-engineering",
+  "regulation-and-compliance": "governance",
+  "strategy-and-change": "about-difc",
+  "sustainable-finance": "careers",
+  transformation: "digital-transformation",
+};
 
 const SERVICE_DETAIL: Record<string, {
   deliverTitle: string;
@@ -279,15 +301,43 @@ export function ServicesWirePage() {
         body="Market-leading strategy, specialist transformation and AI-enabled automation solutions for regulated financial services."
       />
       <ContentSection>
-        <CardGrid
-          items={SERVICES.map((s) => ({
-            eyebrow: s.eyebrow,
-            title: s.title,
-            body: s.navBody,
-            href: `/services/${s.slug}`,
-            cta: "Learn more →",
-          }))}
-        />
+        <Reveal className="grid gap-4 md:grid-cols-2">
+          {SERVICES.map((service, i) => {
+            const img = siteImage(SERVICE_IMAGE[service.slug]);
+            const priority = i === 0;
+            return (
+              <Link
+                key={service.slug}
+                href={`/services/${service.slug}`}
+                className="group relative block overflow-hidden border hairline transition-[border-color] duration-(--duration-base) ease-(--ease-out-expo) hover:border-signal/60"
+              >
+                <picture aria-hidden className="absolute inset-0">
+                  <source
+                    type="image/avif"
+                    srcSet={`${img.avifMob} 800w, ${img.avifHalf} ${Math.round(img.width / 2)}w`}
+                    sizes="(min-width: 768px) 50vw, 66vw"
+                  />
+                  <img
+                    src={img.webpHalf}
+                    alt=""
+                    loading={priority ? "eager" : "lazy"}
+                    fetchPriority={priority ? "high" : "auto"}
+                    decoding="async"
+                    className="h-full w-full object-cover transition-transform duration-(--duration-grand) ease-(--ease-out-expo) group-hover:scale-[1.03]"
+                    style={{ backgroundImage: `url(${img.lqip})`, backgroundSize: "cover" }}
+                  />
+                </picture>
+                <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-void/97 via-void/78 to-void/30" />
+                <div className="relative flex min-h-80 flex-col justify-end p-8">
+                  <p className="eyebrow text-signal">{service.eyebrow}</p>
+                  <h2 className="mt-4 text-(length:--text-step-2) leading-tight">{service.title}</h2>
+                  <p className="mt-4 max-w-xl text-(length:--text-body-sm) leading-relaxed text-glass">{service.navBody}</p>
+                  <p className="mt-6 font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-signal">Learn more →</p>
+                </div>
+              </Link>
+            );
+          })}
+        </Reveal>
       </ContentSection>
       <CTASection
         title="Not sure where to start?"
@@ -310,6 +360,13 @@ export function ServiceDetailPage({ slug }: { slug: string }) {
         body={service.lead}
       />
       <ContentSection>
+        <div className="mb-14 overflow-hidden border hairline">
+          <GlassImage
+            image={siteImage(SERVICE_IMAGE[slug])}
+            alt={service.title}
+            sizes="(min-width: 1024px) 90vw, 100vw"
+          />
+        </div>
         <SectionIntro eyebrow="What we deliver" title={detail.deliverTitle} />
         <NumberedCards items={detail.items} />
         <div className="mt-10 flex flex-wrap gap-6">
@@ -334,7 +391,9 @@ export function SolutionsWirePage() {
       <ContentSection>
         <SectionIntro eyebrow="Solutions" title="Our solutions" />
         <div className="grid gap-px lg:grid-cols-2">
-          <article className="border hairline bg-abyss/25 p-8">
+          <article className="overflow-hidden border hairline bg-abyss/25">
+            <div className="border-b hairline"><GlassImage image={siteImage("qbricks")} alt="QBricks — governed data products" sizes="(min-width: 1024px) 45vw, 66vw" priority /></div>
+            <div className="p-8">
             <p className="eyebrow text-signal">Solution</p>
             <h2 className="mt-6 text-(length:--text-step-4)"><QBricksWord /> </h2>
             <p className="mt-4 text-(length:--text-step-1) text-glass">No more data pipelines.</p>
@@ -345,8 +404,11 @@ export function SolutionsWirePage() {
               <a href="https://qbricks.vercel.app/" className="link-wipe font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-signal">Visit the QBricks site</a>
               <SecondaryLink href="/contact">Request a demo →</SecondaryLink>
             </div>
+            </div>
           </article>
-          <article className="border hairline bg-abyss/25 p-8">
+          <article className="overflow-hidden border hairline bg-abyss/25">
+            <div className="border-b hairline"><GlassImage image={siteImage("tbricks")} alt="VBricks — engineered model testing" sizes="(min-width: 1024px) 45vw, 66vw" /></div>
+            <div className="p-8">
             <p className="eyebrow text-signal">Solution</p>
             <h2 className="mt-6 text-(length:--text-step-4)">VBricks</h2>
             <p className="mt-4 text-(length:--text-step-1) text-glass">A major change in model testing.</p>
@@ -356,6 +418,7 @@ export function SolutionsWirePage() {
             <div className="mt-8 flex flex-wrap gap-6">
               <a href="https://vbricks.vercel.app/" className="link-wipe font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-signal">Visit the VBricks site</a>
               <SecondaryLink href="/contact">Request a demo →</SecondaryLink>
+            </div>
             </div>
           </article>
         </div>
@@ -485,6 +548,9 @@ export function TechnologiesWirePage() {
             <p>That combination, proven platforms, practitioners who know them inside out, and packaged delivery patterns, is how we de-risk implementations and compress time to value.</p>
             <SecondaryLink href="/insights">Read the case studies →</SecondaryLink>
           </Reveal>
+        </div>
+        <div className="mt-14">
+          <PartnerLogos tileClass="px-6 py-7" />
         </div>
       </ContentSection>
       <ContentSection>
@@ -1042,7 +1108,14 @@ export function CareersWirePage() {
     <>
       <HeroSection eyebrow="Who we are" title="Your career" body="We are a values-led firm built from seasoned professionals and dynamic new talent, working on the hardest problems in financial services, from Amsterdam and Dubai." />
       <ContentSection>
-        <SectionIntro eyebrow="Why Infinium" title="Work that would take a decade elsewhere" />
+        <div className="mb-14 grid gap-10 md:grid-cols-12 md:items-center">
+          <div className="md:col-span-7">
+            <SectionIntro eyebrow="Why Infinium" title="Work that would take a decade elsewhere" />
+          </div>
+          <div className="overflow-hidden border hairline md:col-span-5">
+            <GlassImage image={siteImage("careers")} alt="An immaculate glass-walled workspace at dawn" sizes="(min-width: 768px) 40vw, 100vw" />
+          </div>
+        </div>
         <NumberedCards items={[
           { title: "Learn from practitioners", body: "Work directly with MD-level leaders who have run these programmes inside the world's largest financial institutions." },
           { title: "Real responsibility, early", body: "Small teams and client-facing delivery from day one, your work ships to leading banks and financial institutions, not a slide library." },
