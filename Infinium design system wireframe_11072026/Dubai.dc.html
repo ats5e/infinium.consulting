@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="_ds/infinium-design-system-292503cd-5a5e-4870-8e83-d04850aa429f/tokens/fonts.css">
+  <link rel="stylesheet" href="_ds/infinium-design-system-292503cd-5a5e-4870-8e83-d04850aa429f/styles.css">
+  <script src="_ds/infinium-design-system-292503cd-5a5e-4870-8e83-d04850aa429f/_ds_bundle.js"></script>
+  <style>
+    body { margin: 0; background: #FFFFFF; }
+    a { color: #275EBF; } a:hover { color: #1D4A9C; }
+  </style>
+</helmet>
+<div data-screen-label="Dubai" style="font: var(--style-body); color: var(--text-body)">
+  <dc-import name="SiteNav" active="About" hint-size="100%,68px" style="position: sticky; top: 0; z-index: 40"></dc-import>
+
+  <section style="background: var(--surface-dark); color: var(--text-inverse); padding: 88px 0 72px">
+    <div style="max-width: var(--container-max); margin: 0 auto; padding: 0 var(--gutter); display: flex; flex-direction: column; gap: 20px">
+      <span style="font: var(--style-eyebrow); letter-spacing: var(--tracking-wide); text-transform: uppercase; color: var(--accent-on-dark)">Locations</span>
+      <h1 style="margin: 0; font: var(--style-h1); letter-spacing: var(--tracking-tight); color: var(--white)">DIFC, Dubai</h1>
+      <p style="margin: 0; font: var(--style-body-lg); color: rgba(255,255,255,0.72); max-width: 620px">Our Middle East hub in the Dubai International Financial Centre, home of our second R&amp;D team, serving the GCC markets.</p>
+    </div>
+  </section>
+
+  <section style="padding: var(--section-pad) 0; background: var(--surface-page)">
+    <div style="max-width: var(--container-max); margin: 0 auto; padding: 0 var(--gutter); display: grid; grid-template-columns: 1fr 420px; gap: 80px; align-items: start">
+      <div style="display: flex; flex-direction: column; gap: 40px">
+        <div style="height: 340px">
+          <x-import component-from-global-scope="image-slot" from="./image-slot.js" id="loc-dubai" shape="rounded" radius="10" placeholder="Dubai office / DIFC image" hint-size="100%,340px"></x-import>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 16px">
+          <span style="font: var(--style-eyebrow); letter-spacing: var(--tracking-wide); text-transform: uppercase; color: var(--accent)">From this office</span>
+          <h2 style="margin: 0; font: var(--style-h3); letter-spacing: var(--tracking-tight); color: var(--text-heading)">Middle East (GCC) markets</h2>
+          <p style="margin: 0; font: var(--style-body); color: var(--text-body)">From the DIFC we serve banks, financial markets firms and fintechs across the GCC. Supported by the UAE government to design, develop and deliver AI-focused solutions, our teams are based in the state-of-the-art InnovationOne innovation centre in DIFC, Dubai. The office houses our second R&amp;D team, where VBricks — our model testing and validation solution — is designed and developed.</p>
+          <a href="Solutions.dc.html" style="font: var(--weight-medium) var(--text-sm)/1 var(--font-body); color: var(--accent); text-decoration: none">Explore our solutions →</a>
+        </div>
+        <div style="display: grid; grid-template-columns: 1.4fr 1fr; gap: 20px; align-items: stretch">
+          <div style="display: flex; flex-direction: column; gap: 12px">
+            <span style="font: var(--style-eyebrow); letter-spacing: var(--tracking-wide); text-transform: uppercase; color: var(--accent)">Watch</span>
+            <video controls preload="none" style="width: 100%; aspect-ratio: 16 / 9; display: block; border-radius: var(--radius-lg); background: var(--surface-dark); box-shadow: var(--shadow-sm)">
+              <source src="assets/video/dubai-office.mp4" type="video/mp4">
+            </video>
+            <span style="font: var(--style-caption); color: var(--text-muted)">Inside our DIFC office — video plays once assets/video/dubai-office.mp4 is uploaded</span>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 12px">
+            <span style="font: var(--style-eyebrow); letter-spacing: var(--tracking-wide); text-transform: uppercase; color: var(--accent)">In pictures</span>
+            <div style="flex: 1; min-height: 220px">
+              <x-import component-from-global-scope="image-slot" from="./image-slot.js" id="dubai-side-photo" shape="rounded" radius="10" src="uploads/1000043306.jpg" placeholder="Office photo" hint-size="100%,220px"></x-import>
+            </div>
+            <span style="font: var(--style-caption); color: var(--text-muted)">InnovationOne, DIFC</span>
+          </div>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px">
+          <div style="display: flex; flex-direction: column; gap: 12px">
+            <div style="height: 200px">
+              <x-import component-from-global-scope="image-slot" from="./image-slot.js" id="dubai-photo-2" shape="rounded" radius="10" src="uploads/1000043312.jpg" placeholder="Office photo" hint-size="100%,200px"></x-import>
+            </div>
+            <span style="font: var(--style-caption); color: var(--text-muted)">The workspace</span>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 12px">
+            <div style="height: 200px">
+              <x-import component-from-global-scope="image-slot" from="./image-slot.js" id="dubai-photo-3" shape="rounded" radius="10" src="uploads/1000043328.jpg" placeholder="Office photo" hint-size="100%,200px"></x-import>
+            </div>
+            <span style="font: var(--style-caption); color: var(--text-muted)">Dubai AI Campus</span>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 12px">
+            <div style="height: 200px">
+              <x-import component-from-global-scope="image-slot" from="./image-slot.js" id="dubai-photo-4" shape="rounded" radius="10" src="uploads/1000043308.jpg" placeholder="Office photo" hint-size="100%,200px"></x-import>
+            </div>
+            <span style="font: var(--style-caption); color: var(--text-muted)">InnovationOne entrance</span>
+          </div>
+        </div>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 20px; padding: 32px; background: var(--surface-inset); border-radius: var(--radius-lg)">
+        <h3 style="margin: 0; font: var(--style-h4); color: var(--text-heading)">Office details</h3>
+        <div style="display: flex; flex-direction: column; gap: 6px">
+          <span style="font: var(--style-eyebrow); letter-spacing: var(--tracking-wide); text-transform: uppercase; color: var(--text-faint)">Entity</span>
+          <span style="font: var(--style-body); color: var(--text-body)">Infinium Technology Ltd</span>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 6px">
+          <span style="font: var(--style-eyebrow); letter-spacing: var(--tracking-wide); text-transform: uppercase; color: var(--text-faint)">Location</span>
+          <span style="font: var(--style-body); color: var(--text-body)">Dubai International Financial Centre</span>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 6px">
+          <span style="font: var(--style-eyebrow); letter-spacing: var(--tracking-wide); text-transform: uppercase; color: var(--text-faint)">Address</span>
+          <span style="font: var(--style-body); color: var(--text-body)">InnovationOne, DIFC, Dubai</span>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 6px">
+          <span style="font: var(--style-eyebrow); letter-spacing: var(--tracking-wide); text-transform: uppercase; color: var(--text-faint)">Email</span>
+          <span style="font: var(--style-body); color: var(--text-body)">sales@infinium-technology.com</span>
+        </div>
+        <a href="Contact.dc.html" style="text-decoration: none"><x-import component-from-global-scope="InfiniumDesignSystem_292503.Button" hint-size="100%,40px">Start a conversation</x-import></a>
+      </div>
+    </div>
+  </section>
+
+  <dc-import name="SiteFooter" hint-size="100%,340px"></dc-import>
+</div>
+</x-dc>
+</body>
+</html>

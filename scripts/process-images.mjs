@@ -39,7 +39,8 @@ for (const file of files.sort()) {
   const meta = await src.metadata();
 
   const fullWidth = Math.min(meta.width, 3200); // enhanced masters exceed display needs
-  for (const [suffix, width] of [["", fullWidth], ["-half", Math.round(fullWidth / 2)]]) {
+  // -mob (800w) keeps LCP images affordable on throttled mobile connections
+  for (const [suffix, width] of [["", fullWidth], ["-half", Math.round(fullWidth / 2)], ["-mob", 800]]) {
     // gentle sharpen on downscale keeps the glass edges crisp; higher
     // quality floors avoid banding/grain-smear on the dark gradients
     const base = src.clone().resize({ width }).sharpen({ sigma: 0.8, m1: 0.6, m2: 2 }).withMetadata({});

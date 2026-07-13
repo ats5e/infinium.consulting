@@ -43,7 +43,7 @@ export default function TBricks() {
             <GlassImage
               image={siteImage("tbricks")}
               alt="A lattice of glass bricks under examination, one brick isolated and lit"
-              sizes="(min-width: 768px) 45vw, 100vw"
+              sizes="(min-width: 768px) 45vw, 66vw"
               priority
             />
           </Reveal>

@@ -22,12 +22,12 @@ export function GlassImage({
     <picture className={className}>
       <source
         type="image/avif"
-        srcSet={`${image.avifHalf} ${Math.round(image.width / 2)}w, ${image.avif} ${image.width}w`}
+        srcSet={`${image.avifMob} 800w, ${image.avifHalf} ${Math.round(image.width / 2)}w, ${image.avif} ${image.width}w`}
         sizes={sizes}
       />
       <img
         src={image.webp}
-        srcSet={`${image.webpHalf} ${Math.round(image.width / 2)}w, ${image.webp} ${image.width}w`}
+        srcSet={`${image.webpMob} 800w, ${image.webpHalf} ${Math.round(image.width / 2)}w, ${image.webp} ${image.width}w`}
         sizes={sizes}
         width={image.width}
         height={image.height}

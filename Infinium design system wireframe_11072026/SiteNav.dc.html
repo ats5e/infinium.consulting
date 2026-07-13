@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="_ds/infinium-design-system-292503cd-5a5e-4870-8e83-d04850aa429f/tokens/fonts.css">
+  <link rel="stylesheet" href="_ds/infinium-design-system-292503cd-5a5e-4870-8e83-d04850aa429f/styles.css">
+  <script src="_ds/infinium-design-system-292503cd-5a5e-4870-8e83-d04850aa429f/_ds_bundle.js"></script>
+</helmet>
+<header style="background: rgba(255,255,255,0.97); border-bottom: 1px solid var(--border-subtle)">
+  <div style="max-width: var(--container-max); margin: 0 auto; padding: 0 var(--gutter); display: flex; align-items: center; justify-content: space-between; height: 68px">
+    <a href="Home.dc.html" aria-label="Infinium" style="display: flex; align-items: center; text-decoration: none">{{ logoMark }}</a>
+    <nav style="display: flex; align-items: center; gap: 4px">
+      <a href="Home.dc.html" style="padding: 8px 14px; border-radius: var(--radius-md); text-decoration: none; font: var(--weight-medium) var(--text-sm)/1 var(--font-body); color: {{ homeColor }}; background: {{ homeBg }}" style-hover="background: var(--surface-subtle)">Home</a>
+      <sc-for list="{{ menus }}" as="m" hint-placeholder-count="5">
+        <span style="position: relative; display: inline-flex" onMouseEnter="{{ m.onEnter }}" onMouseLeave="{{ m.onLeave }}">
+          <a href="{{ m.href }}" style="display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: var(--radius-md); text-decoration: none; font: var(--weight-medium) var(--text-sm)/1 var(--font-body); color: {{ m.color }}; background: {{ m.bg }}" style-hover="background: var(--surface-subtle)">{{ m.label }}<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"></path></svg></a>
+          <sc-if value="{{ m.open }}" hint-placeholder-val="{{ false }}">
+            <span style="position: absolute; top: 100%; left: 0; padding-top: 6px; z-index: 50">
+              <span style="display: flex; flex-direction: column; min-width: 230px; background: var(--surface-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); box-shadow: var(--shadow-md); padding: 6px; gap: 2px">
+                <sc-for list="{{ m.items }}" as="it" hint-placeholder-count="4">
+                  <a href="{{ it.href }}" style="padding: 9px 12px; border-radius: var(--radius-sm); text-decoration: none; font: var(--weight-medium) var(--text-sm)/1 var(--font-body); color: var(--text-body); white-space: nowrap" style-hover="background: var(--surface-subtle)">{{ it.label }}</a>
+                </sc-for>
+              </span>
+            </span>
+          </sc-if>
+        </span>
+      </sc-for>
+      <span style="position: relative; display: inline-flex" onMouseEnter="{{ openAbout }}" onMouseLeave="{{ closeAbout }}">
+        <a href="About.dc.html" style="display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: var(--radius-md); text-decoration: none; font: var(--weight-medium) var(--text-sm)/1 var(--font-body); color: {{ aboutColor }}; background: {{ aboutBg }}" style-hover="background: var(--surface-subtle)">About<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"></path></svg></a>
+        <sc-if value="{{ aboutOpen }}" hint-placeholder-val="{{ false }}">
+          <span style="position: absolute; top: 100%; left: 0; padding-top: 6px; z-index: 50">
+            <span style="display: flex; flex-direction: column; min-width: 200px; background: var(--surface-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); box-shadow: var(--shadow-md); padding: 6px; gap: 2px">
+              <a href="About.dc.html" style="padding: 9px 12px; border-radius: var(--radius-sm); text-decoration: none; font: var(--weight-medium) var(--text-sm)/1 var(--font-body); color: var(--text-body)" style-hover="background: var(--surface-subtle)">About us</a>
+              <a href="Our Culture.dc.html" style="padding: 9px 12px; border-radius: var(--radius-sm); text-decoration: none; font: var(--weight-medium) var(--text-sm)/1 var(--font-body); color: var(--text-body)" style-hover="background: var(--surface-subtle)">Our culture</a>
+              <a href="Social Responsibility.dc.html" style="padding: 9px 12px; border-radius: var(--radius-sm); text-decoration: none; font: var(--weight-medium) var(--text-sm)/1 var(--font-body); color: var(--text-body)" style-hover="background: var(--surface-subtle)">Social responsibility</a>
+              <a href="Industry Events.dc.html" style="padding: 9px 12px; border-radius: var(--radius-sm); text-decoration: none; font: var(--weight-medium) var(--text-sm)/1 var(--font-body); color: var(--text-body)" style-hover="background: var(--surface-subtle)">Industry events</a>
+              <a href="Business Consulting Partners.dc.html" style="padding: 9px 12px; border-radius: var(--radius-sm); text-decoration: none; font: var(--weight-medium) var(--text-sm)/1 var(--font-body); color: var(--text-body)" style-hover="background: var(--surface-subtle)">Consulting Partners</a>
+              <a href="Career.dc.html" style="padding: 9px 12px; border-radius: var(--radius-sm); text-decoration: none; font: var(--weight-medium) var(--text-sm)/1 var(--font-body); color: var(--text-body)" style-hover="background: var(--surface-subtle)">Your career</a>
+              <span style="height: 1px; background: var(--border-subtle); margin: 4px 8px"></span>
+              <span style="padding: 6px 12px 2px; font: var(--style-eyebrow); letter-spacing: var(--tracking-wide); text-transform: uppercase; color: var(--text-faint)">Locations</span>
+              <a href="Amsterdam.dc.html" style="padding: 9px 12px; border-radius: var(--radius-sm); text-decoration: none; font: var(--weight-medium) var(--text-sm)/1 var(--font-body); color: var(--text-body)" style-hover="background: var(--surface-subtle)">Amsterdam</a>
+              <a href="Dubai.dc.html" style="padding: 9px 12px; border-radius: var(--radius-sm); text-decoration: none; font: var(--weight-medium) var(--text-sm)/1 var(--font-body); color: var(--text-body)" style-hover="background: var(--surface-subtle)">Dubai</a>
+            </span>
+          </span>
+        </sc-if>
+      </span>
+      <span style="width: 12px"></span>
+      <a href="Contact.dc.html" style="text-decoration: none">
+        <x-import component-from-global-scope="InfiniumDesignSystem_292503.Button" size="sm" hint-size="150px,36px">Start a conversation</x-import>
+      </a>
+    </nav>
+  </div>
+</header>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 1280, &quot;height&quot;: 68}, &quot;active&quot;: {&quot;editor&quot;: &quot;enum&quot;, &quot;options&quot;: [&quot;Home&quot;, &quot;Services&quot;, &quot;Solutions&quot;, &quot;Sectors&quot;, &quot;Technologies&quot;, &quot;Insights&quot;, &quot;About&quot;, &quot;&quot;], &quot;default&quot;: &quot;Home&quot;, &quot;tsType&quot;: &quot;string&quot;}}">
+class Component extends DCLogic {
+  componentDidMount() {
+    if (this.cubeEl && this.cubeEl.animate) {
+      this.cubeEl.animate(
+        [
+          { transform: 'translateX(150px) rotate(0deg)' },
+          { transform: 'translateX(0px) rotate(-352deg)' },
+        ],
+        { duration: 1100, easing: 'cubic-bezier(0.25, 0.1, 0.25, 1)', fill: 'forwards' }
+      );
+    }
+    if (this.finEl && this.finEl.animate) {
+      this.finEl.animate(
+        [
+          { color: '#0B0E14' },
+          { color: '#0B0E14', offset: 0.72 },
+          { color: '#FFFFFF' },
+        ],
+        { duration: 1100, fill: 'forwards' }
+      );
+    }
+  }
+  buildLogoMark() {
+    return React.createElement(
+      'span',
+      { style: { display: 'inline-flex', alignItems: 'center', position: 'relative', font: '600 32px/1 var(--font-display)', letterSpacing: '-0.02em', color: 'var(--ink-950)' } },
+      React.createElement('span', { key: 'in' }, 'In'),
+      React.createElement(
+        'span',
+        { key: 'mid', style: { position: 'relative', display: 'inline-block', padding: '0 2px' } },
+        React.createElement('span', {
+          key: 'cube',
+          ref: (el) => { this.cubeEl = el; },
+          style: {
+            position: 'absolute', left: '50%', top: '50%', width: 44, height: 44,
+            margin: '-22px 0 0 -22px', background: 'var(--blue-600)', borderRadius: 6,
+            transform: 'translateX(150px) rotate(0deg)', zIndex: 0,
+          },
+        }),
+        React.createElement('span', {
+          key: 'fin',
+          ref: (el) => { this.finEl = el; },
+          style: { position: 'relative', zIndex: 1, color: '#0B0E14' },
+        }, 'fin')
+      ),
+      React.createElement('span', { key: 'ium' }, 'ium')
+    );
+  }
+  renderVals() {
+    this._logoMark = this._logoMark || this.buildLogoMark();
+    const active = this.props.active ?? '';
+    const openMenu = this.state && this.state.openMenu;
+    const item = (label, href) => ({ label, href });
+    const MENUS = [
+      ['Services', 'Services.dc.html', [
+        item('Our services', 'Services.dc.html'),
+        item('Strategy and Change', 'Strategy and Change.dc.html'),
+        item('Transformation', 'Transformation.dc.html'),
+        item('Digital and Automation', 'Digital and Automation.dc.html'),
+        item('Data and AI', 'Data and AI.dc.html'),
+        item('Regulation and Compliance', 'Regulation and Compliance.dc.html'),
+        item('Sustainable Finance', 'Sustainable Finance.dc.html'),
+      ]],
+      ['Solutions', 'Solutions.dc.html', [
+        item('Our solutions', 'Solutions.dc.html'),
+        item('QBricks', 'Solutions.dc.html'),
+        item('VBricks', 'Solutions.dc.html'),
+        item('AI assessment', 'AI Assessment.dc.html'),
+        item('Quantexa maturity assessment', 'Quantexa Maturity Assessment.dc.html'),
+      ]],
+      ['Sectors', 'Sectors.dc.html', [
+        item('Asset & wealth management', 'Sectors.dc.html'),
+        item('Banks', 'Sectors.dc.html'),
+        item('Financial markets', 'Sectors.dc.html'),
+        item('Fintechs', 'Sectors.dc.html'),
+        item('Growth companies', 'Sectors.dc.html'),
+        item('Insurers', 'Sectors.dc.html'),
+      ]],
+      ['Technologies', 'Technologies.dc.html', [
+        item('Our technologies', 'Technologies.dc.html'),
+        item('Alteryx', 'Alteryx.dc.html'),
+        item('Appian', 'Appian.dc.html'),
+        item('Databricks', 'Databricks.dc.html'),
+        item('Microsoft', 'Microsoft Fabric.dc.html'),
+        item('Quantexa', 'Quantexa.dc.html'),
+      ]],
+      ['Insights', 'Insights.dc.html', [
+        item('Case studies', 'Insights.dc.html'),
+        item('News & perspectives', 'Insights.dc.html'),
+      ]],
+    ];
+    return {
+      logoMark: this._logoMark,
+      homeColor: active === 'Home' ? 'var(--accent)' : 'var(--text-body)',
+      homeBg: active === 'Home' ? 'var(--accent-subtle)' : 'transparent',
+      menus: MENUS.map(([label, href, items]) => ({
+        label,
+        href,
+        items,
+        open: openMenu === label,
+        onEnter: () => this.setState({ openMenu: label }),
+        onLeave: () => this.setState({ openMenu: null }),
+        color: label === active ? 'var(--accent)' : 'var(--text-body)',
+        bg: label === active ? 'var(--accent-subtle)' : 'transparent',
+      })),
+      aboutOpen: !!(this.state && this.state.aboutOpen),
+      openAbout: () => this.setState({ aboutOpen: true }),
+      closeAbout: () => this.setState({ aboutOpen: false }),
+      aboutColor: active === 'About' ? 'var(--accent)' : 'var(--text-body)',
+      aboutBg: active === 'About' ? 'var(--accent-subtle)' : 'transparent',
+    };
+  }
+}
+</script>
+</body>
+</html>

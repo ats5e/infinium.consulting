@@ -45,10 +45,13 @@ function Panel({
       <picture aria-hidden className="absolute inset-0">
         <source
           type="image/avif"
-          srcSet={`${d.image.avifHalf} ${Math.round(d.image.width / 2)}w`}
+          srcSet={`${d.image.avifMob} 800w, ${d.image.avifHalf} ${Math.round(d.image.width / 2)}w`}
+          sizes="100vw"
         />
         <img
           src={d.image.webpHalf}
+          srcSet={`${d.image.webpMob} 800w, ${d.image.webpHalf} ${Math.round(d.image.width / 2)}w`}
+          sizes="100vw"
           alt=""
           loading="lazy"
           decoding="async"

@@ -1,0 +1,81 @@
+/* Infinium Design System — Color tokens
+   Corporate palette: near-black ink + light-to-deep blues drawn from the glass cube mark. */
+:root {
+  /* Base — blue ramp */
+  --blue-950: #0A1730;
+  --blue-900: #10264F;
+  --blue-800: #163776;
+  --blue-700: #1D4A9C;
+  --blue-600: #275EBF;
+  --blue-500: #3B76D4;
+  --blue-400: #6496E0;
+  --blue-300: #93B6EB;
+  --blue-200: #C2D6F4;
+  --blue-100: #E0EAFA;
+  --blue-50:  #F0F5FC;
+
+  /* Base — ink / cool neutrals */
+  --ink-950: #0B0E14;
+  --ink-900: #141924;
+  --ink-800: #222938;
+  --ink-700: #333D50;
+  --ink-600: #47536A;
+  --ink-500: #5F6B83;
+  --ink-400: #828EA4;
+  --ink-300: #ACB6C7;
+  --ink-200: #D2D9E4;
+  --ink-100: #E8ECF2;
+  --ink-50:  #F4F6F9;
+  --white:   #FFFFFF;
+
+  /* Semantic — status (muted, corporate) */
+  --green-600: #1E7F5C;
+  --green-100: #DFF2EA;
+  --amber-600: #9A6B15;
+  --amber-100: #FAF0DA;
+  --red-600:   #B03A3A;
+  --red-100:   #F9E7E7;
+
+  /* Semantic — text */
+  --text-heading: var(--ink-950);
+  --text-body:    var(--ink-700);
+  --text-muted:   var(--ink-500);
+  --text-faint:   var(--ink-400);
+  --text-inverse: var(--white);
+  --text-link:    var(--blue-600);
+  --text-on-accent: var(--white);
+
+  /* Semantic — surfaces */
+  --surface-page:   var(--white);
+  --surface-subtle: var(--ink-50);
+  --surface-card:   var(--white);
+  --surface-inset:  var(--blue-50);
+  --surface-dark:   var(--blue-950);
+  --surface-dark-raised: #11213F;
+
+  /* Semantic — accent */
+  --accent:        var(--blue-600);
+  --accent-hover:  var(--blue-700);
+  --accent-active: var(--blue-800);
+  --accent-subtle: var(--blue-50);
+  --accent-subtle-hover: var(--blue-100);
+  --accent-on-dark: var(--blue-300);
+
+  /* Semantic — borders */
+  --border-subtle: var(--ink-100);
+  --border-default: var(--ink-200);
+  --border-strong: var(--ink-300);
+  --border-accent: var(--blue-600);
+  --border-on-dark: rgba(255, 255, 255, 0.14);
+
+  /* Semantic — status aliases */
+  --status-positive: var(--green-600);
+  --status-positive-bg: var(--green-100);
+  --status-caution: var(--amber-600);
+  --status-caution-bg: var(--amber-100);
+  --status-critical: var(--red-600);
+  --status-critical-bg: var(--red-100);
+
+  /* Focus ring */
+  --focus-ring: 0 0 0 3px var(--blue-200);
+}

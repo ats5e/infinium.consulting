@@ -58,16 +58,26 @@ const ASSESSMENTS = [
   { title: "Governance", body: "Ownership, lineage, quality standards and control structures — the policies, taxonomies, and metadata practices that turn raw data into a trusted, auditable asset." },
 ];
 
-/* Focus panel — the image boxed behind the text, per the site language. */
-function FocusPanel({ f }: { f: (typeof FOCUS)[number] }) {
+/* Focus panel — the image boxed behind the text, per the site language.
+ * The first panel is the page's LCP element: it loads eagerly at high
+ * priority; the rest stay lazy. */
+function FocusPanel({ f, priority = false }: { f: (typeof FOCUS)[number]; priority?: boolean }) {
+  const sizes = "(min-width: 1024px) 50vw, 100vw";
   return (
     <article className="group relative overflow-hidden border hairline transition-[border-color] duration-(--duration-base) ease-(--ease-out-expo) hover:border-signal/50">
       <picture aria-hidden className="absolute inset-0">
-        <source type="image/avif" srcSet={`${f.image.avifHalf} ${Math.round(f.image.width / 2)}w`} />
+        <source
+          type="image/avif"
+          srcSet={`${f.image.avifMob} 800w, ${f.image.avifHalf} ${Math.round(f.image.width / 2)}w`}
+          sizes={sizes}
+        />
         <img
           src={f.image.webpHalf}
+          srcSet={`${f.image.webpMob} 800w, ${f.image.webpHalf} ${Math.round(f.image.width / 2)}w`}
+          sizes={sizes}
           alt=""
-          loading="lazy"
+          loading={priority ? "eager" : "lazy"}
+          fetchPriority={priority ? "high" : "auto"}
           decoding="async"
           className="h-full w-full object-cover transition-transform duration-(--duration-grand) ease-(--ease-out-expo) group-hover:scale-[1.03]"
           style={{ backgroundImage: `url(${f.image.lqip})`, backgroundSize: "cover" }}
@@ -119,8 +129,8 @@ export default function Services() {
       <section aria-label="Focus areas">
         <div className="mx-auto max-w-(--container-content) px-(--spacing-gutter)">
           <div className="grid gap-4 lg:grid-cols-2">
-            {FOCUS.map((f) => (
-              <FocusPanel key={f.title} f={f} />
+            {FOCUS.map((f, i) => (
+              <FocusPanel key={f.title} f={f} priority={i === 0} />
             ))}
           </div>
         </div>

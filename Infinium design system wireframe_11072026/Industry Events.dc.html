@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="_ds/infinium-design-system-292503cd-5a5e-4870-8e83-d04850aa429f/tokens/fonts.css">
+  <link rel="stylesheet" href="_ds/infinium-design-system-292503cd-5a5e-4870-8e83-d04850aa429f/styles.css">
+  <script src="_ds/infinium-design-system-292503cd-5a5e-4870-8e83-d04850aa429f/_ds_bundle.js"></script>
+  <style>
+    body { margin: 0; background: #FFFFFF; }
+    a { color: #275EBF; } a:hover { color: #1D4A9C; }
+  </style>
+</helmet>
+<div data-screen-label="Industry events" style="font: var(--style-body); color: var(--text-body)">
+  <dc-import name="SiteNav" active="About" hint-size="100%,68px" style="position: sticky; top: 0; z-index: 40"></dc-import>
+
+  <section style="background: var(--surface-dark); color: var(--text-inverse); padding: 88px 0 72px">
+    <div style="max-width: var(--container-max); margin: 0 auto; padding: 0 var(--gutter); display: flex; flex-direction: column; gap: 20px">
+      <span style="font: var(--style-eyebrow); letter-spacing: var(--tracking-wide); text-transform: uppercase; color: var(--accent-on-dark)">Who we are</span>
+      <h1 style="margin: 0; font: var(--style-h1); letter-spacing: var(--tracking-tight); color: var(--white)">Industry events</h1>
+      <p style="margin: 0; font: var(--style-body-lg); color: rgba(255,255,255,0.72); max-width: 660px">Where you'll find us. We speak, sponsor and share our thinking at the industry's leading events across the EU, Nordics and GCC, come and meet the team.</p>
+    </div>
+  </section>
+
+  <section style="padding: var(--section-pad) 0; background: var(--surface-page)">
+    <div style="max-width: var(--container-max); margin: 0 auto; padding: 0 var(--gutter); display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px">
+      <div style="display: flex; flex-direction: column; background: var(--surface-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-sm)">
+        <div style="height: 280px">
+          <x-import component-from-global-scope="image-slot" from="./image-slot.js" id="event-tedx" shape="rect" placeholder="TEDx photo" hint-size="100%,180px"></x-import>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 10px; padding: 24px">
+          <span style="font: var(--style-eyebrow); letter-spacing: var(--tracking-wide); text-transform: uppercase; color: var(--text-faint)">Speaking</span>
+          <strong style="font: var(--weight-semibold) var(--text-lg)/1.3 var(--font-display); color: var(--text-heading)">TEDx</strong>
+          <p style="margin: 0; font: var(--style-caption); color: var(--text-body)">Sharing our perspective on engineering, AI and the future of financial services with audiences beyond the industry.</p>
+        </div>
+      </div>
+      <div style="display: flex; flex-direction: column; background: var(--surface-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-sm)">
+        <div style="height: 280px">
+          <x-import component-from-global-scope="image-slot" from="./image-slot.js" id="event-nordic-fintech" shape="rect" placeholder="Nordic Fintech Week photo" hint-size="100%,180px"></x-import>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 10px; padding: 24px">
+          <span style="font: var(--style-eyebrow); letter-spacing: var(--tracking-wide); text-transform: uppercase; color: var(--text-faint)">Copenhagen</span>
+          <strong style="font: var(--weight-semibold) var(--text-lg)/1.3 var(--font-display); color: var(--text-heading)">Nordic Fintech Week</strong>
+          <p style="margin: 0; font: var(--style-caption); color: var(--text-body)">Meeting the Nordic fintech community, where we serve banks, insurers and fintechs across the region.</p>
+        </div>
+      </div>
+      <div style="display: flex; flex-direction: column; background: var(--surface-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-sm)">
+        <div style="height: 280px">
+          <x-import component-from-global-scope="image-slot" from="./image-slot.js" id="event-money2020" shape="rect" placeholder="Money20/20 photo" hint-size="100%,180px"></x-import>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 10px; padding: 24px">
+          <span style="font: var(--style-eyebrow); letter-spacing: var(--tracking-wide); text-transform: uppercase; color: var(--text-faint)">Amsterdam</span>
+          <strong style="font: var(--weight-semibold) var(--text-lg)/1.3 var(--font-display); color: var(--text-heading)">Money20/20</strong>
+          <p style="margin: 0; font: var(--style-caption); color: var(--text-body)">The world's biggest fintech gathering, on our home ground. Find us on the floor, or book time with the team in advance.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="background: var(--surface-dark); padding: 72px 0">
+    <div style="max-width: var(--container-max); margin: 0 auto; padding: 0 var(--gutter); display: flex; justify-content: space-between; align-items: center; gap: 32px">
+      <div style="display: flex; flex-direction: column; gap: 8px">
+        <h2 style="margin: 0; font: var(--style-h3); letter-spacing: var(--tracking-tight); color: var(--white)">Meet us at an event</h2>
+        <p style="margin: 0; font: var(--style-body); color: rgba(255,255,255,0.65)">Book time with our practice leads ahead of any event we attend.</p>
+      </div>
+      <a href="Contact.dc.html" style="text-decoration: none; flex-shrink: 0"><x-import component-from-global-scope="InfiniumDesignSystem_292503.Button" size="lg" hint-size="190px,48px">Start a conversation</x-import></a>
+    </div>
+  </section>
+
+  <dc-import name="SiteFooter" hint-size="100%,340px"></dc-import>
+</div>
+</x-dc>
+</body>
+</html>

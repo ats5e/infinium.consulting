@@ -1,0 +1,6 @@
+/* Infinium Design System — Webfonts
+   NOTE: No brand font binaries were provided. Nearest Google Fonts matches:
+   - Poppins (display) — closest to the geometric sans of the "Infinium" wordmark
+   - IBM Plex Sans / IBM Plex Mono (body / data)
+   Replace with licensed brand fonts if available. */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');

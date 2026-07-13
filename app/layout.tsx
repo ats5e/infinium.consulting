@@ -27,8 +27,10 @@ export const metadata: Metadata = {
   },
 };
 
-/* Runs before paint: arms the once-per-session load sequence. */
-const LOAD_SCRIPT = `(function(){try{var d=document.documentElement;if(!sessionStorage.getItem("inf-load")&&!matchMedia("(prefers-reduced-motion: reduce)").matches){d.setAttribute("data-load","pending");var go=function(){requestAnimationFrame(function(){requestAnimationFrame(function(){d.setAttribute("data-load","go");sessionStorage.setItem("inf-load","1")})})};document.readyState==="complete"?go():addEventListener("load",go)}}catch(e){}})()`;
+/* Runs before paint: arms the once-per-session load sequence. Fires on
+ * DOMContentLoaded, NOT window.load — waiting for images/scripts made the
+ * hero copy (the LCP element) invisible for seconds on slow connections. */
+const LOAD_SCRIPT = `(function(){try{var d=document.documentElement;if(!sessionStorage.getItem("inf-load")&&!matchMedia("(prefers-reduced-motion: reduce)").matches){d.setAttribute("data-load","pending");var go=function(){requestAnimationFrame(function(){requestAnimationFrame(function(){d.setAttribute("data-load","go");sessionStorage.setItem("inf-load","1")})})};document.readyState==="loading"?addEventListener("DOMContentLoaded",go):go()}}catch(e){}})()`;
 
 const JSON_LD = {
   "@context": "https://schema.org",

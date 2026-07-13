@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="_ds/infinium-design-system-292503cd-5a5e-4870-8e83-d04850aa429f/tokens/fonts.css">
+  <link rel="stylesheet" href="_ds/infinium-design-system-292503cd-5a5e-4870-8e83-d04850aa429f/styles.css">
+  <script src="_ds/infinium-design-system-292503cd-5a5e-4870-8e83-d04850aa429f/_ds_bundle.js"></script>
+  <style>
+    body { margin: 0; background: #FFFFFF; }
+    a { color: #275EBF; } a:hover { color: #1D4A9C; }
+  </style>
+</helmet>
+<div data-screen-label="Social responsibility" style="font: var(--style-body); color: var(--text-body)">
+  <dc-import name="SiteNav" active="About" hint-size="100%,68px" style="position: sticky; top: 0; z-index: 40"></dc-import>
+
+  <section style="background: var(--surface-dark); color: var(--text-inverse); padding: 88px 0 72px">
+    <div style="max-width: var(--container-max); margin: 0 auto; padding: 0 var(--gutter); display: flex; flex-direction: column; gap: 20px">
+      <span style="font: var(--style-eyebrow); letter-spacing: var(--tracking-wide); text-transform: uppercase; color: var(--accent-on-dark)">Social responsibility</span>
+      <h1 style="margin: 0; font: var(--style-h1); letter-spacing: var(--tracking-tight); color: var(--white)">One4One</h1>
+      <p style="margin: 0; font: var(--style-body-lg); color: rgba(255,255,255,0.72); max-width: 680px">Established in 2020 with our partner NextWave Consulting in London, One4One is our social enterprise internship programme. The principle is simple: for every new client engagement we win, we create a paid internship for a young adult taking their first step into a professional career, so our growth directly creates opportunity for the next generation.</p>
+    </div>
+  </section>
+
+  <section style="padding: var(--section-pad) 0; background: var(--surface-page)">
+    <div style="max-width: var(--container-max); margin: 0 auto; padding: 0 var(--gutter); display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center">
+      <div style="display: flex; flex-direction: column; gap: 16px">
+        <span style="font: var(--style-eyebrow); letter-spacing: var(--tracking-wide); text-transform: uppercase; color: var(--accent)">The programme</span>
+        <h2 style="margin: 0; font: var(--style-h3); letter-spacing: var(--tracking-tight); color: var(--text-heading)">Opportunities for the next generation</h2>
+        <p style="margin: 0; font: var(--style-body); color: var(--text-body)">Some of the most powerful initiatives we have been involved in are those that create opportunities for the next generation. One4One helps young adults take their first step in a professional career through a unique, immersive internship experience, with each year's positions created in tandem with each new client engagement.</p>
+        <p style="margin: 0; font: var(--style-body); color: var(--text-body)">Interns learn about the financial services industry, its biggest challenges and opportunities, and how these can be addressed with technology, learning directly from key players in the industry, including our clients and alliance partners, who generously share their knowledge throughout the programme.</p>
+      </div>
+      <div style="height: 360px">
+        <x-import component-from-global-scope="image-slot" from="./image-slot.js" id="one4one-photo" shape="rounded" radius="10" placeholder="One4One programme photo" hint-size="100%,360px"></x-import>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding: var(--section-pad) 0; background: var(--surface-inset)">
+    <div style="max-width: var(--container-max); margin: 0 auto; padding: 0 var(--gutter); display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px">
+      <div style="display: flex; flex-direction: column; gap: 12px; padding: 28px; background: var(--surface-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm)">
+        <span style="font: var(--weight-medium) var(--text-sm)/1 var(--font-mono); color: var(--accent)">01</span>
+        <h3 style="margin: 0; font: var(--style-h4); color: var(--text-heading)">One engagement, one internship</h3>
+        <p style="margin: 0; font: var(--style-caption); color: var(--text-body)">Every new client engagement funds a paid internship position, so our growth directly creates opportunity.</p>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 12px; padding: 28px; background: var(--surface-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm)">
+        <span style="font: var(--weight-medium) var(--text-sm)/1 var(--font-mono); color: var(--accent)">02</span>
+        <h3 style="margin: 0; font: var(--style-h4); color: var(--text-heading)">Immersive, real work</h3>
+        <p style="margin: 0; font: var(--style-caption); color: var(--text-body)">Interns work inside live engagements and our R&amp;D teams, not on the sidelines, building skills in data, AI and financial services.</p>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 12px; padding: 28px; background: var(--surface-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm)">
+        <span style="font: var(--weight-medium) var(--text-sm)/1 var(--font-mono); color: var(--accent)">03</span>
+        <h3 style="margin: 0; font: var(--style-h4); color: var(--text-heading)">Learning from the industry</h3>
+        <p style="margin: 0; font: var(--style-caption); color: var(--text-body)">Clients and alliance partners share their knowledge and insights with each cohort throughout the programme.</p>
+      </div>
+    </div>
+    <div style="max-width: var(--container-max); margin: 24px auto 0; padding: 0 var(--gutter); display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px">
+      <div style="height: 220px">
+        <x-import component-from-global-scope="image-slot" from="./image-slot.js" id="one4one-gallery-1" shape="rounded" radius="10" placeholder="Cohort photo" hint-size="100%,220px"></x-import>
+      </div>
+      <div style="height: 220px">
+        <x-import component-from-global-scope="image-slot" from="./image-slot.js" id="one4one-gallery-2" shape="rounded" radius="10" placeholder="Workshop photo" hint-size="100%,220px"></x-import>
+      </div>
+      <div style="height: 220px">
+        <x-import component-from-global-scope="image-slot" from="./image-slot.js" id="one4one-gallery-3" shape="rounded" radius="10" placeholder="Mentoring photo" hint-size="100%,220px"></x-import>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding: var(--section-pad) 0; background: var(--surface-subtle)">
+    <div style="max-width: var(--container-max); margin: 0 auto; padding: 0 var(--gutter); display: grid; grid-template-columns: 360px 1fr; gap: 64px; align-items: start">
+      <div style="display: flex; flex-direction: column; gap: 12px">
+        <span style="font: var(--style-eyebrow); letter-spacing: var(--tracking-wide); text-transform: uppercase; color: var(--accent)">Academic partnerships</span>
+        <h2 style="margin: 0; font: var(--style-h2); letter-spacing: var(--tracking-tight); color: var(--text-heading)">Investing in the next generation of talent</h2>
+        <div style="display: flex; gap: 40px; margin-top: 16px">
+          <div style="display: flex; flex-direction: column; gap: 4px"><b style="font: var(--weight-medium) 26px/1.1 var(--font-mono); color: var(--text-heading)">50+</b><span style="font: var(--style-caption); color: var(--text-muted)">Students mentored &amp; guided</span></div>
+          <div style="display: flex; flex-direction: column; gap: 4px"><b style="font: var(--weight-medium) 26px/1.1 var(--font-mono); color: var(--text-heading)">6</b><span style="font: var(--style-caption); color: var(--text-muted)">Years, since 2020</span></div>
+        </div>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 24px">
+        <p style="margin: 0; font: var(--style-body); color: var(--text-body)">We hold long-standing partnerships with the University of Groningen and the Erasmus School of Business Management. Since 2020 we have mentored and guided more than 50 students through internships, thesis supervision and hands-on project work, bringing academic rigour into our engagements and real financial services experience into their careers.</p>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px">
+          <div style="display: flex; flex-direction: column; gap: 12px; padding: 24px; background: var(--surface-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm)">
+            <div style="height: 64px">
+              <x-import component-from-global-scope="image-slot" from="./image-slot.js" id="logo-groningen" shape="rect" fit="contain" no-bg="true" placeholder="Groningen logo" hint-size="100%,64px"></x-import>
+            </div>
+            <strong style="font: var(--weight-semibold) var(--text-md)/1.3 var(--font-display); color: var(--text-heading)">University of Groningen</strong>
+            <span style="font: var(--style-caption); color: var(--text-muted)">Long-standing partnership, student mentoring, internships and thesis supervision.</span>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 12px; padding: 24px; background: var(--surface-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm)">
+            <div style="height: 64px">
+              <x-import component-from-global-scope="image-slot" from="./image-slot.js" id="logo-erasmus" shape="rect" fit="contain" no-bg="true" placeholder="Erasmus logo" hint-size="100%,64px"></x-import>
+            </div>
+            <strong style="font: var(--weight-semibold) var(--text-md)/1.3 var(--font-display); color: var(--text-heading)">Erasmus School of Business Management</strong>
+            <span style="font: var(--style-caption); color: var(--text-muted)">Long-standing partnership, guiding students from business school into financial services careers.</span>
+          </div>
+        </div>
+        <div style="height: 260px">
+          <x-import component-from-global-scope="image-slot" from="./image-slot.js" id="academic-photo" shape="rounded" radius="10" placeholder="Students / campus photo" hint-size="100%,260px"></x-import>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="background: var(--surface-dark); padding: 72px 0">
+    <div style="max-width: var(--container-max); margin: 0 auto; padding: 0 var(--gutter); display: flex; justify-content: space-between; align-items: center; gap: 32px">
+      <div style="display: flex; flex-direction: column; gap: 8px">
+        <h2 style="margin: 0; font: var(--style-h3); letter-spacing: var(--tracking-tight); color: var(--white)">Interested in joining One4One?</h2>
+        <p style="margin: 0; font: var(--style-body); color: rgba(255,255,255,0.65)">Tell us about yourself, we review applications for every new cohort.</p>
+      </div>
+      <a href="Contact.dc.html" style="text-decoration: none; flex-shrink: 0"><x-import component-from-global-scope="InfiniumDesignSystem_292503.Button" size="lg" hint-size="190px,48px">Get in touch</x-import></a>
+    </div>
+  </section>
+
+  <dc-import name="SiteFooter" hint-size="100%,340px"></dc-import>
+</div>
+</x-dc>
+</body>
+</html>

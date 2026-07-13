@@ -18,6 +18,8 @@ export type SiteImage = {
   webp: string;
   avifHalf: string;
   webpHalf: string;
+  avifMob: string;
+  webpMob: string;
   width: number;
   height: number;
   lqip: string;
@@ -35,6 +37,8 @@ export function siteImage(slot: keyof typeof CHOSEN): SiteImage {
     webp: `${v.src}.webp`,
     avifHalf: `${v.src}-half.avif`,
     webpHalf: `${v.src}-half.webp`,
+    avifMob: `${v.src}-mob.avif`,
+    webpMob: `${v.src}-mob.webp`,
     width,
     height,
     lqip: v.lqip,

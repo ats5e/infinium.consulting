@@ -113,7 +113,7 @@ export default function QBricks() {
             <GlassImage
               image={siteImage("qbricks")}
               alt="A monolith of interlocking glass bricks lit in deep crimson"
-              sizes="(min-width: 768px) 45vw, 100vw"
+              sizes="(min-width: 768px) 45vw, 66vw"
               priority
             />
           </Reveal>
