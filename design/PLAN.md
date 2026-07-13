@@ -175,20 +175,18 @@ appears exactly once on the site: the .1/.2/.3 differentiator argument.
   the services page's .1–.4 (the brief's rule: numbering only for genuine
   sequences).
 
-## 8. Open questions for the client (blocking where marked)
+## 8. Open questions — RESOLVED 2026-07-10
 
-1. **BLOCKING (products copy):** map the claims — automated ETL, Automated
-   Model Testing, Compute Optimisation, ESG Reporting — to QBricks vs
-   TBricks. My guess: QBricks = ETL + compute optimisation,
-   TBricks = model testing (+ ESG?), but I won't publish a guess.
-2. Phone: omitted entirely (live site has `+971 [REVIEW — add number]`
-   over a junk `tel:`). Supply a number if you want the block back.
-3. LinkedIn: live site links to your *admin dashboard* URL. I'll use
-   `https://www.linkedin.com/company/113267940/` — confirm or give the
-   vanity URL.
-4. Do you hold an Aeonik (or Söhne) licence? If yes I'll re-run the type
-   comparison before Phase 2 lands.
-5. PRs per phase need a GitHub remote — none configured. Create
-   `infinium-website` (private) or tell me the remote.
-6. Brief pins Next.js 15 (scaffolded: 15.5.20). Next 16 is current; happy
-   to move if you'd rather launch on the current major.
+1. **Product claims:** client pointed to https://qbricks.vercel.app/ —
+   QBricks is the governed data-management platform: automatic pipeline
+   building (= "automated ETL"), local compute / SQL push-down
+   (= "Compute Optimisation"), data contracts, lineage, knowledge graphs,
+   agentic metadata. **By elimination TBricks = Automated Model Testing +
+   ESG Reporting** — inferred, flagged for one-word veto before the
+   products pages publish. QBricks source copy captured in CONTENT.md.
+2. Phone: omitted. (Standing flag: supply a number to restore the block.)
+3. LinkedIn: default public URL `https://www.linkedin.com/company/113267940/`.
+4. No Aeonik/Söhne licence → **Outfit 500 confirmed** by client.
+5. Remote: `https://github.com/ats5e/infinium.consulting.git` — main
+   pushed, PR per phase from here on.
+6. **Next 16** approved — upgraded to 16.2.10.

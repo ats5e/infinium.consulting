@@ -1,26 +1,120 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/*
+ * Infinium brand system.
+ * Palette extracted from the logo via scripts/extract-palette.mjs —
+ * provenance and raw clusters documented in design/tokens.css.
+ * Discipline: black and white with blue used as a scalpel. Cobalt and
+ * signal appear on interactive states, the hero object, and data-viz
+ * strokes — nothing else.
+ */
+
+@theme {
+  --color-*: initial;
+  --color-void: #05070c;
+  --color-abyss: #0a1020;
+  --color-navy: #22365d;
+  --color-cobalt: #365eee;
+  --color-signal: #73a8fb;
+  --color-ice: #9ac7f8;
+  --color-steel: #93a9bf;
+  --color-glass: #cddef1;
+  --color-paper: #ffffff;
+  --color-transparent: transparent;
+  --color-current: currentColor;
+
+  /* one curve, four durations — see design/MOTION.md */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --duration-fast: 200ms;
+  --duration-base: 400ms;
+  --duration-slow: 800ms;
+  --duration-grand: 1200ms;
+
+  /* fluid minor-third scale: 1.25 at 390px widening to 1.333 at 1440px */
+  --text-label: 0.71875rem; /* 11.5px — mono eyebrows, data labels */
+  --text-body-sm: 0.875rem;
+  --text-body: 1rem;
+  --text-step-1: clamp(1.25rem, 1.2192rem + 0.1262vw, 1.333rem);
+  --text-step-2: clamp(1.5625rem, 1.4828rem + 0.327vw, 1.777rem);
+  --text-step-3: clamp(1.9531rem, 1.7984rem + 0.6346vw, 2.3697rem);
+  --text-step-4: clamp(2.4414rem, 2.1755rem + 1.0906vw, 3.1573rem);
+  --text-step-5: clamp(3.0518rem, 2.6216rem + 1.7649vw, 4.2085rem);
+  --text-hero: clamp(3rem, 7vw, 8.5rem);
+
+  --spacing-gutter: clamp(1.25rem, 6.11vw, 5.5rem); /* 20px → 88px */
+  --container-content: 90rem; /* 1440px */
 }
 
+/*
+ * Font aliases reference next/font runtime vars. @theme inline makes the
+ * font-* utilities inline the reference; the :root block re-emits the same
+ * custom properties for plain CSS below (inline theme vars are not emitted).
+ */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-display: var(--font-outfit), system-ui, sans-serif;
+  --font-body: var(--font-inter), system-ui, sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, monospace;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+:root {
+  --font-display: var(--font-outfit), system-ui, sans-serif;
+  --font-body: var(--font-inter), system-ui, sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, monospace;
+}
+
+/* hairline — the single most characteristic structural move */
+@utility hairline {
+  border-color: --alpha(var(--color-ice) / 12%);
+}
+
+@utility eyebrow {
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-steel);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
   }
-}
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
+  body {
+    background: var(--color-void);
+    color: var(--color-glass);
+    font-family: var(--font-body);
+    font-size: var(--text-body);
+    letter-spacing: -0.011em;
+    font-optical-sizing: auto;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection {
+    background: var(--color-cobalt);
+    color: var(--color-paper);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-signal);
+    outline-offset: 3px;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    color: var(--color-paper);
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
 }
