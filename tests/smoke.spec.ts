@@ -1,13 +1,14 @@
 import { test, expect } from "@playwright/test";
 
 const ROUTES: Array<[path: string, h1: RegExp]> = [
-  ["/", /Data engineering/i],
-  ["/about", /practitioners/i],
-  ["/services", /focus areas/i],
-  ["/products", /production/i],
-  ["/products/qbricks", /no more data pipelines/i],
-  ["/products/tbricks", /prove the model/i],
-  ["/careers", /practitioners/i],
+  ["/", /Engineering with context/i],
+  ["/about", /business outcomes/i],
+  ["/services", /Our services/i],
+  ["/solutions", /Our solutions/i],
+  ["/solutions/ai-assessment", /AI assessment/i],
+  ["/technologies", /Technologies/i],
+  ["/insights", /Case studies/i],
+  ["/careers", /Your career/i],
   ["/contact", /start a conversation/i],
 ];
 
@@ -35,10 +36,11 @@ for (const [path, h1] of ROUTES) {
   });
 }
 
-test("nav reaches every route", async ({ page }) => {
+test("nav reaches every route", async ({ page, isMobile }) => {
   await page.goto("/");
-  await page.getByRole("button", { name: /open menu/i }).click();
-  for (const label of ["About", "Services", "Products", "Careers", "Contact"]) {
+  // the hamburger only exists below lg; desktop shows the groups inline
+  if (isMobile) await page.getByRole("button", { name: /open menu/i }).click();
+  for (const label of ["Home", "Services", "Solutions", "Sectors", "Technologies", "Insights", "About"]) {
     await expect(page.getByRole("link", { name: label, exact: true }).first()).toBeVisible();
   }
 });
@@ -47,16 +49,15 @@ test("contact form validates and reports errors accessibly", async ({ page }) =>
   await page.goto("/contact");
   await page.getByLabel("Name").fill("A");
   await page.getByLabel("Work email").fill("not-an-email");
-  await page.getByLabel(/what are you trying to solve/i).fill("short");
-  await page.getByRole("button", { name: /send message/i }).click();
+  await page.getByLabel(/message/i).fill("short");
+  await page.getByRole("button", { name: /start a conversation/i }).click();
   await expect(page.getByText(/doesn’t look right/i)).toBeVisible();
 });
 
-test("footer carries the corrected contact details", async ({ page }) => {
+test("footer carries the wireframe structure", async ({ page }) => {
   await page.goto("/");
-  const mail = page.locator('a[href="mailto:sales@infinium.technology"]').first();
-  await expect(mail).toBeAttached();
-  // the live-site defect: display text and mailto disagreeing
+  await expect(page.getByText(/Engineering with context/i).last()).toBeVisible();
+  await expect(page.getByRole("link", { name: "Our solutions" }).last()).toBeVisible();
   await expect(page.locator('a[href*="office@yourwebsite.com"]')).toHaveCount(0);
   await expect(page.locator('a[href*="tel:"]')).toHaveCount(0);
 });

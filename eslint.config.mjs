@@ -17,6 +17,8 @@ const eslintConfig = [
       "out/**",
       "build/**",
       "next-env.d.ts",
+      // Vendored wireframe export — reference-only source, not shipped code.
+      "Infinium design system wireframe_11072026/**",
     ],
   },
 ];

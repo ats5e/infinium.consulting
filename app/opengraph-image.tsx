@@ -2,7 +2,7 @@ import { ImageResponse } from "next/og";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 
-export const alt = "Infinium Technology — Data engineering. For tomorrow.";
+export const alt = "Infinium Technology — Engineering with context.";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -54,7 +54,7 @@ export default async function OGImage() {
               color: "#9AC7F8",
             }}
           >
-            Data engineering. For tomorrow.
+            Engineering with context.
           </span>
         </div>
       </div>

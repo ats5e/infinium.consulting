@@ -5,8 +5,9 @@ import { z } from "zod";
 const schema = z.object({
   name: z.string().trim().min(2, "Tell us your name.").max(120),
   email: z.string().trim().email("That email doesn’t look right — check the domain."),
-  organisation: z.string().trim().max(160).optional().or(z.literal("")),
+  topic: z.string().trim().max(160).optional().or(z.literal("")),
   message: z.string().trim().min(20, "Give us a little more — two or three sentences is plenty.").max(5000),
+  updates: z.string().optional().or(z.literal("")),
   // honeypot: real users never see or fill this
   website: z.string().max(0).optional().or(z.literal("")),
 });
@@ -14,7 +15,7 @@ const schema = z.object({
 export type ContactState = {
   status: "idle" | "sent" | "error";
   message?: string;
-  fieldErrors?: Partial<Record<"name" | "email" | "organisation" | "message", string>>;
+  fieldErrors?: Partial<Record<"name" | "email" | "topic" | "message", string>>;
 };
 
 /* Naive in-memory rate limit — enough for a marketing site behind one
@@ -56,7 +57,7 @@ export async function sendMessage(
     };
   }
 
-  const { name, email, organisation, message } = parsed.data;
+  const { name, email, topic, message } = parsed.data;
   const apiKey = process.env.RESEND_API_KEY;
 
   if (apiKey) {
@@ -67,8 +68,8 @@ export async function sendMessage(
         from: process.env.CONTACT_FROM ?? "website@infinium.technology",
         to: process.env.CONTACT_TO ?? "sales@infinium.technology",
         reply_to: email,
-        subject: `Website enquiry — ${name}${organisation ? `, ${organisation}` : ""}`,
-        text: `${message}\n\n— ${name} <${email}>${organisation ? ` · ${organisation}` : ""}`,
+        subject: `Website enquiry — ${name}${topic ? `, ${topic}` : ""}`,
+        text: `${message}\n\n— ${name} <${email}>${topic ? ` · ${topic}` : ""}`,
       }),
     });
     if (!res.ok) {
@@ -80,7 +81,7 @@ export async function sendMessage(
     }
   } else {
     // no provider configured (local dev): log so the submission isn't lost
-    console.log("[contact] no RESEND_API_KEY —", { name, email, organisation, message });
+    console.log("[contact] no RESEND_API_KEY —", { name, email, topic, message });
   }
 
   return { status: "sent" };

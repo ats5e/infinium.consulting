@@ -9,9 +9,10 @@ const ROUTES = [
   "/",
   "/about",
   "/services",
-  "/products",
-  "/products/qbricks",
-  "/products/tbricks",
+  "/solutions",
+  "/solutions/ai-assessment",
+  "/technologies",
+  "/insights",
   "/careers",
   "/contact",
 ];

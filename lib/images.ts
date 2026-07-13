@@ -11,6 +11,21 @@ const CHOSEN: Record<string, number> = {
   tbricks: 3,
   "about-difc": 1,
   careers: 3,
+  // wireframe-supplied assets (single variant each)
+  "cs-reg-reporting": 1,
+  "cs-entity-standup": 1,
+  "cs-data-strategy": 1,
+  "cs-big-data": 1,
+  "cs-finance-reeng": 1,
+  "cs-fintech-dx": 1,
+  "ams-office": 1,
+  "ams-building": 1,
+  "ams-workspace": 1,
+  "ams-atrium": 1,
+  "dxb-innovationone": 1,
+  "dxb-workspace": 1,
+  "dxb-ai-campus": 1,
+  "dxb-entrance": 1,
 };
 
 export type SiteImage = {

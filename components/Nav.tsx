@@ -4,19 +4,22 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Lockup } from "@/components/Lockup";
+import { NAV_GROUPS } from "@/lib/content";
 
-const LINKS = [
-  { href: "/about", label: "About" },
-  { href: "/services", label: "Services" },
-  { href: "/products", label: "Products" },
-  { href: "/careers", label: "Careers" },
-  { href: "/contact", label: "Contact" },
+const MOBILE_LINKS = [
+  { href: "/", label: "Home" },
+  ...NAV_GROUPS.flatMap((group) => [
+    { href: group.href, label: group.label },
+    ...group.items,
+  ]),
+  { href: "/contact", label: "Start a conversation" },
 ];
 
 export function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [progress, setProgress] = useState(0);
   const [open, setOpen] = useState(false);
+  const [hovered, setHovered] = useState<string | null>(null);
   const pathname = usePathname();
   const [lastPath, setLastPath] = useState(pathname);
 
@@ -65,23 +68,70 @@ export function Nav() {
           </Link>
         </div>
 
+        <div className="relative z-50 hidden items-center gap-1 lg:flex">
+          <Link
+            href="/"
+            aria-current={pathname === "/" ? "page" : undefined}
+            className="link-wipe px-2 py-2 font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-steel transition-colors duration-(--duration-fast) hover:text-paper"
+          >
+            Home
+          </Link>
+          {NAV_GROUPS.map((group) => (
+            <span
+              key={group.label}
+              className="relative"
+              onMouseEnter={() => setHovered(group.label)}
+              onMouseLeave={() => setHovered(null)}
+              onFocus={() => setHovered(group.label)}
+              onBlur={(e) => {
+                // close only when focus leaves the whole group (keyboard access)
+                if (!e.currentTarget.contains(e.relatedTarget as Node)) setHovered(null);
+              }}
+            >
+              <Link
+                href={group.href}
+                aria-current={pathname === group.href ? "page" : undefined}
+                className="flex items-center gap-1 px-2 py-2 font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-steel transition-colors duration-(--duration-fast) hover:text-paper"
+              >
+                {group.label}
+                <span aria-hidden className="text-[10px] text-signal">⌄</span>
+              </Link>
+              <span
+                className={`absolute left-0 top-full min-w-64 pt-3 transition-[opacity,transform] duration-(--duration-fast) ease-(--ease-out-expo) ${
+                  hovered === group.label
+                    ? "pointer-events-auto translate-y-0 opacity-100"
+                    : "pointer-events-none -translate-y-1 opacity-0"
+                }`}
+              >
+                <span className="block border hairline bg-void/95 p-2 shadow-[0_24px_80px_rgba(0,0,0,0.36)] backdrop-blur-xl">
+                  {group.items.map((item) => (
+                    <Link
+                      key={`${group.label}-${item.label}`}
+                      href={item.href}
+                      className="block px-3 py-2 text-(length:--text-body-sm) text-ice transition-colors duration-(--duration-fast) hover:bg-abyss/70 hover:text-paper"
+                    >
+                      {item.label}
+                    </Link>
+                  ))}
+                </span>
+              </span>
+            </span>
+          ))}
+        </div>
+
         <div className="relative z-50 flex items-center">
           <Link
             href="/contact"
-            aria-label="Search"
-            className="grid size-10 place-items-center border border-paper/70 text-paper transition-colors hover:border-signal hover:bg-signal hover:text-void"
+            className="hidden min-h-10 items-center border border-paper/70 px-4 font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-paper transition-colors hover:border-signal hover:bg-signal hover:text-void lg:inline-flex"
           >
-            <svg aria-hidden viewBox="0 0 24 24" className="size-5" fill="none" stroke="currentColor" strokeWidth="1.35">
-              <circle cx="10.5" cy="10.5" r="6.3" />
-              <path d="m15.3 15.3 5 5" />
-            </svg>
+            Start a conversation
           </Link>
           <button
             type="button"
             aria-expanded={open}
             aria-controls="mobile-menu"
             onClick={() => setOpen((v) => !v)}
-            className="grid size-10 place-items-center border-y border-r border-paper/70 text-paper transition-colors hover:border-signal hover:bg-signal hover:text-void"
+            className="grid size-10 place-items-center border border-paper/70 text-paper transition-colors hover:border-signal hover:bg-signal hover:text-void lg:hidden"
           >
             <span className="sr-only">{open ? "Close menu" : "Open menu"}</span>
             <span aria-hidden className="relative block h-4 w-6">
@@ -107,8 +157,8 @@ export function Nav() {
         <div className="relative mx-auto grid max-w-(--container-content) gap-12 px-(--spacing-gutter) lg:grid-cols-12">
           <div className="lg:col-span-8">
             <ul className="divide-y divide-ice/12 border-y hairline">
-              {LINKS.map(({ href, label }, i) => (
-                <li key={href} className="overflow-hidden">
+              {MOBILE_LINKS.map(({ href, label }, i) => (
+                <li key={`${href}-${label}`} className="overflow-hidden">
                   <Link
                     href={href}
                     tabIndex={open ? 0 : -1}

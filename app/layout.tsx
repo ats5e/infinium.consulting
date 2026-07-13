@@ -15,10 +15,10 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE),
   title: {
     template: "%s — Infinium Technology",
-    default: "Infinium Technology — Data engineering. For tomorrow.",
+    default: "Engineering with context — Infinium Technology",
   },
   description:
-    "Financial-services-only technology firm in the DIFC. Data engineering, data science, digital transformation and governance — with proprietary platforms QBricks and TBricks in production at tier-1 institutions.",
+    "Banking & financial services consultancy. We help the world's leading financial services firms transform their businesses through industry expertise, AI and automation.",
   alternates: { canonical: "/" },
   openGraph: {
     siteName: "Infinium Technology",

@@ -8,7 +8,7 @@ import { mkdir } from "node:fs/promises";
 
 const BASE = process.argv[2] ?? "http://localhost:3100";
 const OUT = "design/screens";
-const ROUTES = ["/", "/about", "/services", "/products", "/products/qbricks", "/products/tbricks", "/careers", "/contact"];
+const ROUTES = ["/", "/about", "/services", "/solutions", "/sectors", "/technologies", "/insights", "/careers", "/contact"];
 const WIDTHS = [390, 768, 1440, 1920];
 
 await mkdir(OUT, { recursive: true });

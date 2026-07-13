@@ -51,3 +51,6 @@ playwright-report/
 
 # delivery captures — large, regenerate with scripts/capture.mjs
 design/screens/
+
+# wireframe source (content/layout spec, reference only)
+Infinium design system wireframe_11072026/
