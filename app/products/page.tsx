@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Reveal } from "@/components/motion/Reveal";
 import { GlassImage } from "@/components/GlassImage";
 import { ContactBand } from "@/components/ContactBand";
+import { QBricksWord } from "@/components/QBricksWord";
 import { siteImage } from "@/lib/images";
 
 export const metadata: Metadata = {
@@ -56,12 +57,14 @@ export default function Products() {
             }`}
           >
             <div>
-              <h2 className="text-(length:--text-step-4)">{p.name}</h2>
+              <h2 className="text-(length:--text-step-4)">
+                {p.name === "QBricks" ? <QBricksWord /> : p.name}
+              </h2>
               <p className="mt-4 text-(length:--text-step-1) text-glass">{p.thesis}</p>
               <p className="mt-6 max-w-xl leading-relaxed text-ice">{p.body}</p>
               <Link
                 href={p.href}
-                className="link-wipe mt-8 inline-block font-mono text-(length:--text-label) uppercase tracking-[0.14em] text-signal"
+                className="link-wipe mt-8 inline-block font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-signal"
               >
                 Explore {p.name} →
               </Link>

@@ -13,7 +13,7 @@ export function Reveal({
   className,
   children,
 }: {
-  as?: "div" | "section" | "article" | "ul";
+  as?: "div" | "section" | "article" | "ul" | "ol";
   className?: string;
   children: ReactNode;
 }) {
@@ -27,21 +27,35 @@ export function Reveal({
     if (!el) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     // Content is visible in the server HTML; hiding happens here, after
-    // hydration, and only for groups below the initial viewport — so the
-    // reveal never delays first paint or LCP.
-    if (el.getBoundingClientRect().top < window.innerHeight * 0.95) return;
+    // hydration, and only for groups well below the viewport — so the
+    // reveal never delays first paint, and anything near the fold can
+    // never be caught hidden.
+    if (el.getBoundingClientRect().top < window.innerHeight * 1.4) return;
     el.setAttribute("data-armed", "");
+    const show = () => el.removeAttribute("data-armed");
     const io = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          el.removeAttribute("data-armed");
+          show();
           io.disconnect();
         }
       },
-      { rootMargin: "0px 0px -20% 0px" }
+      { rootMargin: "0px 0px -8% 0px" }
     );
     io.observe(el);
-    return () => io.disconnect();
+    // belt and braces: if the group is ever above the viewport (fast
+    // scroll, anchor jump), reveal it unconditionally
+    const onScroll = () => {
+      if (el.getBoundingClientRect().bottom < 0) {
+        show();
+        removeEventListener("scroll", onScroll);
+      }
+    };
+    addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      io.disconnect();
+      removeEventListener("scroll", onScroll);
+    };
   }, []);
 
   return (

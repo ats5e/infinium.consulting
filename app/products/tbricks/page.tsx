@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Reveal } from "@/components/motion/Reveal";
 import { GlassImage } from "@/components/GlassImage";
 import { ContactBand } from "@/components/ContactBand";
+import { QBricksWord } from "@/components/QBricksWord";
 import { siteImage } from "@/lib/images";
 
 export const metadata: Metadata = {
@@ -55,7 +56,7 @@ export default function TBricks() {
           <Reveal className="mt-10 divide-y divide-ice/12 border-y hairline">
             {CAPABILITIES.map((c) => (
               <article key={c.label} className="grid gap-4 py-8 md:grid-cols-12">
-                <h3 className="font-mono text-(length:--text-label) uppercase tracking-[0.14em] text-signal md:col-span-4">
+                <h3 className="font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-signal md:col-span-4">
                   {c.label}
                 </h3>
                 <p className="text-ice md:col-span-8">{c.body}</p>
@@ -63,8 +64,8 @@ export default function TBricks() {
             ))}
           </Reveal>
           <p className="mt-10">
-            <Link href="/products/qbricks" className="link-wipe font-mono text-(length:--text-label) uppercase tracking-[0.14em] text-signal">
-              Related: QBricks →
+            <Link href="/products/qbricks" className="link-wipe font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-signal">
+              Related: <QBricksWord className="text-[11.5px] tracking-[0.08em]" /> →
             </Link>
           </p>
         </div>

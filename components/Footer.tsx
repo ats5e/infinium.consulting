@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Lockup } from "@/components/Lockup";
+import { QBricksWord } from "@/components/QBricksWord";
 
 const COLUMNS = [
   {
@@ -22,11 +23,12 @@ const COLUMNS = [
 
 export function Footer() {
   return (
-    <footer className="border-t hairline">
-      <div className="mx-auto max-w-(--container-content) px-(--spacing-gutter) py-16">
+    <footer className="relative overflow-hidden border-t hairline">
+      <div aria-hidden className="absolute inset-0 bg-[radial-gradient(circle_at_15%_20%,rgba(54,94,238,0.16),transparent_28rem)]" />
+      <div className="relative mx-auto max-w-(--container-content) px-(--spacing-gutter) py-16">
         <div className="flex flex-col justify-between gap-12 md:flex-row">
           <div className="max-w-xs">
-            <Lockup className="text-[15px]" />
+            <Lockup className="h-9" />
             <p className="eyebrow mt-6">
               Level 02, Innovation One
               <br />
@@ -46,7 +48,7 @@ export function Footer() {
                         href={l.href}
                         className="link-wipe text-(length:--text-body-sm) text-ice transition-colors duration-(--duration-fast) hover:text-paper"
                       >
-                        {l.text}
+                        {l.text === "QBricks" ? <QBricksWord className="text-[0.875rem]" /> : l.text}
                       </Link>
                     </li>
                   ))}
@@ -77,9 +79,10 @@ export function Footer() {
             </div>
           </div>
         </div>
-        <p className="eyebrow mt-16 border-t hairline pt-6">
-          © {new Date().getFullYear()} Infinium Technology · DIFC, Dubai
-        </p>
+        <div className="mt-16 flex flex-col gap-4 border-t hairline pt-6 md:flex-row md:items-center md:justify-between">
+          <p className="eyebrow">© {new Date().getFullYear()} Infinium Technology · DIFC, Dubai</p>
+          <p className="eyebrow text-signal">strategy · engineering · governance · production</p>
+        </div>
       </div>
     </footer>
   );

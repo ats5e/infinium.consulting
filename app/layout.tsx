@@ -2,9 +2,10 @@ import type { Metadata } from "next";
 import Script from "next/script";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
-import { inter, outfit, plexMono } from "./fonts";
+import { geist, quicksandBrand } from "./fonts";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
+import { PointerGlow } from "@/components/motion/PointerGlow";
 import { SmoothScroll } from "@/components/motion/SmoothScroll";
 import "./globals.css";
 
@@ -65,15 +66,17 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${outfit.variable} ${inter.variable} ${plexMono.variable}`}
+      className={`${geist.variable} ${quicksandBrand.variable}`}
     >
       <body>
         <Script id="load-seq" strategy="beforeInteractive">
           {LOAD_SCRIPT}
         </Script>
+        <PointerGlow />
+        <div aria-hidden className="site-backdrop" />
         <a
           href="#main"
-          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:bg-cobalt focus:px-4 focus:py-2 focus:font-mono focus:text-(length:--text-label) focus:uppercase focus:tracking-[0.14em] focus:text-paper"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:bg-cobalt focus:px-4 focus:py-2 focus:font-mono focus:text-(length:--text-label) focus:uppercase focus:tracking-[0.08em] focus:text-paper"
         >
           Skip to content
         </a>

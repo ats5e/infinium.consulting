@@ -5,20 +5,24 @@ import { Reveal } from "@/components/motion/Reveal";
 import { Counter } from "@/components/motion/Counter";
 import { TeamSection } from "@/components/TeamSection";
 import { ContactBand } from "@/components/ContactBand";
+import { PartnerLogos } from "@/components/PartnerLogos";
+import { QBricksWord } from "@/components/QBricksWord";
+import { ExperienceConsole } from "@/components/ExperienceConsole";
+import { SignalArchitecture } from "@/components/SignalArchitecture";
 import { siteImage } from "@/lib/images";
 
 const PILLARS = [
   {
-    title: "We build, not just advise.",
-    body: "Proprietary products in live production. We own the outcome, not the slide deck.",
+    title: "Strategy that ships.",
+    body: "Every recommendation is shaped around the first production release, the evidence it needs, and the controls that will keep it alive.",
   },
   {
-    title: "DIFC-native.",
-    body: "Built inside the world’s leading financial centre — close to the clients and regulators that matter.",
+    title: "Engineered in the DIFC.",
+    body: "Built inside one of the world’s most demanding financial centres — close to the institutions, regulators and pace that define the work.",
   },
   {
     title: "Financial services only.",
-    body: "Deep sector focus, not a generalist shop. Every engagement draws on years of domain expertise.",
+    body: "No generic transformation theatre. Every engagement draws on banking, risk, compliance, data and markets experience from day one.",
   },
 ];
 
@@ -54,14 +58,20 @@ export default function Home() {
       {/* pillars — a set, not a sequence: no numbering */}
       <section aria-label="What defines Infinium">
         <Reveal className="mx-auto grid max-w-(--container-content) gap-px px-(--spacing-gutter) py-20 md:grid-cols-3">
-          {PILLARS.map((p) => (
-            <article key={p.title} className="border hairline p-8 transition-[border-color,transform] duration-(--duration-fast) ease-(--ease-out-expo) hover:-translate-y-0.5 hover:border-signal/60">
+          {PILLARS.map((p, i) => (
+            <article key={p.title} className="group relative overflow-hidden border hairline bg-abyss/25 p-8 transition-[border-color,transform,background] duration-(--duration-base) ease-(--ease-out-expo) hover:-translate-y-1 hover:border-signal/60 hover:bg-abyss/55">
+              <span aria-hidden className="absolute right-6 top-6 font-mono text-[10px] uppercase tracking-[0.08em] text-steel transition-colors group-hover:text-signal">
+                0{i + 1}
+              </span>
+              <span aria-hidden className="absolute inset-x-0 top-0 h-px origin-left scale-x-0 bg-signal shadow-[0_0_20px_var(--color-signal)] transition-transform duration-(--duration-base) group-hover:scale-x-100" />
               <h2 className="text-(length:--text-step-1)">{p.title}</h2>
               <p className="mt-4 text-(length:--text-body-sm) leading-relaxed text-ice">{p.body}</p>
             </article>
           ))}
         </Reveal>
       </section>
+
+      <ExperienceConsole />
 
       {/* why infinium + the two real numbers */}
       <section className="border-t hairline">
@@ -98,6 +108,8 @@ export default function Home() {
         </div>
       </section>
 
+      <SignalArchitecture />
+
       <Differentiators items={DIFFERENTIATORS} />
 
       {/* we serve / we build */}
@@ -130,7 +142,7 @@ export default function Home() {
             <ul className="mt-8 space-y-3">
               <li>
                 <Link href="/products/qbricks" className="link-wipe text-ice transition-colors duration-(--duration-fast) hover:text-paper">
-                  QBricks — governed, AI-ready data without pipelines
+                  <QBricksWord /> — governed, AI-ready data without pipelines
                 </Link>
               </li>
               <li>
@@ -140,6 +152,20 @@ export default function Home() {
               </li>
             </ul>
           </Reveal>
+        </div>
+      </section>
+
+      {/* partner stack — certified on every one */}
+      <section className="border-t hairline">
+        <div className="mx-auto max-w-(--container-content) px-(--spacing-gutter) py-14">
+          <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
+            <p className="eyebrow max-w-56 shrink-0">
+              software partnerships — every consultant certified by the provider
+            </p>
+            <div className="flex-1 lg:max-w-3xl">
+              <PartnerLogos tileClass="px-6 py-5" />
+            </div>
+          </div>
         </div>
       </section>
 
