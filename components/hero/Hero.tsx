@@ -6,6 +6,7 @@ import Link from "next/link";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import type { SiteImage } from "@/lib/images";
+import { LogoCrystal } from "./LogoCrystal";
 
 const GlassObject = dynamic(() => import("./GlassObject"), { ssr: false });
 
@@ -16,7 +17,8 @@ const GlassObject = dynamic(() => import("./GlassObject"), { ssr: false });
  * WebGL mounts only ≥768px, fine pointer, no reduced-motion, and pauses
  * when the tab is hidden (frameloop handled by R3F on demand + visibility).
  */
-export function Hero({ staticImage }: { staticImage: SiteImage }) {
+export function Hero({ staticImage: _staticImage }: { staticImage: SiteImage }) {
+  void _staticImage;
   const section = useRef<HTMLElement>(null);
   const visual = useRef<HTMLDivElement>(null);
   const glow = useRef<HTMLDivElement>(null);
@@ -58,47 +60,59 @@ export function Hero({ staticImage }: { staticImage: SiteImage }) {
         },
         defaults: { ease: "none" },
       });
-      tl.to(copy.current, { opacity: 0, y: -32, duration: 0.3 }, 0)
-        .to(glow.current, { opacity: 0, duration: 0.5 }, 0.15)
-        .to(visual.current, { scaleX: 0.004, filter: "brightness(2.4)", duration: 0.62 }, 0.05)
-        .fromTo(beam.current, { opacity: 0 }, { opacity: 1, duration: 0.12 }, 0.55)
-        .to(visual.current, { opacity: 0, duration: 0.1 }, 0.67)
-        .to(beam.current, { scaleY: 0.002, transformOrigin: "center bottom", duration: 0.3 }, 0.68);
+      tl.to(copy.current, { opacity: 0.2, y: -24, duration: 0.46 }, 0.22)
+        .to(glow.current, { opacity: 0.16, duration: 0.5 }, 0.34)
+        .to(visual.current, { scaleX: 0.004, filter: "brightness(2.4)", duration: 0.46 }, 0.42)
+        .fromTo(beam.current, { opacity: 0 }, { opacity: 1, duration: 0.12 }, 0.78)
+        .to(visual.current, { opacity: 0, duration: 0.08 }, 0.88)
+        .to(beam.current, { scaleY: 0.002, transformOrigin: "center bottom", duration: 0.12 }, 0.9);
     }, section);
     return () => ctx.revert();
   }, [reduced]);
 
   return (
-    <section ref={section} className="relative min-h-svh md:h-[180svh]" aria-label="Introduction">
-      <div className="flex min-h-svh items-center overflow-hidden pb-16 pt-28 md:sticky md:top-0 md:h-svh md:pb-0 md:pt-16">
+    <section ref={section} className="relative min-h-svh md:h-[128svh]" aria-label="Introduction">
+      <div className="flex min-h-svh items-center overflow-hidden pb-16 pt-36 md:sticky md:top-0 md:h-svh md:pb-0 md:pt-28">
         <div className="mx-auto grid w-full max-w-(--container-content) grid-cols-1 items-center gap-10 px-(--spacing-gutter) md:grid-cols-12">
           <div ref={copy} className="relative z-10 md:col-span-7">
             <p className="eyebrow load-copy">we build, not just advise</p>
             <h1 className="mt-6 text-(length:--text-hero) leading-[0.95] tracking-[-0.03em] -ml-[0.06em]">
-              <span className="load-line block overflow-hidden">
+              <span className="load-line block">
                 <span className="block">Data engineering.</span>
               </span>
-              <span className="load-line block overflow-hidden">
+              <span className="load-line block">
                 <span className="block">For tomorrow.</span>
               </span>
             </h1>
             <p className="load-copy mt-8 max-w-xl text-(length:--text-step-1) leading-normal text-ice">
-              Proprietary platforms. Financial services only. Built inside the
-              DIFC, delivered across MENA and Europe.
+              We turn regulated data estates into AI-ready production systems —
+              strategy, engineering, governance and proof moving as one.
             </p>
             <div className="load-copy mt-10 flex items-center gap-8">
               <Link
                 href="/contact"
-                className="inline-flex min-h-11 items-center bg-cobalt px-6 font-mono text-(length:--text-label) uppercase tracking-[0.14em] text-paper transition-colors duration-(--duration-fast) ease-(--ease-out-expo) hover:bg-signal hover:text-void"
+                className="inline-flex min-h-11 items-center bg-cobalt px-6 font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-paper transition-colors duration-(--duration-fast) ease-(--ease-out-expo) hover:bg-signal hover:text-void"
               >
                 Start a conversation
               </Link>
               <Link
                 href="/services"
-                className="link-wipe font-mono text-(length:--text-label) uppercase tracking-[0.14em] text-steel transition-colors duration-(--duration-fast) hover:text-glass"
+                className="link-wipe font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-steel transition-colors duration-(--duration-fast) hover:text-glass"
               >
                 What we do
               </Link>
+            </div>
+            <div className="load-copy mt-12 grid max-w-2xl gap-px sm:grid-cols-3">
+              {[
+                ["DIFC", "built inside the financial centre"],
+                ["40+", "specialists across data and risk"],
+                ["FS only", "banking, markets, insurance"],
+              ].map(([k, v]) => (
+                <div key={k} className="border hairline bg-abyss/35 p-4 backdrop-blur-sm">
+                  <p className="font-display text-(length:--text-step-1) text-paper">{k}</p>
+                  <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.08em] text-steel">{v}</p>
+                </div>
+              ))}
             </div>
           </div>
 
@@ -118,15 +132,7 @@ export function Hero({ staticImage }: { staticImage: SiteImage }) {
               {webgl ? (
                 <GlassObject progress={progress} />
               ) : (
-                <img
-                  src={staticImage.webpHalf}
-                  width={Math.round(staticImage.width / 2)}
-                  height={Math.round(staticImage.height / 2)}
-                  alt=""
-                  fetchPriority="high"
-                  className="absolute inset-0 h-full w-full object-cover object-[38%_center]"
-                  style={{ backgroundImage: `url(${staticImage.lqip})`, backgroundSize: "cover" }}
-                />
+                <LogoCrystal className="absolute inset-0 h-full w-full drop-shadow-[0_0_42px_rgba(115,168,251,0.46)]" />
               )}
             </div>
             {/* the line of light the object becomes */}

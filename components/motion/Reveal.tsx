@@ -13,7 +13,7 @@ export function Reveal({
   className,
   children,
 }: {
-  as?: "div" | "section" | "article" | "ul";
+  as?: "div" | "section" | "article" | "ul" | "ol";
   className?: string;
   children: ReactNode;
 }) {

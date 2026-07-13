@@ -8,8 +8,12 @@ import sharp from "sharp";
 const VOID_ = { r: 5, g: 7, b: 12 };
 const ICE = { r: 154, g: 199, b: 248 };
 
-async function duotone(src, out) {
-  const img = sharp(src).resize(800, 800, { fit: "cover" }).grayscale();
+async function duotone(src, out, crop) {
+  // optional face-framed crop so every portrait carries the same
+  // head-and-shoulders composition regardless of the source shot
+  let base0 = sharp(src);
+  if (crop) base0 = base0.extract(crop);
+  const img = base0.resize(800, 800, { fit: "cover" }).grayscale();
   const { data, info } = await img.raw().toBuffer({ resolveWithObject: true });
   const rgb = Buffer.alloc(info.width * info.height * 3);
   for (let i = 0, j = 0; i < data.length; i += info.channels, j += 3) {
@@ -25,7 +29,14 @@ async function duotone(src, out) {
 }
 
 await duotone("design/team/david-aston.jpg", "public/img/team-david");
-await duotone("design/team/benjamin-aston.png", "public/img/team-benjamin");
+// benjamin's source is a full-length environmental shot — crop to the
+// same head-and-shoulders framing as david's
+await duotone("design/team/benjamin-aston.png", "public/img/team-benjamin", {
+  left: 155,
+  top: 110,
+  width: 430,
+  height: 430,
+});
 
 // OG card: 1200x630 from the enhanced hero — object left, negative space
 // right for the lockup composited by the OG image route.

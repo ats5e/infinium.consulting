@@ -64,7 +64,7 @@ export default function Products() {
               <p className="mt-6 max-w-xl leading-relaxed text-ice">{p.body}</p>
               <Link
                 href={p.href}
-                className="link-wipe mt-8 inline-block font-mono text-(length:--text-label) uppercase tracking-[0.14em] text-signal"
+                className="link-wipe mt-8 inline-block font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-signal"
               >
                 Explore {p.name} →
               </Link>

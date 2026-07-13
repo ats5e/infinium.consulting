@@ -35,9 +35,9 @@ for (const [path, h1] of ROUTES) {
   });
 }
 
-test("nav reaches every route", async ({ page, isMobile }) => {
+test("nav reaches every route", async ({ page }) => {
   await page.goto("/");
-  if (isMobile) await page.getByRole("button", { name: /open menu/i }).click();
+  await page.getByRole("button", { name: /open menu/i }).click();
   for (const label of ["About", "Services", "Products", "Careers", "Contact"]) {
     await expect(page.getByRole("link", { name: label, exact: true }).first()).toBeVisible();
   }

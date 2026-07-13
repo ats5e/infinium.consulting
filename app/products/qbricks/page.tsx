@@ -223,7 +223,7 @@ export default function QBricks() {
           <Reveal className="mt-10 divide-y divide-ice/12 border-y hairline">
             {PLATFORM.map((c) => (
               <article key={c.t} className="grid gap-3 py-6 md:grid-cols-12">
-                <h3 className="font-mono text-(length:--text-label) uppercase tracking-[0.14em] text-[#FF3A26] md:col-span-4">
+                <h3 className="font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-[#FF3A26] md:col-span-4">
                   {c.t}
                 </h3>
                 <p className="text-(length:--text-body-sm) text-ice md:col-span-8">{c.b}</p>
@@ -251,7 +251,7 @@ export default function QBricks() {
                 {SYSTEMS.map(([k, v]) => (
                   <li key={k} className="flex items-baseline justify-between gap-4">
                     <span className="text-(length:--text-body-sm) text-glass">{k}</span>
-                    <span className="font-mono text-[11px] uppercase tracking-[0.1em] text-steel">{v}</span>
+                    <span className="font-mono text-[11px] uppercase tracking-[0.08em] text-steel">{v}</span>
                   </li>
                 ))}
               </ul>
@@ -275,7 +275,7 @@ export default function QBricks() {
                 {LANES.map(([lane, use]) => (
                   <li key={lane} className="flex items-baseline justify-between gap-4">
                     <span className="text-(length:--text-body-sm) text-glass">{use}</span>
-                    <span className="font-mono text-[11px] uppercase tracking-[0.1em] text-steel">{lane}</span>
+                    <span className="font-mono text-[11px] uppercase tracking-[0.08em] text-steel">{lane}</span>
                   </li>
                 ))}
               </ul>
@@ -294,7 +294,7 @@ export default function QBricks() {
             Client names are confidential. The sentence is the proof.
           </p>
           <p className="mt-8">
-            <Link href="/products/tbricks" className="link-wipe font-mono text-(length:--text-label) uppercase tracking-[0.14em] text-signal">
+            <Link href="/products/tbricks" className="link-wipe font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-signal">
               Related: TBricks →
             </Link>
           </p>

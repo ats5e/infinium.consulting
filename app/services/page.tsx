@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { Reveal } from "@/components/motion/Reveal";
-import { GlassImage } from "@/components/GlassImage";
 import { ContactBand } from "@/components/ContactBand";
-import { siteImage } from "@/lib/images";
+import { PartnerLogos } from "@/components/PartnerLogos";
+import { siteImage, type SiteImage } from "@/lib/images";
 
 export const metadata: Metadata = {
   title: "Services",
@@ -12,34 +13,42 @@ export const metadata: Metadata = {
 };
 
 /* Four focus areas — a set, not a sequence: deliberately unnumbered. */
-const FOCUS = [
+const FOCUS: Array<{
+  title: string;
+  lead: string;
+  body: string;
+  tags: string[];
+  image: SiteImage;
+}> = [
   {
     title: "Digital transformation",
-    body: "We guide financial institutions through end-to-end digital change — from data strategy, advisory, and architecture through to cloud migration, application modernisation, and AI readiness assessments. Our consultants bring hands-on experience transforming digital channels and operating models for financial services organisations at every stage of their journey.",
+    lead: "End-to-end digital change, from strategy to shipped.",
+    body: "Data strategy, advisory and architecture through to cloud migration, application modernisation and AI readiness — for financial services organisations at every stage of the journey.",
+    tags: ["Cloud migration", "Application modernisation", "AI readiness"],
     image: siteImage("digital-transformation"),
-    alt: "A basalt monolith dissolving into ordered translucent blue cubes",
   },
   {
     title: "Data engineering",
-    body: "We design and build production-grade data pipelines, cloud platforms, and governance frameworks across Alteryx, Databricks, Microsoft Fabric, and Quantexa. Whether through our own proprietary solutions or best-in-class partner platforms, we deliver end-to-end data engineering with a focus on quality, scalability, and AI acceleration.",
+    lead: "Production-grade pipelines and platforms.",
+    body: "Designed and built across Alteryx, Databricks, Microsoft Fabric and Quantexa — through our own products or best-in-class partner platforms, with quality, scale and AI acceleration as the baseline.",
+    tags: ["Production pipelines", "Cloud platforms", "Governance frameworks"],
     image: siteImage("data-engineering"),
-    alt: "Chaotic light resolving through a glass manifold into parallel laminar beams",
   },
   {
     title: "Data science",
-    body: "Our data science practice combines big data analytics, entity resolution, UBO resolution, network analytics, and both generative and non-generative AI modelling. With deep Quantexa expertise at its core, we tackle the most complex financial crime, AML, KYC, and risk use cases facing financial institutions today.",
+    lead: "The hardest financial crime and risk use cases.",
+    body: "Entity resolution, UBO resolution, network analytics, and generative and non-generative AI modelling — with deep Quantexa expertise at the core of AML, KYC and risk work.",
+    tags: ["Entity resolution", "Network analytics", "AML · KYC · risk"],
     image: siteImage("data-science"),
-    alt: "Glass spheres joined by filaments of cobalt light, clusters resolving",
   },
   {
     title: "Governance",
-    body: "We help regulated firms build and embed AI regulation and compliance frameworks, ethical AI design, and data quality observability into their operations. From GDPR and UAE PDPL to EU AI Act readiness and CBUAE and DFSA regulatory reporting, we ensure your data estate meets the standards that matter.",
+    lead: "The standards that matter, embedded in operations.",
+    body: "AI regulation and compliance frameworks, ethical AI design and data quality observability — from GDPR and UAE PDPL to EU AI Act readiness and CBUAE and DFSA regulatory reporting.",
+    tags: ["UAE PDPL · GDPR", "EU AI Act readiness", "CBUAE · DFSA reporting"],
     image: siteImage("governance"),
-    alt: "Twelve parallel etched planes traversed by one unbroken cobalt beam",
   },
 ];
-
-const PARTNERS = ["Quantexa", "Alteryx", "Microsoft Fabric", "Databricks"];
 
 const ASSESSMENTS = [
   { title: "AI maturity assessment", body: "Where your organisation stands on AI readiness, where it needs to be, and the gap between the two." },
@@ -49,68 +58,129 @@ const ASSESSMENTS = [
   { title: "Governance", body: "Ownership, lineage, quality standards and control structures — the policies, taxonomies, and metadata practices that turn raw data into a trusted, auditable asset." },
 ];
 
+/* Focus panel — the image boxed behind the text, per the site language. */
+function FocusPanel({ f }: { f: (typeof FOCUS)[number] }) {
+  return (
+    <article className="group relative overflow-hidden border hairline transition-[border-color] duration-(--duration-base) ease-(--ease-out-expo) hover:border-signal/50">
+      <picture aria-hidden className="absolute inset-0">
+        <source type="image/avif" srcSet={`${f.image.avifHalf} ${Math.round(f.image.width / 2)}w`} />
+        <img
+          src={f.image.webpHalf}
+          alt=""
+          loading="lazy"
+          decoding="async"
+          className="h-full w-full object-cover transition-transform duration-(--duration-grand) ease-(--ease-out-expo) group-hover:scale-[1.03]"
+          style={{ backgroundImage: `url(${f.image.lqip})`, backgroundSize: "cover" }}
+        />
+      </picture>
+      <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-void/97 via-void/75 to-void/25" />
+
+      <div className="relative flex min-h-[24rem] flex-col justify-end p-8 md:p-10">
+        <h2 className="text-(length:--text-step-2)">{f.title}</h2>
+        <p className="mt-2 text-(length:--text-step-1) text-glass">{f.lead}</p>
+        <p className="mt-4 max-w-xl text-(length:--text-body-sm) leading-relaxed text-ice">{f.body}</p>
+        <ul className="mt-6 flex flex-wrap gap-2">
+          {f.tags.map((tag) => (
+            <li
+              key={tag}
+              className="border hairline bg-void/50 px-3 py-1.5 text-[11px] font-medium uppercase tracking-[0.08em] text-steel backdrop-blur-sm"
+            >
+              {tag}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </article>
+  );
+}
+
 export default function Services() {
   return (
     <>
-      <section className="pt-40 pb-20">
+      <section className="pb-14 pt-40">
         <div className="mx-auto max-w-(--container-content) px-(--spacing-gutter)">
           <p className="eyebrow">we serve</p>
-          <h1 className="mt-6 max-w-4xl text-(length:--text-step-5) leading-[1.02]">
-            Four focus areas. One industry.
-          </h1>
+          <div className="mt-6 grid gap-8 lg:grid-cols-12 lg:items-end">
+            <h1 className="text-(length:--text-step-5) leading-[1.03] lg:col-span-7">
+              Four focus areas.
+              <br />
+              One industry.
+            </h1>
+            <p className="max-w-md text-ice lg:col-span-5">
+              End-to-end technology engagements across the financial services
+              value chain — from strategy through production engineering and
+              beyond. Financial services only, by design.
+            </p>
+          </div>
         </div>
       </section>
 
-      {FOCUS.map((f, i) => (
-        <section key={f.title} className="border-t hairline">
-          <Reveal
-            className={`mx-auto grid max-w-(--container-content) items-center gap-12 px-(--spacing-gutter) py-20 md:grid-cols-2 ${
-              i % 2 ? "md:[&>*:first-child]:order-2" : ""
-            }`}
-          >
-            <div>
-              <h2 className="text-(length:--text-step-3)">{f.title}</h2>
-              <p className="mt-6 max-w-xl leading-relaxed text-ice">{f.body}</p>
-            </div>
-            <GlassImage image={f.image} alt={f.alt} sizes="(min-width: 768px) 45vw, 100vw" />
-          </Reveal>
-        </section>
-      ))}
-
-      <section className="border-t hairline">
-        <div className="mx-auto max-w-(--container-content) px-(--spacing-gutter) py-20">
-          <p className="eyebrow">technology</p>
-          <h2 className="mt-6 max-w-3xl text-(length:--text-step-3)">
-            We partner with the platforms that matter in financial services.
-          </h2>
-          <p className="mt-4 max-w-xl text-ice">
-            Every consultant is certified by the provider.
-          </p>
-          <Reveal className="mt-10 grid grid-cols-2 gap-px md:grid-cols-4">
-            {PARTNERS.map((p) => (
-              <div key={p} className="border hairline p-8 text-center font-mono text-(length:--text-label) uppercase tracking-[0.14em] text-glass">
-                {p}
-              </div>
+      {/* the four focus areas — image boxed behind the text */}
+      <section aria-label="Focus areas">
+        <div className="mx-auto max-w-(--container-content) px-(--spacing-gutter)">
+          <div className="grid gap-4 lg:grid-cols-2">
+            {FOCUS.map((f) => (
+              <FocusPanel key={f.title} f={f} />
             ))}
-          </Reveal>
+          </div>
         </div>
       </section>
 
+      {/* certified partner stack */}
+      <section className="mt-20 border-t hairline">
+        <div className="mx-auto max-w-(--container-content) px-(--spacing-gutter) py-16">
+          <div className="grid gap-10 lg:grid-cols-12 lg:items-center">
+            <div className="lg:col-span-5">
+              <p className="eyebrow">technology</p>
+              <h2 className="mt-5 text-(length:--text-step-3)">
+                Certified across the platforms that matter.
+              </h2>
+              <p className="mt-4 max-w-md text-ice">
+                We partner with the platforms financial services actually runs
+                on — and every consultant is certified by the provider.
+              </p>
+            </div>
+            <div className="lg:col-span-7">
+              <PartnerLogos tileClass="px-6 py-8" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* assessments & advisory */}
       <section className="border-t hairline">
-        <div className="mx-auto max-w-(--container-content) px-(--spacing-gutter) py-20">
-          <p className="eyebrow">assessments &amp; advisory</p>
+        <div className="mx-auto max-w-(--container-content) px-(--spacing-gutter) py-16">
+          <div className="flex flex-wrap items-end justify-between gap-6">
+            <div>
+              <p className="eyebrow">assessments &amp; advisory</p>
+              <h2 className="mt-5 max-w-2xl text-(length:--text-step-3)">
+                Know where you stand before you build.
+              </h2>
+            </div>
+            <Link
+              href="/contact"
+              className="link-wipe text-[11.5px] font-medium uppercase tracking-[0.08em] text-signal"
+            >
+              Book an assessment →
+            </Link>
+          </div>
           <Reveal className="mt-10 divide-y divide-ice/12 border-y hairline">
             {ASSESSMENTS.map((a) => (
-              <article key={a.title} className="grid gap-4 py-8 md:grid-cols-12">
+              <article
+                key={a.title}
+                className="grid gap-3 py-6 transition-colors duration-(--duration-fast) md:grid-cols-12"
+              >
                 <h3 className="text-(length:--text-step-1) md:col-span-5">{a.title}</h3>
-                <p className="text-ice md:col-span-7">{a.body}</p>
+                <p className="text-(length:--text-body-sm) leading-relaxed text-ice md:col-span-7">
+                  {a.body}
+                </p>
               </article>
             ))}
           </Reveal>
         </div>
       </section>
 
-      <ContactBand />
+      <ContactBand heading="Tell us which of the four you’re wrestling with." />
     </>
   );
 }

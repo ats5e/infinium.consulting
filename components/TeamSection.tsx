@@ -25,8 +25,9 @@ export function TeamSection({ intro }: { intro?: string }) {
           {TEAM.map((m) => (
             <article
               key={m.name}
-              className="flex gap-6 border hairline p-6 transition-[border-color] duration-(--duration-fast) ease-(--ease-out-expo) hover:border-signal/60"
+              className="group relative flex gap-6 overflow-hidden border hairline bg-abyss/25 p-6 transition-[border-color,transform,background] duration-(--duration-base) ease-(--ease-out-expo) hover:-translate-y-1 hover:border-signal/60 hover:bg-abyss/50"
             >
+              <span aria-hidden className="absolute inset-x-0 top-0 h-px origin-left scale-x-0 bg-signal shadow-[0_0_20px_var(--color-signal)] transition-transform duration-(--duration-base) group-hover:scale-x-100" />
               <picture className="shrink-0">
                 <source type="image/avif" srcSet={`${m.img}.avif`} />
                 <img
@@ -36,7 +37,7 @@ export function TeamSection({ intro }: { intro?: string }) {
                   height={800}
                   loading="lazy"
                   decoding="async"
-                  className="block size-28 object-cover sm:size-36"
+                  className="block size-28 object-cover grayscale transition-[filter,transform] duration-(--duration-base) ease-(--ease-out-expo) group-hover:scale-[1.02] group-hover:grayscale-0 sm:size-36"
                 />
               </picture>
               <div className="min-w-0">
