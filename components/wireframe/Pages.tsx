@@ -57,43 +57,58 @@ function Placeholder({ label }: { label: string }) {
 
 /* ---- Home -------------------------------------------------------------- */
 
+const AWARDS = [
+  "Appian FS Partner of the Year 2024",
+  "Best Places to Work 2023",
+  "EcoVadis rated",
+  "Great Place to Work Certified",
+  "The Consultancy Awards",
+  "NEN 4400-1 certified",
+  "Best Workplaces 2024",
+  "Alteryx Partner",
+  "Quantexa Plus Alliance Partner",
+];
+
 export function HomeWirePage() {
   return (
     <>
       <Hero staticImage={siteImage("hero")} />
 
-      <ContentSection>
+      <ContentSection className="overflow-hidden">
         <p className="eyebrow">An award-winning consultancy</p>
-        <Reveal className="mt-8 grid gap-px sm:grid-cols-2 lg:grid-cols-3">
-          {[
-            "Appian FS Partner of the Year 2024",
-            "Best Places to Work 2023",
-            "EcoVadis rated",
-            "Great Place to Work Certified",
-            "The Consultancy Awards",
-            "NEN 4400-1 certified",
-            "Best Workplaces 2024",
-            "Alteryx Partner",
-            "Quantexa Plus Alliance Partner",
-          ].map((award) => (
-            <div key={award} className="border hairline bg-abyss/25 p-5">
-              <p className="text-(length:--text-body-sm) text-ice">{award}</p>
-            </div>
-          ))}
+        <div className="relative mt-8 overflow-hidden border-y hairline py-5 [mask-image:linear-gradient(90deg,transparent,black_8%,black_92%,transparent)]">
+          <div className="marquee-track flex w-max gap-12">
+            {[0, 1].map((copyIdx) => (
+              <div key={copyIdx} aria-hidden={copyIdx === 1} className="flex shrink-0 items-center gap-12">
+                {AWARDS.map((award) => (
+                  <span key={`${copyIdx}-${award}`} className="whitespace-nowrap font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-steel">
+                    {award}
+                  </span>
+                ))}
+              </div>
+            ))}
+          </div>
+        </div>
+      </ContentSection>
+
+      <ContentSection>
+        <Reveal className="max-w-4xl">
+          <p className="eyebrow text-signal">What we do</p>
+          <h2 className="mt-6 text-(length:--text-step-5) leading-[1.04]">
+            A specialist alternative to the big-brand consultancies
+          </h2>
+          <p className="mt-6 max-w-2xl leading-relaxed text-ice">
+            Financial services firms trust us to provide market-leading
+            strategy, specialist transformation and AI-enabled automation
+            solutions. We help our clients rapidly deliver business outcomes.
+          </p>
+          <p className="mt-8"><SecondaryLink href="/services">Learn more →</SecondaryLink></p>
         </Reveal>
       </ContentSection>
 
       <ContentSection>
-        <div className="grid gap-px md:grid-cols-2">
+        <div className="grid gap-4 md:grid-cols-3">
           {[
-            {
-              eyebrow: "What we do",
-              title: "A specialist alternative to the big-brand consultancies",
-              slot: "digital-transformation" as const,
-              body: "Financial services firms trust us to provide market-leading strategy, specialist transformation and AI-enabled automation solutions. We help our clients rapidly deliver business outcomes.",
-              cta: "Learn more →",
-              href: "/services",
-            },
             {
               eyebrow: "Who we work with",
               title: "The world's leading firms across regulated finance",
@@ -140,7 +155,7 @@ export function HomeWirePage() {
                 />
               </picture>
               <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-void/97 via-void/78 to-void/30" />
-              <div className="relative flex min-h-[22rem] flex-col justify-end p-8">
+              <div className="relative flex min-h-[26rem] flex-col justify-end p-7">
                 <p className="eyebrow text-signal">{item.eyebrow}</p>
                 <h2 className="mt-4 text-(length:--text-step-2) leading-tight">{item.title}</h2>
                 <p className="mt-5 max-w-xl leading-relaxed text-glass">{item.body}</p>
@@ -389,7 +404,6 @@ export function SolutionsWirePage() {
         body="Pre-built solutions and assessment tooling that shorten delivery timelines and de-risk your programmes."
       />
       <ContentSection>
-        <SectionIntro eyebrow="Solutions" title="Our solutions" />
         <div className="grid gap-px lg:grid-cols-2">
           <article className="overflow-hidden border hairline bg-abyss/25">
             <div className="border-b hairline"><GlassImage image={siteImage("qbricks")} alt="QBricks — governed data products" sizes="(min-width: 1024px) 45vw, 66vw" priority /></div>
@@ -1240,9 +1254,41 @@ export function ContactWireIntro({ form }: { form: React.ReactNode }) {
               { num: "2", title: "Get a customised approach", body: "We shape strategy and solution options around your business." },
               { num: "3", title: "Deliver together", body: "We work with you to deliver your strategic initiatives." },
             ]} />
-            <div className="mt-10 border hairline bg-abyss/25 p-7">
-              <p className="eyebrow text-signal">Offices</p>
-              <p className="mt-4 text-ice">Amsterdam, The Netherlands · DIFC, Dubai, serving the EU, Nordic and Middle East (GCC) markets</p>
+            <div className="mt-10 grid gap-px sm:grid-cols-2">
+              {[
+                {
+                  city: "Amsterdam, The Netherlands",
+                  entity: "Infinium Consulting B.V.",
+                  address: ["Edge Olympic", "Fred. Roeskestraat 115", "Amsterdam, NL"],
+                  email: "sales@infinium.consulting",
+                  href: "/about/amsterdam",
+                },
+                {
+                  city: "DIFC, Dubai",
+                  entity: "Infinium Technology Ltd",
+                  address: ["InnovationOne", "Dubai International Financial Centre", "Dubai, UAE"],
+                  email: "sales@infinium-technology.com",
+                  href: "/about/dubai",
+                },
+              ].map((office) => (
+                <article key={office.city} className="border hairline bg-abyss/25 p-6">
+                  <p className="eyebrow text-signal">{office.city}</p>
+                  <p className="mt-4 text-(length:--text-body-sm) text-paper">{office.entity}</p>
+                  <p className="mt-2 text-(length:--text-body-sm) leading-relaxed text-ice">
+                    {office.address.map((line) => (
+                      <span key={line} className="block">{line}</span>
+                    ))}
+                  </p>
+                  <a href={`mailto:${office.email}`} className="link-wipe mt-4 inline-block text-(length:--text-body-sm) text-signal">
+                    {office.email}
+                  </a>
+                  <p className="mt-3">
+                    <Link href={office.href} className="link-wipe font-mono text-[10px] uppercase tracking-[0.08em] text-steel hover:text-paper">
+                      Visit this office →
+                    </Link>
+                  </p>
+                </article>
+              ))}
             </div>
           </div>
           <div className="lg:col-span-7">

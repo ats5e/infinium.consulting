@@ -58,12 +58,13 @@ function useCubeAssets() {
   }, []);
 }
 
-/* three equal bricks, corner-overlapping along the diagonal — the mark
- * repeated as a lattice, every cube the same size */
+/* three equal bricks in a loose, tumbling cluster — staggered in depth
+ * and rotation rather than stacked in a line, each slowly turning on its
+ * own axis at its own rate */
 const CLUSTER = [
-  { scale: 0.72, position: [-1.02, 0.84, -0.5] as const, spin: [0.05, -0.12, 0.03] as const, phase: 1.7 },
-  { scale: 0.72, position: [0, 0, 0] as const, spin: [0, 0, 0] as const, phase: 0 },
-  { scale: 0.72, position: [1.02, -0.84, 0.5] as const, spin: [-0.04, 0.14, -0.02] as const, phase: 3.4 },
+  { scale: 0.72, position: [-0.95, 0.5, -0.75] as const, spin: [0.42, -0.55, 0.18] as const, drift: 0.035, phase: 1.7 },
+  { scale: 0.72, position: [0.2, -0.25, 0.15] as const, spin: [-0.12, 0.3, -0.08] as const, drift: -0.05, phase: 0 },
+  { scale: 0.72, position: [0.85, 0.85, -1.15] as const, spin: [0.6, 1.05, -0.35] as const, drift: 0.042, phase: 3.4 },
 ] as const;
 
 function Cube({
@@ -71,12 +72,14 @@ function Cube({
   scale,
   position,
   spin,
+  drift,
   phase,
 }: {
   assets: ReturnType<typeof useCubeAssets>;
   scale: number;
   position: readonly [number, number, number];
   spin: readonly [number, number, number];
+  drift: number;
   phase: number;
 }) {
   const inner = useRef<THREE.Group>(null);
@@ -85,10 +88,13 @@ function Cube({
     const g = inner.current;
     if (!g) return;
     const t = state.clock.elapsedTime + phase;
-    // each brick drifts on its own slow phase — the cluster breathes
-    g.position.y = position[1] + Math.sin(t * 0.4) * 0.04;
-    g.rotation.x = spin[0] + Math.cos(t * 0.23) * 0.03;
-    g.rotation.y = spin[1] + Math.sin(t * 0.29) * 0.04;
+    // each brick tumbles slowly on its own axis and rate — a live cluster,
+    // not a formation
+    g.position.y = position[1] + Math.sin(t * 0.4) * 0.05;
+    g.position.x = position[0] + Math.cos(t * 0.31) * 0.04;
+    g.rotation.x = spin[0] + Math.cos(t * 0.23) * 0.05 + t * drift * 0.4;
+    g.rotation.y = spin[1] + t * drift;
+    g.rotation.z = spin[2] + Math.sin(t * 0.19) * 0.04;
   });
 
   return (
@@ -148,12 +154,26 @@ function LogoCluster({ progress }: { progress: React.RefObject<number> }) {
   );
 }
 
-export default function GlassObject({ progress }: { progress: React.RefObject<number> }) {
+export default function GlassObject({
+  progress,
+  onContextLost,
+}: {
+  progress: React.RefObject<number>;
+  onContextLost?: () => void;
+}) {
   return (
     <Canvas
       dpr={[1, 2]}
       camera={{ position: [0, 0.75, 4.8], fov: 42 }}
       gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
+      onCreated={({ gl }) => {
+        // GPU pressure/driver resets kill the context and leave a dead
+        // canvas — fall back to the SVG mark instead
+        gl.domElement.addEventListener("webglcontextlost", (e) => {
+          e.preventDefault();
+          onContextLost?.();
+        });
+      }}
       className="!absolute inset-0"
       aria-hidden
     >

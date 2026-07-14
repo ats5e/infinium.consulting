@@ -5,6 +5,17 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Lockup } from "@/components/Lockup";
 import { NAV_GROUPS } from "@/lib/content";
+import { siteImage } from "@/lib/images";
+
+/* one glass render per group — the dropdown's visual anchor */
+const NAV_VISUAL: Record<string, { slot: Parameters<typeof siteImage>[0]; caption: string }> = {
+  Services: { slot: "data-engineering", caption: "Strategy to production, engineered" },
+  Solutions: { slot: "qbricks", caption: "QBricks & VBricks, disruptive by design" },
+  Sectors: { slot: "about-difc", caption: "Regulated finance, across markets" },
+  Technologies: { slot: "data-science", caption: "Best-in-class platform partners" },
+  Insights: { slot: "governance", caption: "How we have helped our clients" },
+  About: { slot: "careers", caption: "Practitioners, from two hubs" },
+};
 
 const MOBILE_LINKS = [
   { href: "/", label: "Home" },
@@ -53,15 +64,16 @@ export function Nav() {
     <header className="pointer-events-none fixed inset-x-0 top-0 z-50">
       <nav
         aria-label="Primary"
-        className={`pointer-events-auto relative z-50 mx-auto mt-4 flex h-[70px] w-[calc(100%-1rem)] max-w-[1124px] items-center justify-between overflow-hidden rounded-[10px] border border-paper/5 px-5 shadow-[0_24px_80px_rgba(0,0,0,0.36)] backdrop-blur-xl transition-[background,border-color,transform] duration-(--duration-base) ease-(--ease-out-expo) md:px-6 ${
+        className={`pointer-events-auto relative z-50 mx-auto mt-4 flex h-[70px] w-[calc(100%-1rem)] max-w-[1124px] items-center justify-between rounded-[10px] border border-paper/5 px-5 shadow-[0_24px_80px_rgba(0,0,0,0.36)] backdrop-blur-xl transition-[background,border-color,transform] duration-(--duration-base) ease-(--ease-out-expo) md:px-6 ${
           scrolled || open ? "bg-[#1f2225]/92" : "bg-[#1f2225]/78"
         }`}
       >
-        <div
-          aria-hidden
-          className="absolute inset-x-0 bottom-0 h-px origin-left bg-gradient-to-r from-cobalt via-signal to-transparent shadow-[0_0_20px_var(--color-signal)] transition-transform duration-(--duration-fast)"
-          style={{ transform: `scaleX(${progress})` }}
-        />
+        <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden rounded-[10px]">
+          <div
+            className="absolute inset-x-0 bottom-0 h-px origin-left bg-gradient-to-r from-cobalt via-signal to-transparent shadow-[0_0_20px_var(--color-signal)] transition-transform duration-(--duration-fast)"
+            style={{ transform: `scaleX(${progress})` }}
+          />
+        </div>
         <div className="relative z-50 flex min-w-0 items-center gap-3">
           <Link href="/" aria-label="Infinium Technology — home" className="shrink-0">
             <Lockup className="h-7" />
@@ -72,9 +84,15 @@ export function Nav() {
           <Link
             href="/"
             aria-current={pathname === "/" ? "page" : undefined}
-            className="link-wipe px-2 py-2 font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-steel transition-colors duration-(--duration-fast) hover:text-paper"
+            className="group/nav relative px-2 py-2 font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-steel transition-colors duration-(--duration-fast) hover:text-paper"
           >
             Home
+            <span
+              aria-hidden
+              className={`absolute inset-x-2 bottom-0 h-px origin-left bg-signal shadow-[0_0_12px_var(--color-signal)] transition-transform duration-(--duration-base) ease-(--ease-out-expo) ${
+                pathname === "/" ? "scale-x-100" : "scale-x-0 group-hover/nav:scale-x-100"
+              }`}
+            />
           </Link>
           {NAV_GROUPS.map((group) => (
             <span
@@ -91,28 +109,56 @@ export function Nav() {
               <Link
                 href={group.href}
                 aria-current={pathname === group.href ? "page" : undefined}
-                className="flex items-center gap-1 px-2 py-2 font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-steel transition-colors duration-(--duration-fast) hover:text-paper"
+                className="group/nav relative flex items-center gap-1 px-2 py-2 font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-steel transition-colors duration-(--duration-fast) hover:text-paper"
               >
                 {group.label}
                 <span aria-hidden className="text-[10px] text-signal">⌄</span>
+                <span
+                  aria-hidden
+                  className={`absolute inset-x-2 bottom-0 h-px origin-left bg-signal shadow-[0_0_12px_var(--color-signal)] transition-transform duration-(--duration-base) ease-(--ease-out-expo) ${
+                    pathname?.startsWith(group.href) || hovered === group.label
+                      ? "scale-x-100"
+                      : "scale-x-0 group-hover/nav:scale-x-100"
+                  }`}
+                />
               </Link>
               <span
-                className={`absolute left-0 top-full min-w-64 pt-3 transition-[opacity,transform] duration-(--duration-fast) ease-(--ease-out-expo) ${
+                className={`absolute left-1/2 top-full w-[30rem] -translate-x-1/2 pt-3 transition-[opacity,transform] duration-(--duration-fast) ease-(--ease-out-expo) ${
                   hovered === group.label
                     ? "pointer-events-auto translate-y-0 opacity-100"
                     : "pointer-events-none -translate-y-1 opacity-0"
                 }`}
               >
-                <span className="block border hairline bg-void/95 p-2 shadow-[0_24px_80px_rgba(0,0,0,0.36)] backdrop-blur-xl">
-                  {group.items.map((item) => (
-                    <Link
-                      key={`${group.label}-${item.label}`}
-                      href={item.href}
-                      className="block px-3 py-2 text-(length:--text-body-sm) text-ice transition-colors duration-(--duration-fast) hover:bg-abyss/70 hover:text-paper"
-                    >
-                      {item.label}
+                <span className="grid grid-cols-[1fr_13rem] overflow-hidden border hairline bg-void/95 shadow-[0_24px_80px_rgba(0,0,0,0.36)] backdrop-blur-xl">
+                  <span className="block p-2">
+                    {group.items.map((item) => (
+                      <Link
+                        key={`${group.label}-${item.label}`}
+                        href={item.href}
+                        className="group/item flex items-center justify-between px-3 py-2 text-(length:--text-body-sm) text-ice transition-colors duration-(--duration-fast) hover:bg-abyss/70 hover:text-paper"
+                      >
+                        {item.label}
+                        <span aria-hidden className="text-steel opacity-0 transition-opacity duration-(--duration-fast) group-hover/item:text-signal group-hover/item:opacity-100">→</span>
+                      </Link>
+                    ))}
+                  </span>
+                  {NAV_VISUAL[group.label] ? (
+                    <Link href={group.href} className="group/visual relative block border-l hairline" tabIndex={-1} aria-hidden>
+                      <img
+                        src={siteImage(NAV_VISUAL[group.label].slot).webpMob}
+                        alt=""
+                        loading="lazy"
+                        decoding="async"
+                        className="absolute inset-0 h-full w-full object-cover opacity-80 transition-[opacity,transform] duration-(--duration-slow) ease-(--ease-out-expo) group-hover/visual:scale-[1.04] group-hover/visual:opacity-100"
+                        style={{ backgroundImage: `url(${siteImage(NAV_VISUAL[group.label].slot).lqip})`, backgroundSize: "cover" }}
+                      />
+                      <span aria-hidden className="absolute inset-0 bg-gradient-to-t from-void/90 via-void/30 to-transparent" />
+                      <span className="relative flex h-full min-h-44 flex-col justify-end p-4">
+                        <span className="font-mono text-[10px] uppercase tracking-[0.08em] text-glass">{NAV_VISUAL[group.label].caption}</span>
+                        <span className="mt-2 font-mono text-[10px] uppercase tracking-[0.08em] text-signal">Explore →</span>
+                      </span>
                     </Link>
-                  ))}
+                  ) : null}
                 </span>
               </span>
             </span>
