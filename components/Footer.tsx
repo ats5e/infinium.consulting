@@ -39,14 +39,6 @@ export function Footer() {
           <p className="eyebrow">© 2026 Infinium Consulting B.V. All rights reserved.</p>
           <p className="eyebrow text-steel">Cookies &amp; privacy policy</p>
         </div>
-        {/* ghost wordmark — the brand closes the page, half-sunk below the fold */}
-        <p
-          aria-hidden
-          className="pointer-events-none mt-10 -mb-[0.36em] select-none text-center font-display font-extrabold leading-none tracking-[-0.04em] text-paper/[0.05]"
-          style={{ fontSize: "clamp(5rem, 17vw, 15rem)" }}
-        >
-          Infinium
-        </p>
       </div>
     </footer>
   );
