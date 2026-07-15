@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Lockup } from "@/components/Lockup";
 import { NAV_GROUPS } from "@/lib/content";
 import { siteImage } from "@/lib/images";
@@ -31,6 +31,9 @@ export function Nav() {
   const [progress, setProgress] = useState(0);
   const [open, setOpen] = useState(false);
   const [hovered, setHovered] = useState<string | null>(null);
+  const [panelH, setPanelH] = useState(220);
+  const contentRefs = useRef<Array<HTMLDivElement | null>>([]);
+  const activeIdx = hovered ? NAV_GROUPS.findIndex((g) => g.label === hovered) : -1;
   const pathname = usePathname();
   const [lastPath, setLastPath] = useState(pathname);
 
@@ -53,6 +56,13 @@ export function Nav() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  useLayoutEffect(() => {
+    if (activeIdx >= 0) {
+      const el = contentRefs.current[activeIdx];
+      if (el) setPanelH(el.offsetHeight);
+    }
+  }, [activeIdx]);
+
   useEffect(() => {
     document.documentElement.style.overflow = open ? "hidden" : "";
     return () => {
@@ -64,6 +74,13 @@ export function Nav() {
     <header className="pointer-events-none fixed inset-x-0 top-0 z-50">
       <nav
         aria-label="Primary"
+        onMouseLeave={() => setHovered(null)}
+        onBlur={(e) => {
+          if (!e.currentTarget.contains(e.relatedTarget as Node)) setHovered(null);
+        }}
+        onKeyDown={(e) => {
+          if (e.key === "Escape") setHovered(null);
+        }}
         className={`pointer-events-auto relative z-50 mx-auto mt-4 flex h-[70px] w-[calc(100%-1rem)] max-w-[1124px] items-center justify-between rounded-[10px] border border-paper/5 px-5 shadow-[0_24px_80px_rgba(0,0,0,0.36)] backdrop-blur-xl transition-[background,border-color,transform] duration-(--duration-base) ease-(--ease-out-expo) md:px-6 ${
           scrolled || open ? "bg-[#1f2225]/92" : "bg-[#1f2225]/78"
         }`}
@@ -95,55 +112,78 @@ export function Nav() {
             />
           </Link>
           {NAV_GROUPS.map((group) => (
-            <span
+            <Link
               key={group.label}
-              className="relative"
+              href={group.href}
+              aria-current={pathname === group.href ? "page" : undefined}
+              aria-expanded={hovered === group.label}
               onMouseEnter={() => setHovered(group.label)}
-              onMouseLeave={() => setHovered(null)}
               onFocus={() => setHovered(group.label)}
-              onBlur={(e) => {
-                // close only when focus leaves the whole group (keyboard access)
-                if (!e.currentTarget.contains(e.relatedTarget as Node)) setHovered(null);
-              }}
+              className="group/nav relative flex items-center gap-1 px-2 py-2 font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-steel transition-colors duration-(--duration-fast) hover:text-paper"
             >
-              <Link
-                href={group.href}
-                aria-current={pathname === group.href ? "page" : undefined}
-                className="group/nav relative flex items-center gap-1 px-2 py-2 font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-steel transition-colors duration-(--duration-fast) hover:text-paper"
-              >
-                {group.label}
-                <span aria-hidden className="text-[10px] text-signal">⌄</span>
-                <span
-                  aria-hidden
-                  className={`absolute inset-x-2 bottom-0 h-px origin-left bg-signal shadow-[0_0_12px_var(--color-signal)] transition-transform duration-(--duration-base) ease-(--ease-out-expo) ${
-                    pathname?.startsWith(group.href) || hovered === group.label
-                      ? "scale-x-100"
-                      : "scale-x-0 group-hover/nav:scale-x-100"
-                  }`}
-                />
-              </Link>
+              {group.label}
+              <span aria-hidden className="text-[10px] text-signal">⌄</span>
               <span
-                className={`absolute left-1/2 top-full w-[30rem] -translate-x-1/2 pt-3 transition-[opacity,transform] duration-(--duration-fast) ease-(--ease-out-expo) ${
-                  hovered === group.label
-                    ? "pointer-events-auto translate-y-0 opacity-100"
-                    : "pointer-events-none -translate-y-1 opacity-0"
+                aria-hidden
+                className={`absolute inset-x-2 bottom-0 h-px origin-left bg-signal shadow-[0_0_12px_var(--color-signal)] transition-transform duration-(--duration-base) ease-(--ease-out-expo) ${
+                  pathname?.startsWith(group.href) || hovered === group.label
+                    ? "scale-x-100"
+                    : "scale-x-0 group-hover/nav:scale-x-100"
                 }`}
-              >
-                <span className="grid grid-cols-[1fr_13rem] overflow-hidden border hairline bg-void/95 shadow-[0_24px_80px_rgba(0,0,0,0.36)] backdrop-blur-xl">
-                  <span className="block p-2">
+              />
+            </Link>
+          ))}
+        </div>
+
+        {/* morphing mega panel — one surface; content slides between
+            sections and the panel resizes to fit, Stripe-style */}
+        <div
+          className={`absolute inset-x-0 top-full hidden pt-3 lg:block ${
+            activeIdx >= 0 ? "pointer-events-auto" : "pointer-events-none"
+          }`}
+        >
+          <div
+            className={`mx-auto w-[36rem] transition-[opacity,transform] duration-(--duration-base) ease-(--ease-out-expo) ${
+              activeIdx >= 0 ? "translate-y-0 opacity-100" : "-translate-y-2 opacity-0"
+            }`}
+          >
+            <div
+              className="relative overflow-hidden rounded-[10px] border hairline bg-void/95 shadow-[0_24px_80px_rgba(0,0,0,0.4)] backdrop-blur-xl transition-[height] duration-(--duration-base) ease-(--ease-out-expo)"
+              style={{ height: panelH }}
+            >
+              {NAV_GROUPS.map((group, i) => (
+                <div
+                  key={group.label}
+                  ref={(el) => {
+                    contentRefs.current[i] = el;
+                  }}
+                  aria-hidden={i !== activeIdx}
+                  className={`absolute inset-x-0 top-0 grid grid-cols-[1fr_14rem] transition-[opacity,transform,visibility] duration-(--duration-base) ease-(--ease-out-expo) ${
+                    i === activeIdx
+                      ? "visible translate-x-0 opacity-100"
+                      : `invisible opacity-0 ${i < activeIdx ? "-translate-x-6" : "translate-x-6"}`
+                  }`}
+                >
+                  <div className="p-2.5">
                     {group.items.map((item) => (
                       <Link
                         key={`${group.label}-${item.label}`}
                         href={item.href}
+                        tabIndex={i === activeIdx ? 0 : -1}
                         className="group/item flex items-center justify-between px-3 py-2 text-(length:--text-body-sm) text-ice transition-colors duration-(--duration-fast) hover:bg-abyss/70 hover:text-paper"
                       >
                         {item.label}
                         <span aria-hidden className="text-steel opacity-0 transition-opacity duration-(--duration-fast) group-hover/item:text-signal group-hover/item:opacity-100">→</span>
                       </Link>
                     ))}
-                  </span>
+                  </div>
                   {NAV_VISUAL[group.label] ? (
-                    <Link href={group.href} className="group/visual relative block border-l hairline" tabIndex={-1} aria-hidden>
+                    <Link
+                      href={group.href}
+                      tabIndex={-1}
+                      aria-hidden
+                      className="group/visual relative block border-l hairline"
+                    >
                       <img
                         src={siteImage(NAV_VISUAL[group.label].slot).webpMob}
                         alt=""
@@ -159,10 +199,10 @@ export function Nav() {
                       </span>
                     </Link>
                   ) : null}
-                </span>
-              </span>
-            </span>
-          ))}
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
 
         <div className="relative z-50 flex items-center">
