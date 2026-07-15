@@ -2,7 +2,6 @@
 
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
-import Link from "next/link";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import type { SiteImage } from "@/lib/images";
@@ -163,25 +162,21 @@ export function Hero({ staticImage: _staticImage }: { staticImage: SiteImage }) 
               technology and consulting solutions to accelerate our clients
               businesses.
             </p>
-            <div className="hero-actions mt-10 flex flex-wrap items-center justify-center gap-x-8 gap-y-4">
-              <Link
-                href="/contact"
-                className="btn-sheen inline-flex min-h-11 items-center bg-cobalt px-6 font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-paper transition-colors duration-(--duration-fast) ease-(--ease-out-expo) hover:bg-signal hover:text-void"
+            <div className="hero-actions mt-10 flex items-center justify-center">
+              <button
+                type="button"
+                onClick={() => {
+                  const el = section.current;
+                  if (!el) return;
+                  const top = el.getBoundingClientRect().bottom + window.scrollY;
+                  // route through Lenis when it owns the scroll; native otherwise
+                  if (window.__lenis) window.__lenis.scrollTo(top, { duration: 1.2 });
+                  else window.scrollTo({ top, behavior: reduced ? "auto" : "smooth" });
+                }}
+                className="btn-sheen inline-flex min-h-11 cursor-pointer items-center bg-cobalt px-7 font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-paper transition-colors duration-(--duration-fast) ease-(--ease-out-expo) hover:bg-signal hover:text-void"
               >
-                Let&rsquo;s meet
-              </Link>
-              <Link
-                href="/services"
-                className="link-wipe font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-steel transition-colors duration-(--duration-fast) hover:text-glass"
-              >
-                Our services
-              </Link>
-              <Link
-                href="/solutions"
-                className="link-wipe font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-steel transition-colors duration-(--duration-fast) hover:text-glass"
-              >
-                Our solutions
-              </Link>
+                Learn more
+              </button>
             </div>
             {/* scroll cue, Palantir-style */}
             <div aria-hidden className="hero-cue mt-14 hidden text-ice/70 md:block">

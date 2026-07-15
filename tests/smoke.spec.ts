@@ -47,6 +47,15 @@ test("nav reaches every route", async ({ page }) => {
   await expect(page.getByRole("link", { name: /home/i }).first()).toBeVisible();
 });
 
+test("hero Learn more scrolls past the hero", async ({ page }) => {
+  await page.goto("/");
+  await page.getByRole("button", { name: "Learn more" }).click();
+  // Lenis eases over ~1.2s; give it room, then confirm real movement
+  await page.waitForTimeout(2000);
+  const y = await page.evaluate(() => window.scrollY);
+  expect(y).toBeGreaterThan(300);
+});
+
 test("contact form validates and reports errors accessibly", async ({ page }) => {
   await page.goto("/contact");
   await page.getByLabel("Name").fill("A");
