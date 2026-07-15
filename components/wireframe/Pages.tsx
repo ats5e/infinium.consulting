@@ -7,6 +7,7 @@ import { QBricksWord } from "@/components/QBricksWord";
 import { Reveal } from "@/components/motion/Reveal";
 import {
   CASE_STUDIES,
+  PERSPECTIVES,
   SERVICES,
   SECTORS,
   TECHNOLOGIES,
@@ -820,14 +821,7 @@ export function InsightsWirePage() {
     { headline: "A digital platform in 8 weeks", quote: "Our alternatives investment process was digitised in less than 3 months, creating an end-to-end deal platform we now show to our clients.", who: "CTO", org: "Leading PE firm" },
     { headline: "A 5-year strategy in 3 months", quote: "The specialist team hit the ground running and delivered our 5-year technology strategy in less than 3 months.", who: "Group CIO", org: "Leading digital insurer" },
   ];
-  const posts = [
-    ["Insurance & tech", "The agentic bank: insights from Banking Transformation Summit 2026"],
-    ["Insurance & tech", "From AI pilots to production: agentic AI in FS and insurance"],
-    ["Digital & automation", "Transaction reporting transparency: steps to eradicating the black box"],
-    ["Digital & automation", "Is your business ready for agentic AI?"],
-    ["Data", "Integrating CDD controls into transaction monitoring with Quantexa"],
-    ["Data", "Bridging the gaps to self-sufficiency in Quantexa deployments"],
-  ];
+  const posts = PERSPECTIVES;
   return (
     <>
       <HeroSection

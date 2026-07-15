@@ -36,13 +36,15 @@ for (const [path, h1] of ROUTES) {
   });
 }
 
-test("nav reaches every route", async ({ page, isMobile }) => {
+test("nav reaches every route", async ({ page }) => {
   await page.goto("/");
-  // the hamburger only exists below lg; desktop shows the groups inline
-  if (isMobile) await page.getByRole("button", { name: /open menu/i }).click();
-  for (const label of ["Home", "Services", "Solutions", "Sectors", "Technologies", "Insights", "About"]) {
+  // the takeover menu is the primary navigation on every viewport
+  await page.getByRole("button", { name: /open menu/i }).click();
+  for (const label of ["QBricks", "VBricks", "Services", "Sectors", "Technologies", "Case studies", "About", "Careers", "Contact"]) {
     await expect(page.getByRole("link", { name: label, exact: true }).first()).toBeVisible();
   }
+  // home stays reachable through the wordmark
+  await expect(page.getByRole("link", { name: /home/i }).first()).toBeVisible();
 });
 
 test("contact form validates and reports errors accessibly", async ({ page }) => {

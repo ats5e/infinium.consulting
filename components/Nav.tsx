@@ -2,42 +2,93 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Lockup } from "@/components/Lockup";
-import { NAV_GROUPS } from "@/lib/content";
-import { siteImage } from "@/lib/images";
+import { CASE_STUDIES, PERSPECTIVES } from "@/lib/content";
 
-/* one glass render per group — the dropdown's visual anchor */
-const NAV_VISUAL: Record<string, { slot: Parameters<typeof siteImage>[0]; caption: string }> = {
-  Services: { slot: "data-engineering", caption: "Strategy to production, engineered" },
-  Solutions: { slot: "qbricks", caption: "QBricks & VBricks, disruptive by design" },
-  Sectors: { slot: "about-difc", caption: "Regulated finance, across markets" },
-  Technologies: { slot: "data-science", caption: "Best-in-class platform partners" },
-  Insights: { slot: "governance", caption: "How we have helped our clients" },
-  About: { slot: "careers", caption: "Practitioners, from two hubs" },
-};
+/*
+ * Palantir-pattern navigation: an ultra-minimal flush top bar whose only
+ * navigation control is the menu toggle, and a full-screen takeover menu.
+ * The takeover runs three editorial columns — NAVIGATION (products with
+ * return-arrows, then section pages), LATEST PERSPECTIVES with quick
+ * links, and the LATEST CASE STUDY tile. Rows stagger-rise on open;
+ * Escape or any route change closes.
+ */
 
-const MOBILE_LINKS = [
-  { href: "/", label: "Home" },
-  ...NAV_GROUPS.flatMap((group) => [
-    { href: group.href, label: group.label },
-    ...group.items,
-  ]),
-  { href: "/contact", label: "Start a conversation" },
+const PRODUCTS = [
+  { label: "QBricks", href: "/solutions" },
+  { label: "VBricks", href: "/solutions" },
 ];
+
+const SECTIONS = [
+  { label: "Services", href: "/services" },
+  { label: "Sectors", href: "/sectors" },
+  { label: "Technologies", href: "/technologies" },
+  { label: "Case studies", href: "/insights" },
+  { label: "About", href: "/about" },
+  { label: "Careers", href: "/careers" },
+];
+
+const QUICK_LINKS = [
+  { label: "Our solutions", href: "/solutions" },
+  { label: "AI assessment", href: "/solutions/ai-assessment" },
+  { label: "Quantexa maturity assessment", href: "/solutions/quantexa-maturity-assessment" },
+  { label: "Industry events", href: "/about/industry-events" },
+  { label: "Your career", href: "/careers" },
+  { label: "Contact", href: "/contact" },
+];
+
+/* small uppercase column heading with an optional jump link, Palantir-style */
+function ColumnHead({
+  label,
+  linkLabel,
+  href,
+  open,
+  tabbable,
+}: {
+  label: string;
+  linkLabel?: string;
+  href?: string;
+  open: boolean;
+  tabbable: boolean;
+}) {
+  return (
+    <div>
+      <div
+        className={`h-px origin-left bg-ice/25 transition-transform duration-(--duration-slow) ease-(--ease-out-expo) ${
+          open ? "scale-x-100" : "scale-x-0"
+        }`}
+        style={{ transitionDelay: open ? "160ms" : "0ms" }}
+      />
+      <div className="flex items-baseline justify-between pt-4">
+        <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-steel">{label}</p>
+        {href && linkLabel ? (
+          <Link
+            href={href}
+            tabIndex={tabbable ? 0 : -1}
+            className="group/head text-[11px] font-medium uppercase tracking-[0.14em] text-glass underline decoration-ice/40 underline-offset-4 transition-colors duration-(--duration-fast) hover:text-signal"
+          >
+            {linkLabel}{" "}
+            <span aria-hidden className="inline-block transition-transform duration-(--duration-fast) group-hover/head:-translate-y-px group-hover/head:translate-x-px">
+              ↗
+            </span>
+          </Link>
+        ) : null}
+      </div>
+    </div>
+  );
+}
 
 export function Nav() {
   const [scrolled, setScrolled] = useState(false);
-  const [progress, setProgress] = useState(0);
   const [open, setOpen] = useState(false);
-  const [hovered, setHovered] = useState<string | null>(null);
-  const [panelH, setPanelH] = useState(220);
-  const contentRefs = useRef<Array<HTMLDivElement | null>>([]);
-  const activeIdx = hovered ? NAV_GROUPS.findIndex((g) => g.label === hovered) : -1;
+  const toggle = useRef<HTMLButtonElement>(null);
   const pathname = usePathname();
   const [lastPath, setLastPath] = useState(pathname);
+  const study = CASE_STUDIES[0];
+  const studyImage = study.image();
 
-  // Close the mobile menu on navigation. Adjusting state during render (the
+  // Close the menu on navigation. Adjusting state during render (the
   // React-recommended pattern) instead of an effect avoids a cascading
   // re-render on every route change.
   if (pathname !== lastPath) {
@@ -46,22 +97,11 @@ export function Nav() {
   }
 
   useEffect(() => {
-    const onScroll = () => {
-      setScrolled(window.scrollY > 8);
-      const scrollable = document.documentElement.scrollHeight - window.innerHeight;
-      setProgress(scrollable > 0 ? Math.min(1, window.scrollY / scrollable) : 0);
-    };
+    const onScroll = () => setScrolled(window.scrollY > 8);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
-
-  useLayoutEffect(() => {
-    if (activeIdx >= 0) {
-      const el = contentRefs.current[activeIdx];
-      if (el) setPanelH(el.offsetHeight);
-    }
-  }, [activeIdx]);
 
   useEffect(() => {
     document.documentElement.style.overflow = open ? "hidden" : "";
@@ -70,207 +110,183 @@ export function Nav() {
     };
   }, [open]);
 
+  const close = () => {
+    setOpen(false);
+    toggle.current?.focus();
+  };
+
   return (
-    <header className="pointer-events-none fixed inset-x-0 top-0 z-50">
+    <header
+      className="fixed inset-x-0 top-0 z-50"
+      onKeyDown={(e) => {
+        if (e.key === "Escape" && open) close();
+      }}
+    >
       <nav
         aria-label="Primary"
-        onMouseLeave={() => setHovered(null)}
-        onBlur={(e) => {
-          if (!e.currentTarget.contains(e.relatedTarget as Node)) setHovered(null);
-        }}
-        onKeyDown={(e) => {
-          if (e.key === "Escape") setHovered(null);
-        }}
-        className={`pointer-events-auto relative z-50 mx-auto mt-4 flex h-[70px] w-[calc(100%-1rem)] max-w-[1124px] items-center justify-between rounded-[10px] border border-paper/5 px-5 shadow-[0_24px_80px_rgba(0,0,0,0.36)] backdrop-blur-xl transition-[background,border-color,transform] duration-(--duration-base) ease-(--ease-out-expo) md:px-6 ${
-          scrolled || open ? "bg-[#1f2225]/92" : "bg-[#1f2225]/78"
+        className={`relative z-50 flex h-14 items-center justify-between border-b px-(--spacing-gutter) transition-colors duration-(--duration-base) ${
+          open
+            ? "border-transparent bg-transparent"
+            : scrolled
+              ? "hairline bg-void/85 backdrop-blur-md"
+              : "border-transparent bg-gradient-to-b from-void/70 to-transparent"
         }`}
       >
-        <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden rounded-[10px]">
-          <div
-            className="absolute inset-x-0 bottom-0 h-px origin-left bg-gradient-to-r from-cobalt via-signal to-transparent shadow-[0_0_20px_var(--color-signal)] transition-transform duration-(--duration-fast)"
-            style={{ transform: `scaleX(${progress})` }}
-          />
-        </div>
-        <div className="relative z-50 flex min-w-0 items-center gap-3">
+        <div className="flex min-w-0 items-center gap-3">
           <Link href="/" aria-label="Infinium Technology — home" className="shrink-0">
-            <Lockup className="h-7" />
+            <Lockup className="h-6" />
           </Link>
+          <span aria-hidden className="hidden items-baseline gap-3 text-[11px] font-medium uppercase tracking-[0.14em] text-steel sm:flex">
+            <span className="text-ice/40">/</span> Amsterdam · DIFC Dubai
+          </span>
         </div>
 
-        <div className="relative z-50 hidden items-center gap-1 lg:flex">
-          <Link
-            href="/"
-            aria-current={pathname === "/" ? "page" : undefined}
-            className="group/nav relative px-2 py-2 font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-steel transition-colors duration-(--duration-fast) hover:text-paper"
-          >
-            Home
-            <span
-              aria-hidden
-              className={`absolute inset-x-2 bottom-0 h-px origin-left bg-signal shadow-[0_0_12px_var(--color-signal)] transition-transform duration-(--duration-base) ease-(--ease-out-expo) ${
-                pathname === "/" ? "scale-x-100" : "scale-x-0 group-hover/nav:scale-x-100"
-              }`}
-            />
-          </Link>
-          {NAV_GROUPS.map((group) => (
-            <Link
-              key={group.label}
-              href={group.href}
-              aria-current={pathname === group.href ? "page" : undefined}
-              aria-expanded={hovered === group.label}
-              onMouseEnter={() => setHovered(group.label)}
-              onFocus={() => setHovered(group.label)}
-              className="group/nav relative flex items-center gap-1 px-2 py-2 font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-steel transition-colors duration-(--duration-fast) hover:text-paper"
-            >
-              {group.label}
-              <span aria-hidden className="text-[10px] text-signal">⌄</span>
-              <span
-                aria-hidden
-                className={`absolute inset-x-2 bottom-0 h-px origin-left bg-signal shadow-[0_0_12px_var(--color-signal)] transition-transform duration-(--duration-base) ease-(--ease-out-expo) ${
-                  pathname?.startsWith(group.href) || hovered === group.label
-                    ? "scale-x-100"
-                    : "scale-x-0 group-hover/nav:scale-x-100"
-                }`}
-              />
-            </Link>
-          ))}
-        </div>
-
-        {/* morphing mega panel — one surface; content slides between
-            sections and the panel resizes to fit, Stripe-style */}
-        <div
-          className={`absolute inset-x-0 top-full hidden pt-3 lg:block ${
-            activeIdx >= 0 ? "pointer-events-auto" : "pointer-events-none"
-          }`}
-        >
-          <div
-            className={`mx-auto w-[36rem] transition-[opacity,transform] duration-(--duration-base) ease-(--ease-out-expo) ${
-              activeIdx >= 0 ? "translate-y-0 opacity-100" : "-translate-y-2 opacity-0"
-            }`}
-          >
-            <div
-              className="relative overflow-hidden rounded-[10px] border hairline bg-void/95 shadow-[0_24px_80px_rgba(0,0,0,0.4)] backdrop-blur-xl transition-[height] duration-(--duration-base) ease-(--ease-out-expo)"
-              style={{ height: panelH }}
-            >
-              {NAV_GROUPS.map((group, i) => (
-                <div
-                  key={group.label}
-                  ref={(el) => {
-                    contentRefs.current[i] = el;
-                  }}
-                  aria-hidden={i !== activeIdx}
-                  className={`absolute inset-x-0 top-0 grid grid-cols-[1fr_14rem] transition-[opacity,transform,visibility] duration-(--duration-base) ease-(--ease-out-expo) ${
-                    i === activeIdx
-                      ? "visible translate-x-0 opacity-100"
-                      : `invisible opacity-0 ${i < activeIdx ? "-translate-x-6" : "translate-x-6"}`
-                  }`}
-                >
-                  <div className="p-2.5">
-                    {group.items.map((item) => (
-                      <Link
-                        key={`${group.label}-${item.label}`}
-                        href={item.href}
-                        tabIndex={i === activeIdx ? 0 : -1}
-                        className="group/item flex items-center justify-between px-3 py-2 text-(length:--text-body-sm) text-ice transition-colors duration-(--duration-fast) hover:bg-abyss/70 hover:text-paper"
-                      >
-                        {item.label}
-                        <span aria-hidden className="text-steel opacity-0 transition-opacity duration-(--duration-fast) group-hover/item:text-signal group-hover/item:opacity-100">→</span>
-                      </Link>
-                    ))}
-                  </div>
-                  {NAV_VISUAL[group.label] ? (
-                    <Link
-                      href={group.href}
-                      tabIndex={-1}
-                      aria-hidden
-                      className="group/visual relative block border-l hairline"
-                    >
-                      <img
-                        src={siteImage(NAV_VISUAL[group.label].slot).webpMob}
-                        alt=""
-                        loading="lazy"
-                        decoding="async"
-                        className="absolute inset-0 h-full w-full object-cover opacity-80 transition-[opacity,transform] duration-(--duration-slow) ease-(--ease-out-expo) group-hover/visual:scale-[1.04] group-hover/visual:opacity-100"
-                        style={{ backgroundImage: `url(${siteImage(NAV_VISUAL[group.label].slot).lqip})`, backgroundSize: "cover" }}
-                      />
-                      <span aria-hidden className="absolute inset-0 bg-gradient-to-t from-void/90 via-void/30 to-transparent" />
-                      <span className="relative flex h-full min-h-44 flex-col justify-end p-4">
-                        <span className="font-mono text-[10px] uppercase tracking-[0.08em] text-glass">{NAV_VISUAL[group.label].caption}</span>
-                        <span className="mt-2 font-mono text-[10px] uppercase tracking-[0.08em] text-signal">Explore →</span>
-                      </span>
-                    </Link>
-                  ) : null}
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        <div className="relative z-50 flex items-center">
+        <div className="flex items-center gap-2">
           <Link
             href="/contact"
-            className="btn-sheen hidden min-h-10 items-center border border-paper/70 px-4 font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-paper transition-colors hover:border-signal hover:bg-signal hover:text-void lg:inline-flex"
+            className="hidden px-3 py-2 text-[11px] font-medium uppercase tracking-[0.14em] text-ice transition-colors duration-(--duration-fast) hover:text-signal sm:block"
           >
-            Start a conversation
+            Let&rsquo;s meet
           </Link>
           <button
+            ref={toggle}
             type="button"
             aria-expanded={open}
-            aria-controls="mobile-menu"
+            aria-controls="site-menu"
             onClick={() => setOpen((v) => !v)}
-            className="grid size-10 place-items-center border border-paper/70 text-paper transition-colors hover:border-signal hover:bg-signal hover:text-void lg:hidden"
+            className={`grid size-10 place-items-center border transition-colors duration-(--duration-fast) ${
+              open
+                ? "border-paper/80 text-paper hover:border-signal hover:text-signal"
+                : "border-paper/35 text-paper hover:border-paper/80"
+            }`}
           >
             <span className="sr-only">{open ? "Close menu" : "Open menu"}</span>
-            <span aria-hidden className="relative block h-4 w-6">
+            <span aria-hidden className="relative block h-4 w-5">
               <span
-                className={`absolute left-0 top-[3px] h-px w-full bg-current transition-transform duration-(--duration-base) ease-(--ease-out-expo) ${open ? "translate-y-[5px] rotate-45" : ""}`}
+                className={`absolute left-0 top-[3px] h-px w-full bg-current transition-transform duration-(--duration-base) ease-(--ease-out-expo) ${
+                  open ? "translate-y-[5px] rotate-45" : ""
+                }`}
               />
               <span
-                className={`absolute bottom-[3px] left-0 h-px w-full bg-current transition-transform duration-(--duration-base) ease-(--ease-out-expo) ${open ? "-translate-y-[5px] -rotate-45" : ""}`}
+                className={`absolute left-0 top-1/2 h-px w-full bg-current transition-opacity duration-(--duration-fast) ${
+                  open ? "opacity-0" : "opacity-100"
+                }`}
+              />
+              <span
+                className={`absolute bottom-[3px] left-0 h-px w-full bg-current transition-transform duration-(--duration-base) ease-(--ease-out-expo) ${
+                  open ? "-translate-y-[5px] -rotate-45" : ""
+                }`}
               />
             </span>
           </button>
         </div>
       </nav>
 
+      {/* full-screen takeover */}
       <div
-        id="mobile-menu"
+        id="site-menu"
         aria-hidden={!open}
-        className={`pointer-events-auto fixed inset-0 z-40 bg-void/98 pt-36 backdrop-blur-xl transition-[clip-path] duration-(--duration-slow) ease-(--ease-out-expo) ${
+        data-lenis-prevent
+        className={`fixed inset-0 z-40 overflow-y-auto bg-void transition-[clip-path] duration-(--duration-slow) ease-(--ease-out-expo) ${
           open ? "[clip-path:inset(0_0_0%_0)]" : "pointer-events-none [clip-path:inset(0_0_100%_0)]"
         }`}
       >
-        <div aria-hidden className="absolute inset-0 bg-[radial-gradient(circle_at_74%_24%,rgba(115,168,251,0.16),transparent_30rem)]" />
-        <div className="relative mx-auto grid max-w-(--container-content) gap-12 px-(--spacing-gutter) lg:grid-cols-12">
-          <div className="lg:col-span-8">
-            <ul className="divide-y divide-ice/12 border-y hairline">
-              {MOBILE_LINKS.map(({ href, label }, i) => (
-                <li key={`${href}-${label}`} className="overflow-hidden">
-                  <Link
-                    href={href}
-                    tabIndex={open ? 0 : -1}
-                    aria-current={pathname === href ? "page" : undefined}
-                    className={`group flex items-center justify-between py-5 font-display text-(length:--text-step-3) font-medium text-paper transition-[transform,opacity,color] duration-(--duration-slow) ease-(--ease-out-expo) hover:text-signal ${
-                      open ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
-                    }`}
-                    style={{ transitionDelay: open ? `${120 + i * 55}ms` : "0ms" }}
-                  >
-                    {label}
-                    <span aria-hidden className="text-steel transition-transform group-hover:translate-x-1 group-hover:text-signal">↘</span>
-                  </Link>
-                </li>
-              ))}
+        <div aria-hidden className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_80%_10%,rgba(54,94,238,0.14),transparent_36rem)]" />
+        <div className="relative mx-auto grid max-w-(--container-content) gap-x-14 gap-y-14 px-(--spacing-gutter) pb-20 pt-28 lg:grid-cols-12">
+          {/* NAVIGATION — products first, with the return-arrow prefix */}
+          <div className="lg:col-span-5">
+            <ColumnHead label="Navigation" open={open} tabbable={open} />
+            <ul className="mt-4">
+              {[...PRODUCTS.map((l) => ({ ...l, product: true })), ...SECTIONS.map((l) => ({ ...l, product: false }))].map(
+                ({ label, href, product }, i) => (
+                  <li key={`${label}-${href}`} className="overflow-hidden">
+                    <Link
+                      href={href}
+                      tabIndex={open ? 0 : -1}
+                      aria-current={pathname === href ? "page" : undefined}
+                      className={`group flex items-baseline gap-4 py-2.5 font-display text-[clamp(1.75rem,3.2vw,2.5rem)] font-medium leading-tight tracking-[-0.02em] text-paper transition-[transform,opacity,color] duration-(--duration-slow) ease-(--ease-out-expo) hover:text-signal ${
+                        open ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
+                      }`}
+                      style={{ transitionDelay: open ? `${140 + i * 45}ms` : "0ms" }}
+                    >
+                      {product ? (
+                        <span aria-hidden className="text-[0.7em] text-signal transition-transform duration-(--duration-fast) group-hover:translate-x-1">
+                          ↳
+                        </span>
+                      ) : null}
+                      {label}
+                      <span
+                        aria-hidden
+                        className="ml-auto -translate-x-2 text-[0.55em] text-steel opacity-0 transition-[transform,opacity] duration-(--duration-fast) group-hover:translate-x-0 group-hover:text-signal group-hover:opacity-100"
+                      >
+                        →
+                      </span>
+                    </Link>
+                  </li>
+                ),
+              )}
             </ul>
           </div>
-          <div className="lg:col-span-4">
-            <Link
-              href="/contact"
-              tabIndex={open ? 0 : -1}
-              className={`btn-sheen inline-flex min-h-11 items-center border border-signal px-6 font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-paper transition-[opacity,background,color] duration-(--duration-slow) hover:bg-signal hover:text-void ${
-                open ? "opacity-100" : "opacity-0"
-              }`}
-              style={{ transitionDelay: open ? "460ms" : "0ms" }}
-            >
-              Start a conversation
+
+          {/* LATEST PERSPECTIVES + QUICK LINKS */}
+          <div
+            className={`transition-opacity duration-(--duration-slow) lg:col-span-4 ${open ? "opacity-100" : "opacity-0"}`}
+            style={{ transitionDelay: open ? "260ms" : "0ms" }}
+          >
+            <div className="hidden md:block">
+              <ColumnHead label="Latest perspectives" linkLabel="All insights" href="/insights" open={open} tabbable={open} />
+              <div className="mt-6 grid gap-8 sm:grid-cols-2">
+                {PERSPECTIVES.slice(0, 2).map(([tag, title]) => (
+                  <Link key={title} href="/insights" tabIndex={open ? 0 : -1} className="group block">
+                    <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-steel">{tag}</p>
+                    <p className="mt-3 text-(length:--text-body) leading-snug text-ice transition-colors duration-(--duration-fast) group-hover:text-paper">
+                      {title}
+                    </p>
+                  </Link>
+                ))}
+              </div>
+            </div>
+            <div className="md:mt-12">
+              <ColumnHead label="Quick links" open={open} tabbable={open} />
+              <ul className="mt-4 space-y-2.5">
+                {QUICK_LINKS.map(({ label, href }) => (
+                  <li key={`${label}-${href}`}>
+                    <Link
+                      href={href}
+                      tabIndex={open ? 0 : -1}
+                      className="link-wipe text-(length:--text-body-sm) text-ice transition-colors duration-(--duration-fast) hover:text-paper"
+                    >
+                      {label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+
+          {/* LATEST CASE STUDY */}
+          <div
+            className={`hidden transition-opacity duration-(--duration-slow) md:block lg:col-span-3 ${open ? "opacity-100" : "opacity-0"}`}
+            style={{ transitionDelay: open ? "340ms" : "0ms" }}
+          >
+            <ColumnHead label="Latest case study" linkLabel="View all" href="/insights" open={open} tabbable={open} />
+            <Link href={`/insights/${study.slug}`} tabIndex={open ? 0 : -1} className="group mt-6 block">
+              <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-steel">
+                Case study <span className="text-ice/40">//</span> {study.sector}
+              </p>
+              <span className="relative mt-3 block aspect-[16/10] overflow-hidden border hairline">
+                <img
+                  src={studyImage.webpMob}
+                  alt=""
+                  loading="lazy"
+                  decoding="async"
+                  className="absolute inset-0 h-full w-full object-cover opacity-85 transition-[transform,opacity] duration-(--duration-slow) ease-(--ease-out-expo) group-hover:scale-[1.04] group-hover:opacity-100"
+                  style={{ backgroundImage: `url(${studyImage.lqip})`, backgroundSize: "cover" }}
+                />
+              </span>
+              <p className="mt-4 text-(length:--text-body) leading-snug text-ice transition-colors duration-(--duration-fast) group-hover:text-paper">
+                {study.summary}
+              </p>
             </Link>
           </div>
         </div>

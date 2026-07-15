@@ -443,6 +443,16 @@ export function caseStudy(slug: string): CaseStudy | undefined {
 
 /* ---- Global chrome ----------------------------------------------------- */
 
+/* wireframe copy — News & perspectives headlines (tag, title) */
+export const PERSPECTIVES: Array<[tag: string, title: string]> = [
+  ["Insurance & tech", "The agentic bank: insights from Banking Transformation Summit 2026"],
+  ["Insurance & tech", "From AI pilots to production: agentic AI in FS and insurance"],
+  ["Digital & automation", "Transaction reporting transparency: steps to eradicating the black box"],
+  ["Digital & automation", "Is your business ready for agentic AI?"],
+  ["Data", "Integrating CDD controls into transaction monitoring with Quantexa"],
+  ["Data", "Bridging the gaps to self-sufficiency in Quantexa deployments"],
+];
+
 export const NAV_GROUPS: NavGroup[] = [
   {
     label: "Services",

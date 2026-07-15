@@ -16,13 +16,6 @@ export const geist = localFont({
   display: "swap",
 });
 
-export const clashDisplay = localFont({
-  src: "./fonts/clashdisplay-var.woff2",
-  weight: "200 700",
-  variable: "--font-clash-display",
-  display: "swap",
-});
-
 export const quicksandBrand = localFont({
   src: "./fonts/quicksand-brand.woff2",
   weight: "300 700",

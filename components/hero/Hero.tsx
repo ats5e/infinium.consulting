@@ -136,13 +136,13 @@ export function Hero({ staticImage: _staticImage }: { staticImage: SiteImage }) 
         {/* content, lower-left */}
         <div className="relative z-10 mx-auto flex w-full max-w-(--container-content) flex-1 flex-col justify-end px-(--spacing-gutter) pb-10 pt-32 md:pb-12">
           <div ref={copy} className="max-w-3xl">
-            <h1 className="font-display text-[clamp(3.5rem,9vw,8.75rem)] font-semibold leading-[0.92] tracking-[-0.015em] -ml-[0.04em] text-paper [text-shadow:0_2px_60px_rgba(115,168,251,0.18)]">
+            <h1 className="font-display text-[clamp(3.25rem,8vw,7.5rem)] font-extrabold leading-[0.9] tracking-[-0.045em] -ml-[0.05em] text-paper [text-shadow:0_2px_60px_rgba(115,168,251,0.18)]">
               <span className="block leading-[0.9]">
                 <span className="hero-word inline-block will-change-transform">Engineering{" "}</span>
               </span>
               <span className="block leading-[0.9]">
                 <span className="hero-word inline-block will-change-transform">
-                  with <span className="shimmer-text">context.</span>
+                  with <span className="text-signal">context.</span>
                 </span>
               </span>
             </h1>
