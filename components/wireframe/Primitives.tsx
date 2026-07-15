@@ -6,7 +6,7 @@ export function PrimaryLink({ href, children }: { href: string; children: React.
   return (
     <Link
       href={href}
-      className="inline-flex min-h-11 items-center bg-cobalt px-6 font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-paper transition-colors duration-(--duration-fast) ease-(--ease-out-expo) hover:bg-signal hover:text-void"
+      className="btn-sheen inline-flex min-h-11 items-center bg-cobalt px-6 font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-paper transition-colors duration-(--duration-fast) ease-(--ease-out-expo) hover:bg-signal hover:text-void"
     >
       {children}
     </Link>
@@ -97,7 +97,7 @@ export function StatGrid({
   return (
     <Reveal className={`grid gap-px ${colClass} ${className}`}>
       {stats.map((stat) => (
-        <div key={`${stat.value}-${stat.label}`} className="border hairline bg-abyss/35 p-6 backdrop-blur-sm">
+        <div key={`${stat.value}-${stat.label}`} className="spot border hairline bg-abyss/35 p-6 backdrop-blur-sm">
           <p className="font-display text-(length:--text-step-3) font-medium text-paper">{stat.value}</p>
           <p className="eyebrow mt-3">{stat.label}</p>
         </div>
@@ -149,7 +149,7 @@ export function NumberedCards({
   return (
     <Reveal className={`grid gap-px ${colClass}`}>
       {items.map((item, i) => (
-        <article key={`${item.num ?? i}-${item.title}`} className="group relative border hairline bg-abyss/25 p-7 transition-[border-color,transform,background] duration-(--duration-base) ease-(--ease-out-expo) hover:-translate-y-1 hover:border-signal/60 hover:bg-abyss/50">
+        <article key={`${item.num ?? i}-${item.title}`} className="spot group relative overflow-hidden border hairline bg-abyss/25 p-7 transition-[border-color,transform,background] duration-(--duration-base) ease-(--ease-out-expo) hover:-translate-y-1 hover:border-signal/60 hover:bg-abyss/50">
           <span aria-hidden className="absolute inset-x-0 top-0 h-px origin-left scale-x-0 bg-signal shadow-[0_0_20px_var(--color-signal)] transition-transform duration-(--duration-base) group-hover:scale-x-100" />
           <p className="font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-signal">{item.num ?? `0${i + 1}`}</p>
           <h3 className="mt-6 text-(length:--text-step-1) leading-tight">{item.title}</h3>
@@ -179,7 +179,7 @@ export function CardGrid({
             {item.cta ? <p className="mt-6 font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-signal">{item.cta}</p> : null}
           </>
         );
-        const cls = "group block h-full border hairline bg-abyss/25 p-7 transition-[border-color,transform,background] duration-(--duration-base) ease-(--ease-out-expo) hover:-translate-y-1 hover:border-signal/60 hover:bg-abyss/50";
+        const cls = "spot group block h-full overflow-hidden border hairline bg-abyss/25 p-7 transition-[border-color,transform,background] duration-(--duration-base) ease-(--ease-out-expo) hover:-translate-y-1 hover:border-signal/60 hover:bg-abyss/50";
         return item.href ? (
           <Link key={item.title} href={item.href} className={cls}>
             {inner}
@@ -226,7 +226,7 @@ export function CaseStudyCard({ c }: { c: CaseStudy }) {
   return (
     <Link
       href={`/insights/${c.slug}`}
-      className="group block overflow-hidden border hairline bg-abyss/25 transition-[border-color,transform,background] duration-(--duration-base) ease-(--ease-out-expo) hover:-translate-y-1 hover:border-signal/60 hover:bg-abyss/50"
+      className="spot group block overflow-hidden border hairline bg-abyss/25 transition-[border-color,transform,background] duration-(--duration-base) ease-(--ease-out-expo) hover:-translate-y-1 hover:border-signal/60 hover:bg-abyss/50"
     >
       <picture aria-hidden className="block aspect-[16/9] overflow-hidden">
         <source

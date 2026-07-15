@@ -168,7 +168,7 @@ export function Nav() {
         <div className="relative z-50 flex items-center">
           <Link
             href="/contact"
-            className="hidden min-h-10 items-center border border-paper/70 px-4 font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-paper transition-colors hover:border-signal hover:bg-signal hover:text-void lg:inline-flex"
+            className="btn-sheen hidden min-h-10 items-center border border-paper/70 px-4 font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-paper transition-colors hover:border-signal hover:bg-signal hover:text-void lg:inline-flex"
           >
             Start a conversation
           </Link>
@@ -225,7 +225,7 @@ export function Nav() {
             <Link
               href="/contact"
               tabIndex={open ? 0 : -1}
-              className={`inline-flex min-h-11 items-center border border-signal px-6 font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-paper transition-[opacity,background,color] duration-(--duration-slow) hover:bg-signal hover:text-void ${
+              className={`btn-sheen inline-flex min-h-11 items-center border border-signal px-6 font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-paper transition-[opacity,background,color] duration-(--duration-slow) hover:bg-signal hover:text-void ${
                 open ? "opacity-100" : "opacity-0"
               }`}
               style={{ transitionDelay: open ? "460ms" : "0ms" }}

@@ -77,6 +77,55 @@
   .marquee-track { animation: none; }
 }
 
+
+/* cursor spotlight — cards carrying .spot get a light-follow highlight;
+ * components/motion/Spotlight.tsx feeds the coordinates */
+.spot { position: relative; }
+.spot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    260px circle at var(--spot-x, 50%) var(--spot-y, 50%),
+    rgba(115, 168, 251, 0.13),
+    transparent 65%
+  );
+  transition: opacity var(--duration-base) var(--ease-out-expo);
+}
+.spot:hover::after { opacity: 1; }
+
+/* CTA sheen — a band of light sweeps the button once on hover */
+.btn-sheen { position: relative; overflow: hidden; }
+.btn-sheen::before {
+  content: "";
+  position: absolute;
+  top: -40%;
+  bottom: -40%;
+  left: 0;
+  width: 45%;
+  background: linear-gradient(105deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transform: translateX(-180%) skewX(-18deg);
+  transition: transform 700ms var(--ease-out-expo);
+  pointer-events: none;
+}
+.btn-sheen:hover::before { transform: translateX(340%) skewX(-18deg); }
+@media (prefers-reduced-motion: reduce) {
+  .btn-sheen::before { display: none; }
+}
+
+/* kinetic type — huge outlined display words on a slow drift */
+.kinetic-type {
+  -webkit-text-stroke: 1px rgba(154, 199, 248, 0.38);
+  color: transparent;
+}
+.marquee-slow { animation: marquee 70s linear infinite; }
+.marquee-slow:hover { animation-play-state: paused; }
+@media (prefers-reduced-motion: reduce) {
+  .marquee-slow { animation: none; }
+}
+
 /* hairline — the single most characteristic structural move */
 @utility hairline {
   border-color: --alpha(var(--color-ice) / 12%);

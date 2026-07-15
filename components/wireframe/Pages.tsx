@@ -137,7 +137,7 @@ export function HomeWirePage() {
             <Link
               key={item.title}
               href={item.href}
-              className="group relative block overflow-hidden border hairline transition-[border-color] duration-(--duration-base) ease-(--ease-out-expo) hover:border-signal/60"
+              className="spot group relative block overflow-hidden border hairline transition-[border-color] duration-(--duration-base) ease-(--ease-out-expo) hover:border-signal/60"
             >
               <picture aria-hidden className="absolute inset-0">
                 <source
@@ -187,6 +187,24 @@ export function HomeWirePage() {
           {CASE_STUDIES.slice(0, 6).map((c) => <CaseStudyCard key={c.slug} c={c} />)}
         </div>
       </ContentSection>
+
+      {/* kinetic type — the service spine, outlined and drifting */}
+      <section aria-hidden className="overflow-hidden border-y hairline py-8">
+        <div className="marquee-slow flex w-max items-center gap-16">
+          {[0, 1].map((copyIdx) => (
+            <div key={copyIdx} className="flex shrink-0 items-center gap-16">
+              {SERVICES.map((svc) => (
+                <span
+                  key={`${copyIdx}-${svc.slug}`}
+                  className="kinetic-type whitespace-nowrap font-display text-[clamp(3rem,7vw,6.5rem)] font-extrabold uppercase leading-none tracking-[-0.02em]"
+                >
+                  {svc.title}
+                </span>
+              ))}
+            </div>
+          ))}
+        </div>
+      </section>
 
       <ContentSection>
         <SectionIntro eyebrow="Why Infinium" title="Five reasons to work with us" />
@@ -324,7 +342,7 @@ export function ServicesWirePage() {
               <Link
                 key={service.slug}
                 href={`/services/${service.slug}`}
-                className="group relative block overflow-hidden border hairline transition-[border-color] duration-(--duration-base) ease-(--ease-out-expo) hover:border-signal/60"
+                className="spot group relative block overflow-hidden border hairline transition-[border-color] duration-(--duration-base) ease-(--ease-out-expo) hover:border-signal/60"
               >
                 <picture aria-hidden className="absolute inset-0">
                   <source
@@ -405,7 +423,7 @@ export function SolutionsWirePage() {
       />
       <ContentSection>
         <div className="grid gap-px lg:grid-cols-2">
-          <article className="overflow-hidden border hairline bg-abyss/25">
+          <article className="spot overflow-hidden border hairline bg-abyss/25">
             <div className="border-b hairline"><GlassImage image={siteImage("qbricks")} alt="QBricks — governed data products" sizes="(min-width: 1024px) 45vw, 66vw" priority /></div>
             <div className="p-8">
             <p className="eyebrow text-signal">Solution</p>
@@ -420,7 +438,7 @@ export function SolutionsWirePage() {
             </div>
             </div>
           </article>
-          <article className="overflow-hidden border hairline bg-abyss/25">
+          <article className="spot overflow-hidden border hairline bg-abyss/25">
             <div className="border-b hairline"><GlassImage image={siteImage("tbricks")} alt="VBricks — engineered model testing" sizes="(min-width: 1024px) 45vw, 66vw" /></div>
             <div className="p-8">
             <p className="eyebrow text-signal">Solution</p>

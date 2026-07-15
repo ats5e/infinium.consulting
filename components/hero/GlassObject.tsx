@@ -110,6 +110,45 @@ function Cube({
   );
 }
 
+/* drifting light-dust around the cluster — the atmosphere the glass sits in */
+function Dust() {
+  const points = useRef<THREE.Points>(null);
+  const geometry = useMemo(() => {
+    const count = 320;
+    const positions = new Float32Array(count * 3);
+    for (let i = 0; i < count; i++) {
+      positions[i * 3] = (Math.random() - 0.5) * 11;
+      positions[i * 3 + 1] = (Math.random() - 0.5) * 7;
+      positions[i * 3 + 2] = (Math.random() - 0.5) * 5 - 1;
+    }
+    const geo = new THREE.BufferGeometry();
+    geo.setAttribute("position", new THREE.BufferAttribute(positions, 3));
+    return geo;
+  }, []);
+
+  useFrame((state) => {
+    const p = points.current;
+    if (!p) return;
+    const t = state.clock.elapsedTime;
+    p.rotation.y = t * 0.012;
+    p.position.y = Math.sin(t * 0.11) * 0.25;
+  });
+
+  return (
+    <points ref={points} geometry={geometry} renderOrder={0}>
+      <pointsMaterial
+        color="#73a8fb"
+        size={0.028}
+        sizeAttenuation
+        transparent
+        opacity={0.45}
+        depthWrite={false}
+        blending={THREE.AdditiveBlending}
+      />
+    </points>
+  );
+}
+
 function LogoCluster({ progress }: { progress: React.RefObject<number> }) {
   const group = useRef<THREE.Group>(null);
   const assets = useCubeAssets();
@@ -150,6 +189,7 @@ function LogoCluster({ progress }: { progress: React.RefObject<number> }) {
         />
       </mesh>
       <pointLight position={[0.6, 1.2, 2.2]} intensity={2.5} color="#73a8fb" />
+      <Dust />
     </group>
   );
 }

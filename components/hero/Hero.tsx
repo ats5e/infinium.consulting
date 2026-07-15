@@ -159,7 +159,7 @@ export function Hero({ staticImage: _staticImage }: { staticImage: SiteImage }) 
             <div className="hero-actions mt-10 flex flex-wrap items-center gap-x-8 gap-y-4">
               <Link
                 href="/contact"
-                className="inline-flex min-h-11 items-center bg-cobalt px-6 font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-paper transition-colors duration-(--duration-fast) ease-(--ease-out-expo) hover:bg-signal hover:text-void"
+                className="btn-sheen inline-flex min-h-11 items-center bg-cobalt px-6 font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-paper transition-colors duration-(--duration-fast) ease-(--ease-out-expo) hover:bg-signal hover:text-void"
               >
                 Let&rsquo;s meet
               </Link>
@@ -186,7 +186,7 @@ export function Hero({ staticImage: _staticImage }: { staticImage: SiteImage }) 
               [30, "", "Fintech solution technologies"],
               [2, "", "Global offices"],
             ] as const).map(([value, suffix, label]) => (
-              <div key={label} className="border hairline bg-abyss/35 p-4 backdrop-blur-sm">
+              <div key={label} className="spot border hairline bg-abyss/35 p-4 backdrop-blur-sm">
                 <p className="font-display text-(length:--text-step-1) text-paper">
                   <Counter value={value} suffix={suffix} />
                 </p>

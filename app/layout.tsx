@@ -7,6 +7,7 @@ import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { PointerGlow } from "@/components/motion/PointerGlow";
 import { SmoothScroll } from "@/components/motion/SmoothScroll";
+import { Spotlight } from "@/components/motion/Spotlight";
 import "./globals.css";
 
 const SITE = "https://infinium-technology.com";
@@ -88,6 +89,7 @@ export default function RootLayout({
         <main id="main">{children}</main>
         <Footer />
         <SmoothScroll />
+        <Spotlight />
         {/* the injected scripts only exist on Vercel's edge — locally they 404 */}
         {process.env.VERCEL ? (
           <>
