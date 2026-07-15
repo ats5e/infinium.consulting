@@ -4,15 +4,15 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { Lockup } from "@/components/Lockup";
-import { CASE_STUDIES, PERSPECTIVES } from "@/lib/content";
+import { CASE_STUDIES, PERSPECTIVES, SERVICES, TECHNOLOGIES } from "@/lib/content";
 
 /*
- * Palantir-pattern navigation: an ultra-minimal flush top bar whose only
- * navigation control is the menu toggle, and a full-screen takeover menu.
- * The takeover runs three editorial columns — NAVIGATION (products with
- * return-arrows, then section pages), LATEST PERSPECTIVES with quick
- * links, and the LATEST CASE STUDY tile. Rows stagger-rise on open;
- * Escape or any route change closes.
+ * Palantir-pattern navigation, faithful to the reference: a floating
+ * translucent pill — wordmark + region marker left, a joined two-cell
+ * search/menu control right — over full-screen takeover overlays.
+ * The menu runs three editorial columns (NAVIGATION with return-arrow
+ * products, LATEST PERSPECTIVES + QUICK LINKS, LATEST CASE STUDY);
+ * search filters the whole IA. Escape or any route change closes.
  */
 
 const PRODUCTS = [
@@ -38,7 +38,15 @@ const QUICK_LINKS = [
   { label: "Contact", href: "/contact" },
 ];
 
-/* small uppercase column heading with an optional jump link, Palantir-style */
+/* everything reachable, for the search overlay */
+const SEARCH_INDEX: Array<{ label: string; section: string; href: string }> = [
+  ...[...PRODUCTS, ...SECTIONS, ...QUICK_LINKS].map((l) => ({ ...l, section: "Navigation" })),
+  ...SERVICES.map((s) => ({ label: s.title, section: "Services", href: `/services/${s.slug}` })),
+  ...TECHNOLOGIES.map((t) => ({ label: t.name, section: "Technologies", href: `/technologies/${t.slug}` })),
+  ...CASE_STUDIES.map((c) => ({ label: c.title, section: "Case studies", href: `/insights/${c.slug}` })),
+];
+
+/* small uppercase column heading with an optional jump link */
 function ColumnHead({
   label,
   linkLabel,
@@ -80,100 +88,112 @@ function ColumnHead({
 }
 
 export function Nav() {
-  const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
-  const toggle = useRef<HTMLButtonElement>(null);
+  const [searching, setSearching] = useState(false);
+  const [query, setQuery] = useState("");
+  const searchInput = useRef<HTMLInputElement>(null);
   const pathname = usePathname();
   const [lastPath, setLastPath] = useState(pathname);
   const study = CASE_STUDIES[0];
   const studyImage = study.image();
 
-  // Close the menu on navigation. Adjusting state during render (the
+  // Close overlays on navigation. Adjusting state during render (the
   // React-recommended pattern) instead of an effect avoids a cascading
   // re-render on every route change.
   if (pathname !== lastPath) {
     setLastPath(pathname);
     setOpen(false);
+    setSearching(false);
   }
 
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  const overlayOpen = open || searching;
 
   useEffect(() => {
-    document.documentElement.style.overflow = open ? "hidden" : "";
+    document.documentElement.style.overflow = overlayOpen ? "hidden" : "";
     return () => {
       document.documentElement.style.overflow = "";
     };
-  }, [open]);
+  }, [overlayOpen]);
 
-  const close = () => {
-    setOpen(false);
-    toggle.current?.focus();
-  };
+  useEffect(() => {
+    if (searching) searchInput.current?.focus();
+  }, [searching]);
+
+  const q = query.trim().toLowerCase();
+  const results = q ? SEARCH_INDEX.filter((e) => e.label.toLowerCase().includes(q)).slice(0, 8) : [];
 
   return (
     <header
       className="fixed inset-x-0 top-0 z-50"
       onKeyDown={(e) => {
-        if (e.key === "Escape" && open) close();
+        if (e.key === "Escape" && overlayOpen) {
+          setOpen(false);
+          setSearching(false);
+        }
       }}
     >
+      {/* the floating pill */}
       <nav
         aria-label="Primary"
-        className={`relative z-50 flex h-14 items-center justify-between border-b px-(--spacing-gutter) transition-colors duration-(--duration-base) ${
-          open
-            ? "border-transparent bg-transparent"
-            : scrolled
-              ? "hairline bg-void/85 backdrop-blur-md"
-              : "border-transparent bg-gradient-to-b from-void/70 to-transparent"
-        }`}
+        className="pointer-events-auto absolute inset-x-3 top-3 z-50 flex h-14 items-center justify-between rounded-[10px] border border-paper/8 bg-paper/[0.05] pl-5 pr-2 backdrop-blur-md md:inset-x-6 md:top-4 md:h-16 md:pl-6 md:pr-2.5 lg:inset-x-10"
       >
         <div className="flex min-w-0 items-center gap-3">
           <Link href="/" aria-label="Infinium Technology — home" className="shrink-0">
             <Lockup className="h-6" />
           </Link>
-          <span aria-hidden className="hidden items-baseline gap-3 text-[11px] font-medium uppercase tracking-[0.14em] text-steel sm:flex">
-            <span className="text-ice/40">/</span> Amsterdam · DIFC Dubai
+          <span aria-hidden className="hidden items-baseline gap-2 text-[15px] text-steel sm:flex">
+            <span className="text-ice/35">/</span> Amsterdam · Dubai
           </span>
         </div>
 
-        <div className="flex items-center gap-2">
-          <Link
-            href="/contact"
-            className="hidden px-3 py-2 text-[11px] font-medium uppercase tracking-[0.14em] text-ice transition-colors duration-(--duration-fast) hover:text-signal sm:block"
-          >
-            Let&rsquo;s meet
-          </Link>
+        {/* joined two-cell control: search | menu */}
+        <div className="flex overflow-hidden rounded-[6px] border border-paper/25">
           <button
-            ref={toggle}
+            type="button"
+            aria-expanded={searching}
+            aria-controls="site-search"
+            onClick={() => {
+              setSearching((v) => !v);
+              setOpen(false);
+            }}
+            className="grid size-10 place-items-center border-r border-paper/25 text-paper transition-colors duration-(--duration-fast) hover:bg-paper/10 md:size-11"
+          >
+            <span className="sr-only">{searching ? "Close search" : "Open search"}</span>
+            {searching ? (
+              <svg aria-hidden width="15" height="15" viewBox="0 0 15 15" fill="none">
+                <path d="M1.5 1.5l12 12m0-12l-12 12" stroke="currentColor" strokeWidth="1.25" />
+              </svg>
+            ) : (
+              <svg aria-hidden width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <circle cx="6.75" cy="6.75" r="4.75" stroke="currentColor" strokeWidth="1.25" />
+                <path d="M10.5 10.5L14.5 14.5" stroke="currentColor" strokeWidth="1.25" />
+              </svg>
+            )}
+          </button>
+          <button
             type="button"
             aria-expanded={open}
             aria-controls="site-menu"
-            onClick={() => setOpen((v) => !v)}
-            className={`grid size-10 place-items-center border transition-colors duration-(--duration-fast) ${
-              open
-                ? "border-paper/80 text-paper hover:border-signal hover:text-signal"
-                : "border-paper/35 text-paper hover:border-paper/80"
-            }`}
+            onClick={() => {
+              setOpen((v) => !v);
+              setSearching(false);
+            }}
+            className="grid size-10 place-items-center text-paper transition-colors duration-(--duration-fast) hover:bg-paper/10 md:size-11"
           >
             <span className="sr-only">{open ? "Close menu" : "Open menu"}</span>
-            <span aria-hidden className="relative block h-4 w-5">
+            <span aria-hidden className="relative block h-[11px] w-[17px]">
               <span
-                className={`absolute left-0 top-[3px] h-px w-full bg-current transition-transform duration-(--duration-base) ease-(--ease-out-expo) ${
+                className={`absolute left-0 top-0 h-px w-full bg-current transition-transform duration-(--duration-base) ease-(--ease-out-expo) ${
                   open ? "translate-y-[5px] rotate-45" : ""
                 }`}
               />
               <span
-                className={`absolute left-0 top-1/2 h-px w-full bg-current transition-opacity duration-(--duration-fast) ${
+                className={`absolute left-0 top-[5px] h-px w-full bg-current transition-opacity duration-(--duration-fast) ${
                   open ? "opacity-0" : "opacity-100"
                 }`}
               />
               <span
-                className={`absolute bottom-[3px] left-0 h-px w-full bg-current transition-transform duration-(--duration-base) ease-(--ease-out-expo) ${
+                className={`absolute bottom-0 left-0 h-px w-full bg-current transition-transform duration-(--duration-base) ease-(--ease-out-expo) ${
                   open ? "-translate-y-[5px] -rotate-45" : ""
                 }`}
               />
@@ -182,7 +202,7 @@ export function Nav() {
         </div>
       </nav>
 
-      {/* full-screen takeover */}
+      {/* full-screen takeover menu */}
       <div
         id="site-menu"
         aria-hidden={!open}
@@ -192,7 +212,7 @@ export function Nav() {
         }`}
       >
         <div aria-hidden className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_80%_10%,rgba(54,94,238,0.14),transparent_36rem)]" />
-        <div className="relative mx-auto grid max-w-(--container-content) gap-x-14 gap-y-14 px-(--spacing-gutter) pb-20 pt-28 lg:grid-cols-12">
+        <div className="relative mx-auto grid max-w-(--container-content) gap-x-14 gap-y-14 px-(--spacing-gutter) pb-20 pt-32 lg:grid-cols-12">
           {/* NAVIGATION — products first, with the return-arrow prefix */}
           <div className="lg:col-span-5">
             <ColumnHead label="Navigation" open={open} tabbable={open} />
@@ -288,6 +308,54 @@ export function Nav() {
                 {study.summary}
               </p>
             </Link>
+          </div>
+        </div>
+      </div>
+
+      {/* full-screen search */}
+      <div
+        id="site-search"
+        aria-hidden={!searching}
+        data-lenis-prevent
+        className={`fixed inset-0 z-40 overflow-y-auto bg-void transition-[clip-path] duration-(--duration-slow) ease-(--ease-out-expo) ${
+          searching ? "[clip-path:inset(0_0_0%_0)]" : "pointer-events-none [clip-path:inset(0_0_100%_0)]"
+        }`}
+      >
+        <div aria-hidden className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_8%,rgba(54,94,238,0.12),transparent_34rem)]" />
+        <div className="relative mx-auto max-w-(--container-content) px-(--spacing-gutter) pb-20 pt-36">
+          <label htmlFor="site-search-input" className="text-[11px] font-medium uppercase tracking-[0.14em] text-steel">
+            Search
+          </label>
+          <input
+            ref={searchInput}
+            id="site-search-input"
+            type="search"
+            value={query}
+            tabIndex={searching ? 0 : -1}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Services, solutions, technologies, case studies…"
+            autoComplete="off"
+            spellCheck={false}
+            className="mt-4 w-full border-b border-ice/25 bg-transparent pb-5 font-display text-(length:--text-step-3) font-medium tracking-[-0.02em] text-paper outline-none placeholder:text-steel/60 focus:border-signal"
+          />
+          <div className="mt-8">
+            {q && results.length === 0 ? (
+              <p className="text-(length:--text-body-sm) text-steel">No matches. Try a service, technology or case-study keyword.</p>
+            ) : null}
+            <ul className="divide-y divide-ice/10">
+              {results.map((r) => (
+                <li key={`${r.href}-${r.label}`}>
+                  <Link
+                    href={r.href}
+                    tabIndex={searching ? 0 : -1}
+                    className="group flex items-baseline justify-between gap-6 py-4 text-paper transition-colors duration-(--duration-fast) hover:text-signal"
+                  >
+                    <span className="text-(length:--text-step-1)">{r.label}</span>
+                    <span className="shrink-0 text-[11px] font-medium uppercase tracking-[0.14em] text-steel">{r.section}</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
       </div>

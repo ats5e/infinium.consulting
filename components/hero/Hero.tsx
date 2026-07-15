@@ -103,50 +103,57 @@ export function Hero({ staticImage: _staticImage }: { staticImage: SiteImage }) 
   return (
     <section ref={section} className="relative min-h-svh md:h-[128svh]" aria-label="Introduction">
       <div className="relative flex min-h-svh flex-col overflow-hidden md:sticky md:top-0 md:h-svh">
-        {/* the light field the glass refracts against */}
+        {/* restrained halo — the object reads dark, near-monochrome */}
         <div
           ref={glow}
           aria-hidden
-          className="pointer-events-none absolute right-[-8%] top-[52%] h-[80%] w-[60%] -translate-y-1/2 opacity-70"
+          className="pointer-events-none absolute left-1/2 top-[52%] h-[72%] w-[72%] -translate-x-1/2 -translate-y-1/2"
           style={{
             background:
-              "radial-gradient(ellipse 55% 50% at 55% 48%, rgba(115,168,251,0.26) 0%, rgba(54,94,238,0.11) 42%, transparent 70%)",
+              "radial-gradient(ellipse 50% 45% at 50% 50%, rgba(115,168,251,0.10) 0%, rgba(54,94,238,0.05) 45%, transparent 70%)",
           }}
         />
-        {/* the cluster: bounded to the right, clear of the nav */}
+        {/* the object: centred — the full-bleed backdrop the headline sits over */}
         <div
           ref={visual}
-          className="absolute right-[-18%] top-[46%] aspect-square w-[88%] max-w-[560px] -translate-y-1/2 will-change-transform md:right-[1%] md:top-[52%] md:w-[42%] md:max-w-[620px]"
+          className="absolute left-1/2 top-[54%] aspect-square w-[min(120vw,540px)] -translate-x-1/2 -translate-y-1/2 will-change-transform md:top-[52%] md:w-[min(58vw,780px)]"
         >
           {webgl ? (
             <GlassObject progress={progress} onContextLost={() => setWebgl(false)} />
           ) : (
-            <LogoCrystal className="absolute inset-0 h-full w-full opacity-90 drop-shadow-[0_0_42px_rgba(115,168,251,0.46)]" />
+            <LogoCrystal className="absolute inset-0 h-full w-full opacity-80 drop-shadow-[0_0_42px_rgba(115,168,251,0.32)]" />
           )}
-          {/* the line of light the cluster becomes */}
+          {/* the line of light the object becomes */}
           <div
             ref={beam}
             aria-hidden
             className="pointer-events-none absolute left-1/2 top-0 h-full w-px bg-signal opacity-0 shadow-[0_0_24px_2px_var(--color-signal)]"
           />
         </div>
-        {/* readability scrim — copy owns the left */}
-        <div aria-hidden className="pointer-events-none absolute inset-0 bg-gradient-to-r from-void via-void/55 to-transparent" />
+        {/* legibility scrim — centre-weighted wash, edges fall to black */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(ellipse 95% 80% at 50% 46%, rgba(4,6,10,0.44) 0%, rgba(4,6,10,0.16) 48%, rgba(4,6,10,0.74) 100%)",
+          }}
+        />
 
-        {/* content, lower-left */}
-        <div className="relative z-10 mx-auto flex w-full max-w-(--container-content) flex-1 flex-col justify-end px-(--spacing-gutter) pb-10 pt-32 md:pb-12">
-          <div ref={copy} className="max-w-3xl">
-            <h1 className="font-display text-[clamp(3.25rem,8vw,7.5rem)] font-extrabold leading-[0.9] tracking-[-0.045em] -ml-[0.05em] text-paper [text-shadow:0_2px_60px_rgba(115,168,251,0.18)]">
-              <span className="block leading-[0.9]">
-                <span className="hero-word inline-block will-change-transform">Engineering{" "}</span>
+        {/* content — one centred monolith over the graphic */}
+        <div className="relative z-10 mx-auto flex w-full max-w-(--container-content) flex-1 flex-col px-(--spacing-gutter) pb-10 pt-24 md:pb-12">
+          <div ref={copy} className="flex flex-1 flex-col items-center justify-center text-center">
+            <h1 className="font-display text-[clamp(2.9rem,7vw,6.5rem)] font-extrabold leading-[0.95] tracking-[-0.045em] text-paper [text-shadow:0_2px_50px_rgba(4,6,10,0.85)]">
+              <span className="block">
+                <span className="hero-word inline-block will-change-transform">Engineering with{" "}</span>
               </span>
-              <span className="block leading-[0.9]">
+              <span className="block">
                 <span className="hero-word inline-block will-change-transform">
-                  with <span className="text-signal">context.</span>
+                  <span className="text-signal">context.</span>
                 </span>
               </span>
             </h1>
-            <p className="hero-sub mt-8 max-w-2xl leading-relaxed text-ice">
+            <p className="hero-sub mx-auto mt-8 max-w-3xl leading-relaxed text-ice">
               We help the world&rsquo;s leading financial services firms
               transform their businesses through industry expertise, AI and
               automation. With a management team that has operated in financial
@@ -156,7 +163,7 @@ export function Hero({ staticImage: _staticImage }: { staticImage: SiteImage }) 
               technology and consulting solutions to accelerate our clients
               businesses.
             </p>
-            <div className="hero-actions mt-10 flex flex-wrap items-center gap-x-8 gap-y-4">
+            <div className="hero-actions mt-10 flex flex-wrap items-center justify-center gap-x-8 gap-y-4">
               <Link
                 href="/contact"
                 className="btn-sheen inline-flex min-h-11 items-center bg-cobalt px-6 font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-paper transition-colors duration-(--duration-fast) ease-(--ease-out-expo) hover:bg-signal hover:text-void"
@@ -175,6 +182,12 @@ export function Hero({ staticImage: _staticImage }: { staticImage: SiteImage }) 
               >
                 Our solutions
               </Link>
+            </div>
+            {/* scroll cue, Palantir-style */}
+            <div aria-hidden className="hero-cue mt-14 hidden text-ice/70 md:block">
+              <svg width="14" height="22" viewBox="0 0 14 22" fill="none" className="motion-safe:animate-bounce [animation-duration:2.2s]">
+                <path d="M7 1v18m0 0 5.5-5.5M7 19l-5.5-5.5" stroke="currentColor" strokeWidth="1.25" />
+              </svg>
             </div>
           </div>
 
