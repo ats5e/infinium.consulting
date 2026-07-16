@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Script from "next/script";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
-import { geist, quicksandBrand } from "./fonts";
+import { geist, outfit, quicksandBrand } from "./fonts";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { PointerGlow } from "@/components/motion/PointerGlow";
@@ -69,7 +69,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${geist.variable} ${quicksandBrand.variable}`}
+      className={`${geist.variable} ${outfit.variable} ${quicksandBrand.variable}`}
     >
       <body>
         <Script id="load-seq" strategy="beforeInteractive">

@@ -52,6 +52,7 @@
  */
 @theme inline {
   --font-display: var(--font-geist), system-ui, sans-serif;
+  --font-hero: var(--font-outfit), var(--font-geist), system-ui, sans-serif;
   --font-body: var(--font-geist), system-ui, sans-serif;
   --font-mono: var(--font-geist), system-ui, sans-serif;
   --font-qbricks: var(--font-quicksand-brand), var(--font-geist), sans-serif;
@@ -59,6 +60,7 @@
 
 :root {
   --font-display: var(--font-geist), system-ui, sans-serif;
+  --font-hero: var(--font-outfit), var(--font-geist), system-ui, sans-serif;
   --font-body: var(--font-geist), system-ui, sans-serif;
   --font-mono: var(--font-geist), system-ui, sans-serif;
   --font-qbricks: var(--font-quicksand-brand), var(--font-geist), sans-serif;

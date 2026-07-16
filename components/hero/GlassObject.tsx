@@ -25,13 +25,15 @@ const MAX_TILT = (8 * Math.PI) / 180;
 const POSE = { x: 0.38, y: 0.62, z: -0.08 };
 
 // BoxGeometry material order: +x, -x, +y, -y, +z, -z
+// Colours sampled from the logo artwork (mirrored in LogoCrystal's
+// gradients): bright ice top, deep navy left, vivid cobalt right.
 const FACES = [
-  { color: "#2f55b6", emissive: "#22365d", intensity: 0.3 }, // +x — mid facet (mostly hidden)
-  { color: "#22365d", emissive: "#16244a", intensity: 0.3 }, // -x left — deep navy facet
-  { color: "#cddef1", emissive: "#9ac7f8", intensity: 0.22 }, // +y top — refraction highlight
+  { color: "#2f55b6", emissive: "#365eee", intensity: 0.4 }, // +x — mid facet (mostly hidden)
+  { color: "#16244a", emissive: "#0a1020", intensity: 0.35 }, // -x left — deep navy facet
+  { color: "#e4eefb", emissive: "#9ac7f8", intensity: 0.28 }, // +y top — the white-ice highlight
   { color: "#0a1020", emissive: "#0a1020", intensity: 0.15 }, // -y bottom
-  { color: "#365eee", emissive: "#365eee", intensity: 0.55 }, // +z right in pose — cobalt core
-  { color: "#101f45", emissive: "#0a1020", intensity: 0.2 }, // -z back
+  { color: "#3f68f4", emissive: "#365eee", intensity: 0.8 }, // +z right in pose — vivid cobalt core
+  { color: "#0d1b3d", emissive: "#0a1020", intensity: 0.2 }, // -z back
 ] as const;
 
 /* one shared material set + geometry for all three cubes — crisp glass:
@@ -47,12 +49,12 @@ function useCubeAssets() {
           metalness: 0,
           roughness: 0.03,
           clearcoat: 1,
-          clearcoatRoughness: 0.1,
+          clearcoatRoughness: 0.08,
           transparent: true,
-          opacity: 0.82,
+          opacity: 0.9,
           side: THREE.DoubleSide,
           depthWrite: false,
-          envMapIntensity: 2.2,
+          envMapIntensity: 2.4,
         })
     );
     const box = new THREE.BoxGeometry(1.9, 1.9, 1.9);
@@ -175,9 +177,76 @@ function Dust() {
   );
 }
 
-function LogoCluster({ progress }: { progress: React.RefObject<number> }) {
+/* satellite bricks at depth — the cluster's field. Far ones barely move
+ * with the pointer, near ones sweep: the offset difference IS the depth.
+ * [x, y, z, scale, spinX, spinY, drift, phase] — x kept inside the
+ * camera frustum at each depth so nothing is ever cut mid-frame. */
+const SATELLITES = [
+  [-1.55, 1.55, -2.4, 0.2, 0.5, 1.1, 0.06, 0.4],
+  [1.7, -1.5, -2.2, 0.24, 1.2, 0.4, -0.05, 2.1],
+  [-1.35, -1.7, -1.9, 0.16, 0.8, 2.1, 0.07, 4.4],
+  [1.45, 1.8, -2.5, 0.28, 2.0, 0.9, -0.045, 1.2],
+  [-1.7, 0.25, -2.6, 0.14, 0.3, 1.6, 0.08, 3.3],
+  [0.5, 2.0, -1.6, 0.12, 1.5, 0.2, -0.07, 5.0],
+  [-0.95, 1.15, -0.9, 0.1, 0.9, 1.3, 0.09, 0.9],
+  [1.15, -0.4, -1.2, 0.13, 0.2, 2.4, -0.08, 2.8],
+  [-1.05, -1.0, -0.5, 0.09, 1.7, 0.7, 0.1, 3.9],
+  [0.85, 1.05, 0.45, 0.07, 0.6, 1.9, -0.11, 1.7],
+  [-0.6, -0.35, 0.6, 0.06, 2.2, 0.5, 0.12, 4.7],
+  [0.25, -1.85, -1.4, 0.15, 1.0, 1.5, 0.065, 0.2],
+] as const;
+
+function Satellites({ assets }: { assets: ReturnType<typeof useCubeAssets> }) {
   const group = useRef<THREE.Group>(null);
-  const assets = useCubeAssets();
+
+  useFrame((state) => {
+    const g = group.current;
+    if (!g) return;
+    const px = state.pointer.x;
+    const py = state.pointer.y;
+    g.children.forEach((child, i) => {
+      const s = SATELLITES[i];
+      if (!s) return;
+      const t = state.clock.elapsedTime + s[7];
+      const depth = (s[2] + 2.6) / 3.2; // 0 far → 1 near
+      const targetX = s[0] + px * (0.1 + depth * 0.5);
+      const targetY = s[1] + py * (0.07 + depth * 0.34) + Math.sin(t * 0.35) * 0.05;
+      child.position.x = THREE.MathUtils.lerp(child.position.x, targetX, 0.06);
+      child.position.y = THREE.MathUtils.lerp(child.position.y, targetY, 0.06);
+      child.rotation.x = s[4] + t * s[6];
+      child.rotation.y = s[5] + t * s[6] * 1.4;
+    });
+  });
+
+  return (
+    <group ref={group}>
+      {SATELLITES.map((s, i) => (
+        <group key={i} position={[s[0], s[1], s[2]]} scale={s[3]}>
+          <mesh geometry={assets.box} material={assets.materials} />
+          <lineSegments geometry={assets.edges}>
+            <lineBasicMaterial color="#e9f4ff" transparent opacity={0.45} />
+          </lineSegments>
+        </group>
+      ))}
+    </group>
+  );
+}
+
+/* a light that travels with the cursor — glints sweep the glass as the
+ * pointer moves */
+function CursorLight() {
+  const light = useRef<THREE.PointLight>(null);
+  useFrame((state) => {
+    const l = light.current;
+    if (!l) return;
+    l.position.x = THREE.MathUtils.lerp(l.position.x, state.pointer.x * 3.4, 0.07);
+    l.position.y = THREE.MathUtils.lerp(l.position.y, state.pointer.y * 2.2, 0.07);
+  });
+  return <pointLight ref={light} position={[0, 0, 2.4]} intensity={5} distance={8} decay={1.6} color="#73a8fb" />;
+}
+
+function LogoCluster({ progress, assets }: { progress: React.RefObject<number>; assets: ReturnType<typeof useCubeAssets> }) {
+  const group = useRef<THREE.Group>(null);
 
   useFrame((state) => {
     const g = group.current;
@@ -197,7 +266,7 @@ function LogoCluster({ progress }: { progress: React.RefObject<number> }) {
   });
 
   return (
-    <group ref={group} scale={0.78}>
+    <group ref={group} scale={0.72}>
       {CLUSTER.map((c, i) => (
         <Cube key={i} assets={assets} {...c} />
       ))}
@@ -220,6 +289,18 @@ function LogoCluster({ progress }: { progress: React.RefObject<number> }) {
   );
 }
 
+/* one shared material set feeds the cluster and its satellite field */
+function Scene({ progress }: { progress: React.RefObject<number> }) {
+  const assets = useCubeAssets();
+  return (
+    <>
+      <LogoCluster progress={progress} assets={assets} />
+      <Satellites assets={assets} />
+      <CursorLight />
+    </>
+  );
+}
+
 export default function GlassObject({
   progress,
   onContextLost,
@@ -230,7 +311,7 @@ export default function GlassObject({
   return (
     <Canvas
       dpr={[1, 2]}
-      camera={{ position: [0, 0.75, 4.8], fov: 42 }}
+      camera={{ position: [0, 0.6, 5.6], fov: 42 }}
       gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
       onCreated={({ gl }) => {
         // GPU pressure/driver resets kill the context and leave a dead
@@ -247,7 +328,7 @@ export default function GlassObject({
       <directionalLight position={[-4, 5, 3]} intensity={2.4} color="#ffffff" />
       <pointLight position={[4, -1, 2]} intensity={7} color="#365eee" />
       <pointLight position={[-3.5, -2, 1]} intensity={2} color="#22365d" />
-      <LogoCluster progress={progress} />
+      <Scene progress={progress} />
       <Environment resolution={128} frames={1}>
         <Lightformer intensity={9} position={[-3, 4, 2]} scale={[4, 3, 1]} color="#f2f7ff" />
         <Lightformer intensity={6} position={[4, 0, 1]} scale={[3, 5, 1]} color="#4c7ef5" />

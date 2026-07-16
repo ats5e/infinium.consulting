@@ -9,7 +9,7 @@ export function Footer() {
       <div className="relative mx-auto max-w-(--container-content) px-(--spacing-gutter) py-16">
         <div className="flex flex-col justify-between gap-12 md:flex-row">
           <div className="max-w-xs">
-            <Lockup className="h-9" />
+            <Lockup className="text-[28px]" />
             <p className="mt-6 text-(length:--text-body-sm) leading-relaxed text-steel">
               Engineering with context. Serving the EU, Nordic and Middle East
               (GCC) markets from Amsterdam, The Netherlands and DIFC, Dubai.

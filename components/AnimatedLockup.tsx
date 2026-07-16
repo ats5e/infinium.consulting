@@ -7,63 +7,71 @@ import { LogoCrystal } from "@/components/hero/LogoCrystal";
 const useIsoLayoutEffect = typeof document !== "undefined" ? useLayoutEffect : useEffect;
 
 /*
- * The nav lockup with its entrance: the brand cube rolls left-to-right
- * across the wordmark, revealing the text behind it as it travels, then
- * the lockup settles with a small bounce as the cube exits. Plays once
- * per full page load; reduced motion (or JS failure states) resolve to
- * the plain lockup. The wordmark ships clipped in the SSR markup so the
- * roll never flashes the finished state first.
+ * The nav lockup, rebuilt as a live composite instead of the flat PNG:
+ * real "Infinium" text set in the logo-matched face, with ONE cube —
+ * the SVG mark — sitting behind the letters at the logo's position
+ * (centre-x 36.3%, measured from the artwork). On entrance the cube
+ * rolls right revealing the letters, rolls back a full turn and docks
+ * home as itself, so nothing static ever sits underneath the roll.
+ * Reduced motion (and the resting state) is exactly the logo pose.
  */
+const CUBE_PX = 26;
+const CUBE_CENTER_FRAC = 0.363;
+
 export function AnimatedLockup({ className }: { className?: string }) {
   const wrap = useRef<HTMLSpanElement>(null);
-  const mark = useRef<HTMLSpanElement>(null);
-  const box = useRef<HTMLSpanElement>(null);
+  const text = useRef<HTMLSpanElement>(null);
+  const cube = useRef<HTMLSpanElement>(null);
 
   useIsoLayoutEffect(() => {
     const w = wrap.current;
-    const m = mark.current;
-    const b = box.current;
-    if (!w || !m || !b) return;
+    const t = text.current;
+    const c = cube.current;
+    if (!w || !t || !c) return;
 
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      m.style.clipPath = "none";
-      b.style.display = "none";
+      t.style.clipPath = "none";
       return;
     }
 
     const ctx = gsap.context(() => {
-      const travel = w.offsetWidth;
+      const width = w.offsetWidth;
+      const home = CUBE_CENTER_FRAC * width; // cube centre, at rest (x = 0)
+      const start = -(home - CUBE_PX / 2); // centre at the left edge
+      const out = width - CUBE_PX / 2 - home; // centre at the right edge
       const tl = gsap.timeline({ delay: 0.15, defaults: { ease: "power2.inOut" } });
-      tl.set(b, { x: -2, yPercent: -50, rotation: 0, autoAlpha: 1 })
-        .to(b, { x: travel + 6, rotation: 540, duration: 1.05 })
-        .to(m, { clipPath: "inset(-8% 0% -8% 0%)", duration: 1.05 }, "<")
-        .to(b, { autoAlpha: 0, duration: 0.16 }, "-=0.14")
-        .from(m, { y: -3, duration: 0.4, ease: "back.out(3)", clearProps: "transform" }, "-=0.1")
-        .set(m, { clipPath: "none" });
+      tl.set(c, { x: start, rotation: 0 })
+        // out: roll right across the word, revealing it
+        .to(c, { x: out, rotation: 720, duration: 1.0 })
+        .to(t, { clipPath: "inset(-15% 0% -15% 0%)", duration: 1.0 }, "<")
+        // home: one full turn back to the logo pose — the cube stays,
+        // it IS the mark
+        .to(c, { x: 0, rotation: 360, duration: 0.65 })
+        .from(t, { y: -2, duration: 0.35, ease: "back.out(2.5)", clearProps: "transform" }, "-=0.2")
+        .set(t, { clipPath: "none" })
+        .set(c, { rotation: 0 });
     }, w);
     return () => ctx.revert();
   }, []);
 
   return (
-    <span ref={wrap} className="relative inline-block">
-      {/* wordmark — clipped shut until the roll reveals it */}
-      <span ref={mark} className="block" style={{ clipPath: "inset(-8% 100% -8% 0%)" }}>
-        <img
-          src="/img/logo-nav.png"
-          alt="Infinium"
-          width={238}
-          height={90}
-          className={`w-auto ${className ?? "h-6"}`}
-          decoding="async"
-        />
-      </span>
-      {/* the rolling brand cube */}
+    <span ref={wrap} className={`relative inline-flex items-center ${className ?? "h-6"}`}>
+      {/* the one and only cube — behind the letters, home at the logo position */}
       <span
-        ref={box}
+        ref={cube}
         aria-hidden
-        className="pointer-events-none absolute left-0 top-1/2 opacity-0"
+        className="pointer-events-none absolute top-1/2 -translate-y-1/2"
+        style={{ left: `calc(${CUBE_CENTER_FRAC * 100}% - ${CUBE_PX / 2}px)`, width: CUBE_PX, height: CUBE_PX }}
       >
-        <LogoCrystal className="h-[22px] w-[22px]" />
+        <LogoCrystal className="h-full w-full" />
+      </span>
+      {/* wordmark — ships clipped, the roll reveals it */}
+      <span
+        ref={text}
+        className="relative z-10 font-hero text-[21px] font-medium tracking-[0.005em] text-paper"
+        style={{ clipPath: "inset(-15% 100% -15% 0%)" }}
+      >
+        Infinium
       </span>
     </span>
   );

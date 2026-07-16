@@ -1,17 +1,23 @@
+import { LogoCrystal } from "@/components/hero/LogoCrystal";
+
 /*
- * The real Infinium lockup — the client's logo file, trimmed and served
- * as-is (transparent PNG over the void). Sized by height; width follows
- * the 238:90 intrinsic ratio.
+ * The static lockup — the same live composite as the animated nav
+ * version (components/AnimatedLockup.tsx), without the entrance: real
+ * "Infinium" text in the logo-matched face with the SVG cube docked
+ * behind the letters at the artwork's position (centre-x 36.3%).
+ * Scales with font-size: pass a text-[*] class; the cube follows in em.
  */
 export function Lockup({ className }: { className?: string }) {
   return (
-    <img
-      src="/img/logo-nav.png"
-      alt="Infinium"
-      width={238}
-      height={90}
-      className={`w-auto ${className ?? "h-7"}`}
-      decoding="async"
-    />
+    <span className={`relative inline-flex items-center ${className ?? "text-[21px]"}`}>
+      <span
+        aria-hidden
+        className="pointer-events-none absolute top-1/2 -translate-y-1/2"
+        style={{ left: "calc(36.3% - 0.62em)", width: "1.24em", height: "1.24em" }}
+      >
+        <LogoCrystal className="h-full w-full" />
+      </span>
+      <span className="relative z-10 font-hero font-medium tracking-[0.005em] text-paper">Infinium</span>
+    </span>
   );
 }

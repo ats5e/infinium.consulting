@@ -58,51 +58,32 @@ function Placeholder({ label }: { label: string }) {
 
 /* ---- Home -------------------------------------------------------------- */
 
-const AWARDS = [
-  "Appian FS Partner of the Year 2024",
-  "Best Places to Work 2023",
-  "EcoVadis rated",
-  "Great Place to Work Certified",
-  "The Consultancy Awards",
-  "NEN 4400-1 certified",
-  "Best Workplaces 2024",
-  "Alteryx Partner",
-  "Quantexa Plus Alliance Partner",
-];
-
 export function HomeWirePage() {
   return (
     <>
       <Hero staticImage={siteImage("hero")} />
 
       <ContentSection className="overflow-hidden">
-        <p className="eyebrow">An award-winning consultancy</p>
-        <div className="relative mt-8 overflow-hidden border-y hairline py-5 [mask-image:linear-gradient(90deg,transparent,black_8%,black_92%,transparent)]">
-          <div className="marquee-track flex w-max gap-12">
+        <p className="eyebrow">Our partners</p>
+        {/* partner logos only — a slow monochrome drift */}
+        <div className="relative mt-8 overflow-hidden border-y hairline py-6 [mask-image:linear-gradient(90deg,transparent,black_8%,black_92%,transparent)]">
+          <div className="marquee-track flex w-max items-center gap-20">
             {[0, 1].map((copyIdx) => (
-              <div key={copyIdx} aria-hidden={copyIdx === 1} className="flex shrink-0 items-center gap-12">
-                {AWARDS.map((award, i) => {
-                  const logo = PARTNERS[((i - 1) / 2) % PARTNERS.length];
-                  return (
-                    <span key={`${copyIdx}-${award}`} className="flex shrink-0 items-center gap-12">
-                      <span className="whitespace-nowrap font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-steel">
-                        {award}
-                      </span>
-                      {/* partner logos run through the band between the award titles */}
-                      {i % 2 === 1 ? (
-                        <img
-                          src={logo.src}
-                          alt={logo.name}
-                          width={logo.w}
-                          height={logo.h}
-                          loading="lazy"
-                          decoding="async"
-                          className={`w-auto opacity-70 [filter:brightness(0)_invert(1)] ${logo.cls}`}
-                        />
-                      ) : null}
-                    </span>
-                  );
-                })}
+              <div key={copyIdx} aria-hidden={copyIdx === 1} className="flex shrink-0 items-center gap-20">
+                {[0, 1, 2].flatMap((rep) =>
+                  PARTNERS.map((logo) => (
+                    <img
+                      key={`${copyIdx}-${rep}-${logo.name}`}
+                      src={logo.src}
+                      alt={logo.name}
+                      width={logo.w}
+                      height={logo.h}
+                      loading="lazy"
+                      decoding="async"
+                      className={`w-auto shrink-0 opacity-70 [filter:brightness(0)_invert(1)] ${logo.cls}`}
+                    />
+                  )),
+                )}
               </div>
             ))}
           </div>
@@ -206,23 +187,6 @@ export function HomeWirePage() {
         </div>
       </ContentSection>
 
-      {/* kinetic type — the service spine, outlined and drifting */}
-      <section aria-hidden className="overflow-hidden border-y hairline py-8">
-        <div className="marquee-slow flex w-max items-center gap-16">
-          {[0, 1].map((copyIdx) => (
-            <div key={copyIdx} className="flex shrink-0 items-center gap-16">
-              {SERVICES.map((svc) => (
-                <span
-                  key={`${copyIdx}-${svc.slug}`}
-                  className="kinetic-type whitespace-nowrap font-display text-[clamp(3rem,7vw,6.5rem)] font-extrabold uppercase leading-none tracking-[-0.02em]"
-                >
-                  {svc.title}
-                </span>
-              ))}
-            </div>
-          ))}
-        </div>
-      </section>
 
       <ContentSection>
         <SectionIntro eyebrow="Why Infinium" title="Five reasons to work with us" />
@@ -411,14 +375,23 @@ export function ServiceDetailPage({ slug }: { slug: string }) {
         body={service.lead}
       />
       <ContentSection>
-        <div className="mb-14 overflow-hidden border hairline">
-          <GlassImage
-            image={siteImage(SERVICE_IMAGE[slug])}
-            alt={service.title}
-            sizes="(min-width: 1024px) 90vw, 100vw"
-          />
+        {/* intro + supporting image as a balanced split — the image is a
+            companion to the section, never a billboard */}
+        <div className="mb-16 grid gap-10 md:grid-cols-12 md:items-center">
+          <Reveal className="md:col-span-7">
+            <p className="eyebrow text-signal">What we deliver</p>
+            <h2 className="mt-6 max-w-2xl text-(length:--text-step-4)">{detail.deliverTitle}</h2>
+          </Reveal>
+          <div className="md:col-span-5">
+            <div className="spot aspect-[4/3] overflow-hidden border hairline [&_picture]:block [&_picture]:h-full [&_img]:h-full [&_img]:w-full [&_img]:object-cover">
+              <GlassImage
+                image={siteImage(SERVICE_IMAGE[slug])}
+                alt={service.title}
+                sizes="(min-width: 768px) 38vw, 100vw"
+              />
+            </div>
+          </div>
         </div>
-        <SectionIntro eyebrow="What we deliver" title={detail.deliverTitle} />
         <NumberedCards items={detail.items} />
         <div className="mt-10 flex flex-wrap gap-6">
           {detail.links.map((l) => <SecondaryLink key={l.label} href={l.href}>{l.label}</SecondaryLink>)}
@@ -450,8 +423,15 @@ export function SolutionsWirePage() {
             <p className="mt-6 leading-relaxed text-ice">QBricks turns your systems of record into governed, A.I.-ready data products, in hours, not months or years. Governance is enforced by contract (ODCS) at the point of ingestion, agentic metadata works with a human in the loop, and everything runs on local compute in open, portable formats.</p>
             <p className="mt-5 text-ice">Built for financial-crime use cases like AML and KYC. Works with Databricks, Microsoft Fabric, Snowflake or your own database.</p>
             <p className="mt-5 text-ice">Designed and developed by our R&amp;D team in the Netherlands.</p>
-            <div className="mt-8 flex flex-wrap gap-6">
-              <a href="https://qbricks.vercel.app/" className="link-wipe font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-signal">Visit the QBricks site</a>
+            <div className="mt-8 flex flex-wrap items-center gap-6">
+              <a
+                href="https://qbricks.ai"
+                target="_blank"
+                rel="noopener"
+                className="btn-sheen inline-flex min-h-11 items-center bg-cobalt px-6 font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-paper transition-colors duration-(--duration-fast) ease-(--ease-out-expo) hover:bg-signal hover:text-void"
+              >
+                Learn more about QBricks
+              </a>
               <SecondaryLink href="/contact">Request a demo →</SecondaryLink>
             </div>
             </div>
@@ -981,11 +961,30 @@ export function AboutWirePage() {
       </ContentSection>
       <ContentSection>
         <SectionIntro eyebrow="Management team" title="Leadership" body="Hands-on practitioners from major global financial services firms, leading from Amsterdam and Dubai." />
-        <CardGrid columns={3} items={[
-          { eyebrow: "Placeholder role", title: "Placeholder: leader name", body: "Delivery and operations across both hubs." },
-          { eyebrow: "Placeholder role", title: "Placeholder: leader name", body: "Leads the Netherlands and Dubai R&D teams." },
-          { eyebrow: "Placeholder role", title: "Placeholder: leader name", body: "Client relationships across the GCC, from the DIFC." },
-        ]} />
+        {/* portraits + roles sourced from nxwave.com/locations/infinium-amsterdam-en */}
+        <div className="grid grid-cols-2 gap-px md:grid-cols-3 lg:grid-cols-5">
+          {([
+            ["David Aston", "CEO, Infinium", "david-aston"],
+            ["Toby Smith-Cullen", "Partner, Infinium", "toby-smith-cullen"],
+            ["Erik Rowbotham", "Partner, Infinium", "erik-rowbotham"],
+            ["Helen Bull", "Partner, Infinium", "helen-bull"],
+            ["Jeanette Zeilmaker", "Operations Head, Infinium", "jeanette-zeilmaker"],
+          ] as const).map(([name, role, img]) => (
+            <article key={name} className="spot border hairline bg-abyss/25 p-6">
+              <img
+                src={`/img/team/${img}.webp`}
+                alt={`${name} — ${role}`}
+                width={150}
+                height={150}
+                loading="lazy"
+                decoding="async"
+                className="aspect-square w-24 border hairline object-cover grayscale transition-[filter] duration-(--duration-base) hover:grayscale-0"
+              />
+              <h3 className="mt-5 text-(length:--text-body)">{name}</h3>
+              <p className="eyebrow mt-2">{role}</p>
+            </article>
+          ))}
+        </div>
       </ContentSection>
       <ContentSection>
         <SectionIntro eyebrow="Locations" title="Where you'll find us" body="We serve clients across the EU, Nordic and Middle East (GCC) markets from our two hubs." />

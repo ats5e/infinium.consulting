@@ -24,17 +24,89 @@ function Chars({ text }: { text: string }) {
   );
 }
 
+/* the rotating word — "context." is the brand line and stays the anchor:
+ * it is the resting state, the reduced-motion state and the accessible
+ * text; the alternates flick through behind it. Widths are converted to
+ * em after the display font loads so the mask scales with the clamp. */
+const ROTATE = ["context.", "precision.", "intelligence.", "discipline.", "insight."];
+
+function RotatingWord({ reduced }: { reduced: boolean }) {
+  const wrap = useRef<HTMLSpanElement>(null);
+
+  useEffect(() => {
+    const el = wrap.current;
+    if (reduced || !el) return;
+    let ctx: gsap.Context | undefined;
+    let cancelled = false;
+    document.fonts.ready.then(() => {
+      if (cancelled) return;
+      ctx = gsap.context(() => {
+        const words = Array.from(el.querySelectorAll<HTMLElement>("[data-word]"));
+        const fontSize = parseFloat(getComputedStyle(el).fontSize);
+        const widths = words.map((w) => w.offsetWidth / fontSize); // em
+        gsap.set(el, { width: `${widths[0]}em` });
+        // word 0's transform belongs to the entrance roll-in — only pin alpha
+        gsap.set(words[0], { autoAlpha: 1 });
+        gsap.set(words.slice(1), { yPercent: 108, autoAlpha: 0 });
+        // one transition per word, 2.4s dwell between and before repeating
+        const tl = gsap.timeline({ repeat: -1, repeatDelay: 2.4, delay: 4, defaults: { ease: "power3.inOut" } });
+        words.forEach((_, i) => {
+          const next = (i + 1) % words.length;
+          tl.to(el, { width: `${widths[next]}em`, duration: 0.45 }, i === 0 ? 0 : "+=2.4")
+            .to(words[i], { yPercent: -108, autoAlpha: 0, duration: 0.5 }, "<")
+            .fromTo(
+              words[next],
+              { yPercent: 108, autoAlpha: 1 },
+              { yPercent: 0, duration: 0.5, immediateRender: false },
+              "<0.06",
+            );
+        });
+      }, el);
+    });
+    return () => {
+      cancelled = true;
+      ctx?.revert();
+    };
+  }, [reduced]);
+
+  return (
+    <>
+      <span className="sr-only">context.</span>
+      <span
+        ref={wrap}
+        aria-hidden
+        className="hero-rotator relative inline-block overflow-hidden align-bottom text-cobalt"
+      >
+        {ROTATE.map((w, i) => (
+          <span
+            key={w}
+            data-word={i}
+            className={`whitespace-nowrap will-change-transform ${
+              i === 0 ? "inline-block" : "absolute left-0 top-0 inline-block opacity-0"
+            }`}
+          >
+            {w}
+          </span>
+        ))}
+      </span>
+    </>
+  );
+}
+
 // layout effect on the client (runs before paint → no reveal flash),
 // plain effect on the server (no SSR warning)
 const useIsoLayoutEffect = typeof document !== "undefined" ? useLayoutEffect : useEffect;
 
 /*
- * The signature moment, full-bleed: the tumbling glass cluster is the
- * hero's backdrop layer, copy sits lower-left over a readability scrim,
- * and the wireframe's four stats run along the foot. Scrolling compresses
- * the cluster to a line of light that lands as the first hairline.
- * WebGL needs >=768px + fine pointer + no reduced-motion; context loss
- * falls back to the SVG mark.
+ * The signature moment — a split composition: the headline staircase
+ * owns the left, the tumbling glass cluster owns the right and bleeds
+ * off the viewport edge (never cropped mid-frame), and the wireframe's
+ * four stats run along the foot. The entrance is visibility-gated so it
+ * always plays in view: characters cascade out of their line masks, the
+ * object arrives from the right, copy/actions/stats follow. Scrolling
+ * drifts the title lines apart, then compresses the cluster to a line
+ * of light that lands as the first hairline. WebGL needs >=768px +
+ * fine pointer + no reduced-motion; context loss falls back to SVG.
  */
 export function Hero({ staticImage: _staticImage }: { staticImage: SiteImage }) {
   void _staticImage;
@@ -79,7 +151,10 @@ export function Hero({ staticImage: _staticImage }: { staticImage: SiteImage }) 
         },
         defaults: { ease: "none" },
       });
-      tl.to(copy.current, { opacity: 0.2, y: -24, duration: 0.46 }, 0.22)
+      // the title lines drift apart as the page starts to move
+      tl.to(".hero-line-a", { xPercent: -3.5, duration: 0.5 }, 0.02)
+        .to(".hero-line-b", { xPercent: 2.5, duration: 0.5 }, 0.02)
+        .to(copy.current, { opacity: 0.15, y: -28, duration: 0.46 }, 0.22)
         .to(glow.current, { opacity: 0.16, duration: 0.5 }, 0.34)
         .to(visual.current, { scaleX: 0.004, filter: "brightness(2.4)", duration: 0.46 }, 0.42)
         .fromTo(beam.current, { opacity: 0 }, { opacity: 1, duration: 0.12 }, 0.78)
@@ -89,27 +164,37 @@ export function Hero({ staticImage: _staticImage }: { staticImage: SiteImage }) 
     return () => ctx.revert();
   }, [reduced]);
 
-  // Signature entrance — plays on every load, not gated by the session
-  // flag. Words rise and sharpen from blur; copy, actions and stats follow.
+  // Signature entrance — visibility-gated (plays when the hero is in
+  // view, so it is never missed on a scrolled or slow load) and once.
   useIsoLayoutEffect(() => {
     if (reduced || !section.current) return;
+    gsap.registerPlugin(ScrollTrigger);
     const ctx = gsap.context(() => {
-      const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+      const tl = gsap.timeline({
+        defaults: { ease: "power4.out" },
+        scrollTrigger: { trigger: section.current, start: "top 85%", once: true },
+      });
       // clearProps strips GSAP's inline styles on completion, so the
-      // resting headline is pure CSS — no lingering transform layer.
-      // Characters rise out of each line's mask with a slight settle.
-      tl.from(".hero-char", {
-        yPercent: 115,
-        rotate: 3,
-        duration: 0.9,
-        ease: "power4.out",
-        stagger: 0.02,
-        delay: 0.12,
-        clearProps: "transform,willChange",
-      })
-        .from(".hero-sub", { y: 22, opacity: 0, duration: 0.8, clearProps: "transform,opacity" }, 0.55)
-        .from(".hero-actions > *", { y: 16, opacity: 0, duration: 0.6, stagger: 0.08, clearProps: "transform,opacity" }, 0.7)
-        .from(".hero-stats > *", { y: 18, opacity: 0, duration: 0.6, stagger: 0.06, clearProps: "transform,opacity" }, 0.82);
+      // resting hero is pure CSS — no lingering transform layers
+      tl.from(
+        ".hero-char",
+        { yPercent: 120, duration: 1.05, stagger: 0.03, clearProps: "transform,willChange" },
+        0.05,
+      )
+        // the rotating word rolls in with its line (it isn't a .hero-char)
+        .from(
+          ".hero-rotator [data-word='0']",
+          { yPercent: 120, duration: 1.0, clearProps: "transform" },
+          0.5,
+        )
+        .from(
+          ".hero-visual-inner",
+          { autoAlpha: 0, x: 70, scale: 0.94, duration: 1.5, ease: "power3.out", clearProps: "transform,opacity,visibility" },
+          0.25,
+        )
+        .from(".hero-sub", { y: 24, opacity: 0, duration: 0.8, clearProps: "transform,opacity" }, 0.8)
+        .from(".hero-actions > *", { y: 16, opacity: 0, duration: 0.6, stagger: 0.08, clearProps: "transform,opacity" }, 0.95)
+        .from(".hero-stats > *", { y: 18, opacity: 0, duration: 0.6, stagger: 0.06, clearProps: "transform,opacity" }, 1.1);
     }, section);
     return () => ctx.revert();
   }, [reduced]);
@@ -117,26 +202,26 @@ export function Hero({ staticImage: _staticImage }: { staticImage: SiteImage }) 
   return (
     <section ref={section} className="relative min-h-svh md:h-[128svh]" aria-label="Introduction">
       <div className="relative flex min-h-svh flex-col overflow-hidden md:sticky md:top-0 md:h-svh">
-        {/* restrained halo — the object reads dark, near-monochrome */}
+        {/* halo behind the object's zone */}
         <div
           ref={glow}
           aria-hidden
-          className="pointer-events-none absolute left-1/2 top-[52%] h-[72%] w-[72%] -translate-x-1/2 -translate-y-1/2"
+          className="pointer-events-none absolute right-[-10%] top-1/2 h-[80%] w-[64%] -translate-y-1/2"
           style={{
             background:
-              "radial-gradient(ellipse 50% 45% at 50% 50%, rgba(115,168,251,0.10) 0%, rgba(54,94,238,0.05) 45%, transparent 70%)",
+              "radial-gradient(ellipse 50% 45% at 55% 50%, rgba(115,168,251,0.13) 0%, rgba(54,94,238,0.06) 45%, transparent 70%)",
           }}
         />
-        {/* the object: centred — the full-bleed backdrop the headline sits over */}
-        <div
-          ref={visual}
-          className="absolute left-1/2 top-[54%] aspect-square w-[min(120vw,540px)] -translate-x-1/2 -translate-y-1/2 will-change-transform md:top-[52%] md:w-[min(58vw,780px)]"
-        >
-          {webgl ? (
-            <GlassObject progress={progress} onContextLost={() => setWebgl(false)} />
-          ) : (
-            <LogoCrystal className="absolute inset-0 h-full w-full opacity-80 drop-shadow-[0_0_42px_rgba(115,168,251,0.32)]" />
-          )}
+        {/* the object: full-height zone anchored to the right viewport
+            edge — anything that leaves frame leaves at the screen edge */}
+        <div ref={visual} className="absolute inset-y-0 right-0 w-full will-change-transform md:left-auto md:w-[56vw]">
+          <div className="hero-visual-inner absolute inset-0">
+            {webgl ? (
+              <GlassObject progress={progress} onContextLost={() => setWebgl(false)} />
+            ) : (
+              <LogoCrystal className="absolute left-1/2 top-1/2 h-[68%] w-auto -translate-x-1/2 -translate-y-1/2 opacity-75 drop-shadow-[0_0_42px_rgba(115,168,251,0.32)]" />
+            )}
+          </div>
           {/* the line of light the object becomes */}
           <div
             ref={beam}
@@ -144,30 +229,25 @@ export function Hero({ staticImage: _staticImage }: { staticImage: SiteImage }) 
             className="pointer-events-none absolute left-1/2 top-0 h-full w-px bg-signal opacity-0 shadow-[0_0_24px_2px_var(--color-signal)]"
           />
         </div>
-        {/* legibility scrim — centre-weighted wash, edges fall to black */}
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0"
-          style={{
-            background:
-              "radial-gradient(ellipse 95% 80% at 50% 46%, rgba(4,6,10,0.44) 0%, rgba(4,6,10,0.16) 48%, rgba(4,6,10,0.74) 100%)",
-          }}
-        />
+        {/* legibility scrim — type zone falls to void on the left */}
+        <div aria-hidden className="pointer-events-none absolute inset-0 bg-gradient-to-r from-void via-void/62 to-transparent md:via-void/38" />
+        <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-void/85 to-transparent" />
 
-        {/* content — one centred monolith over the graphic */}
-        <div className="relative z-10 mx-auto flex w-full max-w-(--container-content) flex-1 flex-col px-(--spacing-gutter) pb-10 pt-24 md:pb-12">
-          <div ref={copy} className="flex flex-1 flex-col items-center justify-center text-center">
-            <h1 className="font-display text-[clamp(2.6rem,6.4vw,6rem)] font-extrabold uppercase leading-[0.92] tracking-[-0.02em] text-paper [text-shadow:0_2px_50px_rgba(4,6,10,0.85)]">
+        {/* content — the staircase headline owns the left */}
+        <div className="relative z-10 mx-auto flex w-full max-w-(--container-content) flex-1 flex-col px-(--spacing-gutter) pb-8 pt-24 md:pb-10">
+          <div ref={copy} className="flex flex-1 flex-col justify-center">
+            <h1 className="font-hero text-[clamp(2.9rem,8vw,8.1rem)] font-bold uppercase leading-[0.93] tracking-[-0.01em] text-paper [text-shadow:0_2px_50px_rgba(4,6,10,0.85)]">
               {/* the trailing space keeps the accessible name one phrase:
                   "Engineering with context." — blocks alone don't add it */}
-              <span className="block overflow-hidden">
-                <Chars text="Engineering with" />{" "}
+              <span className="hero-line-a block overflow-hidden">
+                <Chars text="Engineering" />{" "}
               </span>
-              <span className="block overflow-hidden text-cobalt">
-                <Chars text="context." />
+              <span className="hero-line-b block overflow-hidden md:ml-[6vw]">
+                <Chars text="with " />
+                <RotatingWord reduced={reduced} />
               </span>
             </h1>
-            <p className="hero-sub mx-auto mt-8 max-w-3xl leading-relaxed text-ice">
+            <p className="hero-sub mt-8 max-w-xl leading-relaxed text-ice">
               We help the world&rsquo;s leading financial services firms
               transform their businesses through industry expertise, AI and
               automation. With a management team that has operated in financial
@@ -177,7 +257,7 @@ export function Hero({ staticImage: _staticImage }: { staticImage: SiteImage }) 
               technology and consulting solutions to accelerate our clients
               businesses.
             </p>
-            <div className="hero-actions mt-10 flex items-center justify-center">
+            <div className="hero-actions mt-10 flex items-center gap-6">
               <button
                 type="button"
                 onClick={() => {
@@ -192,17 +272,17 @@ export function Hero({ staticImage: _staticImage }: { staticImage: SiteImage }) 
               >
                 Learn more
               </button>
-            </div>
-            {/* scroll cue, Palantir-style */}
-            <div aria-hidden className="hero-cue mt-14 hidden text-ice/70 md:block">
-              <svg width="14" height="22" viewBox="0 0 14 22" fill="none" className="motion-safe:animate-bounce [animation-duration:2.2s]">
-                <path d="M7 1v18m0 0 5.5-5.5M7 19l-5.5-5.5" stroke="currentColor" strokeWidth="1.25" />
-              </svg>
+              {/* scroll cue rides beside the CTA */}
+              <span aria-hidden className="hero-cue hidden text-ice/70 md:block">
+                <svg width="13" height="20" viewBox="0 0 14 22" fill="none" className="motion-safe:animate-bounce [animation-duration:2.2s]">
+                  <path d="M7 1v18m0 0 5.5-5.5M7 19l-5.5-5.5" stroke="currentColor" strokeWidth="1.25" />
+                </svg>
+              </span>
             </div>
           </div>
 
           {/* stats bar along the hero's foot */}
-          <div className="hero-stats mt-12 grid grid-cols-2 gap-px sm:grid-cols-4">
+          <div className="hero-stats mt-10 grid grid-cols-2 gap-px sm:grid-cols-4">
             {([
               [22, "", "Leading global FS clients"],
               [100, "+", "Projects completed"],
