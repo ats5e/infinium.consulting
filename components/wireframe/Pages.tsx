@@ -2,7 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { GlassImage } from "@/components/GlassImage";
 import { Hero } from "@/components/hero/Hero";
-import { PartnerLogos } from "@/components/PartnerLogos";
+import { PARTNERS, PartnerLogos } from "@/components/PartnerLogos";
 import { QBricksWord } from "@/components/QBricksWord";
 import { Reveal } from "@/components/motion/Reveal";
 import {
@@ -81,11 +81,28 @@ export function HomeWirePage() {
           <div className="marquee-track flex w-max gap-12">
             {[0, 1].map((copyIdx) => (
               <div key={copyIdx} aria-hidden={copyIdx === 1} className="flex shrink-0 items-center gap-12">
-                {AWARDS.map((award) => (
-                  <span key={`${copyIdx}-${award}`} className="whitespace-nowrap font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-steel">
-                    {award}
-                  </span>
-                ))}
+                {AWARDS.map((award, i) => {
+                  const logo = PARTNERS[((i - 1) / 2) % PARTNERS.length];
+                  return (
+                    <span key={`${copyIdx}-${award}`} className="flex shrink-0 items-center gap-12">
+                      <span className="whitespace-nowrap font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-steel">
+                        {award}
+                      </span>
+                      {/* partner logos run through the band between the award titles */}
+                      {i % 2 === 1 ? (
+                        <img
+                          src={logo.src}
+                          alt={logo.name}
+                          width={logo.w}
+                          height={logo.h}
+                          loading="lazy"
+                          decoding="async"
+                          className={`w-auto opacity-70 [filter:brightness(0)_invert(1)] ${logo.cls}`}
+                        />
+                      ) : null}
+                    </span>
+                  );
+                })}
               </div>
             ))}
           </div>
@@ -95,7 +112,7 @@ export function HomeWirePage() {
       <ContentSection>
         <Reveal className="max-w-4xl">
           <p className="eyebrow text-signal">What we do</p>
-          <h2 className="mt-6 text-(length:--text-step-5) leading-[1.04]">
+          <h2 className="mt-6 text-(length:--text-step-5) leading-[1.02]">
             A specialist alternative to the big-brand consultancies
           </h2>
           <p className="mt-6 max-w-2xl leading-relaxed text-ice">

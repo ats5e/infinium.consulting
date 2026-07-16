@@ -118,7 +118,7 @@ export function SectionIntro({
   return (
     <Reveal className="mb-10 max-w-4xl">
       {eyebrow ? <p className="eyebrow text-signal">{eyebrow}</p> : null}
-      <h2 className="mt-5 text-(length:--text-step-3) leading-[1.06]">{title}</h2>
+      <h2 className="mt-5 text-(length:--text-step-3) leading-[1.03]">{title}</h2>
       {body ? <p className="mt-5 max-w-3xl leading-relaxed text-ice">{body}</p> : null}
     </Reveal>
   );
@@ -211,7 +211,7 @@ export function CTASection({
       <Reveal className="relative mx-auto max-w-(--container-content) px-(--spacing-gutter) py-24">
         <div className="overflow-hidden border hairline bg-abyss/45 p-8 backdrop-blur-xl md:p-12">
           <p className="eyebrow text-signal">next move</p>
-          <h2 className="mt-5 max-w-4xl text-(length:--text-step-4) leading-[1.03]">{title}</h2>
+          <h2 className="mt-5 max-w-4xl text-(length:--text-step-4) leading-[1.02]">{title}</h2>
           <div className="mt-8 flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
             {body ? <p className="max-w-xl text-ice">{body}</p> : <span />}
             <PrimaryLink href={href}>{label}</PrimaryLink>

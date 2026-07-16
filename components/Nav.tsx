@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { Lockup } from "@/components/Lockup";
+import { AnimatedLockup } from "@/components/AnimatedLockup";
 import { CASE_STUDIES, PERSPECTIVES, SERVICES, TECHNOLOGIES } from "@/lib/content";
 
 /*
@@ -139,7 +139,7 @@ export function Nav() {
       >
         <div className="flex min-w-0 items-center gap-3">
           <Link href="/" aria-label="Infinium Technology — home" className="shrink-0">
-            <Lockup className="h-6" />
+            <AnimatedLockup className="h-6" />
           </Link>
           <span aria-hidden className="hidden items-baseline gap-2 text-[15px] text-steel sm:flex">
             <span className="text-ice/35">/</span> Amsterdam · Dubai

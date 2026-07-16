@@ -274,6 +274,7 @@
   h4 {
     font-family: var(--font-display);
     font-weight: 500;
+    line-height: 1.02;
     color: var(--color-paper);
     letter-spacing: -0.02em;
     text-wrap: balance;

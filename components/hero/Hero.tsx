@@ -10,6 +10,20 @@ import { LogoCrystal } from "./LogoCrystal";
 
 const GlassObject = dynamic(() => import("./GlassObject"), { ssr: false });
 
+/* one span per character so the entrance can cascade — whiteSpace: pre
+ * keeps the word spaces alive inside the inline-blocks */
+function Chars({ text }: { text: string }) {
+  return (
+    <>
+      {[...text].map((c, i) => (
+        <span key={i} className="hero-char inline-block will-change-transform" style={{ whiteSpace: "pre" }}>
+          {c}
+        </span>
+      ))}
+    </>
+  );
+}
+
 // layout effect on the client (runs before paint → no reveal flash),
 // plain effect on the server (no SSR warning)
 const useIsoLayoutEffect = typeof document !== "undefined" ? useLayoutEffect : useEffect;
@@ -82,15 +96,16 @@ export function Hero({ staticImage: _staticImage }: { staticImage: SiteImage }) 
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
       // clearProps strips GSAP's inline styles on completion, so the
-      // resting headline is pure CSS — no lingering filter/transform layer
-      tl.from(".hero-word", {
-        yPercent: 118,
-        opacity: 0,
-        filter: "blur(16px)",
-        duration: 1.1,
-        stagger: 0.14,
+      // resting headline is pure CSS — no lingering transform layer.
+      // Characters rise out of each line's mask with a slight settle.
+      tl.from(".hero-char", {
+        yPercent: 115,
+        rotate: 3,
+        duration: 0.9,
+        ease: "power4.out",
+        stagger: 0.02,
         delay: 0.12,
-        clearProps: "filter,opacity,transform,willChange",
+        clearProps: "transform,willChange",
       })
         .from(".hero-sub", { y: 22, opacity: 0, duration: 0.8, clearProps: "transform,opacity" }, 0.55)
         .from(".hero-actions > *", { y: 16, opacity: 0, duration: 0.6, stagger: 0.08, clearProps: "transform,opacity" }, 0.7)
@@ -142,14 +157,14 @@ export function Hero({ staticImage: _staticImage }: { staticImage: SiteImage }) 
         {/* content — one centred monolith over the graphic */}
         <div className="relative z-10 mx-auto flex w-full max-w-(--container-content) flex-1 flex-col px-(--spacing-gutter) pb-10 pt-24 md:pb-12">
           <div ref={copy} className="flex flex-1 flex-col items-center justify-center text-center">
-            <h1 className="font-display text-[clamp(2.9rem,7vw,6.5rem)] font-extrabold leading-[0.95] tracking-[-0.045em] text-paper [text-shadow:0_2px_50px_rgba(4,6,10,0.85)]">
-              <span className="block">
-                <span className="hero-word inline-block will-change-transform">Engineering with{" "}</span>
+            <h1 className="font-display text-[clamp(2.6rem,6.4vw,6rem)] font-extrabold uppercase leading-[0.92] tracking-[-0.02em] text-paper [text-shadow:0_2px_50px_rgba(4,6,10,0.85)]">
+              {/* the trailing space keeps the accessible name one phrase:
+                  "Engineering with context." — blocks alone don't add it */}
+              <span className="block overflow-hidden">
+                <Chars text="Engineering with" />{" "}
               </span>
-              <span className="block">
-                <span className="hero-word inline-block will-change-transform">
-                  <span className="text-signal">context.</span>
-                </span>
+              <span className="block overflow-hidden text-cobalt">
+                <Chars text="context." />
               </span>
             </h1>
             <p className="hero-sub mx-auto mt-8 max-w-3xl leading-relaxed text-ice">

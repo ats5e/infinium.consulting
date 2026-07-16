@@ -3,7 +3,7 @@
  * row (standard for dark-ground partner bands) via CSS filter, so mixed
  * brand palettes never fight the void background.
  */
-const PARTNERS = [
+export const PARTNERS = [
   { name: "Quantexa", src: "/partners/quantexa.png", w: 527, h: 87, cls: "h-5" },
   { name: "Alteryx", src: "/partners/alteryx.png", w: 449, h: 137, cls: "h-7" },
   { name: "Microsoft Fabric", src: "/partners/fabric.png", w: 559, h: 146, cls: "h-8" },
