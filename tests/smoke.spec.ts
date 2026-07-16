@@ -1,7 +1,7 @@
 import { test, expect } from "@playwright/test";
 
 const ROUTES: Array<[path: string, h1: RegExp]> = [
-  ["/", /engineers behind the engineers/i],
+  ["/", /Complex systems become decisions/i],
   ["/about", /business outcomes/i],
   ["/services", /Our services/i],
   ["/solutions", /Our solutions/i],
@@ -60,9 +60,9 @@ test("navigation overlay isolates page content and restores focus", async ({ pag
   await expect(page.locator("#main")).not.toHaveAttribute("inert", "");
 });
 
-test("the hero holds one voice and one action", async ({ page }) => {
+test("the hero offers the two journeys and live telemetry", async ({ page }) => {
   await page.goto("/");
-  // one quiet action, in ink
+  await expect(page.getByRole("link", { name: /explore our work/i })).toHaveAttribute("href", "/services");
   await expect(page.getByRole("link", { name: /meet us/i })).toHaveAttribute("href", "/contact");
   // every journey stays reachable through the menu
   await page.getByRole("button", { name: /open menu/i }).click();

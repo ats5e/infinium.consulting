@@ -7,6 +7,7 @@ import { PartnerLogos } from "@/components/PartnerLogos";
 import { QBricksWord } from "@/components/QBricksWord";
 import { Reveal } from "@/components/motion/Reveal";
 import { Counter } from "@/components/motion/Counter";
+import { HowWeHelp } from "@/components/wireframe/HowWeHelp";
 import {
   CASE_STUDIES,
   PERSPECTIVES,
@@ -186,6 +187,8 @@ export function HomeWirePage() {
   return (
     <>
       <Hero staticImage={siteImage("hero")} />
+
+      <HowWeHelp />
 
       {/* the evidence — four facts on one ruled strip, counted up on arrival */}
       <section aria-label="Key figures" className="border-b hairline">
