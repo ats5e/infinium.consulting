@@ -9,17 +9,15 @@ const useIsoLayoutEffect = typeof document !== "undefined" ? useLayoutEffect : u
 /*
  * The nav lockup, rebuilt as a live composite instead of the flat PNG:
  * real "Infinium" text set in the logo-matched face, with ONE cube —
- * the SVG mark — docked immediately beside the wordmark. Its entrance is
- * deliberately contained within the mark's own footprint so the wordmark
- * remains legible at every frame.
+ * the SVG mark — sitting behind the letters at the trademarked position
+ * (centre-x 36.3%, measured from the supplied artwork). On entrance the
+ * cube rolls across to reveal the wordmark, then rolls back and docks home.
+ * A restrained internal refraction highlight lifts the navy letters from
+ * the dark facets without outlining or altering the wordmark.
  * Reduced motion (and the resting state) is exactly the logo pose.
  */
-// The source lockup's crystal is deliberately much taller than the
-// wordmark. Keeping that proportion lets its top and lower facets remain
-// visible even where the letters cross the centre of the mark.
-const CUBE_PX = 52;
-const CUBE_LEFT_PX = -8;
-const TEXT_OFFSET_PX = 42;
+const CUBE_PX = 40;
+const CUBE_CENTER_FRAC = 0.363;
 
 export function AnimatedLockup({ className }: { className?: string }) {
   const wrap = useRef<HTMLSpanElement>(null);
@@ -33,28 +31,24 @@ export function AnimatedLockup({ className }: { className?: string }) {
     if (!w || !t || !c) return;
 
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      t.style.clipPath = "none";
       return;
     }
 
     const ctx = gsap.context(() => {
-      const tl = gsap.timeline({ delay: 0.08, defaults: { ease: "power3.out" } });
-      tl.from(c, {
-        autoAlpha: 0,
-        scale: 0.84,
-        rotation: -16,
-        duration: 0.6,
-        clearProps: "transform,opacity,visibility",
-      }).from(
-        t,
-        {
-          autoAlpha: 0,
-          x: -5,
-          duration: 0.45,
-          clearProps: "transform,opacity,visibility",
-        },
-        0.12,
-      );
+      const width = w.offsetWidth;
+      const home = CUBE_CENTER_FRAC * width;
+      const start = -(home - CUBE_PX / 2);
+      const out = width - CUBE_PX / 2 - home;
+      const tl = gsap.timeline({ delay: 0.15, defaults: { ease: "power2.inOut" } });
+
+      tl.set(t, { clipPath: "inset(-18% 100% -18% 0%)" })
+        .set(c, { x: start, rotation: 0 })
+        .to(c, { x: out, rotation: 720, duration: 1.0 })
+        .to(t, { clipPath: "inset(-18% 0% -18% 0%)", duration: 1.0 }, "<")
+        .to(c, { x: 0, rotation: 360, duration: 0.65 })
+        .from(t, { y: -2, duration: 0.35, ease: "back.out(2.5)", clearProps: "transform" }, "-=0.2")
+        .set(t, { clearProps: "clipPath" })
+        .set(c, { rotation: 0 });
     }, w);
     return () => ctx.revert();
   }, []);
@@ -62,21 +56,24 @@ export function AnimatedLockup({ className }: { className?: string }) {
   return (
     <span
       ref={wrap}
-      className={`relative inline-flex items-center ${className ?? "h-6"}`}
-      style={{ paddingLeft: TEXT_OFFSET_PX }}
+      data-lockup="animated"
+      className={`relative isolate inline-flex items-center ${className ?? "h-6"}`}
     >
-      {/* the one and only cube — docked beside the wordmark */}
+      {/* The mark remains behind the text at the registered lockup position. */}
       <span
         ref={cube}
         aria-hidden
-        className="pointer-events-none absolute top-1/2 -translate-y-1/2 opacity-100 [filter:drop-shadow(0_0_1px_rgba(23,56,102,0.46))_drop-shadow(0_2px_4px_rgba(23,56,102,0.2))_saturate(1.08)_contrast(1.04)]"
-        style={{ left: CUBE_LEFT_PX, width: CUBE_PX, height: CUBE_PX }}
+        data-logo-layer="crystal"
+        className="pointer-events-none absolute z-0 top-1/2 -translate-y-1/2 [filter:drop-shadow(0_3px_7px_rgba(23,56,102,0.24))_saturate(1.16)_contrast(1.08)]"
+        style={{ left: `calc(${CUBE_CENTER_FRAC * 100}% - ${CUBE_PX / 2}px)`, width: CUBE_PX, height: CUBE_PX }}
       >
         <LogoCrystal className="h-full w-full" />
+        <span className="absolute inset-[7%] bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.62)_0%,rgba(220,235,252,0.28)_42%,transparent_72%)]" />
       </span>
-      {/* wordmark remains fully readable throughout the contained entrance */}
+      {/* Clean navy lettering: contrast comes from the refracted mark below. */}
       <span
         ref={text}
+        data-logo-layer="wordmark"
         className="relative z-10 font-hero text-[21px] font-medium tracking-[0.005em] text-paper"
       >
         Infinium

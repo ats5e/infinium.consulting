@@ -1,7 +1,7 @@
 import { test, expect } from "@playwright/test";
 
 const ROUTES: Array<[path: string, h1: RegExp]> = [
-  ["/", /Engineering with context/i],
+  ["/", /Engineering\s*with\s*context/i],
   ["/about", /business outcomes/i],
   ["/services", /Our services/i],
   ["/solutions", /Our solutions/i],
@@ -65,6 +65,43 @@ test("home hero exposes the wireframe journeys", async ({ page }) => {
   await expect(page.getByRole("link", { name: "Let’s meet", exact: true })).toHaveAttribute("href", "/contact");
   await expect(page.getByRole("link", { name: "Our services", exact: true }).first()).toHaveAttribute("href", "/services");
   await expect(page.getByRole("link", { name: "Our solutions", exact: true }).first()).toHaveAttribute("href", "/solutions");
+});
+
+test("case-study artwork uses the editorial media frame", async ({ page }) => {
+  await page.goto("/insights/regulatory-reporting");
+  const visual = page.getByTestId("case-study-visual");
+  await expect(visual).toBeVisible();
+  await expect(visual.getByRole("img")).toHaveAttribute(
+    "alt",
+    /project illustration/i,
+  );
+
+  const width = await visual.evaluate(
+    (element) => element.getBoundingClientRect().width,
+  );
+  const viewportWidth = page.viewportSize()?.width ?? width;
+  expect(width).toBeLessThanOrEqual(Math.min(1000, viewportWidth));
+});
+
+test("trademark lockup keeps the crystal behind the wordmark", async ({ page }) => {
+  await page.goto("/");
+  const lockup = page.locator('[data-lockup="animated"]');
+  await expect(lockup).toHaveCount(1);
+  const geometry = await lockup.evaluate((element) => {
+    const crystal = element.querySelector<HTMLElement>('[data-logo-layer="crystal"]');
+    const wordmark = element.querySelector<HTMLElement>('[data-logo-layer="wordmark"]');
+    if (!crystal || !wordmark) return null;
+    const c = crystal.getBoundingClientRect();
+    const w = wordmark.getBoundingClientRect();
+    return {
+      overlap: Math.min(c.right, w.right) - Math.max(c.left, w.left),
+      crystalZ: Number.parseInt(getComputedStyle(crystal).zIndex || "0", 10),
+      wordmarkZ: Number.parseInt(getComputedStyle(wordmark).zIndex || "0", 10),
+    };
+  });
+  expect(geometry).not.toBeNull();
+  expect(geometry!.overlap).toBeGreaterThan(20);
+  expect(geometry!.crystalZ).toBeLessThan(geometry!.wordmarkZ);
 });
 
 test("contact form validates and reports errors accessibly", async ({ page }) => {

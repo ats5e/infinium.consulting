@@ -11,12 +11,14 @@ export function GlassImage({
   sizes = "100vw",
   priority = false,
   className,
+  imageClassName,
 }: {
   image: SiteImage;
   alt: string;
   sizes?: string;
   priority?: boolean;
   className?: string;
+  imageClassName?: string;
 }) {
   return (
     <picture className={className}>
@@ -35,7 +37,7 @@ export function GlassImage({
         loading={priority ? "eager" : "lazy"}
         fetchPriority={priority ? "high" : "auto"}
         decoding="async"
-        className="image-premium block h-auto w-full"
+        className={`image-premium block h-auto w-full ${imageClassName ?? ""}`}
         style={{
           backgroundImage: `url(${image.lqip})`,
           backgroundSize: "cover",

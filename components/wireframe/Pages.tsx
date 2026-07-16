@@ -13,6 +13,7 @@ import {
   SECTORS,
   TECHNOLOGIES,
   caseStudy,
+  type CaseStudy,
 } from "@/lib/content";
 import { siteImage } from "@/lib/images";
 import { CaseStudyExplorer } from "@/components/wireframe/CaseStudyExplorer";
@@ -54,6 +55,64 @@ function PageImage({
     <div className="overflow-hidden border hairline">
       <GlassImage image={siteImage(slot)} alt={alt} sizes="(min-width: 768px) 45vw, 100vw" />
     </div>
+  );
+}
+
+function CaseStudyVisual({ study }: { study: CaseStudy }) {
+  return (
+    <Reveal className="grid items-start gap-8 lg:grid-cols-[minmax(13rem,0.3fr)_minmax(0,0.7fr)] lg:gap-12">
+      <aside className="lg:sticky lg:top-28">
+        <p className="eyebrow text-signal">Project view</p>
+        <h2 className="mt-5 max-w-sm text-(length:--text-step-2) leading-[1.08]">
+          The system behind the outcome
+        </h2>
+        <p className="mt-5 max-w-md text-(length:--text-body-sm) leading-relaxed text-ice">
+          {study.summary}
+        </p>
+        <dl className="mt-8 divide-y divide-navy/10 border-y border-navy/10">
+          {[
+            ["Service", study.service],
+            ["Sector", study.sector],
+            ["Location", study.location],
+          ].map(([label, value]) => (
+            <div key={label} className="grid grid-cols-[5.5rem_1fr] gap-4 py-3">
+              <dt className="font-mono text-[9px] uppercase tracking-[0.1em] text-steel">
+                {label}
+              </dt>
+              <dd className="text-(length:--text-body-sm) leading-snug text-paper">
+                {value}
+              </dd>
+            </div>
+          ))}
+        </dl>
+      </aside>
+
+      <figure
+        data-testid="case-study-visual"
+        className="mx-auto w-full max-w-[1000px] overflow-hidden border border-navy/14 bg-white shadow-[0_18px_48px_rgba(23,56,102,0.09)]"
+      >
+        <div className="flex min-h-11 items-center justify-between gap-4 border-b border-navy/10 bg-surface/90 px-4 font-mono text-[9px] uppercase tracking-[0.1em] text-steel sm:px-5">
+          <span>Case study / visual evidence</span>
+          <span className="hidden text-right sm:block">{study.service}</span>
+        </div>
+        <div className="relative aspect-[5/3] overflow-hidden bg-[#eef3fa]">
+          <GlassImage
+            image={study.image()}
+            alt={`${study.title} — project illustration`}
+            sizes="(min-width: 1280px) 820px, (min-width: 1024px) 66vw, 100vw"
+            imageClassName="h-full w-full object-cover contrast-[1.04] saturate-[0.96]"
+          />
+          <span
+            aria-hidden
+            className="pointer-events-none absolute inset-0 ring-1 ring-inset ring-white/35"
+          />
+        </div>
+        <figcaption className="flex flex-col gap-2 border-t border-navy/10 bg-white px-4 py-3 font-mono text-[9px] uppercase tracking-[0.09em] text-steel sm:flex-row sm:items-center sm:justify-between sm:px-5">
+          <span>Illustrative project view</span>
+          <span>{study.sector} / {study.location}</span>
+        </figcaption>
+      </figure>
+    </Reveal>
   );
 }
 
@@ -902,10 +961,8 @@ export function CaseStudyWirePage({ slug }: { slug: string }) {
       <ContentSection density="compact">
         <StatGrid stats={c.stats} />
       </ContentSection>
-      <ContentSection>
-        <div className="overflow-hidden border hairline">
-          <GlassImage image={c.image()} alt={c.title} sizes="(min-width: 1024px) 90vw, 100vw" />
-        </div>
+      <ContentSection density="compact">
+        <CaseStudyVisual study={c} />
       </ContentSection>
       <ContentSection>
         <div className="grid gap-px md:grid-cols-3">

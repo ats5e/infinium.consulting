@@ -117,6 +117,18 @@
   filter: grayscale(1) brightness(0.48) sepia(0.26) saturate(1.7) hue-rotate(175deg);
 }
 
+/* the raw field murmurs — three interleaved groups slowly breathe.
+ * Class names are outside every Tailwind utility namespace. */
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes murmur {
+    0%, 100% { opacity: 0.45; }
+    50% { opacity: 1; }
+  }
+  .murmur-a { animation: murmur 9s ease-in-out infinite; }
+  .murmur-b { animation: murmur 13s ease-in-out infinite 3s; }
+  .murmur-c { animation: murmur 17s ease-in-out infinite 7s; }
+}
+
 /* CTA sheen — a band of light sweeps the button once on hover */
 .btn-sheen { position: relative; overflow: hidden; }
 .btn-sheen::before {
