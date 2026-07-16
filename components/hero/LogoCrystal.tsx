@@ -1,7 +1,7 @@
 /*
  * Static fallback for the hero object: the Infinium icon — the faceted
  * glass cube from the logo — drawn as SVG for touch, small viewports and
- * reduced motion. Same face mapping as the WebGL cube in GlassObject.tsx:
+ * reduced motion. Face mapping follows the logo artwork:
  * ice-glass top, deep-navy left, bright-cobalt right, white refraction
  * edges, tilted in the logo's pose.
  */

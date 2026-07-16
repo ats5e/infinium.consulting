@@ -1,7 +1,7 @@
 import { test, expect } from "@playwright/test";
 
 const ROUTES: Array<[path: string, h1: RegExp]> = [
-  ["/", /Engineering\s*with\s*context/i],
+  ["/", /engineers behind the engineers/i],
   ["/about", /business outcomes/i],
   ["/services", /Our services/i],
   ["/solutions", /Our solutions/i],
@@ -60,11 +60,14 @@ test("navigation overlay isolates page content and restores focus", async ({ pag
   await expect(page.locator("#main")).not.toHaveAttribute("inert", "");
 });
 
-test("home hero exposes the wireframe journeys", async ({ page }) => {
+test("the hero holds one voice and one action", async ({ page }) => {
   await page.goto("/");
-  await expect(page.getByRole("link", { name: "Let’s meet", exact: true })).toHaveAttribute("href", "/contact");
-  await expect(page.getByRole("link", { name: "Our services", exact: true }).first()).toHaveAttribute("href", "/services");
-  await expect(page.getByRole("link", { name: "Our solutions", exact: true }).first()).toHaveAttribute("href", "/solutions");
+  // one quiet action, in ink
+  await expect(page.getByRole("link", { name: /meet us/i })).toHaveAttribute("href", "/contact");
+  // every journey stays reachable through the menu
+  await page.getByRole("button", { name: /open menu/i }).click();
+  await expect(page.getByRole("link", { name: "Services", exact: true }).first()).toBeVisible();
+  await expect(page.getByRole("link", { name: "Contact", exact: true }).first()).toBeVisible();
 });
 
 test("case-study artwork uses the editorial media frame", async ({ page }) => {
