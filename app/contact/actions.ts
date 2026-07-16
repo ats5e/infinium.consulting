@@ -18,8 +18,8 @@ export type ContactState = {
   fieldErrors?: Partial<Record<"name" | "email" | "topic" | "message", string>>;
 };
 
-/* Naive in-memory rate limit — enough for a marketing site behind one
- * Vercel instance; swap for KV if traffic ever warrants it. */
+/* This lightweight process-local limiter reduces accidental repeat sends.
+ * Production infrastructure should add a shared edge/KV limit as traffic grows. */
 const hits = new Map<string, { count: number; reset: number }>();
 function limited(key: string): boolean {
   const now = Date.now();
@@ -80,7 +80,14 @@ export async function sendMessage(
       };
     }
   } else {
-    // no provider configured (local dev): log so the submission isn't lost
+    if (process.env.NODE_ENV === "production") {
+      console.error("[contact] RESEND_API_KEY is not configured");
+      return {
+        status: "error",
+        message: "The message service is temporarily unavailable. Email sales@infinium.technology and we’ll pick it up.",
+      };
+    }
+    // Local development remains testable without delivering email.
     console.log("[contact] no RESEND_API_KEY —", { name, email, topic, message });
   }
 

@@ -22,8 +22,8 @@ export default async function OGImage() {
           height: "100%",
           display: "flex",
           alignItems: "center",
-          backgroundColor: "#05070C",
-          backgroundImage: `url(data:image/jpeg;base64,${bg.toString("base64")})`,
+          backgroundColor: "#F7F9FC",
+          backgroundImage: `linear-gradient(90deg, rgba(247,249,252,0.42), rgba(247,249,252,0.9) 52%, rgba(255,255,255,0.97)), url(data:image/jpeg;base64,${bg.toString("base64")})`,
           backgroundSize: "1200px 630px",
         }}
       >
@@ -41,7 +41,7 @@ export default async function OGImage() {
               <path d="M10 27 L50 50 L50 100 L10 77 Z" fill="#22365D" />
               <path d="M90 27 L50 50 L50 100 L90 77 Z" fill="#365EEE" />
             </svg>
-            <span style={{ fontFamily: "Outfit", fontSize: 52, color: "#FFFFFF", letterSpacing: -1 }}>
+            <span style={{ fontFamily: "Outfit", fontSize: 52, color: "#102B50", letterSpacing: -1 }}>
               Infinium
             </span>
           </div>
@@ -51,7 +51,7 @@ export default async function OGImage() {
               fontFamily: "Outfit",
               fontSize: 30,
               lineHeight: 1.25,
-              color: "#9AC7F8",
+              color: "#234FBD",
             }}
           >
             Engineering with context.

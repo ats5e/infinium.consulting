@@ -1,15 +1,16 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { AnimatedLockup } from "@/components/AnimatedLockup";
 import { CASE_STUDIES, PERSPECTIVES, SERVICES, TECHNOLOGIES } from "@/lib/content";
 
 /*
- * Palantir-pattern navigation, faithful to the reference: a floating
- * translucent pill — wordmark + region marker left, a joined two-cell
- * search/menu control right — over full-screen takeover overlays.
+ * Infinium's floating navigation: a translucent wordmark and region
+ * lockup paired with a joined search/menu control and full-screen
+ * editorial overlays.
  * The menu runs three editorial columns (NAVIGATION with return-arrow
  * products, LATEST PERSPECTIVES + QUICK LINKS, LATEST CASE STUDY);
  * search filters the whole IA. Escape or any route change closes.
@@ -93,6 +94,9 @@ export function Nav() {
   const [searching, setSearching] = useState(false);
   const [query, setQuery] = useState("");
   const searchInput = useRef<HTMLInputElement>(null);
+  const menuFirst = useRef<HTMLAnchorElement>(null);
+  const menuButton = useRef<HTMLButtonElement>(null);
+  const searchButton = useRef<HTMLButtonElement>(null);
   const pathname = usePathname();
   const [lastPath, setLastPath] = useState(pathname);
   const study = CASE_STUDIES[0];
@@ -111,14 +115,24 @@ export function Nav() {
 
   useEffect(() => {
     document.documentElement.style.overflow = overlayOpen ? "hidden" : "";
+    const main = document.getElementById("main");
+    const footer = document.getElementById("site-footer");
+    if (main) main.inert = overlayOpen;
+    if (footer) footer.inert = overlayOpen;
     return () => {
       document.documentElement.style.overflow = "";
+      if (main) main.inert = false;
+      if (footer) footer.inert = false;
     };
   }, [overlayOpen]);
 
   useEffect(() => {
     if (searching) searchInput.current?.focus();
   }, [searching]);
+
+  useEffect(() => {
+    if (open) menuFirst.current?.focus();
+  }, [open]);
 
   const q = query.trim().toLowerCase();
   const results = q ? SEARCH_INDEX.filter((e) => e.label.toLowerCase().includes(q)).slice(0, 8) : [];
@@ -128,15 +142,17 @@ export function Nav() {
       className="fixed inset-x-0 top-0 z-50"
       onKeyDown={(e) => {
         if (e.key === "Escape" && overlayOpen) {
+          const returnFocus = searching ? searchButton.current : menuButton.current;
           setOpen(false);
           setSearching(false);
+          requestAnimationFrame(() => returnFocus?.focus());
         }
       }}
     >
       {/* the floating pill */}
       <nav
         aria-label="Primary"
-        className="pointer-events-auto absolute inset-x-3 top-3 z-50 flex h-14 items-center justify-between rounded-[10px] border border-paper/8 bg-paper/[0.05] pl-5 pr-2 backdrop-blur-md md:inset-x-6 md:top-4 md:h-16 md:pl-6 md:pr-2.5 lg:inset-x-10"
+        className="pointer-events-auto absolute inset-x-3 top-3 z-50 flex h-14 items-center justify-between rounded-[10px] border border-navy/12 bg-white/78 pl-5 pr-2 shadow-[0_10px_34px_rgba(23,56,102,0.09)] backdrop-blur-xl md:inset-x-6 md:top-4 md:h-16 md:pl-6 md:pr-2.5 lg:inset-x-10"
       >
         <div className="flex min-w-0 items-center gap-3">
           <Link href="/" aria-label="Infinium Technology — home" className="shrink-0">
@@ -148,8 +164,9 @@ export function Nav() {
         </div>
 
         {/* joined two-cell control: search | menu */}
-        <div className="flex overflow-hidden rounded-[6px] border border-paper/25">
+        <div className="flex overflow-hidden rounded-[6px] border border-navy/18 bg-white/55">
           <button
+            ref={searchButton}
             type="button"
             aria-expanded={searching}
             aria-controls="site-search"
@@ -157,7 +174,7 @@ export function Nav() {
               setSearching((v) => !v);
               setOpen(false);
             }}
-            className="grid size-11 place-items-center border-r border-paper/25 text-paper transition-colors duration-(--duration-fast) hover:bg-paper/10"
+            className="grid size-11 place-items-center border-r border-navy/18 text-paper transition-colors duration-(--duration-fast) hover:bg-signal/8 hover:text-signal"
           >
             <span className="sr-only">{searching ? "Close search" : "Open search"}</span>
             {searching ? (
@@ -172,6 +189,7 @@ export function Nav() {
             )}
           </button>
           <button
+            ref={menuButton}
             type="button"
             aria-expanded={open}
             aria-controls="site-menu"
@@ -179,7 +197,7 @@ export function Nav() {
               setOpen((v) => !v);
               setSearching(false);
             }}
-            className="grid size-11 place-items-center text-paper transition-colors duration-(--duration-fast) hover:bg-paper/10"
+            className="grid size-11 place-items-center text-paper transition-colors duration-(--duration-fast) hover:bg-signal/8 hover:text-signal"
           >
             <span className="sr-only">{open ? "Close menu" : "Open menu"}</span>
             <span aria-hidden className="relative block h-[11px] w-[17px]">
@@ -206,13 +224,15 @@ export function Nav() {
       {/* full-screen takeover menu */}
       <div
         id="site-menu"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Site navigation"
         aria-hidden={!open}
-        data-lenis-prevent
         className={`fixed inset-0 z-40 overflow-y-auto bg-void transition-[clip-path] duration-(--duration-slow) ease-(--ease-out-expo) ${
           open ? "[clip-path:inset(0_0_0%_0)]" : "pointer-events-none [clip-path:inset(0_0_100%_0)]"
         }`}
       >
-        <div aria-hidden className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_80%_10%,rgba(54,94,238,0.14),transparent_36rem)]" />
+        <div aria-hidden className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_80%_10%,rgba(35,79,189,0.09),transparent_36rem)]" />
         <div className="relative mx-auto grid max-w-(--container-content) gap-x-14 gap-y-14 px-(--spacing-gutter) pb-20 pt-32 lg:grid-cols-12">
           {/* NAVIGATION — products first, with the return-arrow prefix */}
           <div className="lg:col-span-5">
@@ -222,6 +242,7 @@ export function Nav() {
                 ({ label, href, product }, i) => (
                   <li key={`${label}-${href}`} className="overflow-hidden">
                     <Link
+                      ref={i === 0 ? menuFirst : undefined}
                       href={href}
                       tabIndex={open ? 0 : -1}
                       aria-current={pathname === href ? "page" : undefined}
@@ -296,12 +317,12 @@ export function Nav() {
                 Case study <span className="text-ice/40">{"//"}</span> {study.sector}
               </p>
               <span className="relative mt-3 block aspect-[16/10] overflow-hidden border hairline">
-                <img
+                <Image
                   src={studyImage.webpMob}
                   alt=""
-                  loading="lazy"
-                  decoding="async"
-                  className="absolute inset-0 h-full w-full object-cover opacity-85 transition-[transform,opacity] duration-(--duration-slow) ease-(--ease-out-expo) group-hover:scale-[1.04] group-hover:opacity-100"
+                  fill
+                  sizes="(min-width: 1024px) 22vw, 40vw"
+                  className="object-cover opacity-92 saturate-[0.94] contrast-[1.03] transition-[transform,opacity,filter] duration-(--duration-slow) ease-(--ease-out-expo) group-hover:scale-[1.015] group-hover:opacity-100 group-hover:saturate-100"
                   style={{ backgroundImage: `url(${studyImage.lqip})`, backgroundSize: "cover" }}
                 />
               </span>
@@ -316,13 +337,15 @@ export function Nav() {
       {/* full-screen search */}
       <div
         id="site-search"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Site search"
         aria-hidden={!searching}
-        data-lenis-prevent
         className={`fixed inset-0 z-40 overflow-y-auto bg-void transition-[clip-path] duration-(--duration-slow) ease-(--ease-out-expo) ${
           searching ? "[clip-path:inset(0_0_0%_0)]" : "pointer-events-none [clip-path:inset(0_0_100%_0)]"
         }`}
       >
-        <div aria-hidden className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_8%,rgba(54,94,238,0.12),transparent_34rem)]" />
+        <div aria-hidden className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_8%,rgba(35,79,189,0.08),transparent_34rem)]" />
         <div className="relative mx-auto max-w-(--container-content) px-(--spacing-gutter) pb-20 pt-36">
           <label htmlFor="site-search-input" className="text-[11px] font-medium uppercase tracking-[0.14em] text-steel">
             Search

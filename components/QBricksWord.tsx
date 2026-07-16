@@ -1,8 +1,8 @@
 /*
  * The QBricks wordmark, reproduced exactly as it appears on
  * qbricks.vercel.app: Quicksand (their brand face, 2.5KB glyph subset),
- * capital "Q" bold in the brand ember red (#FF3A26), "Bricks" in regular
- * white. Never uppercased, never recoloured wholesale. Client-directed.
+ * capital "Q" bold in the brand ember red (#FF3A26), "Bricks" in the
+ * current high-contrast heading colour. Never uppercased. Client-directed.
  */
 export function QBricksWord({ className }: { className?: string }) {
   return (

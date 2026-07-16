@@ -6,9 +6,9 @@
   "seeds": [7, 1337, 9001],
   "decisions": {
     "hero": "v1 (client, 2026-07-10) — topaz High Fidelity V2 enhanced to 12544x5376; master is design/raw/hero-v1.png; OG base cropped from it",
-    "tbricks": "v3 (client) — the warm-temperature variant",
-    "data-engineering": "v2", "data-science": "v3", "digital-transformation": "v1",
-    "governance": "v3", "qbricks": "red set, pick pending", "about-difc": "v1", "careers": "v3"
+    "tbricks": "v4 (2026-07-16) — light-studio ChatGPT generation retaining the warm-temperature engineering identity",
+    "data-engineering": "v4 (2026-07-16) — light-studio edit", "data-science": "v4 (2026-07-16) — light-studio edit", "digital-transformation": "v4 (2026-07-16) — light-studio edit",
+    "governance": "v4 (2026-07-16) — light-studio edit", "qbricks": "v4 (2026-07-16) — light-studio edit retaining the red product identity", "about-difc": "v4 (2026-07-16) — daylight architectural generation", "careers": "v3"
   },
   "slots": [
     {

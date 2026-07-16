@@ -32,12 +32,12 @@ const POSE = { x: 0.38, y: 0.62, z: -0.08 };
 // Colours sampled from the logo artwork (mirrored in LogoCrystal's
 // gradients): bright ice top, deep navy left, vivid cobalt right.
 const FACES = [
-  { color: "#2f55b6", emissive: "#365eee", intensity: 0.4 }, // +x — mid facet (mostly hidden)
-  { color: "#16244a", emissive: "#0a1020", intensity: 0.35 }, // -x left — deep navy facet
-  { color: "#e4eefb", emissive: "#9ac7f8", intensity: 0.28 }, // +y top — the white-ice highlight
-  { color: "#0a1020", emissive: "#0a1020", intensity: 0.15 }, // -y bottom
-  { color: "#3f68f4", emissive: "#365eee", intensity: 0.8 }, // +z right in pose — vivid cobalt core
-  { color: "#0d1b3d", emissive: "#0a1020", intensity: 0.2 }, // -z back
+  { color: "#173866", emissive: "#07152f", intensity: 0.025 }, // +x — dark logo facet
+  { color: "#173866", emissive: "#07152f", intensity: 0.03 }, // -x left — logo navy
+  { color: "#d7e3f1", emissive: "#73a8fb", intensity: 0.04 }, // +y top — logo ice highlight
+  { color: "#07152f", emissive: "#07152f", intensity: 0.02 }, // -y bottom
+  { color: "#234fbd", emissive: "#173866", intensity: 0.04 }, // +z right — brand cobalt
+  { color: "#102b50", emissive: "#07152f", intensity: 0.025 }, // -z back
 ] as const;
 
 /* one shared material set + geometry for all three cubes — crisp glass:
@@ -51,14 +51,14 @@ function useCubeAssets() {
           emissive: f.emissive,
           emissiveIntensity: f.intensity,
           metalness: 0,
-          roughness: 0.03,
+          roughness: 0.06,
           clearcoat: 1,
-          clearcoatRoughness: 0.08,
-          transparent: true,
-          opacity: 0.9,
-          side: THREE.DoubleSide,
-          depthWrite: false,
-          envMapIntensity: 2.4,
+          clearcoatRoughness: 0.035,
+          transparent: false,
+          opacity: 1,
+          side: THREE.FrontSide,
+          depthWrite: true,
+          envMapIntensity: 1.05,
         })
     );
     const box = new THREE.BoxGeometry(1.9, 1.9, 1.9);
@@ -95,7 +95,7 @@ function Cube({
   const glowLine = useRef<THREE.LineBasicMaterial>(null);
   const hovered = useRef(false);
   // damped hover springs — lift, growth, tumble speed, edge light
-  const spring = useRef({ lift: 0, grow: 0, speed: 1, glow: 0.2 });
+  const spring = useRef({ lift: 0, grow: 0, speed: 1, glow: 0.66 });
 
   useFrame((state) => {
     const g = inner.current;
@@ -105,7 +105,7 @@ function Cube({
     s.lift = THREE.MathUtils.lerp(s.lift, on ? 0.16 : 0, 0.1);
     s.grow = THREE.MathUtils.lerp(s.grow, on ? 0.1 : 0, 0.1);
     s.speed = THREE.MathUtils.lerp(s.speed, on ? 3.4 : 1, 0.06);
-    s.glow = THREE.MathUtils.lerp(s.glow, on ? 0.62 : 0.2, 0.12);
+    s.glow = THREE.MathUtils.lerp(s.glow, on ? 0.9 : 0.66, 0.12);
     if (glowLine.current) glowLine.current.opacity = s.glow;
 
     const t = state.clock.elapsedTime + phase;
@@ -132,11 +132,8 @@ function Cube({
           hovered.current = false;
         }}
       />
-      <lineSegments geometry={assets.edges} renderOrder={3}>
-        <lineBasicMaterial color="#f2f9ff" transparent opacity={0.95} depthTest={false} />
-      </lineSegments>
-      <lineSegments geometry={assets.edges} scale={1.04} renderOrder={2}>
-        <lineBasicMaterial ref={glowLine} color="#73a8fb" transparent opacity={0.2} depthTest={false} blending={THREE.AdditiveBlending} />
+      <lineSegments geometry={assets.edges} renderOrder={2}>
+        <lineBasicMaterial ref={glowLine} color="#173866" transparent opacity={0.66} depthTest />
       </lineSegments>
     </group>
   );
@@ -169,7 +166,7 @@ function Dust() {
   return (
     <points ref={points} geometry={geometry} renderOrder={0}>
       <pointsMaterial
-        color="#73a8fb"
+        color="#1b57c8"
         size={0.028}
         sizeAttenuation
         transparent
@@ -222,7 +219,7 @@ function Satellites({ assets }: { assets: ReturnType<typeof useCubeAssets> }) {
         <group key={i} position={[s[0], s[1], s[2]]} scale={s[3]}>
           <mesh geometry={assets.box} material={assets.materials} />
           <lineSegments geometry={assets.edges}>
-            <lineBasicMaterial color="#e9f4ff" transparent opacity={0.45} />
+            <lineBasicMaterial color="#173866" transparent opacity={0.64} depthTest />
           </lineSegments>
         </group>
       ))}
@@ -240,7 +237,7 @@ function CursorLight() {
     l.position.x = THREE.MathUtils.lerp(l.position.x, state.pointer.x * 3.4, 0.07);
     l.position.y = THREE.MathUtils.lerp(l.position.y, state.pointer.y * 2.2, 0.07);
   });
-  return <pointLight ref={light} position={[0, 0, 2.4]} intensity={5} distance={8} decay={1.6} color="#73a8fb" />;
+  return <pointLight ref={light} position={[0, 0, 2.4]} intensity={1.5} distance={8} decay={1.6} color="#365eee" />;
 }
 
 function LogoCluster({ assets }: { assets: ReturnType<typeof useCubeAssets> }) {
@@ -270,16 +267,16 @@ function LogoCluster({ assets }: { assets: ReturnType<typeof useCubeAssets> }) {
       <mesh rotation={[0.5, 0.7, 0.2]} scale={0.36} renderOrder={0}>
         <boxGeometry args={[1.9, 1.9, 1.9]} />
         <meshPhysicalMaterial
-          color="#9ac7f8"
-          emissive="#73a8fb"
-          emissiveIntensity={1.1}
+          color="#2f55b6"
+          emissive="#1e3f9e"
+          emissiveIntensity={0.14}
           roughness={0.2}
           transparent
-          opacity={0.3}
+          opacity={0.16}
           depthWrite={false}
         />
       </mesh>
-      <pointLight position={[0.6, 1.2, 2.2]} intensity={2.5} color="#73a8fb" />
+      <pointLight position={[0.6, 1.2, 2.2]} intensity={0.8} color="#365eee" />
       <Dust />
     </group>
   );
@@ -289,11 +286,11 @@ function LogoCluster({ assets }: { assets: ReturnType<typeof useCubeAssets> }) {
 function Scene() {
   const assets = useCubeAssets();
   return (
-    <>
+    <group position={[0.45, 0, 0]}>
       <LogoCluster assets={assets} />
       <Satellites assets={assets} />
       <CursorLight />
-    </>
+    </group>
   );
 }
 
@@ -304,7 +301,7 @@ export default function GlassObject({
 }) {
   return (
     <Canvas
-      dpr={[1, 1.5]}
+      dpr={[1.5, 2]}
       camera={{ position: [0, 0.6, 5.6], fov: 42 }}
       gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
       onCreated={({ gl }) => {
@@ -319,15 +316,15 @@ export default function GlassObject({
       aria-hidden
     >
       {/* key from upper-left, cobalt rim from the right — the logo's lighting */}
-      <directionalLight position={[-4, 5, 3]} intensity={2.4} color="#ffffff" />
-      <pointLight position={[4, -1, 2]} intensity={7} color="#365eee" />
-      <pointLight position={[-3.5, -2, 1]} intensity={2} color="#22365d" />
+      <directionalLight position={[-4, 5, 3]} intensity={1.15} color="#ffffff" />
+      <pointLight position={[4, -1, 2]} intensity={1.65} color="#234fbd" />
+      <pointLight position={[-3.5, -2, 1]} intensity={1.6} color="#173866" />
       <Scene />
       <Environment resolution={128} frames={1}>
-        <Lightformer intensity={9} position={[-3, 4, 2]} scale={[4, 3, 1]} color="#f2f7ff" />
-        <Lightformer intensity={6} position={[4, 0, 1]} scale={[3, 5, 1]} color="#4c7ef5" />
-        <Lightformer intensity={3} position={[0, -4, -2]} scale={[8, 2, 1]} color="#2f55b6" />
-        <Lightformer intensity={4} position={[0, 1, -4]} scale={[5, 5, 1]} color="#9ac7f8" />
+        <Lightformer intensity={4} position={[-3, 4, 2]} scale={[4, 3, 1]} color="#f2f7ff" />
+        <Lightformer intensity={1.8} position={[4, 0, 1]} scale={[3, 5, 1]} color="#365eee" />
+        <Lightformer intensity={2} position={[0, -4, -2]} scale={[8, 2, 1]} color="#22365d" />
+        <Lightformer intensity={0.9} position={[0, 1, -4]} scale={[5, 5, 1]} color="#9ac7f8" />
       </Environment>
     </Canvas>
   );

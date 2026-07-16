@@ -11,10 +11,15 @@ const ROUTES = [
   "/services",
   "/solutions",
   "/solutions/ai-assessment",
+  "/services/data-and-ai",
   "/technologies",
+  "/technologies/quantexa",
   "/insights",
+  "/insights/regulatory-reporting",
+  "/about/amsterdam",
   "/careers",
   "/contact",
+  "/privacy",
 ];
 
 for (const path of ROUTES) {

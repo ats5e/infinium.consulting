@@ -21,7 +21,7 @@ const FILTERS: Array<{ key: "service" | "sector" | "location"; label: string; op
 ];
 
 const selectCls =
-  "mt-2 w-full border hairline bg-abyss/50 px-3 py-2.5 text-(length:--text-body-sm) text-glass transition-[border-color] duration-(--duration-fast) focus:border-signal focus:outline-none";
+  "mt-2 w-full border hairline bg-white px-3 py-2.5 text-(length:--text-body-sm) text-glass shadow-[inset_0_1px_2px_rgba(23,56,102,0.04)] transition-[border-color,box-shadow] duration-(--duration-fast) focus:border-signal focus:shadow-[0_0_0_3px_rgba(27,87,200,0.1)] focus:outline-none";
 
 export function CaseStudyExplorer() {
   const [filters, setFilters] = useState<Record<string, string>>({

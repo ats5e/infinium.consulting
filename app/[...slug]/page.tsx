@@ -3,7 +3,7 @@ import { ALL_PATHS, routeFor } from "@/components/wireframe/Pages";
 
 type Params = { slug: string[] };
 
-const DEDICATED = new Set(["", "contact", "about", "services", "careers"]);
+const DEDICATED = new Set(["", "contact", "about", "services", "careers", "privacy"]);
 
 export function generateStaticParams(): Params[] {
   return ALL_PATHS

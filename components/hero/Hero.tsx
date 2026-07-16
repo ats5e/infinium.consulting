@@ -11,89 +11,6 @@ import { LogoCrystal } from "./LogoCrystal";
 
 const GlassObject = dynamic(() => import("./GlassObject"), { ssr: false });
 
-/* one span per character so the entrance can cascade — whiteSpace: pre
- * keeps the word spaces alive inside the inline-blocks */
-function Chars({ text }: { text: string }) {
-  return (
-    <>
-      {[...text].map((c, i) => (
-        <span key={i} className="hero-char inline-block will-change-transform" style={{ whiteSpace: "pre" }}>
-          {c}
-        </span>
-      ))}
-    </>
-  );
-}
-
-/* the rotating word — "context." is the brand line and stays the anchor:
- * it is the resting state, the reduced-motion state and the accessible
- * text; the alternates flick through behind it. Widths are converted to
- * em after the display font loads so the mask scales with the clamp. */
-const ROTATE = ["context.", "precision.", "intelligence.", "discipline.", "insight."];
-
-function RotatingWord({ reduced }: { reduced: boolean }) {
-  const wrap = useRef<HTMLSpanElement>(null);
-
-  useEffect(() => {
-    const el = wrap.current;
-    if (reduced || !el) return;
-    let ctx: gsap.Context | undefined;
-    let cancelled = false;
-    document.fonts.ready.then(() => {
-      if (cancelled) return;
-      ctx = gsap.context(() => {
-        const words = Array.from(el.querySelectorAll<HTMLElement>("[data-word]"));
-        const fontSize = parseFloat(getComputedStyle(el).fontSize);
-        const widths = words.map((w) => w.offsetWidth / fontSize); // em
-        gsap.set(el, { width: `${widths[0]}em` });
-        // word 0's transform belongs to the entrance roll-in — only pin alpha
-        gsap.set(words[0], { autoAlpha: 1 });
-        gsap.set(words.slice(1), { yPercent: 108, autoAlpha: 0 });
-        // one transition per word, 2.4s dwell between and before repeating
-        const tl = gsap.timeline({ repeat: -1, repeatDelay: 2.4, delay: 4, defaults: { ease: "power3.inOut" } });
-        words.forEach((_, i) => {
-          const next = (i + 1) % words.length;
-          tl.to(el, { width: `${widths[next]}em`, duration: 0.45 }, i === 0 ? 0 : "+=2.4")
-            .to(words[i], { yPercent: -108, autoAlpha: 0, duration: 0.5 }, "<")
-            .fromTo(
-              words[next],
-              { yPercent: 108, autoAlpha: 1 },
-              { yPercent: 0, duration: 0.5, immediateRender: false },
-              "<0.06",
-            );
-        });
-      }, el);
-    });
-    return () => {
-      cancelled = true;
-      ctx?.revert();
-    };
-  }, [reduced]);
-
-  return (
-    <>
-      <span className="sr-only">context.</span>
-      <span
-        ref={wrap}
-        aria-hidden
-        className="hero-rotator relative inline-block overflow-hidden align-bottom text-cobalt"
-      >
-        {ROTATE.map((w, i) => (
-          <span
-            key={w}
-            data-word={i}
-            className={`whitespace-nowrap will-change-transform ${
-              i === 0 ? "inline-block" : "absolute left-0 top-0 inline-block opacity-0"
-            }`}
-          >
-            {w}
-          </span>
-        ))}
-      </span>
-    </>
-  );
-}
-
 // layout effect on the client (runs before paint → no reveal flash),
 // plain effect on the server (no SSR warning)
 const useIsoLayoutEffect = typeof document !== "undefined" ? useLayoutEffect : useEffect;
@@ -106,7 +23,7 @@ const useIsoLayoutEffect = typeof document !== "undefined" ? useLayoutEffect : u
  * always plays in view: characters cascade out of their line masks, the
  * object arrives from the right, copy/actions/stats follow. Once settled,
  * the composition remains stable and scrolls away with the page. WebGL
- * needs >=768px + fine pointer + no reduced-motion; context loss falls
+ * needs >=1024px + fine pointer + no reduced-motion; context loss falls
  * back to SVG.
  */
 export function Hero({ staticImage: _staticImage }: { staticImage: SiteImage }) {
@@ -119,7 +36,7 @@ export function Hero({ staticImage: _staticImage }: { staticImage: SiteImage }) 
 
   useEffect(() => {
     const rmq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const glq = window.matchMedia("(min-width: 768px) and (pointer: fine)");
+    const glq = window.matchMedia("(min-width: 1024px) and (pointer: fine)");
     const update = () => {
       setReduced(rmq.matches);
       setWebgl(!rmq.matches && glq.matches);
@@ -163,28 +80,21 @@ export function Hero({ staticImage: _staticImage }: { staticImage: SiteImage }) 
         defaults: { ease: "power4.out" },
         scrollTrigger: { trigger: section.current, start: "top 85%", once: true },
       });
-      // clearProps strips GSAP's inline styles on completion, so the
-      // resting hero is pure CSS — no lingering transform layers
+      // Reveal complete lines rather than animating every character. This
+      // preserves the signature entrance without delaying comprehension.
       tl.from(
-        ".hero-char",
-        { yPercent: 120, duration: 1.05, stagger: 0.03, clearProps: "transform,willChange" },
-        0.05,
+        ".hero-line",
+        { yPercent: 110, duration: 0.72, stagger: 0.08, clearProps: "transform" },
+        0.02,
       )
-        // the rotating word rolls in with its line (it isn't a .hero-char)
-        .from(
-          ".hero-rotator [data-word='0']",
-          { yPercent: 120, duration: 1.0, clearProps: "transform" },
-          0.5,
-        )
         .from(
           ".hero-visual-inner",
-          { autoAlpha: 0, x: 70, scale: 0.94, duration: 1.5, ease: "power3.out", clearProps: "transform,opacity,visibility" },
-          0.25,
+          { autoAlpha: 0, x: 52, scale: 0.96, duration: 0.95, ease: "power3.out", clearProps: "transform,opacity,visibility" },
+          0.12,
         )
-        .from(".hero-eyebrow", { y: 16, opacity: 0, duration: 0.65, clearProps: "transform,opacity" }, 0.66)
-        .from(".hero-sub", { y: 24, opacity: 0, duration: 0.8, clearProps: "transform,opacity" }, 0.8)
-        .from(".hero-actions > *", { y: 16, opacity: 0, duration: 0.6, stagger: 0.08, clearProps: "transform,opacity" }, 0.95)
-        .from(".hero-stats > *", { y: 18, opacity: 0, duration: 0.6, stagger: 0.06, clearProps: "transform,opacity" }, 1.1);
+        .from(".hero-sub", { y: 18, opacity: 0, duration: 0.55, clearProps: "transform,opacity" }, 0.42)
+        .from(".hero-actions > *", { y: 12, opacity: 0, duration: 0.42, stagger: 0.05, clearProps: "transform,opacity" }, 0.54)
+        .from(".hero-stats > *", { y: 12, opacity: 0, duration: 0.42, stagger: 0.04, clearProps: "transform,opacity" }, 0.64);
     }, section);
     return () => ctx.revert();
   }, [reduced]);
@@ -198,7 +108,7 @@ export function Hero({ staticImage: _staticImage }: { staticImage: SiteImage }) 
           className="pointer-events-none absolute right-[-10%] top-1/2 h-[80%] w-[64%] -translate-y-1/2"
           style={{
             background:
-              "radial-gradient(ellipse 50% 45% at 55% 50%, rgba(115,168,251,0.13) 0%, rgba(54,94,238,0.06) 45%, transparent 70%)",
+              "radial-gradient(ellipse 50% 45% at 55% 50%, rgba(115,168,251,0.2) 0%, rgba(35,79,189,0.08) 45%, transparent 70%)",
           }}
         />
         {/* the object: full-height zone anchored to the right viewport
@@ -208,7 +118,7 @@ export function Hero({ staticImage: _staticImage }: { staticImage: SiteImage }) 
             {webgl && heroVisible && pageVisible ? (
               <GlassObject onContextLost={() => setWebgl(false)} />
             ) : (
-              <LogoCrystal className="absolute left-1/2 top-1/2 h-[68%] w-auto -translate-x-1/2 -translate-y-1/2 opacity-75 drop-shadow-[0_0_42px_rgba(115,168,251,0.32)]" />
+              <LogoCrystal className="absolute left-[96%] top-[49%] h-[40%] w-auto -translate-x-1/2 -translate-y-1/2 opacity-20 drop-shadow-[0_18px_34px_rgba(23,56,102,0.14)] sm:left-[80%] sm:top-[42%] sm:h-[50%] sm:opacity-30 lg:left-1/2 lg:top-1/2 lg:h-[68%] lg:opacity-90" />
             )}
           </div>
         </div>
@@ -219,18 +129,14 @@ export function Hero({ staticImage: _staticImage }: { staticImage: SiteImage }) 
         {/* content — the staircase headline owns the left */}
         <div className="relative z-10 mx-auto flex w-full max-w-(--container-content) flex-1 flex-col px-(--spacing-gutter) pb-8 pt-24 md:pb-10">
           <div className="flex flex-1 flex-col justify-center">
-            <p className="hero-eyebrow eyebrow mb-5 text-signal">
-              Banking &amp; financial services consultancy
-            </p>
-            <h1 className="font-hero text-[clamp(2.9rem,8vw,8.1rem)] font-bold uppercase leading-[0.93] tracking-[-0.01em] text-paper [text-shadow:0_2px_50px_rgba(4,6,10,0.85)]">
-              {/* the trailing space keeps the accessible name one phrase:
-                  "Engineering with context." — blocks alone don't add it */}
-              <span className="hero-line-a block overflow-hidden">
-                <Chars text="Engineering" />{" "}
-              </span>
-              <span className="hero-line-b block overflow-hidden md:ml-[6vw]">
-                <Chars text="with " />
-                <RotatingWord reduced={reduced} />
+            <h1 className="font-hero text-[clamp(2.9rem,8vw,8.1rem)] font-bold uppercase leading-[0.93] tracking-[-0.01em] text-paper [text-shadow:0_10px_34px_rgba(23,56,102,0.09)]">
+              <span className="block overflow-hidden">
+                <span className="hero-line block">Engineering</span>
+              </span>{" "}
+              <span className="block overflow-hidden">
+                <span className="hero-line block">
+                  with <span className="hero-rotator text-cobalt">context.</span>
+                </span>
               </span>
             </h1>
             <p className="hero-sub mt-8 max-w-xl leading-relaxed text-ice">
@@ -246,7 +152,7 @@ export function Hero({ staticImage: _staticImage }: { staticImage: SiteImage }) 
             <div className="hero-actions mt-10 flex flex-wrap items-center gap-3">
               <Link
                 href="/contact"
-                className="btn-sheen inline-flex min-h-11 cursor-pointer items-center bg-cobalt px-7 font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-paper transition-colors duration-(--duration-fast) ease-(--ease-out-expo) hover:bg-signal hover:text-void"
+                className="btn-sheen inline-flex min-h-11 cursor-pointer items-center bg-cobalt px-7 font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-white shadow-[0_8px_24px_rgba(35,79,189,0.18)] transition-[background-color,box-shadow] duration-(--duration-fast) ease-(--ease-out-expo) hover:bg-navy hover:shadow-[0_10px_28px_rgba(23,56,102,0.24)]"
               >
                 Let&rsquo;s meet
               </Link>
@@ -257,14 +163,14 @@ export function Hero({ staticImage: _staticImage }: { staticImage: SiteImage }) 
                 <Link
                   key={href}
                   href={href}
-                  className="inline-flex min-h-11 items-center border border-ice/25 bg-void/25 px-6 font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-paper backdrop-blur-sm transition-[border-color,background-color] duration-(--duration-fast) hover:border-signal/60 hover:bg-abyss/65 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-signal"
+                  className="inline-flex min-h-11 items-center border border-navy/18 bg-white/68 px-6 font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-paper shadow-[0_4px_14px_rgba(23,56,102,0.05)] backdrop-blur-sm transition-[border-color,background-color,box-shadow] duration-(--duration-fast) hover:border-signal/45 hover:bg-white hover:shadow-[0_8px_22px_rgba(23,56,102,0.1)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-signal"
                 >
                   {label}
                 </Link>
               ))}
               {/* scroll cue rides beside the CTA */}
               <span aria-hidden className="hero-cue hidden text-ice/70 md:block">
-                <svg width="13" height="20" viewBox="0 0 14 22" fill="none" className="motion-safe:animate-bounce [animation-duration:2.2s]">
+                <svg width="13" height="20" viewBox="0 0 14 22" fill="none">
                   <path d="M7 1v18m0 0 5.5-5.5M7 19l-5.5-5.5" stroke="currentColor" strokeWidth="1.25" />
                 </svg>
               </span>
@@ -279,7 +185,7 @@ export function Hero({ staticImage: _staticImage }: { staticImage: SiteImage }) 
               [30, "", "Fintech solution technologies"],
               [2, "", "Global offices"],
             ] as const).map(([value, suffix, label]) => (
-              <div key={label} className="spot border hairline bg-abyss/35 p-4 backdrop-blur-sm">
+              <div key={label} className="border hairline bg-white/72 p-4 shadow-[0_8px_24px_rgba(23,56,102,0.05)] backdrop-blur-sm">
                 <p className="font-display text-(length:--text-step-1) text-paper">
                   <Counter value={value} suffix={suffix} />
                 </p>

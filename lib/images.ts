@@ -3,13 +3,13 @@ import manifest from "@/public/img/manifest.json";
 /* Chosen variants — decisions logged in design/assets.json. */
 const CHOSEN: Record<string, number> = {
   hero: 1,
-  "data-engineering": 2,
-  "data-science": 3,
-  "digital-transformation": 1,
-  governance: 3,
-  qbricks: 2,
-  tbricks: 3,
-  "about-difc": 1,
+  "data-engineering": 4,
+  "data-science": 4,
+  "digital-transformation": 4,
+  governance: 4,
+  qbricks: 4,
+  tbricks: 4,
+  "about-difc": 4,
   careers: 3,
   // wireframe-supplied assets (single variant each)
   "cs-reg-reporting": 1,

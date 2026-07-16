@@ -35,7 +35,7 @@ export function GlassImage({
         loading={priority ? "eager" : "lazy"}
         fetchPriority={priority ? "high" : "auto"}
         decoding="async"
-        className="block h-auto w-full"
+        className="image-premium block h-auto w-full"
         style={{
           backgroundImage: `url(${image.lqip})`,
           backgroundSize: "cover",

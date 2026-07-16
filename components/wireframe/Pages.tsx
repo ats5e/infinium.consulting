@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import { GlassImage } from "@/components/GlassImage";
 import { Hero } from "@/components/hero/Hero";
@@ -57,15 +58,31 @@ function PageImage({
 }
 
 const AWARDS = [
-  "Appian FS Partner of the Year 2024",
-  "Best Places to Work 2023",
-  "EcoVadis rated",
-  "Great Place to Work Certified",
-  "The Consultancy Awards",
-  "NEN 4400-1 certified",
-  "Best Workplaces 2024",
-  "Alteryx Partner",
-  "Quantexa Plus Alliance Partner",
+  {
+    src: "/awards/Awards Collage 2.webp",
+    alt: "Sunday Times Best Places to Work 2023, EcoVadis Silver 2024, ISO 9001, NEN 4400-1 and Best Workplaces Netherlands 2024",
+    featured: true,
+  },
+  {
+    src: "/awards/Appian.webp",
+    alt: "Appian Europe 2024 Financial Services Partner of the Year",
+    featured: false,
+  },
+  {
+    src: "/awards/Consultancy Awards.png",
+    alt: "The Consultancy Awards 2025",
+    featured: false,
+  },
+  {
+    src: "/awards/Alteryx Partner.png",
+    alt: "Alteryx Partner — Authorized Professional Services",
+    featured: false,
+  },
+  {
+    src: "/awards/Partner_Program_Levels_Plus_Alliance.png",
+    alt: "Quantexa Plus Alliance Partner",
+    featured: false,
+  },
 ] as const;
 
 const HOME_PILLARS = [
@@ -112,13 +129,23 @@ export function HomeWirePage() {
 
       <ContentSection className="overflow-hidden" density="compact">
         <h2 className="eyebrow text-center">An award-winning consultancy</h2>
-        <div className="mt-7 grid grid-cols-2 gap-px border hairline sm:grid-cols-3">
+        <div className="mt-7 grid grid-cols-2 gap-px border hairline sm:grid-cols-4">
           {AWARDS.map((award) => (
-            <div key={award} className="group relative flex min-h-20 items-center justify-center bg-abyss/25 px-4 py-5 text-center">
-              <span aria-hidden className="absolute inset-x-0 top-0 h-px origin-left scale-x-0 bg-signal transition-transform duration-(--duration-base) group-hover:scale-x-100" />
-              <p className="font-mono text-[10px] uppercase leading-relaxed tracking-[0.08em] text-steel transition-colors duration-(--duration-fast) group-hover:text-paper">
-                {award}
-              </p>
+            <div
+              key={award.src}
+              className={`relative flex items-center justify-center overflow-hidden bg-white/82 shadow-[inset_0_0_0_1px_rgba(23,56,102,0.045)] ${
+                award.featured ? "col-span-2 min-h-32 px-3 py-4 sm:col-span-4 sm:min-h-40 sm:px-8 sm:py-6" : "min-h-36 px-5 py-6"
+              }`}
+            >
+              <Image
+                src={award.src}
+                alt={award.alt}
+                fill
+                sizes={award.featured ? "(min-width: 1440px) 1350px, (min-width: 640px) calc(100vw - 80px), calc(100vw - 40px)" : "(min-width: 1440px) 335px, (min-width: 640px) 25vw, 50vw"}
+                className={`object-contain ${
+                  award.featured ? "p-3 sm:p-5" : "p-5 sm:p-7"
+                }`}
+              />
             </div>
           ))}
         </div>
@@ -143,16 +170,16 @@ export function HomeWirePage() {
                   alt=""
                   loading="lazy"
                   decoding="async"
-                  className="h-full w-full object-cover transition-transform duration-(--duration-grand) ease-(--ease-out-expo) group-hover:scale-[1.03]"
+                  className="h-full w-full object-cover transition-transform duration-(--duration-grand) ease-(--ease-out-expo) group-hover:scale-[1.015]"
                   style={{ backgroundImage: `url(${siteImage(item.slot).lqip})`, backgroundSize: "cover" }}
                 />
               </picture>
-              <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-void/97 via-void/78 to-void/30" />
+              <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-overlay/96 via-overlay/72 to-overlay/20" />
               <div className="relative flex min-h-[25rem] flex-col justify-end p-7 md:min-h-[28rem]">
-                <p className="eyebrow text-signal">{item.eyebrow}</p>
-                <h2 className="mt-4 text-(length:--text-step-2) leading-tight">{item.title}</h2>
-                <p className="mt-5 max-w-xl leading-relaxed text-glass">{item.body}</p>
-                <p className="mt-7 font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-signal">{item.cta}</p>
+                <p className="eyebrow text-on-dark-accent">{item.eyebrow}</p>
+                <h2 className="mt-4 text-(length:--text-step-2) leading-tight text-on-dark">{item.title}</h2>
+                <p className="mt-5 max-w-xl leading-relaxed text-on-dark-muted">{item.body}</p>
+                <p className="mt-7 font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-on-dark-accent">{item.cta}</p>
               </div>
             </Link>
           ))}
@@ -336,12 +363,12 @@ export function ServicesWirePage() {
                     style={{ backgroundImage: `url(${img.lqip})`, backgroundSize: "cover" }}
                   />
                 </picture>
-                <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-void/97 via-void/78 to-void/30" />
+                <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-overlay/96 via-overlay/72 to-overlay/20" />
                 <div className="relative flex min-h-80 flex-col justify-end p-8">
-                  <p className="eyebrow text-signal">{service.eyebrow}</p>
-                  <h2 className="mt-4 text-(length:--text-step-2) leading-tight">{service.title}</h2>
-                  <p className="mt-4 max-w-xl text-(length:--text-body-sm) leading-relaxed text-glass">{service.navBody}</p>
-                  <p className="mt-6 font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-signal">Learn more →</p>
+                  <p className="eyebrow text-on-dark-accent">{service.eyebrow}</p>
+                  <h2 className="mt-4 text-(length:--text-step-2) leading-tight text-on-dark">{service.title}</h2>
+                  <p className="mt-4 max-w-xl text-(length:--text-body-sm) leading-relaxed text-on-dark-muted">{service.navBody}</p>
+                  <p className="mt-6 font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-on-dark-accent">Learn more →</p>
                 </div>
               </Link>
             );
@@ -377,7 +404,7 @@ export function ServiceDetailPage({ slug }: { slug: string }) {
             <h2 className="mt-6 max-w-2xl text-(length:--text-step-4)">{detail.deliverTitle}</h2>
           </Reveal>
           <div className="md:col-span-5">
-            <div className="spot aspect-[4/3] overflow-hidden border hairline [&_picture]:block [&_picture]:h-full [&_img]:h-full [&_img]:w-full [&_img]:object-cover">
+            <div className="aspect-[4/3] overflow-hidden border hairline [&_picture]:block [&_picture]:h-full [&_img]:h-full [&_img]:w-full [&_img]:object-cover">
               <GlassImage
                 image={siteImage(SERVICE_IMAGE[slug])}
                 alt={service.title}
@@ -408,7 +435,7 @@ export function SolutionsWirePage() {
       />
       <ContentSection>
         <div className="grid gap-px lg:grid-cols-2">
-          <article className="spot overflow-hidden border hairline bg-abyss/25">
+          <article className="overflow-hidden border hairline bg-abyss/25">
             <div className="border-b hairline"><GlassImage image={siteImage("qbricks")} alt="QBricks — governed data products" sizes="(min-width: 1024px) 45vw, 66vw" priority /></div>
             <div className="p-8">
             <p className="eyebrow text-signal">Solution</p>
@@ -421,16 +448,16 @@ export function SolutionsWirePage() {
               <a
                 href="https://qbricks.ai"
                 target="_blank"
-                rel="noopener"
-                className="btn-sheen inline-flex min-h-11 items-center bg-cobalt px-6 font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-paper transition-colors duration-(--duration-fast) ease-(--ease-out-expo) hover:bg-signal hover:text-void"
+                rel="noopener noreferrer"
+                className="btn-sheen inline-flex min-h-11 items-center bg-cobalt px-6 font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-white shadow-[0_8px_24px_rgba(35,79,189,0.18)] transition-[background-color,box-shadow] duration-(--duration-fast) ease-(--ease-out-expo) hover:bg-navy hover:shadow-[0_10px_28px_rgba(23,56,102,0.24)]"
               >
-                Learn more about QBricks
+                Learn more about QBricks ↗
               </a>
               <SecondaryLink href="/contact">Request a demo →</SecondaryLink>
             </div>
             </div>
           </article>
-          <article className="spot overflow-hidden border hairline bg-abyss/25">
+          <article className="overflow-hidden border hairline bg-abyss/25">
             <div className="border-b hairline"><GlassImage image={siteImage("tbricks")} alt="VBricks — engineered model testing" sizes="(min-width: 1024px) 45vw, 66vw" /></div>
             <div className="p-8">
             <p className="eyebrow text-signal">Solution</p>
@@ -440,7 +467,7 @@ export function SolutionsWirePage() {
             <p className="mt-5 text-ice">Every run is auditable and defensible, built for model risk management and regulatory scrutiny.</p>
             <p className="mt-5 text-ice">Designed and developed by our R&amp;D team in DIFC, Dubai (UAE).</p>
             <div className="mt-8 flex flex-wrap gap-6">
-              <a href="https://vbricks.vercel.app/" className="link-wipe font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-signal">Visit the VBricks site</a>
+              <a href="https://vbricks.vercel.app/" target="_blank" rel="noopener noreferrer" className="link-wipe font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-signal">Visit the VBricks site ↗</a>
               <SecondaryLink href="/contact">Request a demo →</SecondaryLink>
             </div>
             </div>
@@ -851,7 +878,7 @@ export function InsightsWirePage() {
             <div key={title} className="grid gap-4 py-5 md:grid-cols-[200px_1fr_auto] md:items-baseline">
               <p className="eyebrow">{tag}</p>
               <h3 className="text-(length:--text-step-1)">{title}</h3>
-              <span className="font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-signal">Read →</span>
+              <span className="font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-steel">Perspective</span>
             </div>
           ))}
         </div>
@@ -868,7 +895,7 @@ export function CaseStudyWirePage({ slug }: { slug: string }) {
       <HeroSection
         backHref="/insights"
         backLabel="All case studies"
-        eyebrow={`Case study — ${c.service} | ${c.sector} | ${c.location}`}
+        eyebrow={`Case study — ${c.service} · ${c.sector} · ${c.location}`}
         title={c.title}
         body={c.summary}
       />
@@ -950,22 +977,23 @@ export function AboutWirePage() {
             <p className="mt-5 leading-relaxed text-ice">Together with best-in-class fintech and platform partners, we deliver unique business solutions with the latest enabling technologies, helping our clients go faster.</p>
           </Reveal>
           <div className="grid grid-cols-4 gap-px overflow-hidden border hairline bg-ice/12" aria-label="Infinium leadership team">
-            <img
+            <Image
               src="/img/team-david.avif"
               alt="David Aston, Chief Executive Officer"
               width={800}
               height={800}
+              sizes="(min-width: 768px) 25vw, 50vw"
               className="col-span-2 row-span-2 h-full w-full object-cover grayscale"
             />
             {leadership.slice(1).map(([name, role, img]) => (
-              <img
+              <Image
                 key={name}
                 src={`/img/team/${img}.webp`}
                 alt={`${name} — ${role}`}
                 width={150}
                 height={150}
                 loading="lazy"
-                decoding="async"
+                sizes="(min-width: 768px) 12.5vw, 25vw"
                 className="aspect-square h-full w-full object-cover grayscale"
               />
             ))}
@@ -975,13 +1003,13 @@ export function AboutWirePage() {
       <ContentSection>
         <div className="grid gap-12 md:grid-cols-[380px_1fr]">
           <figure className="overflow-hidden border hairline bg-abyss/25">
-            <img
+            <Image
               src="/img/team-david.avif"
               alt="David Aston, Chief Executive Officer"
               width={800}
               height={800}
               loading="lazy"
-              decoding="async"
+              sizes="(min-width: 768px) 380px, 100vw"
               className="h-full min-h-[28rem] w-full object-cover grayscale"
             />
           </figure>
@@ -999,15 +1027,15 @@ export function AboutWirePage() {
         {/* portraits + roles sourced from nxwave.com/locations/infinium-amsterdam-en */}
         <div className="grid grid-cols-2 gap-px md:grid-cols-3 lg:grid-cols-5">
           {leadership.map(([name, role, img]) => (
-            <article key={name} className="spot border hairline bg-abyss/25 p-5">
-              <img
+            <article key={name} className="border hairline bg-abyss/25 p-5">
+              <Image
                 src={`/img/team/${img}.webp`}
                 alt={`${name} — ${role}`}
                 width={150}
                 height={150}
                 loading="lazy"
-                decoding="async"
-                className="mx-auto aspect-square w-full max-w-[150px] border hairline object-cover grayscale transition-[filter] duration-(--duration-base) hover:grayscale-0"
+                sizes="(min-width: 1024px) 150px, (min-width: 768px) 28vw, 45vw"
+                className="mx-auto aspect-square w-full max-w-[150px] border hairline object-cover grayscale"
               />
               <h3 className="mt-5 text-(length:--text-body)">{name}</h3>
               <p className="eyebrow mt-2">{role}</p>
@@ -1282,15 +1310,21 @@ export function LocationPage({ city }: { city: "amsterdam" | "dubai" }) {
                 ["Entity", "Infinium Technology Ltd"],
                 ["Location", "Dubai International Financial Centre"],
                 ["Address", "InnovationOne, DIFC, Dubai"],
-                ["Email", "sales@infinium-technology.com"],
+                ["Email", "sales@infinium.technology"],
               ] : [
                 ["Entity", "Infinium Consulting B.V."],
                 ["Address", "Fred Roeskestraat 115, Amsterdam, The Netherlands"],
-                ["Email", "sales@infinium.consulting"],
+                ["Email", "sales@infinium.technology"],
               ]).map(([k, v]) => (
                 <div key={k}>
                   <dt className="eyebrow">{k}</dt>
-                  <dd className="mt-2 text-ice">{v}</dd>
+                  <dd className="mt-2 text-ice">
+                    {k === "Email" ? (
+                      <a className="underline decoration-navy/20 underline-offset-4 transition-colors hover:text-signal" href="mailto:sales@infinium.technology">
+                        sales@infinium.technology
+                      </a>
+                    ) : v}
+                  </dd>
                 </div>
               ))}
             </dl>
@@ -1402,4 +1436,5 @@ export const ALL_PATHS = [
   "about/dubai",
   "careers",
   "contact",
+  "privacy",
 ];

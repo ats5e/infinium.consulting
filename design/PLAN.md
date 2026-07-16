@@ -19,30 +19,28 @@ via `scripts/extract-palette.mjs`. Raw clusters darkest → lightest:
 
 | Token | Value | Source | Role |
 |---|---|---|---|
-| `--color-void` | `#05070C` | authored (hue-matched ~222°) | page background |
-| `--color-abyss` | `#0A1020` | authored | raised surfaces, cards |
-| `--color-navy` | `#22365D` | extracted | deep facet |
-| `--color-cobalt` | `#365EEE` | extracted | brand core — hero object, data-viz strokes |
-| `--color-signal` | `#73A8FB` | extracted | interactive, accent, focus ring |
-| `--color-ice` | `#9AC7F8` | extracted | muted body text, hairlines |
-| `--color-steel` | `#93A9BF` | extracted | secondary labels (new token — largest single cluster) |
-| `--color-glass` | `#CDDEF1` | extracted | refraction highlight |
-| `--color-paper` | `#FFFFFF` | wordmark | headings, lockup |
+| `--color-void` | `#F7F9FC` | authored from the brand's cool neutrals | page canvas |
+| `--color-abyss` | `#DFE8F4` | authored from the glass facets | tinted surfaces |
+| `--color-navy` | `#173866` | deepened from extracted navy | heading hierarchy |
+| `--color-cobalt` | `#234FBD` | refined from extracted cobalt | primary actions |
+| `--color-signal` | `#1B57C8` | refined from extracted blue | links, focus and active states |
+| `--color-ice` | `#3E526B` | darkened semantic neutral | supporting copy and hairline source |
+| `--color-steel` | `#5B6B7F` | darkened semantic neutral | AA secondary labels |
+| `--color-glass` | `#2A415D` | darkened semantic neutral | body copy |
+| `--color-paper` | `#102B50` | deepened logo navy | headings and wordmark text |
+| `--color-surface` | `#FFFFFF` | authored | elevated panels and controls |
 
-The extraction shifted the brief's fallbacks meaningfully: the logo's
-cobalt is more electric (`#365EEE` vs `#1E4FD8`), and a desaturated
-steel-grey facet family (`#93A9BF`, 22% of the logo) existed that the
-fallback missed — it becomes the secondary-label colour, which helps keep
-blue under the 8%-per-viewport budget.
+The extracted logo colours remain the source hues. The semantic light-theme
+roles deepen the blues and neutrals enough to retain the original precision
+and hierarchy on white without making every surface or interaction blue.
 
-Contrast (checked): ice on void 11.4:1 ✓ · signal on void 8.4:1 ✓ ·
-cobalt on void 3.8:1 ✗ → cobalt is never text; text-level interaction
-uses signal.
+Contrast (checked): paper on void 13.4:1 ✓ · glass on void 9.9:1 ✓ ·
+signal on void 6.1:1 ✓ · white on cobalt 7.2:1 ✓.
 
 ## 3. Typography
 
-Evaluation done as specified: "fin" at 200px against the logo at 1300px on
-`#05070C` (scratchpad/typecompare, screenshots reviewed). The logo wordmark
+Evaluation done as specified: "fin" at 200px against the logo at 1300px
+(scratchpad/typecompare, screenshots reviewed). The logo wordmark
 is a soft geometric sans: near-circular `n` shoulder, round tittle set
 close to the stem, uniform stroke, rounded terminals.
 
@@ -69,7 +67,7 @@ carrying all technical labelling.
 ## 4. Grid
 
 12 columns · 1440px max · 88px → 20px gutters · 1px hairlines in
-`--color-ice` at 12% opacity between every major section. Numbering
+`--color-ice` at 16% opacity between every major section. Numbering
 appears exactly once on the site: the .1/.2/.3 differentiator argument.
 
 ## 5. Wireframe — Home

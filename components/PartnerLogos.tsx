@@ -1,7 +1,6 @@
 /*
- * Certified partner strip. Logos render as a uniform monochrome-white
- * row (standard for dark-ground partner bands) via CSS filter, so mixed
- * brand palettes never fight the void background.
+ * Certified partner strip. Logos render as a uniform deep-blue row so
+ * mixed partner palettes remain calm on the light interface.
  */
 export const PARTNERS = [
   { name: "Quantexa", src: "/partners/quantexa.png", w: 527, h: 87, cls: "h-5" },
@@ -16,19 +15,20 @@ export function PartnerLogos({ tileClass = "p-7" }: { tileClass?: string }) {
       {PARTNERS.map((p) => (
         <li
           key={p.name}
-          className={`flex items-center justify-center border hairline bg-abyss/35 backdrop-blur-sm transition-[border-color] duration-(--duration-fast) hover:border-signal/50 ${tileClass}`}
+          className={`flex items-center justify-center border hairline bg-white/78 shadow-[0_8px_24px_rgba(23,56,102,0.045)] backdrop-blur-sm ${tileClass}`}
         >
-          <img
+          <Image
             src={p.src}
             alt={p.name}
             width={p.w}
             height={p.h}
             loading="lazy"
-            decoding="async"
-            className={`w-auto opacity-75 transition-opacity duration-(--duration-fast) [filter:brightness(0)_invert(1)] hover:opacity-100 ${p.cls}`}
+            sizes="(min-width: 1024px) 20vw, 42vw"
+            className={`partner-logo w-auto opacity-90 ${p.cls}`}
           />
         </li>
       ))}
     </ul>
   );
 }
+import Image from "next/image";

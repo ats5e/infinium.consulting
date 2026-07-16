@@ -4,8 +4,8 @@ import { FOOTER_COLUMNS } from "@/lib/content";
 
 export function Footer() {
   return (
-    <footer className="relative overflow-hidden border-t hairline">
-      <div aria-hidden className="absolute inset-0 bg-[radial-gradient(circle_at_15%_20%,rgba(54,94,238,0.16),transparent_28rem)]" />
+    <footer id="site-footer" className="relative overflow-hidden border-t hairline bg-white/55">
+      <div aria-hidden className="absolute inset-0 bg-[radial-gradient(circle_at_15%_20%,rgba(35,79,189,0.08),transparent_28rem)]" />
       <div className="relative mx-auto max-w-(--container-content) px-(--spacing-gutter) py-16">
         <div className="flex flex-col justify-between gap-12 md:flex-row">
           <div className="max-w-xs">
@@ -37,7 +37,12 @@ export function Footer() {
         </div>
         <div className="mt-16 flex flex-col gap-4 border-t hairline pt-6 md:flex-row md:items-center md:justify-between">
           <p className="eyebrow">© 2026 Infinium Consulting B.V. All rights reserved.</p>
-          <p className="eyebrow text-steel">Cookies &amp; privacy policy</p>
+          <Link
+            href="/privacy"
+            className="link-wipe eyebrow text-steel transition-colors duration-(--duration-fast) hover:text-signal"
+          >
+            Privacy &amp; cookies
+          </Link>
         </div>
       </div>
     </footer>

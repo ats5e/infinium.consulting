@@ -4,22 +4,31 @@
  * Infinium brand system.
  * Palette extracted from the logo via scripts/extract-palette.mjs —
  * provenance and raw clusters documented in design/tokens.css.
- * Discipline: black and white with blue used as a scalpel. Cobalt and
- * signal appear on interactive states, the hero object, and data-viz
- * strokes — nothing else.
+ * Light-theme discipline: white and mineral-blue neutrals form the
+ * canvas; cobalt is reserved for interaction, emphasis and data-viz.
  */
 
 @theme {
   --color-*: initial;
-  --color-void: #05070c;
-  --color-abyss: #0a1020;
-  --color-navy: #22365d;
-  --color-cobalt: #365eee;
-  --color-signal: #73a8fb;
-  --color-ice: #9ac7f8;
-  --color-steel: #93a9bf;
-  --color-glass: #cddef1;
-  --color-paper: #ffffff;
+  --color-void: #f7f9fc;
+  --color-abyss: #dfe8f4;
+  --color-navy: #173866;
+  --color-cobalt: #234fbd;
+  --color-signal: #1b57c8;
+  --color-ice: #3e526b;
+  --color-steel: #5b6b7f;
+  --color-glass: #2a415d;
+  --color-paper: #102b50;
+  --color-white: #ffffff;
+  --color-surface: #ffffff;
+  --color-surface-muted: #eef3f9;
+  --color-overlay: #07152f;
+  --color-on-dark: #ffffff;
+  --color-on-dark-muted: #d8e5f4;
+  --color-on-dark-accent: #9bc4ff;
+  --color-error: #b42318;
+  --color-success: #067647;
+  --color-warning: #b54708;
   --color-transparent: transparent;
   --color-current: currentColor;
 
@@ -91,12 +100,22 @@
   pointer-events: none;
   background: radial-gradient(
     260px circle at var(--spot-x, 50%) var(--spot-y, 50%),
-    rgba(115, 168, 251, 0.13),
+    rgba(35, 79, 189, 0.08),
     transparent 65%
   );
   transition: opacity var(--duration-base) var(--ease-out-expo);
 }
 .spot:hover::after { opacity: 1; }
+
+/* Light-theme image and partner treatments: retain the source imagery,
+ * add just enough tonal control and separation for white surroundings. */
+.image-premium {
+  filter: saturate(0.96) contrast(1.025);
+}
+
+.partner-logo {
+  filter: grayscale(1) brightness(0.48) sepia(0.26) saturate(1.7) hue-rotate(175deg);
+}
 
 /* CTA sheen — a band of light sweeps the button once on hover */
 .btn-sheen { position: relative; overflow: hidden; }
@@ -119,7 +138,7 @@
 
 /* kinetic type — huge outlined display words on a slow drift */
 .kinetic-type {
-  -webkit-text-stroke: 1px rgba(154, 199, 248, 0.38);
+  -webkit-text-stroke: 1px rgba(35, 79, 189, 0.26);
   color: transparent;
 }
 .marquee-slow { animation: marquee 70s linear infinite; }
@@ -130,7 +149,7 @@
 
 /* hairline — the single most characteristic structural move */
 @utility hairline {
-  border-color: --alpha(var(--color-ice) / 12%);
+  border-color: --alpha(var(--color-ice) / 16%);
 }
 
 @utility eyebrow {
@@ -238,6 +257,7 @@
   html {
     scroll-behavior: smooth;
     background: var(--color-void);
+    color-scheme: light;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -262,7 +282,7 @@
 
   ::selection {
     background: var(--color-cobalt);
-    color: var(--color-paper);
+    color: var(--color-white);
   }
 
   :focus-visible {
@@ -289,20 +309,20 @@
   z-index: -1;
   pointer-events: none;
   background:
-    radial-gradient(circle at var(--pointer-x) var(--pointer-y), rgba(115, 168, 251, 0.18), transparent 22rem),
-    radial-gradient(circle at 12% 18%, rgba(54, 94, 238, 0.22), transparent 34rem),
-    radial-gradient(circle at 84% 78%, rgba(154, 199, 248, 0.09), transparent 30rem),
-    linear-gradient(180deg, var(--color-void) 0%, #070b14 44%, var(--color-void) 100%);
+    radial-gradient(circle at var(--pointer-x) var(--pointer-y), rgba(35, 79, 189, 0.035), transparent 22rem),
+    radial-gradient(circle at 12% 18%, rgba(35, 79, 189, 0.055), transparent 34rem),
+    radial-gradient(circle at 84% 78%, rgba(115, 168, 251, 0.05), transparent 30rem),
+    linear-gradient(180deg, #ffffff 0%, var(--color-void) 42%, #f3f6fa 100%);
 }
 
 .site-backdrop::before {
   content: "";
   position: absolute;
   inset: 0;
-  opacity: 0.48;
+  opacity: 0.5;
   background-image:
-    linear-gradient(rgba(154, 199, 248, 0.055) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(154, 199, 248, 0.045) 1px, transparent 1px);
+    linear-gradient(rgba(23, 56, 102, 0.038) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(23, 56, 102, 0.03) 1px, transparent 1px);
   background-size: 64px 64px;
   mask-image: radial-gradient(ellipse at 50% 28%, black 0%, transparent 72%);
 }
@@ -311,27 +331,27 @@
   content: "";
   position: absolute;
   inset: -20%;
-  opacity: 0.22;
+  opacity: 0.055;
   background:
-    conic-gradient(from 180deg at 50% 50%, transparent 0deg, rgba(54, 94, 238, 0.42) 70deg, transparent 135deg, rgba(115, 168, 251, 0.22) 210deg, transparent 300deg),
-    radial-gradient(circle at 50% 50%, rgba(115, 168, 251, 0.18), transparent 42%);
+    conic-gradient(from 180deg at 50% 50%, transparent 0deg, rgba(35, 79, 189, 0.3) 70deg, transparent 135deg, rgba(115, 168, 251, 0.18) 210deg, transparent 300deg),
+    radial-gradient(circle at 50% 50%, rgba(115, 168, 251, 0.14), transparent 42%);
   filter: blur(60px);
-  animation: aurora-drift 22s linear infinite;
+  transform: rotate(8deg) scale(1.04);
 }
 
 .data-node {
   width: 0.58rem;
   height: 0.58rem;
-  border: 1px solid rgba(154, 199, 248, 0.45);
-  background: rgba(5, 7, 12, 0.82);
-  box-shadow: 0 0 18px rgba(115, 168, 251, 0.58), inset 0 0 10px rgba(115, 168, 251, 0.24);
+  border: 1px solid rgba(35, 79, 189, 0.36);
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 6px 18px rgba(23, 56, 102, 0.14), inset 0 0 10px rgba(115, 168, 251, 0.2);
   transform: rotate(45deg);
 }
 
 .data-node:nth-child(2n) {
   width: 0.82rem;
   height: 0.82rem;
-  border-color: rgba(115, 168, 251, 0.78);
+  border-color: rgba(27, 87, 200, 0.68);
 }
 
 .timeline-rail {
@@ -345,24 +365,6 @@
   right: 0;
   top: 0;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(115, 168, 251, 0.72), transparent);
+  background: linear-gradient(90deg, transparent, rgba(27, 87, 200, 0.62), transparent);
   transform: translateY(-1px);
-}
-
-@keyframes aurora-drift {
-  0% {
-    transform: rotate(0deg) scale(1);
-  }
-  50% {
-    transform: rotate(180deg) scale(1.08);
-  }
-  100% {
-    transform: rotate(360deg) scale(1);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .site-backdrop::after {
-    animation: none;
-  }
 }

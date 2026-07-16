@@ -1,12 +1,10 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { geist, outfit, quicksandBrand } from "./fonts";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
-import { PointerGlow } from "@/components/motion/PointerGlow";
-import { SmoothScroll } from "@/components/motion/SmoothScroll";
 import { Spotlight } from "@/components/motion/Spotlight";
 import "./globals.css";
 
@@ -26,6 +24,11 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_GB",
   },
+};
+
+export const viewport: Viewport = {
+  colorScheme: "light",
+  themeColor: "#F7F9FC",
 };
 
 /* Runs before paint: arms the once-per-session load sequence. Fires on
@@ -75,11 +78,10 @@ export default function RootLayout({
         <Script id="load-seq" strategy="beforeInteractive">
           {LOAD_SCRIPT}
         </Script>
-        <PointerGlow />
         <div aria-hidden className="site-backdrop" />
         <a
           href="#main"
-          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:bg-cobalt focus:px-4 focus:py-2 focus:font-mono focus:text-(length:--text-label) focus:uppercase focus:tracking-[0.08em] focus:text-paper"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:bg-cobalt focus:px-4 focus:py-2 focus:font-mono focus:text-(length:--text-label) focus:uppercase focus:tracking-[0.08em] focus:text-white"
         >
           Skip to content
         </a>
@@ -88,7 +90,6 @@ export default function RootLayout({
         </div>
         <main id="main">{children}</main>
         <Footer />
-        <SmoothScroll />
         <Spotlight />
         {/* the injected scripts only exist on Vercel's edge — locally they 404 */}
         {process.env.VERCEL ? (

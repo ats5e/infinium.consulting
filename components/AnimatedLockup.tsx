@@ -9,14 +9,17 @@ const useIsoLayoutEffect = typeof document !== "undefined" ? useLayoutEffect : u
 /*
  * The nav lockup, rebuilt as a live composite instead of the flat PNG:
  * real "Infinium" text set in the logo-matched face, with ONE cube —
- * the SVG mark — sitting behind the letters at the logo's position
- * (centre-x 36.3%, measured from the artwork). On entrance the cube
- * rolls right revealing the letters, rolls back a full turn and docks
- * home as itself, so nothing static ever sits underneath the roll.
+ * the SVG mark — docked immediately beside the wordmark. Its entrance is
+ * deliberately contained within the mark's own footprint so the wordmark
+ * remains legible at every frame.
  * Reduced motion (and the resting state) is exactly the logo pose.
  */
-const CUBE_PX = 26;
-const CUBE_CENTER_FRAC = 0.363;
+// The source lockup's crystal is deliberately much taller than the
+// wordmark. Keeping that proportion lets its top and lower facets remain
+// visible even where the letters cross the centre of the mark.
+const CUBE_PX = 52;
+const CUBE_LEFT_PX = -8;
+const TEXT_OFFSET_PX = 42;
 
 export function AnimatedLockup({ className }: { className?: string }) {
   const wrap = useRef<HTMLSpanElement>(null);
@@ -35,41 +38,46 @@ export function AnimatedLockup({ className }: { className?: string }) {
     }
 
     const ctx = gsap.context(() => {
-      const width = w.offsetWidth;
-      const home = CUBE_CENTER_FRAC * width; // cube centre, at rest (x = 0)
-      const start = -(home - CUBE_PX / 2); // centre at the left edge
-      const out = width - CUBE_PX / 2 - home; // centre at the right edge
-      const tl = gsap.timeline({ delay: 0.15, defaults: { ease: "power2.inOut" } });
-      tl.set(c, { x: start, rotation: 0 })
-        // out: roll right across the word, revealing it
-        .to(c, { x: out, rotation: 720, duration: 1.0 })
-        .to(t, { clipPath: "inset(-15% 0% -15% 0%)", duration: 1.0 }, "<")
-        // home: one full turn back to the logo pose — the cube stays,
-        // it IS the mark
-        .to(c, { x: 0, rotation: 360, duration: 0.65 })
-        .from(t, { y: -2, duration: 0.35, ease: "back.out(2.5)", clearProps: "transform" }, "-=0.2")
-        .set(t, { clipPath: "none" })
-        .set(c, { rotation: 0 });
+      const tl = gsap.timeline({ delay: 0.08, defaults: { ease: "power3.out" } });
+      tl.from(c, {
+        autoAlpha: 0,
+        scale: 0.84,
+        rotation: -16,
+        duration: 0.6,
+        clearProps: "transform,opacity,visibility",
+      }).from(
+        t,
+        {
+          autoAlpha: 0,
+          x: -5,
+          duration: 0.45,
+          clearProps: "transform,opacity,visibility",
+        },
+        0.12,
+      );
     }, w);
     return () => ctx.revert();
   }, []);
 
   return (
-    <span ref={wrap} className={`relative inline-flex items-center ${className ?? "h-6"}`}>
-      {/* the one and only cube — behind the letters, home at the logo position */}
+    <span
+      ref={wrap}
+      className={`relative inline-flex items-center ${className ?? "h-6"}`}
+      style={{ paddingLeft: TEXT_OFFSET_PX }}
+    >
+      {/* the one and only cube — docked beside the wordmark */}
       <span
         ref={cube}
         aria-hidden
-        className="pointer-events-none absolute top-1/2 -translate-y-1/2"
-        style={{ left: `calc(${CUBE_CENTER_FRAC * 100}% - ${CUBE_PX / 2}px)`, width: CUBE_PX, height: CUBE_PX }}
+        className="pointer-events-none absolute top-1/2 -translate-y-1/2 opacity-100 [filter:drop-shadow(0_0_1px_rgba(23,56,102,0.46))_drop-shadow(0_2px_4px_rgba(23,56,102,0.2))_saturate(1.08)_contrast(1.04)]"
+        style={{ left: CUBE_LEFT_PX, width: CUBE_PX, height: CUBE_PX }}
       >
         <LogoCrystal className="h-full w-full" />
       </span>
-      {/* wordmark — ships clipped, the roll reveals it */}
+      {/* wordmark remains fully readable throughout the contained entrance */}
       <span
         ref={text}
         className="relative z-10 font-hero text-[21px] font-medium tracking-[0.005em] text-paper"
-        style={{ clipPath: "inset(-15% 100% -15% 0%)" }}
       >
         Infinium
       </span>
