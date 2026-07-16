@@ -22,9 +22,10 @@ const PRODUCTS = [
 
 const SECTIONS = [
   { label: "Services", href: "/services" },
+  { label: "Solutions", href: "/solutions" },
   { label: "Sectors", href: "/sectors" },
   { label: "Technologies", href: "/technologies" },
-  { label: "Case studies", href: "/insights" },
+  { label: "Insights", href: "/insights" },
   { label: "About", href: "/about" },
   { label: "Careers", href: "/careers" },
 ];

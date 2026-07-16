@@ -10,11 +10,10 @@ import * as THREE from "three";
  * logo — composed as a cluster of three overlapping cubes so the mark
  * reads as a living structure. Face mapping follows the logo (ice-glass
  * top, deep-navy left, bright-cobalt right) with its white refraction
- * edges. The cluster holds the brand pose, sways gently, tilts toward
- * the cursor (±8°, damped) and hands scroll progress to the compression
- * exit in Hero.tsx. Each brick is hover-reactive: pointing at one lifts
- * it, quickens its tumble and lights its edges. LogoCrystal.tsx mirrors
- * the cluster for fallbacks.
+ * edges. The cluster holds the brand pose, sways gently and tilts toward
+ * the cursor (±8°, damped). Each brick is hover-reactive: pointing at one
+ * lifts it, quickens its tumble and lights its edges. LogoCrystal.tsx
+ * mirrors the cluster for fallbacks.
  */
 
 const MAX_TILT = (8 * Math.PI) / 180;
@@ -244,14 +243,13 @@ function CursorLight() {
   return <pointLight ref={light} position={[0, 0, 2.4]} intensity={5} distance={8} decay={1.6} color="#73a8fb" />;
 }
 
-function LogoCluster({ progress, assets }: { progress: React.RefObject<number>; assets: ReturnType<typeof useCubeAssets> }) {
+function LogoCluster({ assets }: { assets: ReturnType<typeof useCubeAssets> }) {
   const group = useRef<THREE.Group>(null);
 
   useFrame((state) => {
     const g = group.current;
     if (!g) return;
     const t = state.clock.elapsedTime;
-    const p = progress.current ?? 0;
     // gentle sway around the brand pose — the icon stays recognisable
     const swayY = Math.sin(t * 0.32) * 0.18;
     const swayX = Math.cos(t * 0.21) * 0.05;
@@ -259,8 +257,7 @@ function LogoCluster({ progress, assets }: { progress: React.RefObject<number>; 
     const ty = state.pointer.x * MAX_TILT;
     g.rotation.x = THREE.MathUtils.lerp(g.rotation.x, POSE.x + swayX + tx, 0.06);
     g.rotation.y = THREE.MathUtils.lerp(g.rotation.y, POSE.y + swayY + ty, 0.06);
-    // the compression exit twists the cluster as it becomes the hairline
-    g.rotation.z = POSE.z + p * 0.4;
+    g.rotation.z = POSE.z;
     g.position.y = Math.sin(t * 0.5) * 0.04;
   });
 
@@ -289,11 +286,11 @@ function LogoCluster({ progress, assets }: { progress: React.RefObject<number>; 
 }
 
 /* one shared material set feeds the cluster and its satellite field */
-function Scene({ progress }: { progress: React.RefObject<number> }) {
+function Scene() {
   const assets = useCubeAssets();
   return (
     <>
-      <LogoCluster progress={progress} assets={assets} />
+      <LogoCluster assets={assets} />
       <Satellites assets={assets} />
       <CursorLight />
     </>
@@ -301,10 +298,8 @@ function Scene({ progress }: { progress: React.RefObject<number> }) {
 }
 
 export default function GlassObject({
-  progress,
   onContextLost,
 }: {
-  progress: React.RefObject<number>;
   onContextLost?: () => void;
 }) {
   return (
@@ -327,7 +322,7 @@ export default function GlassObject({
       <directionalLight position={[-4, 5, 3]} intensity={2.4} color="#ffffff" />
       <pointLight position={[4, -1, 2]} intensity={7} color="#365eee" />
       <pointLight position={[-3.5, -2, 1]} intensity={2} color="#22365d" />
-      <Scene progress={progress} />
+      <Scene />
       <Environment resolution={128} frames={1}>
         <Lightformer intensity={9} position={[-3, 4, 2]} scale={[4, 3, 1]} color="#f2f7ff" />
         <Lightformer intensity={6} position={[4, 0, 1]} scale={[3, 5, 1]} color="#4c7ef5" />

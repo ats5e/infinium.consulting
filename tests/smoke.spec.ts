@@ -40,20 +40,18 @@ test("nav reaches every route", async ({ page }) => {
   await page.goto("/");
   // the takeover menu is the primary navigation on every viewport
   await page.getByRole("button", { name: /open menu/i }).click();
-  for (const label of ["QBricks", "VBricks", "Services", "Sectors", "Technologies", "Case studies", "About", "Careers", "Contact"]) {
+  for (const label of ["QBricks", "VBricks", "Services", "Solutions", "Sectors", "Technologies", "Insights", "About", "Careers", "Contact"]) {
     await expect(page.getByRole("link", { name: label, exact: true }).first()).toBeVisible();
   }
   // home stays reachable through the wordmark
   await expect(page.getByRole("link", { name: /home/i }).first()).toBeVisible();
 });
 
-test("hero Learn more scrolls past the hero", async ({ page }) => {
+test("home hero exposes the wireframe journeys", async ({ page }) => {
   await page.goto("/");
-  await page.getByRole("button", { name: "Learn more" }).click();
-  // Lenis eases over ~1.2s; give it room, then confirm real movement
-  await page.waitForTimeout(2000);
-  const y = await page.evaluate(() => window.scrollY);
-  expect(y).toBeGreaterThan(300);
+  await expect(page.getByRole("link", { name: "Let’s meet", exact: true })).toHaveAttribute("href", "/contact");
+  await expect(page.getByRole("link", { name: "Our services", exact: true }).first()).toHaveAttribute("href", "/services");
+  await expect(page.getByRole("link", { name: "Our solutions", exact: true }).first()).toHaveAttribute("href", "/solutions");
 });
 
 test("contact form validates and reports errors accessibly", async ({ page }) => {

@@ -2,6 +2,7 @@
 
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
+import Link from "next/link";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import type { SiteImage } from "@/lib/images";
@@ -103,19 +104,14 @@ const useIsoLayoutEffect = typeof document !== "undefined" ? useLayoutEffect : u
  * off the viewport edge (never cropped mid-frame), and the wireframe's
  * four stats run along the foot. The entrance is visibility-gated so it
  * always plays in view: characters cascade out of their line masks, the
- * object arrives from the right, copy/actions/stats follow. Scrolling
- * drifts the title lines apart, then compresses the cluster to a line
- * of light that lands as the first hairline. WebGL needs >=768px +
- * fine pointer + no reduced-motion; context loss falls back to SVG.
+ * object arrives from the right, copy/actions/stats follow. Once settled,
+ * the composition remains stable and scrolls away with the page. WebGL
+ * needs >=768px + fine pointer + no reduced-motion; context loss falls
+ * back to SVG.
  */
 export function Hero({ staticImage: _staticImage }: { staticImage: SiteImage }) {
   void _staticImage;
   const section = useRef<HTMLElement>(null);
-  const visual = useRef<HTMLDivElement>(null);
-  const glow = useRef<HTMLDivElement>(null);
-  const beam = useRef<HTMLDivElement>(null);
-  const copy = useRef<HTMLDivElement>(null);
-  const progress = useRef(0);
   const [webgl, setWebgl] = useState(false);
   const [reduced, setReduced] = useState(false);
   const [heroVisible, setHeroVisible] = useState(true);
@@ -157,35 +153,6 @@ export function Hero({ staticImage: _staticImage }: { staticImage: SiteImage }) 
     };
   }, []);
 
-  useEffect(() => {
-    if (reduced || !section.current) return;
-    gsap.registerPlugin(ScrollTrigger);
-    const ctx = gsap.context(() => {
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: section.current,
-          start: "top top",
-          end: "bottom bottom",
-          scrub: 0.5,
-          onUpdate: (st) => {
-            progress.current = st.progress;
-          },
-        },
-        defaults: { ease: "none" },
-      });
-      // the title lines drift apart as the page starts to move
-      tl.to(".hero-line-a", { xPercent: -3.5, duration: 0.5 }, 0.02)
-        .to(".hero-line-b", { xPercent: 2.5, duration: 0.5 }, 0.02)
-        .to(copy.current, { opacity: 0.15, y: -28, duration: 0.46 }, 0.22)
-        .to(glow.current, { opacity: 0.16, duration: 0.5 }, 0.34)
-        .to(visual.current, { scaleX: 0.004, filter: "brightness(2.4)", duration: 0.46 }, 0.42)
-        .fromTo(beam.current, { opacity: 0 }, { opacity: 1, duration: 0.12 }, 0.78)
-        .to(visual.current, { opacity: 0, duration: 0.08 }, 0.88)
-        .to(beam.current, { scaleY: 0.002, transformOrigin: "center bottom", duration: 0.12 }, 0.9);
-    }, section);
-    return () => ctx.revert();
-  }, [reduced]);
-
   // Signature entrance — visibility-gated (plays when the hero is in
   // view, so it is never missed on a scrolled or slow load) and once.
   useIsoLayoutEffect(() => {
@@ -214,6 +181,7 @@ export function Hero({ staticImage: _staticImage }: { staticImage: SiteImage }) 
           { autoAlpha: 0, x: 70, scale: 0.94, duration: 1.5, ease: "power3.out", clearProps: "transform,opacity,visibility" },
           0.25,
         )
+        .from(".hero-eyebrow", { y: 16, opacity: 0, duration: 0.65, clearProps: "transform,opacity" }, 0.66)
         .from(".hero-sub", { y: 24, opacity: 0, duration: 0.8, clearProps: "transform,opacity" }, 0.8)
         .from(".hero-actions > *", { y: 16, opacity: 0, duration: 0.6, stagger: 0.08, clearProps: "transform,opacity" }, 0.95)
         .from(".hero-stats > *", { y: 18, opacity: 0, duration: 0.6, stagger: 0.06, clearProps: "transform,opacity" }, 1.1);
@@ -222,11 +190,10 @@ export function Hero({ staticImage: _staticImage }: { staticImage: SiteImage }) 
   }, [reduced]);
 
   return (
-    <section ref={section} className="relative min-h-svh md:h-[128svh]" aria-label="Introduction">
-      <div className="relative flex min-h-svh flex-col overflow-hidden md:sticky md:top-0 md:h-svh">
+    <section ref={section} className="relative min-h-svh" aria-label="Introduction">
+      <div className="relative flex min-h-svh flex-col overflow-hidden">
         {/* halo behind the object's zone */}
         <div
-          ref={glow}
           aria-hidden
           className="pointer-events-none absolute right-[-10%] top-1/2 h-[80%] w-[64%] -translate-y-1/2"
           style={{
@@ -236,20 +203,14 @@ export function Hero({ staticImage: _staticImage }: { staticImage: SiteImage }) 
         />
         {/* the object: full-height zone anchored to the right viewport
             edge — anything that leaves frame leaves at the screen edge */}
-        <div ref={visual} className="absolute inset-y-0 right-0 w-full will-change-transform md:left-auto md:w-[56vw]">
+        <div className="absolute inset-y-0 right-0 w-full md:left-auto md:w-[56vw]">
           <div className="hero-visual-inner absolute inset-0">
             {webgl && heroVisible && pageVisible ? (
-              <GlassObject progress={progress} onContextLost={() => setWebgl(false)} />
+              <GlassObject onContextLost={() => setWebgl(false)} />
             ) : (
               <LogoCrystal className="absolute left-1/2 top-1/2 h-[68%] w-auto -translate-x-1/2 -translate-y-1/2 opacity-75 drop-shadow-[0_0_42px_rgba(115,168,251,0.32)]" />
             )}
           </div>
-          {/* the line of light the object becomes */}
-          <div
-            ref={beam}
-            aria-hidden
-            className="pointer-events-none absolute left-1/2 top-0 h-full w-px bg-signal opacity-0 shadow-[0_0_24px_2px_var(--color-signal)]"
-          />
         </div>
         {/* legibility scrim — type zone falls to void on the left */}
         <div aria-hidden className="pointer-events-none absolute inset-0 bg-gradient-to-r from-void via-void/62 to-transparent md:via-void/38" />
@@ -257,7 +218,10 @@ export function Hero({ staticImage: _staticImage }: { staticImage: SiteImage }) 
 
         {/* content — the staircase headline owns the left */}
         <div className="relative z-10 mx-auto flex w-full max-w-(--container-content) flex-1 flex-col px-(--spacing-gutter) pb-8 pt-24 md:pb-10">
-          <div ref={copy} className="flex flex-1 flex-col justify-center">
+          <div className="flex flex-1 flex-col justify-center">
+            <p className="hero-eyebrow eyebrow mb-5 text-signal">
+              Banking &amp; financial services consultancy
+            </p>
             <h1 className="font-hero text-[clamp(2.9rem,8vw,8.1rem)] font-bold uppercase leading-[0.93] tracking-[-0.01em] text-paper [text-shadow:0_2px_50px_rgba(4,6,10,0.85)]">
               {/* the trailing space keeps the accessible name one phrase:
                   "Engineering with context." — blocks alone don't add it */}
@@ -269,13 +233,7 @@ export function Hero({ staticImage: _staticImage }: { staticImage: SiteImage }) 
                 <RotatingWord reduced={reduced} />
               </span>
             </h1>
-            <p className="hero-sub mt-8 max-w-xl leading-relaxed text-ice md:hidden">
-              We help the world&rsquo;s leading financial services firms
-              transform their businesses through industry expertise, AI and
-              automation. Our leadership brings more than 30 years of experience
-              across the world&rsquo;s financial centres.
-            </p>
-            <p className="hero-sub mt-8 hidden max-w-xl leading-relaxed text-ice md:block">
+            <p className="hero-sub mt-8 max-w-xl leading-relaxed text-ice">
               We help the world&rsquo;s leading financial services firms
               transform their businesses through industry expertise, AI and
               automation. With a management team that has operated in financial
@@ -285,21 +243,25 @@ export function Hero({ staticImage: _staticImage }: { staticImage: SiteImage }) 
               technology and consulting solutions to accelerate our clients
               businesses.
             </p>
-            <div className="hero-actions mt-10 flex items-center gap-6">
-              <button
-                type="button"
-                onClick={() => {
-                  const el = section.current;
-                  if (!el) return;
-                  const top = el.getBoundingClientRect().bottom + window.scrollY;
-                  // route through Lenis when it owns the scroll; native otherwise
-                  if (window.__lenis) window.__lenis.scrollTo(top, { duration: 1.2 });
-                  else window.scrollTo({ top, behavior: reduced ? "auto" : "smooth" });
-                }}
+            <div className="hero-actions mt-10 flex flex-wrap items-center gap-3">
+              <Link
+                href="/contact"
                 className="btn-sheen inline-flex min-h-11 cursor-pointer items-center bg-cobalt px-7 font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-paper transition-colors duration-(--duration-fast) ease-(--ease-out-expo) hover:bg-signal hover:text-void"
               >
-                Learn more
-              </button>
+                Let&rsquo;s meet
+              </Link>
+              {[
+                ["Our services", "/services"],
+                ["Our solutions", "/solutions"],
+              ].map(([label, href]) => (
+                <Link
+                  key={href}
+                  href={href}
+                  className="inline-flex min-h-11 items-center border border-ice/25 bg-void/25 px-6 font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-paper backdrop-blur-sm transition-[border-color,background-color] duration-(--duration-fast) hover:border-signal/60 hover:bg-abyss/65 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-signal"
+                >
+                  {label}
+                </Link>
+              ))}
               {/* scroll cue rides beside the CTA */}
               <span aria-hidden className="hero-cue hidden text-ice/70 md:block">
                 <svg width="13" height="20" viewBox="0 0 14 22" fill="none" className="motion-safe:animate-bounce [animation-duration:2.2s]">
@@ -325,14 +287,9 @@ export function Hero({ staticImage: _staticImage }: { staticImage: SiteImage }) 
               </div>
             ))}
           </div>
-          <p className="mt-6 max-w-xl text-(length:--text-body-sm) leading-relaxed text-steel md:hidden">
-            We combine deep industry knowledge with complex engineering to
-            deliver best-in-class technology and consulting solutions that
-            accelerate our clients&rsquo; businesses.
-          </p>
         </div>
       </div>
-      {/* the hairline the beam lands on — first divider of the page */}
+      {/* first divider of the page */}
       <div aria-hidden className="load-hairline absolute inset-x-0 bottom-0 h-px bg-ice/12" />
     </section>
   );

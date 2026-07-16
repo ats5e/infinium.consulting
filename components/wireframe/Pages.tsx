@@ -2,7 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { GlassImage } from "@/components/GlassImage";
 import { Hero } from "@/components/hero/Hero";
-import { PARTNERS, PartnerLogos } from "@/components/PartnerLogos";
+import { PartnerLogos } from "@/components/PartnerLogos";
 import { QBricksWord } from "@/components/QBricksWord";
 import { Reveal } from "@/components/motion/Reveal";
 import {
@@ -56,6 +56,53 @@ function PageImage({
   );
 }
 
+const AWARDS = [
+  "Appian FS Partner of the Year 2024",
+  "Best Places to Work 2023",
+  "EcoVadis rated",
+  "Great Place to Work Certified",
+  "The Consultancy Awards",
+  "NEN 4400-1 certified",
+  "Best Workplaces 2024",
+  "Alteryx Partner",
+  "Quantexa Plus Alliance Partner",
+] as const;
+
+const HOME_PILLARS = [
+  {
+    eyebrow: "What we do",
+    title: "A specialist alternative to the big-brand consultancies",
+    slot: "digital-transformation" as const,
+    body: "Financial services firms trust us to provide market-leading strategy, specialist transformation and AI-enabled automation solutions. We help our clients rapidly deliver business outcomes.",
+    cta: "Learn more →",
+    href: "/services",
+  },
+  {
+    eyebrow: "Who we work with",
+    title: "The world's leading firms across regulated finance",
+    slot: "about-difc" as const,
+    body: "From Amsterdam and Dubai, we serve the EU, Nordic and Middle East (GCC) markets, across capital markets, banking, insurance, wealth and asset management. Our typical clients are C-suite and senior leaders with a transformation agenda, who are looking to accelerate the business with the use of AI and automation.",
+    cta: "Read case studies →",
+    href: "/insights",
+  },
+  {
+    eyebrow: "How we do it",
+    title: "Extreme engineering, applied with industry context",
+    slot: "data-engineering" as const,
+    body: "Hands-on practitioners pair deep financial services expertise with disciplined, engineering-led delivery. Packaged methodologies, proven patterns and automation mean we start delivering from day one, measurable outcomes, not slideware.",
+    cta: "Our services →",
+    href: "/services",
+  },
+  {
+    eyebrow: "Our solutions",
+    title: "QBricks and VBricks, disruptive by design",
+    slot: "qbricks" as const,
+    body: "Our extreme-engineered solutions optimise the delivery value chain end to end: pre-built, proven components that compress implementations from years to months and significantly accelerate return on investment.",
+    cta: "Explore QBricks & VBricks →",
+    href: "/solutions",
+  },
+] as const;
+
 /* ---- Home -------------------------------------------------------------- */
 
 export function HomeWirePage() {
@@ -64,75 +111,22 @@ export function HomeWirePage() {
       <Hero staticImage={siteImage("hero")} />
 
       <ContentSection className="overflow-hidden" density="compact">
-        <p className="eyebrow">Our partners</p>
-        {/* partner logos only — a slow monochrome drift */}
-        <div className="relative mt-8 overflow-hidden border-y hairline py-6 [mask-image:linear-gradient(90deg,transparent,black_8%,black_92%,transparent)]">
-          <div className="marquee-track flex w-max items-center gap-20">
-            {[0, 1].map((copyIdx) => (
-              <div key={copyIdx} aria-hidden={copyIdx === 1} className="flex shrink-0 items-center gap-20">
-                {[0, 1, 2].flatMap((rep) =>
-                  PARTNERS.map((logo) => (
-                    <img
-                      key={`${copyIdx}-${rep}-${logo.name}`}
-                      src={logo.src}
-                      alt={logo.name}
-                      width={logo.w}
-                      height={logo.h}
-                      loading="lazy"
-                      decoding="async"
-                      className={`w-auto shrink-0 opacity-70 [filter:brightness(0)_invert(1)] ${logo.cls}`}
-                    />
-                  )),
-                )}
-              </div>
-            ))}
-          </div>
+        <h2 className="eyebrow text-center">An award-winning consultancy</h2>
+        <div className="mt-7 grid grid-cols-2 gap-px border hairline sm:grid-cols-3">
+          {AWARDS.map((award) => (
+            <div key={award} className="group relative flex min-h-20 items-center justify-center bg-abyss/25 px-4 py-5 text-center">
+              <span aria-hidden className="absolute inset-x-0 top-0 h-px origin-left scale-x-0 bg-signal transition-transform duration-(--duration-base) group-hover:scale-x-100" />
+              <p className="font-mono text-[10px] uppercase leading-relaxed tracking-[0.08em] text-steel transition-colors duration-(--duration-fast) group-hover:text-paper">
+                {award}
+              </p>
+            </div>
+          ))}
         </div>
       </ContentSection>
 
       <ContentSection density="feature">
-        <Reveal className="max-w-4xl">
-          <p className="eyebrow text-signal">What we do</p>
-          <h2 className="mt-6 text-(length:--text-step-5) leading-[1.02]">
-            A specialist alternative to the big-brand consultancies
-          </h2>
-          <p className="mt-6 max-w-2xl leading-relaxed text-ice">
-            Financial services firms trust us to provide market-leading
-            strategy, specialist transformation and AI-enabled automation
-            solutions. We help our clients rapidly deliver business outcomes.
-          </p>
-          <p className="mt-8"><SecondaryLink href="/services">Learn more →</SecondaryLink></p>
-        </Reveal>
-      </ContentSection>
-
-      <ContentSection density="feature">
-        <div className="grid gap-4 md:grid-cols-3">
-          {[
-            {
-              eyebrow: "Who we work with",
-              title: "The world's leading firms across regulated finance",
-              slot: "about-difc" as const,
-              body: "From Amsterdam and Dubai, we serve the EU, Nordic and Middle East (GCC) markets, across capital markets, banking, insurance, wealth and asset management. Our typical clients are C-suite and senior leaders with a transformation agenda, who are looking to accelerate the business with the use of AI and automation.",
-              cta: "Read case studies →",
-              href: "/insights",
-            },
-            {
-              eyebrow: "How we do it",
-              title: "Extreme engineering, applied with industry context",
-              slot: "data-engineering" as const,
-              body: "Hands-on practitioners pair deep financial services expertise with disciplined, engineering-led delivery. Packaged methodologies, proven patterns and automation mean we start delivering from day one, measurable outcomes, not slideware.",
-              cta: "Our services →",
-              href: "/services",
-            },
-            {
-              eyebrow: "Our solutions",
-              title: "QBricks and VBricks, disruptive by design",
-              slot: "qbricks" as const,
-              body: "Our extreme-engineered solutions optimise the delivery value chain end to end: pre-built, proven components that compress implementations from years to months and significantly accelerate return on investment.",
-              cta: "Explore QBricks & VBricks →",
-              href: "/solutions",
-            },
-          ].map((item) => (
+        <div className="grid gap-4 md:grid-cols-2">
+          {HOME_PILLARS.map((item) => (
             <Link
               key={item.title}
               href={item.href}
@@ -154,7 +148,7 @@ export function HomeWirePage() {
                 />
               </picture>
               <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-void/97 via-void/78 to-void/30" />
-              <div className="relative flex min-h-[26rem] flex-col justify-end p-7">
+              <div className="relative flex min-h-[25rem] flex-col justify-end p-7 md:min-h-[28rem]">
                 <p className="eyebrow text-signal">{item.eyebrow}</p>
                 <h2 className="mt-4 text-(length:--text-step-2) leading-tight">{item.title}</h2>
                 <p className="mt-5 max-w-xl leading-relaxed text-glass">{item.body}</p>
@@ -553,9 +547,8 @@ export function SectorsWirePage() {
         body="Deep, current experience across the regulated financial landscape, capital markets, banking, insurance, wealth and the fintech community."
       />
       <ContentSection>
-        <NumberedCards items={SECTORS.map((s) => ({ ...s, num: s.num }))} />
+        <NumberedCards items={SECTORS.map((s) => ({ ...s, num: s.num, href: "/contact", cta: "Talk to us →" }))} />
       </ContentSection>
-      <CTASection title="Talk to us →" />
     </>
   );
 }
@@ -853,6 +846,7 @@ export function InsightsWirePage() {
       <ContentSection>
         <SectionIntro eyebrow="News & perspectives" title="Latest perspectives" />
         <div className="divide-y divide-ice/12 border-y hairline">
+          {/* TODO(wireframe): perspective detail pages and destinations were not supplied. */}
           {posts.map(([tag, title]) => (
             <div key={title} className="grid gap-4 py-5 md:grid-cols-[200px_1fr_auto] md:items-baseline">
               <p className="eyebrow">{tag}</p>
@@ -874,13 +868,9 @@ export function CaseStudyWirePage({ slug }: { slug: string }) {
       <HeroSection
         backHref="/insights"
         backLabel="All case studies"
-        eyebrow={`Case study — ${c.service}`}
+        eyebrow={`Case study — ${c.service} | ${c.sector} | ${c.location}`}
         title={c.title}
         body={c.summary}
-        stats={[
-          { value: c.sector, label: "Sector" },
-          { value: c.location, label: "Location" },
-        ]}
       />
       <ContentSection density="compact">
         <StatGrid stats={c.stats} />
@@ -1262,6 +1252,7 @@ export function LocationPage({ city }: { city: "amsterdam" | "dubai" }) {
             </p>
             <p className="mt-8"><SecondaryLink href="/solutions">Explore our solutions →</SecondaryLink></p>
             <div className="mt-12">
+              {/* TODO(wireframe): replace this still with the office video when the referenced asset is supplied. */}
               <figure className="overflow-hidden border hairline">
                 <GlassImage
                   image={siteImage(featuredOffice[0])}
@@ -1330,41 +1321,11 @@ export function ContactWireIntro({ form }: { form: React.ReactNode }) {
               { num: "2", title: "Get a customised approach", body: "We shape strategy and solution options around your business." },
               { num: "3", title: "Deliver together", body: "We work with you to deliver your strategic initiatives." },
             ]} />
-            <div className="mt-10 grid gap-px sm:grid-cols-2">
-              {[
-                {
-                  city: "Amsterdam, The Netherlands",
-                  entity: "Infinium Consulting B.V.",
-                  address: ["Edge Olympic", "Fred. Roeskestraat 115", "Amsterdam, NL"],
-                  email: "sales@infinium.consulting",
-                  href: "/about/amsterdam",
-                },
-                {
-                  city: "DIFC, Dubai",
-                  entity: "Infinium Technology Ltd",
-                  address: ["InnovationOne", "Dubai International Financial Centre", "Dubai, UAE"],
-                  email: "sales@infinium-technology.com",
-                  href: "/about/dubai",
-                },
-              ].map((office) => (
-                <article key={office.city} className="border hairline bg-abyss/25 p-6">
-                  <p className="eyebrow text-signal">{office.city}</p>
-                  <p className="mt-4 text-(length:--text-body-sm) text-paper">{office.entity}</p>
-                  <p className="mt-2 text-(length:--text-body-sm) leading-relaxed text-ice">
-                    {office.address.map((line) => (
-                      <span key={line} className="block">{line}</span>
-                    ))}
-                  </p>
-                  <a href={`mailto:${office.email}`} className="link-wipe mt-4 inline-block text-(length:--text-body-sm) text-signal">
-                    {office.email}
-                  </a>
-                  <p className="mt-3">
-                    <Link href={office.href} className="link-wipe font-mono text-[10px] uppercase tracking-[0.08em] text-steel hover:text-paper">
-                      Visit this office →
-                    </Link>
-                  </p>
-                </article>
-              ))}
+            <div className="mt-10 border hairline bg-abyss/25 p-6">
+              <p className="eyebrow text-signal">Offices</p>
+              <p className="mt-4 text-(length:--text-body-sm) leading-relaxed text-ice">
+                Amsterdam, The Netherlands · DIFC, Dubai, serving the EU, Nordic and Middle East (GCC) markets
+              </p>
             </div>
           </div>
           <div className="lg:col-span-7">

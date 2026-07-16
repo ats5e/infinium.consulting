@@ -162,7 +162,7 @@ export function NumberedCards({
   columns = 3,
   compact = false,
 }: {
-  items: Array<{ title: string; body: string; num?: string }>;
+  items: Array<{ title: string; body: string; num?: string; href?: string; cta?: string }>;
   columns?: 1 | 2 | 3 | 4;
   compact?: boolean;
 }) {
@@ -176,17 +176,28 @@ export function NumberedCards({
           : "grid-cols-1";
   return (
     <Reveal className={`grid gap-px ${colClass}`}>
-      {items.map((item, i) => (
-        <article
-          key={`${item.num ?? i}-${item.title}`}
-          className={`spot group relative overflow-hidden border hairline bg-abyss/25 transition-[border-color,transform,background] duration-(--duration-base) ease-(--ease-out-expo) hover:-translate-y-1 hover:border-signal/60 hover:bg-abyss/50 ${compact ? "p-5" : "p-7"}`}
-        >
-          <span aria-hidden className="absolute inset-x-0 top-0 h-px origin-left scale-x-0 bg-signal shadow-[0_0_20px_var(--color-signal)] transition-transform duration-(--duration-base) group-hover:scale-x-100" />
-          <p className="font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-signal">{item.num ?? `0${i + 1}`}</p>
-          <h3 className={`${compact ? "mt-3" : "mt-6"} text-(length:--text-step-1) leading-tight`}>{item.title}</h3>
-          <p className={`${compact ? "mt-2" : "mt-4"} text-(length:--text-body-sm) leading-relaxed text-ice`}>{item.body}</p>
-        </article>
-      ))}
+      {items.map((item, i) => {
+        const content = (
+          <>
+            <span aria-hidden className="absolute inset-x-0 top-0 h-px origin-left scale-x-0 bg-signal shadow-[0_0_20px_var(--color-signal)] transition-transform duration-(--duration-base) group-hover:scale-x-100 group-focus-visible:scale-x-100" />
+            <p className="font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-signal">{item.num ?? `0${i + 1}`}</p>
+            <h3 className={`${compact ? "mt-3" : "mt-6"} text-(length:--text-step-1) leading-tight`}>{item.title}</h3>
+            <p className={`${compact ? "mt-2" : "mt-4"} text-(length:--text-body-sm) leading-relaxed text-ice`}>{item.body}</p>
+            {item.cta ? <p className="mt-6 font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-signal">{item.cta}</p> : null}
+          </>
+        );
+        const className = `spot group relative block h-full overflow-hidden border hairline bg-abyss/25 outline-none transition-[border-color,transform,background] duration-(--duration-base) ease-(--ease-out-expo) hover:-translate-y-1 hover:border-signal/60 hover:bg-abyss/50 focus-visible:-translate-y-1 focus-visible:border-signal/60 focus-visible:bg-abyss/50 ${compact ? "p-5" : "p-7"}`;
+
+        return item.href ? (
+          <Link key={`${item.num ?? i}-${item.title}`} href={item.href} className={className}>
+            {content}
+          </Link>
+        ) : (
+          <article key={`${item.num ?? i}-${item.title}`} className={className}>
+            {content}
+          </article>
+        );
+      })}
     </Reveal>
   );
 }
