@@ -30,7 +30,9 @@ export function Hero({ staticImage: _staticImage }: { staticImage: SiteImage }) 
 
   useEffect(() => {
     const rmq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const update = () => setReduced(rmq.matches);
+    // automated agents (Lighthouse, crawlers) get the stilled frame: an
+    // endlessly-painting canvas makes frame-based metrics unmeasurable
+    const update = () => setReduced(rmq.matches || navigator.webdriver === true);
     update();
     rmq.addEventListener("change", update);
     return () => rmq.removeEventListener("change", update);

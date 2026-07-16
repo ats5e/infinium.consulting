@@ -144,6 +144,7 @@ export default function Afterlight({
   return (
     <Canvas
       dpr={[1, 1.5]}
+      frameloop={reduced ? "demand" : "always"}
       gl={{ antialias: false, alpha: false, powerPreference: "high-performance" }}
       onCreated={({ gl }) => {
         gl.domElement.addEventListener("webglcontextlost", (e) => {

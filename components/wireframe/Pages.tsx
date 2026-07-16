@@ -6,6 +6,7 @@ import { Hero } from "@/components/hero/Hero";
 import { PartnerLogos } from "@/components/PartnerLogos";
 import { QBricksWord } from "@/components/QBricksWord";
 import { Reveal } from "@/components/motion/Reveal";
+import { Counter } from "@/components/motion/Counter";
 import {
   CASE_STUDIES,
   PERSPECTIVES,
@@ -185,6 +186,27 @@ export function HomeWirePage() {
   return (
     <>
       <Hero staticImage={siteImage("hero")} />
+
+      {/* the evidence — four facts on one ruled strip, counted up on arrival */}
+      <section aria-label="Key figures" className="border-b hairline">
+        <Reveal className="mx-auto grid max-w-(--container-content) grid-cols-2 divide-x divide-navy/10 px-(--spacing-gutter) sm:grid-cols-4">
+          {([
+            [22, "", "Leading global FS clients"],
+            [100, "+", "Projects completed"],
+            [30, "", "Fintech solution technologies"],
+            [2, "", "Global offices"],
+          ] as const).map(([value, suffix, label]) => (
+            <div key={label} className="px-4 py-8 first:pl-0 sm:px-7 sm:py-10">
+              <p className="font-display text-(length:--text-step-3) leading-none text-paper">
+                <Counter value={value} suffix={suffix} />
+              </p>
+              <p className="mt-3 font-mono text-[10px] uppercase tracking-[0.1em] text-steel">
+                {label}
+              </p>
+            </div>
+          ))}
+        </Reveal>
+      </section>
 
       <ContentSection className="overflow-hidden" density="compact">
         <h2 className="eyebrow text-center">An award-winning consultancy</h2>
