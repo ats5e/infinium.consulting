@@ -19,6 +19,11 @@ import * as THREE from "three";
 
 const MAX_TILT = (8 * Math.PI) / 180;
 
+function seededUnit(seed: number) {
+  const value = Math.sin(seed * 12.9898) * 43758.5453;
+  return value - Math.floor(value);
+}
+
 // brand pose — the tilt the cube has in the logo lockup: at +y rotation
 // the viewer sees the -x face on the left (deep navy) and the +z face on
 // the right (bright cobalt), exactly like the mark
@@ -142,12 +147,12 @@ function Cube({
 function Dust() {
   const points = useRef<THREE.Points>(null);
   const geometry = useMemo(() => {
-    const count = 320;
+    const count = 120;
     const positions = new Float32Array(count * 3);
     for (let i = 0; i < count; i++) {
-      positions[i * 3] = (Math.random() - 0.5) * 11;
-      positions[i * 3 + 1] = (Math.random() - 0.5) * 7;
-      positions[i * 3 + 2] = (Math.random() - 0.5) * 5 - 1;
+      positions[i * 3] = (seededUnit(i * 3 + 1) - 0.5) * 11;
+      positions[i * 3 + 1] = (seededUnit(i * 3 + 2) - 0.5) * 7;
+      positions[i * 3 + 2] = (seededUnit(i * 3 + 3) - 0.5) * 5 - 1;
     }
     const geo = new THREE.BufferGeometry();
     geo.setAttribute("position", new THREE.BufferAttribute(positions, 3));
@@ -188,12 +193,6 @@ const SATELLITES = [
   [1.45, 1.8, -2.5, 0.28, 2.0, 0.9, -0.045, 1.2],
   [-1.7, 0.25, -2.6, 0.14, 0.3, 1.6, 0.08, 3.3],
   [0.5, 2.0, -1.6, 0.12, 1.5, 0.2, -0.07, 5.0],
-  [-0.95, 1.15, -0.9, 0.1, 0.9, 1.3, 0.09, 0.9],
-  [1.15, -0.4, -1.2, 0.13, 0.2, 2.4, -0.08, 2.8],
-  [-1.05, -1.0, -0.5, 0.09, 1.7, 0.7, 0.1, 3.9],
-  [0.85, 1.05, 0.45, 0.07, 0.6, 1.9, -0.11, 1.7],
-  [-0.6, -0.35, 0.6, 0.06, 2.2, 0.5, 0.12, 4.7],
-  [0.25, -1.85, -1.4, 0.15, 1.0, 1.5, 0.065, 0.2],
 ] as const;
 
 function Satellites({ assets }: { assets: ReturnType<typeof useCubeAssets> }) {
@@ -310,7 +309,7 @@ export default function GlassObject({
 }) {
   return (
     <Canvas
-      dpr={[1, 2]}
+      dpr={[1, 1.5]}
       camera={{ position: [0, 0.6, 5.6], fov: 42 }}
       gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
       onCreated={({ gl }) => {

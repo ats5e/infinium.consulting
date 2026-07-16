@@ -6,7 +6,7 @@ export function PrimaryLink({ href, children }: { href: string; children: React.
   return (
     <Link
       href={href}
-      className="btn-sheen inline-flex min-h-11 items-center bg-cobalt px-6 font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-paper transition-colors duration-(--duration-fast) ease-(--ease-out-expo) hover:bg-signal hover:text-void"
+      className="btn-sheen inline-flex min-h-11 items-center bg-cobalt px-6 font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-paper transition-[background-color,color,transform] duration-(--duration-fast) ease-(--ease-out-expo) hover:bg-signal hover:text-void active:translate-y-px"
     >
       {children}
     </Link>
@@ -41,6 +41,8 @@ export function HeroSection({
   backHref?: string;
   backLabel?: string;
 }) {
+  const longTitle = title.length > 55;
+
   return (
     <section className="relative overflow-hidden pb-20 pt-40">
       <div aria-hidden className="absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,rgba(115,168,251,0.18),transparent_30rem)]" />
@@ -52,7 +54,15 @@ export function HeroSection({
         ) : null}
         <Reveal>
           <p className="eyebrow text-signal">{eyebrow}</p>
-          <h1 className="mt-6 max-w-5xl text-(length:--text-step-5) leading-[1.02]">{title}</h1>
+          <h1
+            className={`mt-6 max-w-5xl leading-[1.02] ${
+              longTitle
+                ? "text-(length:--text-step-4) md:text-(length:--text-step-5)"
+                : "text-(length:--text-step-5)"
+            }`}
+          >
+            {title}
+          </h1>
           <p className="mt-8 max-w-3xl text-(length:--text-step-1) leading-normal text-ice">{body}</p>
           {actions?.length ? (
             <div className="mt-10 flex flex-wrap items-center gap-4">
@@ -127,13 +137,22 @@ export function SectionIntro({
 export function ContentSection({
   children,
   className = "",
+  density = "standard",
 }: {
   children: React.ReactNode;
   className?: string;
+  density?: "compact" | "standard" | "feature";
 }) {
+  const spacing =
+    density === "compact"
+      ? "py-14 md:py-16"
+      : density === "feature"
+        ? "py-24 md:py-28"
+        : "py-20";
+
   return (
     <section className={`border-t hairline ${className}`}>
-      <div className="mx-auto max-w-(--container-content) px-(--spacing-gutter) py-20">{children}</div>
+      <div className={`mx-auto max-w-(--container-content) px-(--spacing-gutter) ${spacing}`}>{children}</div>
     </section>
   );
 }
@@ -141,19 +160,31 @@ export function ContentSection({
 export function NumberedCards({
   items,
   columns = 3,
+  compact = false,
 }: {
   items: Array<{ title: string; body: string; num?: string }>;
-  columns?: 2 | 3 | 4;
+  columns?: 1 | 2 | 3 | 4;
+  compact?: boolean;
 }) {
-  const colClass = columns === 4 ? "lg:grid-cols-4" : columns === 2 ? "md:grid-cols-2" : "md:grid-cols-3";
+  const colClass =
+    columns === 4
+      ? "lg:grid-cols-4"
+      : columns === 3
+        ? "md:grid-cols-3"
+        : columns === 2
+          ? "md:grid-cols-2"
+          : "grid-cols-1";
   return (
     <Reveal className={`grid gap-px ${colClass}`}>
       {items.map((item, i) => (
-        <article key={`${item.num ?? i}-${item.title}`} className="spot group relative overflow-hidden border hairline bg-abyss/25 p-7 transition-[border-color,transform,background] duration-(--duration-base) ease-(--ease-out-expo) hover:-translate-y-1 hover:border-signal/60 hover:bg-abyss/50">
+        <article
+          key={`${item.num ?? i}-${item.title}`}
+          className={`spot group relative overflow-hidden border hairline bg-abyss/25 transition-[border-color,transform,background] duration-(--duration-base) ease-(--ease-out-expo) hover:-translate-y-1 hover:border-signal/60 hover:bg-abyss/50 ${compact ? "p-5" : "p-7"}`}
+        >
           <span aria-hidden className="absolute inset-x-0 top-0 h-px origin-left scale-x-0 bg-signal shadow-[0_0_20px_var(--color-signal)] transition-transform duration-(--duration-base) group-hover:scale-x-100" />
           <p className="font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-signal">{item.num ?? `0${i + 1}`}</p>
-          <h3 className="mt-6 text-(length:--text-step-1) leading-tight">{item.title}</h3>
-          <p className="mt-4 text-(length:--text-body-sm) leading-relaxed text-ice">{item.body}</p>
+          <h3 className={`${compact ? "mt-3" : "mt-6"} text-(length:--text-step-1) leading-tight`}>{item.title}</h3>
+          <p className={`${compact ? "mt-2" : "mt-4"} text-(length:--text-body-sm) leading-relaxed text-ice`}>{item.body}</p>
         </article>
       ))}
     </Reveal>
@@ -179,9 +210,10 @@ export function CardGrid({
             {item.cta ? <p className="mt-6 font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-signal">{item.cta}</p> : null}
           </>
         );
-        const cls = "spot group block h-full overflow-hidden border hairline bg-abyss/25 p-7 transition-[border-color,transform,background] duration-(--duration-base) ease-(--ease-out-expo) hover:-translate-y-1 hover:border-signal/60 hover:bg-abyss/50";
+        const cls = "spot group relative block h-full overflow-hidden border hairline bg-abyss/25 p-7 outline-none transition-[border-color,transform,background] duration-(--duration-base) ease-(--ease-out-expo) hover:-translate-y-1 hover:border-signal/60 hover:bg-abyss/50 focus-visible:-translate-y-1 focus-visible:border-signal/60 focus-visible:bg-abyss/50";
         return item.href ? (
           <Link key={item.title} href={item.href} className={cls}>
+            <span aria-hidden className="absolute inset-x-0 top-0 h-px origin-left scale-x-0 bg-signal transition-transform duration-(--duration-base) group-hover:scale-x-100 group-focus-visible:scale-x-100" />
             {inner}
           </Link>
         ) : (
@@ -209,7 +241,8 @@ export function CTASection({
     <section className="relative overflow-hidden border-t hairline">
       <div aria-hidden className="absolute inset-0 bg-[radial-gradient(circle_at_78%_30%,rgba(115,168,251,0.20),transparent_26rem)]" />
       <Reveal className="relative mx-auto max-w-(--container-content) px-(--spacing-gutter) py-24">
-        <div className="overflow-hidden border hairline bg-abyss/45 p-8 backdrop-blur-xl md:p-12">
+        <div className="relative overflow-hidden border hairline bg-abyss/45 p-8 backdrop-blur-xl md:p-12">
+          <span aria-hidden className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-signal/70 to-transparent" />
           <p className="eyebrow text-signal">next move</p>
           <h2 className="mt-5 max-w-4xl text-(length:--text-step-4) leading-[1.02]">{title}</h2>
           <div className="mt-8 flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
@@ -226,9 +259,9 @@ export function CaseStudyCard({ c }: { c: CaseStudy }) {
   return (
     <Link
       href={`/insights/${c.slug}`}
-      className="spot group block overflow-hidden border hairline bg-abyss/25 transition-[border-color,transform,background] duration-(--duration-base) ease-(--ease-out-expo) hover:-translate-y-1 hover:border-signal/60 hover:bg-abyss/50"
+      className="spot group block overflow-hidden border hairline bg-abyss/25 outline-none transition-[border-color,transform,background] duration-(--duration-base) ease-(--ease-out-expo) hover:-translate-y-1 hover:border-signal/60 hover:bg-abyss/50 focus-visible:-translate-y-1 focus-visible:border-signal/60 focus-visible:bg-abyss/50"
     >
-      <picture aria-hidden className="block aspect-[16/9] overflow-hidden">
+      <picture className="block aspect-[16/9] overflow-hidden">
         <source
           type="image/avif"
           srcSet={`${c.image().avifMob} 800w, ${c.image().avifHalf} ${Math.round(c.image().width / 2)}w`}

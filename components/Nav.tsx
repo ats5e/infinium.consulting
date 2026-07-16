@@ -156,7 +156,7 @@ export function Nav() {
               setSearching((v) => !v);
               setOpen(false);
             }}
-            className="grid size-10 place-items-center border-r border-paper/25 text-paper transition-colors duration-(--duration-fast) hover:bg-paper/10 md:size-11"
+            className="grid size-11 place-items-center border-r border-paper/25 text-paper transition-colors duration-(--duration-fast) hover:bg-paper/10"
           >
             <span className="sr-only">{searching ? "Close search" : "Open search"}</span>
             {searching ? (
@@ -178,7 +178,7 @@ export function Nav() {
               setOpen((v) => !v);
               setSearching(false);
             }}
-            className="grid size-10 place-items-center text-paper transition-colors duration-(--duration-fast) hover:bg-paper/10 md:size-11"
+            className="grid size-11 place-items-center text-paper transition-colors duration-(--duration-fast) hover:bg-paper/10"
           >
             <span className="sr-only">{open ? "Close menu" : "Open menu"}</span>
             <span aria-hidden className="relative block h-[11px] w-[17px]">
@@ -292,7 +292,7 @@ export function Nav() {
             <ColumnHead label="Latest case study" linkLabel="View all" href="/insights" open={open} tabbable={open} />
             <Link href={`/insights/${study.slug}`} tabIndex={open ? 0 : -1} className="group mt-6 block">
               <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-steel">
-                Case study <span className="text-ice/40">//</span> {study.sector}
+                Case study <span className="text-ice/40">{"//"}</span> {study.sector}
               </p>
               <span className="relative mt-3 block aspect-[16/10] overflow-hidden border hairline">
                 <img

@@ -31,7 +31,7 @@
   --duration-grand: 1200ms;
 
   /* fluid minor-third scale: 1.25 at 390px widening to 1.333 at 1440px */
-  --text-label: 0.71875rem; /* 11.5px — mono eyebrows, data labels */
+  --text-label: 0.75rem; /* 12px — utility eyebrows and data labels */
   --text-body-sm: 0.875rem;
   --text-body: 1rem;
   --text-step-1: clamp(1.25rem, 1.2192rem + 0.1262vw, 1.333rem);

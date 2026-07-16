@@ -118,6 +118,8 @@ export function Hero({ staticImage: _staticImage }: { staticImage: SiteImage }) 
   const progress = useRef(0);
   const [webgl, setWebgl] = useState(false);
   const [reduced, setReduced] = useState(false);
+  const [heroVisible, setHeroVisible] = useState(true);
+  const [pageVisible, setPageVisible] = useState(true);
 
   useEffect(() => {
     const rmq = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -132,6 +134,26 @@ export function Hero({ staticImage: _staticImage }: { staticImage: SiteImage }) 
     return () => {
       rmq.removeEventListener("change", update);
       glq.removeEventListener("change", update);
+    };
+  }, []);
+
+  useEffect(() => {
+    const el = section.current;
+    if (!el) return;
+
+    const onVisibility = () => setPageVisible(!document.hidden);
+    const observer = new IntersectionObserver(
+      ([entry]) => setHeroVisible(entry.isIntersecting),
+      { rootMargin: "160px 0px" },
+    );
+
+    observer.observe(el);
+    document.addEventListener("visibilitychange", onVisibility);
+    onVisibility();
+
+    return () => {
+      observer.disconnect();
+      document.removeEventListener("visibilitychange", onVisibility);
     };
   }, []);
 
@@ -216,7 +238,7 @@ export function Hero({ staticImage: _staticImage }: { staticImage: SiteImage }) 
             edge — anything that leaves frame leaves at the screen edge */}
         <div ref={visual} className="absolute inset-y-0 right-0 w-full will-change-transform md:left-auto md:w-[56vw]">
           <div className="hero-visual-inner absolute inset-0">
-            {webgl ? (
+            {webgl && heroVisible && pageVisible ? (
               <GlassObject progress={progress} onContextLost={() => setWebgl(false)} />
             ) : (
               <LogoCrystal className="absolute left-1/2 top-1/2 h-[68%] w-auto -translate-x-1/2 -translate-y-1/2 opacity-75 drop-shadow-[0_0_42px_rgba(115,168,251,0.32)]" />
@@ -247,7 +269,13 @@ export function Hero({ staticImage: _staticImage }: { staticImage: SiteImage }) 
                 <RotatingWord reduced={reduced} />
               </span>
             </h1>
-            <p className="hero-sub mt-8 max-w-xl leading-relaxed text-ice">
+            <p className="hero-sub mt-8 max-w-xl leading-relaxed text-ice md:hidden">
+              We help the world&rsquo;s leading financial services firms
+              transform their businesses through industry expertise, AI and
+              automation. Our leadership brings more than 30 years of experience
+              across the world&rsquo;s financial centres.
+            </p>
+            <p className="hero-sub mt-8 hidden max-w-xl leading-relaxed text-ice md:block">
               We help the world&rsquo;s leading financial services firms
               transform their businesses through industry expertise, AI and
               automation. With a management team that has operated in financial
@@ -297,6 +325,11 @@ export function Hero({ staticImage: _staticImage }: { staticImage: SiteImage }) 
               </div>
             ))}
           </div>
+          <p className="mt-6 max-w-xl text-(length:--text-body-sm) leading-relaxed text-steel md:hidden">
+            We combine deep industry knowledge with complex engineering to
+            deliver best-in-class technology and consulting solutions that
+            accelerate our clients&rsquo; businesses.
+          </p>
         </div>
       </div>
       {/* the hairline the beam lands on — first divider of the page */}

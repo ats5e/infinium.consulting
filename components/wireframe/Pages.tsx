@@ -12,7 +12,6 @@ import {
   SECTORS,
   TECHNOLOGIES,
   caseStudy,
-  type CaseStudy,
 } from "@/lib/content";
 import { siteImage } from "@/lib/images";
 import { CaseStudyExplorer } from "@/components/wireframe/CaseStudyExplorer";
@@ -32,26 +31,27 @@ import {
 type PageMeta = { title: string; description: string };
 type Route = { render: () => React.ReactNode; meta: PageMeta };
 
-const imgCycle = ["hero", "data-engineering", "data-science", "digital-transformation", "governance", "about-difc", "careers", "qbricks", "tbricks"] as const;
+type PageImageSlot =
+  | "hero"
+  | "data-engineering"
+  | "data-science"
+  | "digital-transformation"
+  | "governance"
+  | "about-difc"
+  | "careers"
+  | "qbricks"
+  | "tbricks";
 
 function PageImage({
   slot = "hero",
   alt,
 }: {
-  slot?: (typeof imgCycle)[number];
+  slot?: PageImageSlot;
   alt: string;
 }) {
   return (
     <div className="overflow-hidden border hairline">
       <GlassImage image={siteImage(slot)} alt={alt} sizes="(min-width: 768px) 45vw, 100vw" />
-    </div>
-  );
-}
-
-function Placeholder({ label }: { label: string }) {
-  return (
-    <div className="grid min-h-64 place-items-center border hairline bg-abyss/35 p-8 text-center">
-      <p className="eyebrow text-steel">{label}</p>
     </div>
   );
 }
@@ -63,7 +63,7 @@ export function HomeWirePage() {
     <>
       <Hero staticImage={siteImage("hero")} />
 
-      <ContentSection className="overflow-hidden">
+      <ContentSection className="overflow-hidden" density="compact">
         <p className="eyebrow">Our partners</p>
         {/* partner logos only — a slow monochrome drift */}
         <div className="relative mt-8 overflow-hidden border-y hairline py-6 [mask-image:linear-gradient(90deg,transparent,black_8%,black_92%,transparent)]">
@@ -90,7 +90,7 @@ export function HomeWirePage() {
         </div>
       </ContentSection>
 
-      <ContentSection>
+      <ContentSection density="feature">
         <Reveal className="max-w-4xl">
           <p className="eyebrow text-signal">What we do</p>
           <h2 className="mt-6 text-(length:--text-step-5) leading-[1.02]">
@@ -105,7 +105,7 @@ export function HomeWirePage() {
         </Reveal>
       </ContentSection>
 
-      <ContentSection>
+      <ContentSection density="feature">
         <div className="grid gap-4 md:grid-cols-3">
           {[
             {
@@ -136,9 +136,9 @@ export function HomeWirePage() {
             <Link
               key={item.title}
               href={item.href}
-              className="spot group relative block overflow-hidden border hairline transition-[border-color] duration-(--duration-base) ease-(--ease-out-expo) hover:border-signal/60"
+              className="spot group relative block overflow-hidden border hairline outline-none transition-[border-color] duration-(--duration-base) ease-(--ease-out-expo) hover:border-signal/60 focus-visible:border-signal/60"
             >
-              <picture aria-hidden className="absolute inset-0">
+              <picture className="absolute inset-0">
                 <source
                   type="image/avif"
                   srcSet={`${siteImage(item.slot).avifMob} 800w, ${siteImage(item.slot).avifHalf} ${Math.round(siteImage(item.slot).width / 2)}w`}
@@ -173,7 +173,7 @@ export function HomeWirePage() {
             <p className="mt-6 leading-relaxed text-ice">
               Our R&amp;D teams produce disruptive, best-in-class technology solutions, built from real delivery experience, not theory: QBricks is designed and developed in the Netherlands, VBricks in DIFC, Dubai. Every solution is designed to help our clients save cost and operate more efficiently and effectively: fewer manual processes, faster implementations, measurable results.
             </p>
-            <p className="mt-8"><SecondaryLink href="/solutions">See what we've built →</SecondaryLink></p>
+            <p className="mt-8"><SecondaryLink href="/solutions">See what we&rsquo;ve built →</SecondaryLink></p>
           </Reveal>
           <PageImage slot="tbricks" alt="Abstract glass engineering structure" />
         </div>
@@ -324,9 +324,9 @@ export function ServicesWirePage() {
               <Link
                 key={service.slug}
                 href={`/services/${service.slug}`}
-                className="spot group relative block overflow-hidden border hairline transition-[border-color] duration-(--duration-base) ease-(--ease-out-expo) hover:border-signal/60"
+                className="spot group relative block overflow-hidden border hairline outline-none transition-[border-color] duration-(--duration-base) ease-(--ease-out-expo) hover:border-signal/60 focus-visible:border-signal/60"
               >
-                <picture aria-hidden className="absolute inset-0">
+                <picture className="absolute inset-0">
                   <source
                     type="image/avif"
                     srcSet={`${img.avifMob} 800w, ${img.avifHalf} ${Math.round(img.width / 2)}w`}
@@ -574,7 +574,7 @@ export function TechnologiesWirePage() {
             <SectionIntro eyebrow="Our partnerships" title="Best-in-class partners, long-standing relationships" />
           </div>
           <Reveal className="space-y-5 leading-relaxed text-ice md:col-span-7">
-            <p>We work with a deliberately small set of best-in-class platform partners, relationships built over years of joint delivery, not badge-collecting. Our teams hold deep, certified expertise in each platform and have delivered complex programmes on them for the world's leading financial services firms: decision intelligence at bank scale, enterprise data engineering, and automation that takes core processes from weeks to minutes.</p>
+            <p>We work with a deliberately small set of best-in-class platform partners, relationships built over years of joint delivery, not badge-collecting. Our teams hold deep, certified expertise in each platform and have delivered complex programmes on them for the world&rsquo;s leading financial services firms: decision intelligence at bank scale, enterprise data engineering, and automation that takes core processes from weeks to minutes.</p>
             <p>That combination, proven platforms, practitioners who know them inside out, and packaged delivery patterns, is how we de-risk implementations and compress time to value.</p>
             <SecondaryLink href="/insights">Read the case studies →</SecondaryLink>
           </Reveal>
@@ -882,7 +882,7 @@ export function CaseStudyWirePage({ slug }: { slug: string }) {
           { value: c.location, label: "Location" },
         ]}
       />
-      <ContentSection>
+      <ContentSection density="compact">
         <StatGrid stats={c.stats} />
       </ContentSection>
       <ContentSection>
@@ -896,9 +896,16 @@ export function CaseStudyWirePage({ slug }: { slug: string }) {
             ["The challenge", c.challenge],
             ["Our approach", c.approach],
             ["The outcome", c.outcome],
-          ].map(([title, list]) => (
-            <article key={title as string} className="border hairline bg-abyss/25 p-7">
-              <h2 className="text-(length:--text-step-2)">{title as string}</h2>
+          ].map(([title, list], index) => (
+            <article
+              key={title as string}
+              className={`relative overflow-hidden border p-7 ${
+                index === 2 ? "border-signal/35 bg-abyss/45" : "hairline bg-abyss/25"
+              }`}
+            >
+              <span aria-hidden className={`absolute inset-x-0 top-0 h-px ${index === 2 ? "bg-signal" : "bg-ice/12"}`} />
+              <p className="eyebrow text-signal">0{index + 1}</p>
+              <h2 className="mt-4 text-(length:--text-step-2)">{title as string}</h2>
               <ul className="mt-6 space-y-4">
                 {(list as string[]).map((item) => (
                   <li key={item} className="flex gap-4 text-(length:--text-body-sm) leading-relaxed text-ice">
@@ -929,6 +936,14 @@ export function CaseStudyWirePage({ slug }: { slug: string }) {
 /* ---- About and adjacent pages ----------------------------------------- */
 
 export function AboutWirePage() {
+  const leadership = [
+    ["David Aston", "CEO, Infinium", "david-aston"],
+    ["Toby Smith-Cullen", "Partner, Infinium", "toby-smith-cullen"],
+    ["Erik Rowbotham", "Partner, Infinium", "erik-rowbotham"],
+    ["Helen Bull", "Partner, Infinium", "helen-bull"],
+    ["Jeanette Zeilmaker", "Operations Head, Infinium", "jeanette-zeilmaker"],
+  ] as const;
+
   return (
     <>
       <HeroSection
@@ -944,17 +959,47 @@ export function AboutWirePage() {
             <p className="mt-6 leading-relaxed text-ice">Our leadership team are hands-on MD-level practitioners from major global financial services firms, with deep experience of the same challenges our clients face. Delivery teams pair seasoned industry specialists with dynamic new talent.</p>
             <p className="mt-5 leading-relaxed text-ice">Together with best-in-class fintech and platform partners, we deliver unique business solutions with the latest enabling technologies, helping our clients go faster.</p>
           </Reveal>
-          <Placeholder label="Image needed: Team photo" />
+          <div className="grid grid-cols-4 gap-px overflow-hidden border hairline bg-ice/12" aria-label="Infinium leadership team">
+            <img
+              src="/img/team-david.avif"
+              alt="David Aston, Chief Executive Officer"
+              width={800}
+              height={800}
+              className="col-span-2 row-span-2 h-full w-full object-cover grayscale"
+            />
+            {leadership.slice(1).map(([name, role, img]) => (
+              <img
+                key={name}
+                src={`/img/team/${img}.webp`}
+                alt={`${name} — ${role}`}
+                width={150}
+                height={150}
+                loading="lazy"
+                decoding="async"
+                className="aspect-square h-full w-full object-cover grayscale"
+              />
+            ))}
+          </div>
         </div>
       </ContentSection>
       <ContentSection>
         <div className="grid gap-12 md:grid-cols-[380px_1fr]">
-          <Placeholder label="Image needed: Portrait, David Aston" />
+          <figure className="overflow-hidden border hairline bg-abyss/25">
+            <img
+              src="/img/team-david.avif"
+              alt="David Aston, Chief Executive Officer"
+              width={800}
+              height={800}
+              loading="lazy"
+              decoding="async"
+              className="h-full min-h-[28rem] w-full object-cover grayscale"
+            />
+          </figure>
           <Reveal>
             <p className="eyebrow text-signal">Founder</p>
             <h2 className="mt-6 text-(length:--text-step-3)">David Aston, Chief Executive Officer</h2>
-            <p className="mt-6 leading-relaxed text-ice">David founded Infinium after more than 30 years operating in financial markets, across all of the world's financial centres.</p>
-            <p className="mt-5 leading-relaxed text-ice">Having led complex transformation from inside major global financial services firms, he built Infinium on a simple conviction: clients are best served by practitioners who have stood in their shoes, paired with disciplined, engineering-led delivery. That conviction, engineering with context, shapes everything the firm does, from the QBricks and VBricks solutions to how every engagement is staffed and run. When you meet with David or any of our team, you won't be buried in theory or PowerPoint presentations. Instead you'll have a deep, detailed discussion about how Infinium can help you with your toughest issues.</p>
+            <p className="mt-6 leading-relaxed text-ice">David founded Infinium after more than 30 years operating in financial markets, across all of the world&rsquo;s financial centres.</p>
+            <p className="mt-5 leading-relaxed text-ice">Having led complex transformation from inside major global financial services firms, he built Infinium on a simple conviction: clients are best served by practitioners who have stood in their shoes, paired with disciplined, engineering-led delivery. That conviction, engineering with context, shapes everything the firm does, from the QBricks and VBricks solutions to how every engagement is staffed and run. When you meet with David or any of our team, you won&rsquo;t be buried in theory or PowerPoint presentations. Instead you&rsquo;ll have a deep, detailed discussion about how Infinium can help you with your toughest issues.</p>
             <p className="mt-8"><PrimaryLink href="/contact">Start a conversation</PrimaryLink></p>
           </Reveal>
         </div>
@@ -963,14 +1008,8 @@ export function AboutWirePage() {
         <SectionIntro eyebrow="Management team" title="Leadership" body="Hands-on practitioners from major global financial services firms, leading from Amsterdam and Dubai." />
         {/* portraits + roles sourced from nxwave.com/locations/infinium-amsterdam-en */}
         <div className="grid grid-cols-2 gap-px md:grid-cols-3 lg:grid-cols-5">
-          {([
-            ["David Aston", "CEO, Infinium", "david-aston"],
-            ["Toby Smith-Cullen", "Partner, Infinium", "toby-smith-cullen"],
-            ["Erik Rowbotham", "Partner, Infinium", "erik-rowbotham"],
-            ["Helen Bull", "Partner, Infinium", "helen-bull"],
-            ["Jeanette Zeilmaker", "Operations Head, Infinium", "jeanette-zeilmaker"],
-          ] as const).map(([name, role, img]) => (
-            <article key={name} className="spot border hairline bg-abyss/25 p-6">
+          {leadership.map(([name, role, img]) => (
+            <article key={name} className="spot border hairline bg-abyss/25 p-5">
               <img
                 src={`/img/team/${img}.webp`}
                 alt={`${name} — ${role}`}
@@ -978,7 +1017,7 @@ export function AboutWirePage() {
                 height={150}
                 loading="lazy"
                 decoding="async"
-                className="aspect-square w-24 border hairline object-cover grayscale transition-[filter] duration-(--duration-base) hover:grayscale-0"
+                className="mx-auto aspect-square w-full max-w-[150px] border hairline object-cover grayscale transition-[filter] duration-(--duration-base) hover:grayscale-0"
               />
               <h3 className="mt-5 text-(length:--text-body)">{name}</h3>
               <p className="eyebrow mt-2">{role}</p>
@@ -1015,7 +1054,7 @@ export function CulturePage() {
       <ContentSection>
         <SectionIntro eyebrow="International by design" title="Local language, local context, global standards" />
         <Reveal className="max-w-3xl space-y-5 leading-relaxed text-ice">
-          <p>Our clients operate across borders, so do we. Engagement teams work in the client's language wherever we can, Dutch, English, Hindi, Spanish, Italian, French, German and more, and always with an understanding of the local regulatory and business context.</p>
+          <p>Our clients operate across borders, so do we. Engagement teams work in the client&rsquo;s language wherever we can, Dutch, English, Hindi, Spanish, Italian, French, German and more, and always with an understanding of the local regulatory and business context.</p>
           <p>Serving the EU, Nordic and GCC markets from Amsterdam and Dubai means our people move between cultures daily. That fluency is a professional skill we hire for and develop, not an afterthought.</p>
         </Reveal>
       </ContentSection>
@@ -1052,7 +1091,7 @@ export function SocialResponsibilityPage() {
       <ContentSection>
         <SectionIntro eyebrow="The programme" title="Opportunities for the next generation" />
         <Reveal className="max-w-3xl space-y-5 leading-relaxed text-ice">
-          <p>Some of the most powerful initiatives we have been involved in are those that create opportunities for the next generation. One4One helps young adults take their first step in a professional career through a unique, immersive internship experience, with each year's positions created in tandem with each new client engagement.</p>
+          <p>Some of the most powerful initiatives we have been involved in are those that create opportunities for the next generation. One4One helps young adults take their first step in a professional career through a unique, immersive internship experience, with each year&rsquo;s positions created in tandem with each new client engagement.</p>
           <p>Interns learn about the financial services industry, its biggest challenges and opportunities, and how these can be addressed with technology, learning directly from key players in the industry, including our clients and alliance partners, who generously share their knowledge throughout the programme.</p>
         </Reveal>
       </ContentSection>
@@ -1181,7 +1220,7 @@ export function CareersWirePage() {
             </div>
           ))}
         </div>
-        <p className="mt-8 text-ice">Don't see your role? We are always interested in exceptional people, <Link href="/contact" className="link-wipe text-signal">start a conversation</Link>.</p>
+        <p className="mt-8 text-ice">Don&rsquo;t see your role? We are always interested in exceptional people, <Link href="/contact" className="link-wipe text-signal">start a conversation</Link>.</p>
       </ContentSection>
       <CTASection title="Ready to do the best work of your career?" body="Tell us about yourself and the work you want to do." label="Get in touch" />
     </>
@@ -1190,6 +1229,21 @@ export function CareersWirePage() {
 
 export function LocationPage({ city }: { city: "amsterdam" | "dubai" }) {
   const dubai = city === "dubai";
+  const officeImages = dubai
+    ? ([
+        ["dxb-innovationone", "InnovationOne, DIFC"],
+        ["dxb-workspace", "The workspace"],
+        ["dxb-ai-campus", "Dubai AI Campus"],
+        ["dxb-entrance", "InnovationOne entrance"],
+      ] as const)
+    : ([
+        ["ams-office", "Inside our Amsterdam office"],
+        ["ams-building", "Our Amsterdam building"],
+        ["ams-workspace", "The workspace"],
+        ["ams-atrium", "The atrium"],
+      ] as const);
+  const [featuredOffice, ...officeGallery] = officeImages;
+
   return (
     <>
       <HeroSection
@@ -1208,26 +1262,20 @@ export function LocationPage({ city }: { city: "amsterdam" | "dubai" }) {
             </p>
             <p className="mt-8"><SecondaryLink href="/solutions">Explore our solutions →</SecondaryLink></p>
             <div className="mt-12">
-              <Placeholder label={dubai ? "Video needed: Inside our DIFC office — assets/video/dubai-office.mp4" : "Video needed: Inside our Amsterdam office — assets/video/amsterdam-office.mp4"} />
+              <figure className="overflow-hidden border hairline">
+                <GlassImage
+                  image={siteImage(featuredOffice[0])}
+                  alt={featuredOffice[1]}
+                  sizes="(min-width: 1024px) 55vw, 100vw"
+                />
+                <figcaption className="eyebrow border-t hairline p-4">{featuredOffice[1]}</figcaption>
+              </figure>
             </div>
             <div className="mt-4 grid gap-4 sm:grid-cols-2">
-              {(dubai
-                ? [
-                    ["dxb-innovationone", "InnovationOne, DIFC"],
-                    ["dxb-workspace", "The workspace"],
-                    ["dxb-ai-campus", "Dubai AI Campus"],
-                    ["dxb-entrance", "InnovationOne entrance"],
-                  ]
-                : [
-                    ["ams-office", "Inside our Amsterdam office"],
-                    ["ams-building", "Our Amsterdam building"],
-                    ["ams-workspace", "The workspace"],
-                    ["ams-atrium", "The atrium"],
-                  ]
-              ).map(([slot, caption]) => (
+              {officeGallery.map(([slot, caption]) => (
                 <figure key={slot} className="overflow-hidden border hairline">
                   <GlassImage
-                    image={siteImage(slot as Parameters<typeof siteImage>[0])}
+                    image={siteImage(slot)}
                     alt={caption}
                     sizes="(min-width: 640px) 30vw, 100vw"
                   />
@@ -1277,7 +1325,7 @@ export function ContactWireIntro({ form }: { form: React.ReactNode }) {
         <div className="grid gap-14 lg:grid-cols-12">
           <div className="lg:col-span-5">
             <SectionIntro eyebrow="How it works" title="Working with Infinium" />
-            <NumberedCards columns={3} items={[
+            <NumberedCards columns={1} compact items={[
               { num: "1", title: "Schedule a discussion", body: "With one of our industry practice leads to review your goals and challenges." },
               { num: "2", title: "Get a customised approach", body: "We shape strategy and solution options around your business." },
               { num: "3", title: "Deliver together", body: "We work with you to deliver your strategic initiatives." },
