@@ -95,7 +95,27 @@
         "src": "/img/cs-big-data-v1",
         "w": 1000,
         "h": 600,
-        "lqip": "data:image/webp;base64,UklGRmwAAABXRUJQVlA4IGAAAADQAwCdASoUAAwAPxFwsFAsJiSisAgBgCIJQBOmUABN5dBghszRdsAA/schgVGa4zIBfQj8qa5+UCXeUUUc6lpJSfGhL1oUpuO4j3/h4TVrP0zpuBAcnwRHBt3Zgm0AAAA="
+        "lqip": "data:image/webp;base64,UklGRnoAAABXRUJQVlA4IG4AAADQAwCdASoUAAwAPxl0slEspqSisAgBkCMJYwCdMoACXbHFkrkiAAAA/uCmeDAx13ZkrO2BSE/XIEwTVvwDUmulcVolt2qXWHLKU0rwg98mOd0l4Uz+aO/MnJ0hLY37wCdDtu6Z42aKChcpXRKgAA=="
+      }
+    ]
+  },
+  "cs-capital-requirements": {
+    "variants": [
+      {
+        "src": "/img/cs-capital-requirements-v1",
+        "w": 1000,
+        "h": 600,
+        "lqip": "data:image/webp;base64,UklGRlYAAABXRUJQVlA4IEoAAABwAwCdASoUAAwAPxl2slCspySisAgBkCMJZwDCgCHUu2zB0AAA/u1GVOBeTJipD9M8D+d9Eia6Rl6lzZKgM+mcMBHKvDxeDqEAAA=="
+      }
+    ]
+  },
+  "cs-climate-reporting": {
+    "variants": [
+      {
+        "src": "/img/cs-climate-reporting-v1",
+        "w": 1000,
+        "h": 600,
+        "lqip": "data:image/webp;base64,UklGRlAAAABXRUJQVlA4IEQAAADQAgCdASoUAAwAPxl2slEspySisAgBkCMJZwAAhAwAAP7vRtyzbmjldvAD9BomXdgUlBcnBtX52IVphsPfxGsEH+AAAA=="
       }
     ]
   },
@@ -146,6 +166,16 @@
         "w": 1000,
         "h": 600,
         "lqip": "data:image/webp;base64,UklGRlgAAABXRUJQVlA4IEwAAABQAwCdASoUAAwAPxFwsFAsJiSisAgBgCIJYwCw7BuZP3SN4AD+4dCT53A96vKdWHovUp9xJW/Ph6iEdrGPbBgO0RVviq/3QtV2qAAA"
+      }
+    ]
+  },
+  "cs-tbml-detection": {
+    "variants": [
+      {
+        "src": "/img/cs-tbml-detection-v1",
+        "w": 1000,
+        "h": 600,
+        "lqip": "data:image/webp;base64,UklGRkwAAABXRUJQVlA4IEAAAADQAgCdASoUAAwAPxl0sVCspqSisAgBkCMJZwAAhFgAAP7vkUgznfNZWVfuHIGxPApU2RZSe/VOnDGG2SrQgAAA"
       }
     ]
   },

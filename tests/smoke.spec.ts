@@ -1,10 +1,12 @@
 import { test, expect } from "@playwright/test";
 
 const ROUTES: Array<[path: string, h1: RegExp]> = [
-  ["/", /Complex systems become decisions/i],
+  ["/", /From complex systems to confident decisions/i],
   ["/about", /business outcomes/i],
   ["/services", /Our services/i],
   ["/solutions", /Our solutions/i],
+  ["/solutions/qbricks", /No more data pipelines/i],
+  ["/solutions/vbricks", /major change in model testing/i],
   ["/solutions/ai-assessment", /AI assessment/i],
   ["/technologies", /Technologies/i],
   ["/insights", /Case studies/i],
@@ -44,6 +46,8 @@ test("nav reaches every route", async ({ page }) => {
   for (const label of ["QBricks", "VBricks", "Services", "Solutions", "Sectors", "Technologies", "Insights", "About", "Careers", "Contact"]) {
     await expect(page.getByRole("link", { name: label, exact: true }).first()).toBeVisible();
   }
+  await expect(page.getByRole("link", { name: "QBricks", exact: true }).first()).toHaveAttribute("href", "/solutions/qbricks");
+  await expect(page.getByRole("link", { name: "VBricks", exact: true }).first()).toHaveAttribute("href", "/solutions/vbricks");
   // home stays reachable through the wordmark
   await expect(page.getByRole("link", { name: /home/i }).first()).toBeVisible();
 });
@@ -70,6 +74,100 @@ test("the hero offers the two journeys and live telemetry", async ({ page }) => 
   await expect(page.getByRole("link", { name: "Contact", exact: true }).first()).toBeVisible();
 });
 
+test("desktop hero keeps a compact graphic footprint", async ({ page }) => {
+  await page.goto("/");
+  const viewport = page.viewportSize();
+  if (!viewport || viewport.width < 768) return;
+
+  const hero = page.getByTestId("home-hero");
+  const graphic = page.getByTestId("hero-graphic");
+  const [heroBox, graphicBox] = await Promise.all([hero.boundingBox(), graphic.boundingBox()]);
+
+  expect(heroBox).not.toBeNull();
+  expect(graphicBox).not.toBeNull();
+  expect(heroBox!.height).toBeLessThan(viewport.height * 0.9);
+  expect(graphicBox!.height).toBeLessThanOrEqual(heroBox!.height * 1.02);
+  expect(Math.abs(graphicBox!.y + graphicBox!.height - (heroBox!.y + heroBox!.height))).toBeLessThanOrEqual(heroBox!.height * 0.1);
+});
+
+test("hero headline, body and actions share one left edge", async ({ page }) => {
+  await page.goto("/");
+  const leftEdges = await page.locator(".hero-line, .hero-body, .hero-actions").evaluateAll((elements) =>
+    elements.map((element) => element.getBoundingClientRect().left),
+  );
+  expect(leftEdges.length).toBeGreaterThanOrEqual(4);
+  expect(Math.max(...leftEdges) - Math.min(...leftEdges)).toBeLessThanOrEqual(1);
+});
+
+test("VBricks is marked as coming soon", async ({ page }) => {
+  await page.goto("/solutions");
+  await expect(page.getByLabel("VBricks site coming soon")).toHaveText(/coming soon/i);
+  await expect(page.locator('a[href*="vbricks.vercel.app"]')).toHaveCount(0);
+  await expect(page.getByRole("link", { name: /request a demo/i }).nth(1)).toHaveAttribute("href", "/contact");
+});
+
+test("product pages expose their correct brand journeys", async ({ page }) => {
+  await page.goto("/solutions/qbricks");
+  await expect(page.getByRole("img", { name: "QBricks", exact: true })).toHaveAttribute("src", /qbricks-logo-trimmed\.png/);
+  const qbricksSite = page.getByRole("link", { name: /visit the QBricks website/i });
+  await expect(qbricksSite).toHaveAttribute("href", "https://qbricks.ai");
+  await expect(qbricksSite).toHaveAttribute("target", "_blank");
+
+  await page.goto("/solutions/vbricks");
+  await expect(page.getByLabel("VBricks site coming soon").first()).toBeVisible();
+  await expect(page.getByRole("link", { name: /request a VBricks demo/i })).toHaveAttribute("href", "/contact");
+});
+
+test("technology cards use the supplied partner logos", async ({ page }) => {
+  await page.goto("/technologies");
+  for (const slug of ["alteryx", "appian", "databricks", "microsoft-fabric", "quantexa"]) {
+    const logo = page.getByTestId(`technology-card-logo-${slug}`).locator("img");
+    await expect(logo).toBeVisible();
+    await expect(logo).toHaveAttribute("src", /(?:\/|%2F)partners(?:\/|%2F)/i);
+  }
+});
+
+test("Quantexa branding is carried through its solution and technology pages", async ({ page }) => {
+  for (const path of [
+    "/solutions",
+    "/solutions/quantexa-maturity-assessment",
+    "/technologies/quantexa",
+  ]) {
+    await page.goto(path);
+    const logo = page.locator('main img[src*="quantexa.png"]').first();
+    await expect(logo).toBeVisible();
+  }
+});
+
+test("Amsterdam office film has a branded cover and loads the supplied Mux player", async ({ page }) => {
+  await page.goto("/about/amsterdam");
+  const play = page.getByRole("button", { name: /play the Infinium Netherlands headquarters film/i });
+  await expect(play).toBeVisible();
+  await expect(page.locator('iframe[title="Infinium — Netherlands HQ"]')).toHaveCount(0);
+
+  await play.click();
+  const player = page.locator('iframe[title="Infinium — Netherlands HQ"]');
+  await expect(player).toBeVisible();
+  await expect(player).toHaveAttribute("src", /player\.mux\.com\/1O8URAIKZwRPiUpa74C02LIjg6AdMMykemKv014YT4Tf4/);
+});
+
+test("Dubai office film has a branded cover and loads the supplied YouTube player", async ({ page }) => {
+  await page.goto("/about/dubai");
+  const play = page.getByRole("button", { name: /play the Infinium Dubai headquarters film/i });
+  await expect(play).toBeVisible();
+  await expect(page.getByText("DIFC: a world-leading FinTech hub")).toBeVisible();
+  await expect(page.locator('iframe[title="Infinium — Dubai HQ"]')).toHaveCount(0);
+  const coverBox = await play.boundingBox();
+  expect(coverBox).not.toBeNull();
+  expect(coverBox!.width).toBeLessThanOrEqual(896);
+  expect(coverBox!.height).toBeLessThanOrEqual(coverBox!.width * 0.6);
+
+  await play.click();
+  const player = page.locator('iframe[title="Infinium — Dubai HQ"]');
+  await expect(player).toBeVisible();
+  await expect(player).toHaveAttribute("src", /youtube-nocookie\.com\/embed\/kGEchctLQGQ/);
+});
+
 test("case-study artwork uses the editorial media frame", async ({ page }) => {
   await page.goto("/insights/regulatory-reporting");
   const visual = page.getByTestId("case-study-visual");
@@ -84,6 +182,18 @@ test("case-study artwork uses the editorial media frame", async ({ page }) => {
   );
   const viewportWidth = page.viewportSize()?.width ?? width;
   expect(width).toBeLessThanOrEqual(Math.min(1000, viewportWidth));
+});
+
+test("every case study has unique artwork", async ({ page }) => {
+  await page.goto("/insights");
+  const cards = page.getByTestId("case-study-card");
+  await expect(cards).toHaveCount(9);
+
+  const sources = await cards.locator("img").evaluateAll((images) =>
+    images.map((image) => (image as HTMLImageElement).getAttribute("src")),
+  );
+
+  expect(new Set(sources).size).toBe(sources.length);
 });
 
 test("trademark lockup keeps the crystal behind the wordmark", async ({ page }) => {

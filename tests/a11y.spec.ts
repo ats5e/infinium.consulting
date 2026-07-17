@@ -10,6 +10,8 @@ const ROUTES = [
   "/about",
   "/services",
   "/solutions",
+  "/solutions/qbricks",
+  "/solutions/vbricks",
   "/solutions/ai-assessment",
   "/services/data-and-ai",
   "/technologies",

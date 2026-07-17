@@ -3,11 +3,11 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { GlassImage } from "@/components/GlassImage";
 import { Hero } from "@/components/hero/Hero";
-import { PartnerLogos } from "@/components/PartnerLogos";
+import { PartnerLogos, TechnologyLogo } from "@/components/PartnerLogos";
 import { QBricksWord } from "@/components/QBricksWord";
+import { DubaiOfficeVideo, NetherlandsOfficeVideo } from "@/components/OfficeVideo";
 import { Reveal } from "@/components/motion/Reveal";
 import { Counter } from "@/components/motion/Counter";
-import { HowWeHelp } from "@/components/wireframe/HowWeHelp";
 import {
   CASE_STUDIES,
   PERSPECTIVES,
@@ -188,8 +188,6 @@ export function HomeWirePage() {
     <>
       <Hero staticImage={siteImage("hero")} />
 
-      <HowWeHelp />
-
       {/* the evidence — four facts on one ruled strip, counted up on arrival */}
       <section aria-label="Key figures" className="border-b hairline">
         <Reveal className="mx-auto grid max-w-(--container-content) grid-cols-2 divide-x divide-navy/10 px-(--spacing-gutter) sm:grid-cols-4">
@@ -343,7 +341,7 @@ const SERVICE_DETAIL: Record<string, {
       { title: "Decision intelligence", body: "Contextual monitoring and entity resolution at bank scale with Quantexa, for CDD, correspondent banking and financial crime." },
     ],
     links: [
-      { href: "/solutions", label: "QBricks, governed, A.I.-ready data in hours →" },
+      { href: "/solutions/qbricks", label: "QBricks, governed, A.I.-ready data in hours →" },
       { href: "/insights", label: "Read the case studies →" },
     ],
     ctaTitle: "Is your data ready for AI?",
@@ -371,7 +369,7 @@ const SERVICE_DETAIL: Record<string, {
       { title: "Controls & model risk", body: "Defensible control frameworks and engineered model testing, credit, KYC, fraud and AML models validated with full evidence trails." },
     ],
     links: [
-      { href: "/solutions", label: "VBricks, a major change in model testing →" },
+      { href: "/solutions/vbricks", label: "VBricks, a major change in model testing →" },
       { href: "/insights", label: "Read the case studies →" },
     ],
     ctaTitle: "Facing new regulation?",
@@ -529,14 +527,7 @@ export function SolutionsWirePage() {
             <p className="mt-5 text-ice">Built for financial-crime use cases like AML and KYC. Works with Databricks, Microsoft Fabric, Snowflake or your own database.</p>
             <p className="mt-5 text-ice">Designed and developed by our R&amp;D team in the Netherlands.</p>
             <div className="mt-8 flex flex-wrap items-center gap-6">
-              <a
-                href="https://qbricks.ai"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-sheen inline-flex min-h-11 items-center bg-cobalt px-6 font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-white shadow-[0_8px_24px_rgba(35,79,189,0.18)] transition-[background-color,box-shadow] duration-(--duration-fast) ease-(--ease-out-expo) hover:bg-navy hover:shadow-[0_10px_28px_rgba(23,56,102,0.24)]"
-              >
-                Learn more about QBricks ↗
-              </a>
+              <PrimaryLink href="/solutions/qbricks">Explore QBricks →</PrimaryLink>
               <SecondaryLink href="/contact">Request a demo →</SecondaryLink>
             </div>
             </div>
@@ -550,8 +541,9 @@ export function SolutionsWirePage() {
             <p className="mt-6 leading-relaxed text-ice">VBricks transforms how financial institutions test and validate their models, credit models, KYC models, fraud and AML models and more. Validation that took weeks of manual effort becomes a repeatable, engineered process: automated test packs, challenger comparisons and full evidence trails, run on demand.</p>
             <p className="mt-5 text-ice">Every run is auditable and defensible, built for model risk management and regulatory scrutiny.</p>
             <p className="mt-5 text-ice">Designed and developed by our R&amp;D team in DIFC, Dubai (UAE).</p>
-            <div className="mt-8 flex flex-wrap gap-6">
-              <a href="https://vbricks.vercel.app/" target="_blank" rel="noopener noreferrer" className="link-wipe font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-signal">Visit the VBricks site ↗</a>
+            <div className="mt-8 flex flex-wrap items-center gap-6">
+              <ComingSoonPill />
+              <SecondaryLink href="/solutions/vbricks">Explore VBricks →</SecondaryLink>
               <SecondaryLink href="/contact">Request a demo →</SecondaryLink>
             </div>
             </div>
@@ -564,11 +556,221 @@ export function SolutionsWirePage() {
           columns={2}
           items={[
             { title: "AI assessment", body: "A measured view of your AI readiness, data foundations, governance, use-case portfolio and the path from pilots to production, with clear recommendations.", href: "/solutions/ai-assessment", cta: "Learn more →" },
-            { title: "Quantexa maturity assessment", body: "A structured review of your Quantexa estate, implementation quality, self-sufficiency, delivery practice and resource capability, with scored findings and a prioritised roadmap.", href: "/solutions/quantexa-maturity-assessment", cta: "Learn more →" },
+            {
+              title: "Quantexa maturity assessment",
+              body: "A structured review of your Quantexa estate, implementation quality, self-sufficiency, delivery practice and resource capability, with scored findings and a prioritised roadmap.",
+              href: "/solutions/quantexa-maturity-assessment",
+              cta: "Learn more →",
+              logo: <TechnologyLogo slug="quantexa" decorative className="mt-1 h-7 sm:h-8" sizes="(min-width: 768px) 18vw, 48vw" />,
+            },
           ]}
         />
       </ContentSection>
       <CTASection title="See a solution in action" body="We'll walk you through the solutions against your own use cases." label="Request a demo" />
+    </>
+  );
+}
+
+function ComingSoonPill() {
+  return (
+    <span
+      aria-label="VBricks site coming soon"
+      className="inline-flex min-h-9 items-center gap-2 rounded-full border border-signal/25 bg-signal/[0.06] px-4 font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-signal shadow-[inset_0_1px_0_rgba(255,255,255,0.8)]"
+    >
+      <span aria-hidden className="size-1.5 rounded-full bg-signal shadow-[0_0_0_4px_rgba(35,79,189,0.08)]" />
+      Coming soon
+    </span>
+  );
+}
+
+function ProductHero({ product }: { product: "qbricks" | "vbricks" }) {
+  const qbricks = product === "qbricks";
+  return (
+    <section className="relative overflow-hidden border-b hairline pb-20 pt-36 md:pb-24 md:pt-40">
+      <div aria-hidden className={`absolute inset-0 ${qbricks ? "bg-[radial-gradient(circle_at_82%_30%,rgba(214,17,31,0.08),transparent_28rem)]" : "bg-[radial-gradient(circle_at_82%_30%,rgba(35,79,189,0.09),transparent_28rem)]"}`} />
+      <div className="relative mx-auto grid max-w-(--container-content) items-center gap-12 px-(--spacing-gutter) lg:grid-cols-12 lg:gap-16">
+        <Reveal className="lg:col-span-6">
+          <Link href="/solutions" className="link-wipe inline-block font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-steel transition-colors hover:text-signal">
+            ← Our solutions
+          </Link>
+          {qbricks ? (
+            <div className="mt-8 inline-flex rounded-sm bg-[#0b0d12] px-6 py-5 shadow-[0_14px_38px_rgba(11,13,18,0.16)]">
+              <Image
+                src="/qbricks-logo-trimmed.png"
+                alt="QBricks"
+                width={507}
+                height={140}
+                priority
+                className="h-auto w-52 sm:w-60"
+              />
+            </div>
+          ) : (
+            <div className="mt-8 flex flex-wrap items-center gap-5">
+              <p className="font-hero text-(length:--text-step-4) font-semibold tracking-[-0.025em] text-paper">VBricks</p>
+              <ComingSoonPill />
+            </div>
+          )}
+          <h1 className="mt-8 max-w-3xl text-(length:--text-step-5) leading-[1.01]">
+            {qbricks ? "No more data pipelines." : "A major change in model testing."}
+          </h1>
+          <p className="mt-7 max-w-2xl text-(length:--text-step-1) leading-relaxed text-ice">
+            {qbricks
+              ? "Turn systems of record into governed, A.I.-ready data products in hours, not months or years."
+              : "Turn weeks of manual model validation into a repeatable, engineered process with automated test packs, challenger comparisons and complete evidence trails."}
+          </p>
+          <div className="mt-9 flex flex-wrap items-center gap-5">
+            {qbricks ? (
+              <a
+                href="https://qbricks.ai"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-sheen inline-flex min-h-11 items-center bg-[#d6111f] px-6 font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-white shadow-[0_8px_24px_rgba(214,17,31,0.18)] transition-[background-color,box-shadow,transform] duration-(--duration-fast) hover:bg-[#b50d19] hover:shadow-[0_10px_28px_rgba(181,13,25,0.24)] active:translate-y-px"
+              >
+                Visit the QBricks website ↗
+              </a>
+            ) : (
+              <PrimaryLink href="/contact">Request a demo →</PrimaryLink>
+            )}
+            <SecondaryLink href="/contact">Talk to our team →</SecondaryLink>
+          </div>
+        </Reveal>
+        <Reveal className="lg:col-span-6">
+          <div className="overflow-hidden border hairline bg-white/80 p-3 shadow-[0_20px_54px_rgba(23,56,102,0.09)] backdrop-blur-sm">
+            <GlassImage
+              image={siteImage(qbricks ? "qbricks" : "tbricks")}
+              alt={qbricks ? "QBricks governed data product architecture" : "VBricks engineered model testing system"}
+              priority
+              sizes="(min-width: 1024px) 45vw, 100vw"
+              imageClassName="aspect-[4/3] object-cover"
+            />
+          </div>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
+export function QBricksPage() {
+  return (
+    <>
+      <ProductHero product="qbricks" />
+      <ContentSection>
+        <SectionIntro
+          eyebrow="What it does"
+          title="A governed foundation for production AI"
+          body="QBricks is a streaming data-management platform that enforces governance at the point of ingestion, so data reaches your lakehouse or database trusted, portable and ready for use."
+        />
+        <NumberedCards
+          items={[
+            { num: "01", title: "Streaming & incremental", body: "Real-time, change-focused updates underpinned by the Open Data Contract Standard." },
+            { num: "02", title: "Contract-enforced governance", body: "Records are assessed against your governance framework as they enter the platform, not after the fact." },
+            { num: "03", title: "Agentic metadata", body: "Agents handle routine metadata work while governance, risk and data teams retain approval and control." },
+            { num: "04", title: "Lineage & knowledge graphs", body: "Trace products back to their underlying tables, joins and relationships through clickable lineage." },
+            { num: "05", title: "Local compute", body: "Run with Databricks, Microsoft Fabric, Snowflake or your own database through SQL push-down." },
+            { num: "06", title: "Fully auditable", body: "Transformations, agent actions, exceptions and before-and-after outputs remain visible and defensible." },
+          ]}
+        />
+      </ContentSection>
+      <ContentSection className="bg-abyss/20">
+        <SectionIntro eyebrow="The difference" title="Replace pipeline sprawl with a controlled data-product system" />
+        <div className="grid gap-px lg:grid-cols-2">
+          <article className="border hairline bg-white/72 p-8 md:p-10">
+            <p className="eyebrow text-steel">Without QBricks</p>
+            <h2 className="mt-5 text-(length:--text-step-2)">Complexity compounds</h2>
+            <ul className="mt-7 space-y-4 text-ice">
+              {["Thousands of ungoverned notebooks", "Large teams maintaining bespoke pipelines", "Long build and deployment timelines", "AI-ready data trapped behind remediation work", "Ongoing cloud and compute overhead"].map((item) => (
+                <li key={item} className="flex gap-3 border-t hairline pt-4"><span aria-hidden className="text-steel">—</span><span>{item}</span></li>
+              ))}
+            </ul>
+          </article>
+          <article className="relative overflow-hidden border hairline bg-white p-8 shadow-[0_18px_48px_rgba(23,56,102,0.07)] md:p-10">
+            <span aria-hidden className="absolute inset-x-0 top-0 h-0.5 bg-[#d6111f]" />
+            <p className="eyebrow text-[#d6111f]">With QBricks</p>
+            <h2 className="mt-5 text-(length:--text-step-2)">Governance becomes the foundation</h2>
+            <ul className="mt-7 space-y-4 text-ice">
+              {["Governance enforced by data contract", "Automatic pipeline builds and materialised views", "AI-ready data available in hours", "Open, portable products for your existing platforms", "Lower compute with no mandatory cloud dependency"].map((item) => (
+                <li key={item} className="flex gap-3 border-t hairline pt-4"><span aria-hidden className="text-[#d6111f]">↳</span><span>{item}</span></li>
+              ))}
+            </ul>
+          </article>
+        </div>
+      </ContentSection>
+      <ContentSection>
+        <SectionIntro
+          eyebrow="The operating model"
+          title="From system of record to governed consumption"
+          body="QBricks strengthens the technology estate you already have. It can stream directly from operational systems or process data after it lands in a governed database."
+        />
+        <NumberedCards
+          items={[
+            { num: "01", title: "Systems of record", body: "Core banking, payments, cards, treasury, trading, CRM and operational databases." },
+            { num: "02", title: "QBricks", body: "Ingest, contract, govern and enrich continuously, with human approval and complete lineage." },
+            { num: "03", title: "Production use", body: "BI and analytics, AI and ML, operational activation, regulatory reporting and decisioning." },
+          ]}
+        />
+        <div className="mt-12 flex flex-wrap items-center gap-6 border-t hairline pt-8">
+          <a href="https://qbricks.ai" target="_blank" rel="noopener noreferrer" className="link-wipe font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-[#d6111f]">
+            Explore QBricks.ai ↗
+          </a>
+          <SecondaryLink href="/solutions/vbricks">Explore VBricks →</SecondaryLink>
+        </div>
+      </ContentSection>
+      <CTASection title="From record to report in minutes" body="See how governed data contracts and products are created against your own use case." label="Request a demo" />
+    </>
+  );
+}
+
+export function VBricksPage() {
+  return (
+    <>
+      <ProductHero product="vbricks" />
+      <ContentSection>
+        <SectionIntro
+          eyebrow="What it does"
+          title="Validation engineered for regulated models"
+          body="VBricks transforms model testing from a manual project into a controlled capability that can be run on demand, repeated consistently and defended under scrutiny."
+        />
+        <NumberedCards
+          items={[
+            { num: "01", title: "Automated test packs", body: "Codify repeatable testing across model types instead of rebuilding the process for every validation cycle." },
+            { num: "02", title: "Challenger comparisons", body: "Compare model behaviour and outcomes consistently, with the evidence needed to explain the result." },
+            { num: "03", title: "Complete evidence trails", body: "Preserve inputs, test execution, exceptions, review and approval in one defensible record." },
+            { num: "04", title: "On-demand execution", body: "Run validation when the model or environment changes rather than waiting for a lengthy manual cycle." },
+            { num: "05", title: "Human review", body: "Automation accelerates the work while model risk teams retain judgement, accountability and sign-off." },
+            { num: "06", title: "Regulatory confidence", body: "A transparent testing process built for model risk management, internal audit and regulatory scrutiny." },
+          ]}
+        />
+      </ContentSection>
+      <ContentSection className="bg-abyss/20">
+        <SectionIntro eyebrow="How it works" title="One controlled path from model to evidence" />
+        <NumberedCards
+          items={[
+            { num: "01", title: "Define", body: "Set the model scope, validation policy, test pack, thresholds and required evidence." },
+            { num: "02", title: "Execute", body: "Run automated tests and challenger comparisons against credit, KYC, fraud, AML and adjacent models." },
+            { num: "03", title: "Defend", body: "Review exceptions, record decisions and produce a complete evidence trail for approval and scrutiny." },
+          ]}
+        />
+        <div className="mt-12 border hairline bg-white/78 p-8 shadow-[0_12px_34px_rgba(23,56,102,0.055)]">
+          <div className="flex flex-wrap items-center justify-between gap-6">
+            <div>
+              <p className="eyebrow text-signal">Model coverage</p>
+              <p className="mt-3 max-w-2xl text-ice">Designed for credit, KYC, fraud and AML models, with an architecture intended to extend across the wider model estate.</p>
+            </div>
+            <ComingSoonPill />
+          </div>
+        </div>
+      </ContentSection>
+      <ContentSection>
+        <div className="grid gap-10 lg:grid-cols-12 lg:items-center">
+          <div className="lg:col-span-7">
+            <SectionIntro eyebrow="Built in DIFC, Dubai" title="Created by practitioners who understand the scrutiny" body="VBricks is designed and developed by our Dubai R&D team for the control, repeatability and evidence standards expected by financial institutions." />
+          </div>
+          <div className="lg:col-span-5 lg:text-right">
+            <PrimaryLink href="/contact">Request a VBricks demo →</PrimaryLink>
+          </div>
+        </div>
+      </ContentSection>
+      <CTASection title="Make model testing repeatable" body="Talk to the team about your validation estate and the first model family to engineer." label="Start a conversation" />
     </>
   );
 }
@@ -582,6 +784,7 @@ export function AssessmentPage({ kind }: { kind: "ai" | "quantexa" }) {
         backLabel="Our solutions"
         eyebrow="Assessment tooling"
         title={ai ? "AI assessment" : "Quantexa maturity assessment"}
+        brand={!ai ? <TechnologyLogo slug="quantexa" decorative className="h-8 sm:h-10" sizes="220px" /> : undefined}
         body={
           ai
             ? "A measured, practitioner-built view of your AI readiness, from data foundations to governance, so you can move from pilots to production with confidence."
@@ -691,6 +894,14 @@ export function TechnologiesWirePage() {
         <CardGrid
           items={TECHNOLOGIES.map((p) => ({
             title: p.name,
+            logo: (
+              <div
+                data-testid={`technology-card-logo-${p.slug}`}
+                className="flex h-12 items-center"
+              >
+                <TechnologyLogo slug={p.slug} decorative className="h-8" />
+              </div>
+            ),
             body: p.tagline,
             href: `/technologies/${p.slug}`,
             cta: `How we work with ${p.name} →`,
@@ -797,7 +1008,7 @@ const TECHNOLOGY_DETAIL: Record<string, {
     note: "We aim to make the best (Databricks)... better: certified experts focused where they add most value, with engineered solutions doing the generic work.",
     links: [
       { href: "/technologies", label: "← All technologies" },
-      { href: "/solutions", label: "Explore QBricks →" },
+      { href: "/solutions/qbricks", label: "Explore QBricks →" },
     ],
     cta: "Is your lakehouse working as hard as it should?",
   },
@@ -817,7 +1028,7 @@ const TECHNOLOGY_DETAIL: Record<string, {
     ],
     links: [
       { href: "/technologies", label: "← All technologies" },
-      { href: "/solutions", label: "Explore QBricks →" },
+      { href: "/solutions/qbricks", label: "Explore QBricks →" },
     ],
     cta: "Planning a Fabric or Azure move?",
   },
@@ -852,7 +1063,12 @@ export function TechnologyDetailPage({ slug }: { slug: string }) {
   if (!t) notFound();
   return (
     <>
-      <HeroSection eyebrow={t.eyebrow} title={t.title} body={t.body} />
+      <HeroSection
+        eyebrow={t.eyebrow}
+        title={t.title}
+        body={t.body}
+        brand={slug === "quantexa" ? <TechnologyLogo slug="quantexa" decorative className="h-8 sm:h-10" sizes="220px" /> : undefined}
+      />
       <ContentSection>
         <NumberedCards items={t.cards} />
         <div className="mt-10 flex flex-wrap gap-6">
@@ -1331,10 +1547,10 @@ export function LocationPage({ city }: { city: "amsterdam" | "dubai" }) {
   const dubai = city === "dubai";
   const officeImages = dubai
     ? ([
-        ["dxb-innovationone", "InnovationOne, DIFC"],
+        ["dxb-innovationone", "Innovation One, DIFC"],
         ["dxb-workspace", "The workspace"],
         ["dxb-ai-campus", "Dubai AI Campus"],
-        ["dxb-entrance", "InnovationOne entrance"],
+        ["dxb-entrance", "Innovation One entrance"],
       ] as const)
     : ([
         ["ams-office", "Inside our Amsterdam office"],
@@ -1342,7 +1558,7 @@ export function LocationPage({ city }: { city: "amsterdam" | "dubai" }) {
         ["ams-workspace", "The workspace"],
         ["ams-atrium", "The atrium"],
       ] as const);
-  const [featuredOffice, ...officeGallery] = officeImages;
+  const [, ...officeGallery] = officeImages;
 
   return (
     <>
@@ -1357,41 +1573,37 @@ export function LocationPage({ city }: { city: "amsterdam" | "dubai" }) {
             <SectionIntro eyebrow="From this office" title={dubai ? "Middle East (GCC) markets" : "EU & Nordic markets"} />
             <p className="leading-relaxed text-ice">
               {dubai
-                ? "From the DIFC we serve banks, financial markets firms and fintechs across the GCC. Supported by the UAE government to design, develop and deliver AI-focused solutions, our teams are based in the state-of-the-art InnovationOne innovation centre in DIFC, Dubai. The office houses our second R&D team, where VBricks — our model testing and validation solution — is designed and developed."
+                ? "From the DIFC we serve banks, financial markets firms and fintechs across the GCC. Supported by the UAE government to design, develop and deliver AI-focused solutions, our teams are based in the state-of-the-art Innovation One innovation centre in DIFC, Dubai. The office houses our second R&D team, where VBricks — our model testing and validation solution — is designed and developed."
                 : "From Amsterdam we serve banks, financial markets firms, insurers and fintechs across the EU and the Nordics. The office also houses our Netherlands R&D team, where QBricks — our governed, AI-ready data products solution — is designed and developed."}
             </p>
             <p className="mt-8"><SecondaryLink href="/solutions">Explore our solutions →</SecondaryLink></p>
-            <div className="mt-12">
-              {/* TODO(wireframe): replace this still with the office video when the referenced asset is supplied. */}
-              <figure className="overflow-hidden border hairline">
-                <GlassImage
-                  image={siteImage(featuredOffice[0])}
-                  alt={featuredOffice[1]}
-                  sizes="(min-width: 1024px) 55vw, 100vw"
-                />
-                <figcaption className="eyebrow border-t hairline p-4">{featuredOffice[1]}</figcaption>
-              </figure>
-            </div>
-            <div className="mt-4 grid gap-4 sm:grid-cols-2">
-              {officeGallery.map(([slot, caption]) => (
-                <figure key={slot} className="overflow-hidden border hairline">
-                  <GlassImage
-                    image={siteImage(slot)}
-                    alt={caption}
-                    sizes="(min-width: 640px) 30vw, 100vw"
-                  />
-                  <figcaption className="eyebrow p-4">{caption}</figcaption>
-                </figure>
-              ))}
+            <div className="mt-12 w-full max-w-4xl">
+              {dubai ? <DubaiOfficeVideo /> : <NetherlandsOfficeVideo />}
+              <div className="mt-4 grid items-start gap-4 sm:grid-cols-2">
+                {officeGallery.map(([slot, caption], index) => {
+                  const isFinalImage = index === officeGallery.length - 1;
+                  return (
+                    <figure key={slot} className={`self-start overflow-hidden border hairline ${isFinalImage ? "sm:col-span-2" : ""}`}>
+                      <GlassImage
+                        image={siteImage(slot)}
+                        alt={caption}
+                        sizes={isFinalImage ? "(min-width: 1024px) 55vw, 100vw" : "(min-width: 640px) 30vw, 100vw"}
+                        imageClassName={isFinalImage ? "aspect-video object-cover" : "aspect-[4/3] object-cover"}
+                      />
+                      <figcaption className="eyebrow border-t hairline p-4">{caption}</figcaption>
+                    </figure>
+                  );
+                })}
+              </div>
             </div>
           </div>
-          <aside className="border hairline bg-abyss/25 p-7 lg:col-span-5">
+          <aside className="self-start border hairline bg-abyss/25 p-7 lg:col-span-5">
             <p className="eyebrow text-signal">{dubai ? "Office details" : "Head office"}</p>
             <dl className="mt-6 space-y-6">
               {(dubai ? [
                 ["Entity", "Infinium Technology Ltd"],
                 ["Location", "Dubai International Financial Centre"],
-                ["Address", "InnovationOne, DIFC, Dubai"],
+                ["Address", "Innovation One, DIFC, Dubai"],
                 ["Email", "sales@infinium.technology"],
               ] : [
                 ["Entity", "Infinium Consulting B.V."],
@@ -1462,6 +1674,8 @@ export function routeFor(slug: string[]): Route {
     "/": { render: () => <HomeWirePage />, meta: { title: "Engineering with context.", description: "Banking & financial services consultancy." } },
     "/services": { render: () => <ServicesWirePage />, meta: { title: "Our services", description: "Market-leading strategy, specialist transformation and AI-enabled automation solutions for regulated financial services." } },
     "/solutions": { render: () => <SolutionsWirePage />, meta: { title: "Our solutions", description: "Pre-built solutions and assessment tooling that shorten delivery timelines and de-risk your programmes." } },
+    "/solutions/qbricks": { render: () => <QBricksPage />, meta: { title: "QBricks", description: "Turn systems of record into governed, A.I.-ready data products in hours, not years." } },
+    "/solutions/vbricks": { render: () => <VBricksPage />, meta: { title: "VBricks", description: "Engineered model testing with automated test packs, challenger comparisons and complete evidence trails." } },
     "/solutions/ai-assessment": { render: () => <AssessmentPage kind="ai" />, meta: { title: "AI assessment", description: "A measured, practitioner-built view of your AI readiness." } },
     "/solutions/quantexa-maturity-assessment": { render: () => <AssessmentPage kind="quantexa" />, meta: { title: "Quantexa maturity assessment", description: "A structured, evidence-based review of your Quantexa estate." } },
     "/sectors": { render: () => <SectorsWirePage />, meta: { title: "Sectors", description: "Deep, current experience across the regulated financial landscape." } },
@@ -1501,6 +1715,8 @@ export const ALL_PATHS = [
   "services",
   ...SERVICES.map((s) => `services/${s.slug}`),
   "solutions",
+  "solutions/qbricks",
+  "solutions/vbricks",
   "solutions/ai-assessment",
   "solutions/quantexa-maturity-assessment",
   "sectors",

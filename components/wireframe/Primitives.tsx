@@ -28,6 +28,7 @@ export function HeroSection({
   eyebrow,
   title,
   body,
+  brand,
   actions,
   stats,
   backHref,
@@ -36,6 +37,7 @@ export function HeroSection({
   eyebrow: string;
   title: string;
   body: string;
+  brand?: React.ReactNode;
   actions?: Array<{ href: string; label: string; secondary?: boolean }>;
   stats?: Array<{ value: string; label: string }>;
   backHref?: string;
@@ -53,6 +55,7 @@ export function HeroSection({
           </Link>
         ) : null}
         <Reveal>
+          {brand ? <div className="mb-8 flex min-h-8 items-center">{brand}</div> : null}
           <p className="eyebrow text-signal">{eyebrow}</p>
           <h1
             className={`mt-6 max-w-5xl leading-[1.02] ${
@@ -214,7 +217,7 @@ export function CardGrid({
   items,
   columns = 3,
 }: {
-  items: Array<{ title: string; body: string; eyebrow?: string; href?: string; cta?: string }>;
+  items: Array<{ title: string; body: string; eyebrow?: string; logo?: React.ReactNode; href?: string; cta?: string }>;
   columns?: 2 | 3;
 }) {
   const colClass = columns === 2 ? "md:grid-cols-2" : "md:grid-cols-3";
@@ -224,8 +227,9 @@ export function CardGrid({
         const inner = (
           <>
             {item.eyebrow ? <p className="eyebrow text-signal">{item.eyebrow}</p> : null}
-            <h3 className="mt-4 text-(length:--text-step-1) leading-tight">{item.title}</h3>
-            <p className="mt-4 text-(length:--text-body-sm) leading-relaxed text-ice">{item.body}</p>
+            {item.logo}
+            <h3 className={item.logo ? "sr-only" : "mt-4 text-(length:--text-step-1) leading-tight"}>{item.title}</h3>
+            <p className={`${item.logo ? "mt-5" : "mt-4"} text-(length:--text-body-sm) leading-relaxed text-ice`}>{item.body}</p>
             {item.cta ? <p className="mt-6 font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-signal">{item.cta}</p> : null}
           </>
         );
@@ -278,6 +282,7 @@ export function CaseStudyCard({ c }: { c: CaseStudy }) {
   return (
     <Link
       href={`/insights/${c.slug}`}
+      data-testid="case-study-card"
       className="spot group block overflow-hidden border hairline bg-surface/85 shadow-[0_8px_24px_rgba(23,56,102,0.045)] outline-none transition-[border-color,transform,background,box-shadow] duration-(--duration-base) ease-(--ease-out-expo) hover:-translate-y-0.5 hover:border-signal/45 hover:bg-white hover:shadow-[0_14px_36px_rgba(23,56,102,0.085)] focus-visible:border-signal/60 focus-visible:bg-white"
     >
       <picture className="block aspect-[16/9] overflow-hidden">

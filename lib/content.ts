@@ -369,7 +369,7 @@ export const CASE_STUDIES: CaseStudy[] = [
       "A platform foundation reused for adjacent financial crime use cases.",
     ],
     related: ["big-data-engineering", "capital-requirements", "regulatory-reporting"],
-    image: () => siteImage("cs-data-strategy"),
+    image: () => siteImage("cs-tbml-detection"),
   },
   {
     slug: "capital-requirements",
@@ -401,7 +401,7 @@ export const CASE_STUDIES: CaseStudy[] = [
       "Documented lineage to source, satisfying regulatory scrutiny.",
     ],
     related: ["regulatory-reporting", "tbml-detection", "entity-stand-up"],
-    image: () => siteImage("cs-reg-reporting"),
+    image: () => siteImage("cs-capital-requirements"),
   },
   {
     slug: "climate-reporting",
@@ -433,7 +433,7 @@ export const CASE_STUDIES: CaseStudy[] = [
       "A platform positioned to absorb successive disclosure requirements.",
     ],
     related: ["regulatory-reporting", "finance-re-engineering", "data-strategy"],
-    image: () => siteImage("cs-fintech-dx"),
+    image: () => siteImage("cs-climate-reporting"),
   },
 ];
 
@@ -472,8 +472,8 @@ export const NAV_GROUPS: NavGroup[] = [
     href: "/solutions",
     items: [
       { label: "Our solutions", href: "/solutions" },
-      { label: "QBricks", href: "/solutions" },
-      { label: "VBricks", href: "/solutions" },
+      { label: "QBricks", href: "/solutions/qbricks" },
+      { label: "VBricks", href: "/solutions/vbricks" },
       { label: "AI assessment", href: "/solutions/ai-assessment" },
       { label: "Quantexa maturity assessment", href: "/solutions/quantexa-maturity-assessment" },
     ],

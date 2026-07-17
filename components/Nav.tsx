@@ -17,8 +17,8 @@ import { CASE_STUDIES, PERSPECTIVES, SERVICES, TECHNOLOGIES } from "@/lib/conten
  */
 
 const PRODUCTS = [
-  { label: "QBricks", href: "/solutions" },
-  { label: "VBricks", href: "/solutions" },
+  { label: "QBricks", href: "/solutions/qbricks" },
+  { label: "VBricks", href: "/solutions/vbricks" },
 ];
 
 const SECTIONS = [

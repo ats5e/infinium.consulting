@@ -16,8 +16,8 @@ import { useEffect, useRef } from "react";
  *
  * Rendering: two planes. The braid (hundreds of layered strokes, the
  * "thousands of paths" texture) paints ONCE to an offscreen canvas —
- * zero per-frame cost. The live plane draws ~1.2k velocity-stretched
- * particle segments per frame. DPR-capped, paused off-screen, and
+ * zero per-frame cost. The live plane draws ~1.2k tiny faceted blocks
+ * derived from the Infinium logo mark. DPR-capped, paused off-screen, and
  * stilled (one rich frame) for reduced motion and automated agents so
  * frame-based measurement stays possible.
  *
@@ -36,7 +36,7 @@ export const LANES = [
 
 const LANE_TOP = 0.12; // lane band as fraction of height
 const LANE_BOTTOM = 0.88;
-const LANE_END_X = 0.985; // lanes run to the label column
+const LANE_END_X = 0.985; // the host bleeds beyond the viewport, so lanes continue off-screen
 const KNOT_X = 0.6; // the engineered waist
 
 export function laneY(i: number) {
@@ -80,6 +80,53 @@ function mulberry32(seed: number) {
 const INK = "23, 56, 102"; // navy
 const STEEL = "91, 107, 127";
 const COBALT = "35, 79, 189";
+
+/* A performance-conscious miniature of the three visible faces in the
+ * Infinium crystal. The vertices use a true 2:1 isometric silhouette so
+ * the mark remains square and recognisable when rendered at small sizes. */
+function drawLogoBlock(
+  ctx: CanvasRenderingContext2D,
+  x: number,
+  y: number,
+  size: number,
+  alpha: number,
+) {
+  const top = y - size;
+  const shoulder = y - size * 0.5;
+  const waist = y;
+  const sideBase = y + size * 0.5;
+  const base = y + size;
+
+  // ice-glass top face
+  ctx.fillStyle = `rgba(154, 199, 248, ${alpha * 0.64})`;
+  ctx.beginPath();
+  ctx.moveTo(x, top);
+  ctx.lineTo(x + size, shoulder);
+  ctx.lineTo(x, waist);
+  ctx.lineTo(x - size, shoulder);
+  ctx.closePath();
+  ctx.fill();
+
+  // deep-navy left face
+  ctx.fillStyle = `rgba(${INK}, ${alpha * 0.88})`;
+  ctx.beginPath();
+  ctx.moveTo(x - size, shoulder);
+  ctx.lineTo(x, waist);
+  ctx.lineTo(x, base);
+  ctx.lineTo(x - size, sideBase);
+  ctx.closePath();
+  ctx.fill();
+
+  // cobalt right face
+  ctx.fillStyle = `rgba(${COBALT}, ${alpha})`;
+  ctx.beginPath();
+  ctx.moveTo(x + size, shoulder);
+  ctx.lineTo(x, waist);
+  ctx.lineTo(x, base);
+  ctx.lineTo(x + size, sideBase);
+  ctx.closePath();
+  ctx.fill();
+}
 
 export default function ClarityField({
   still,
@@ -272,7 +319,6 @@ export default function ClarityField({
       ctx.translate(pointer.px * -8, pointer.py * -5);
 
       const p = { x: 0, y: 0 };
-      const q = { x: 0, y: 0 };
       let ordered = 0;
 
       for (const pt of particles) {
@@ -286,7 +332,6 @@ export default function ClarityField({
         }
         const t = pt.t;
         point(b, t, p);
-        point(b, Math.max(0, t - 0.012), q);
 
         // disorder decays as the particle is understood
         const order = smooth(Math.min(1, t / 0.62));
@@ -307,20 +352,12 @@ export default function ClarityField({
           ay = -dy * near * 0.14;
         }
 
-        const alpha = pt.pulse ? 0.85 : 0.22 + order * 0.3 + near * 0.3;
-        ctx.strokeStyle = pt.pulse ? `rgba(${COBALT}, ${alpha})` : `rgba(${INK}, ${alpha})`;
-        ctx.lineWidth = pt.pulse ? 1.6 : 1;
-        ctx.beginPath();
-        ctx.moveTo(q.x + ax, q.y + oy + ay);
-        ctx.lineTo(p.x + ax, p.y + oy + ay);
-        ctx.stroke();
-
-        if (pt.pulse) {
-          ctx.fillStyle = `rgba(${COBALT}, ${alpha})`;
-          ctx.beginPath();
-          ctx.arc(p.x + ax, p.y + oy + ay, 1.7, 0, Math.PI * 2);
-          ctx.fill();
-        }
+        const alpha = pt.pulse ? 0.9 : 0.25 + order * 0.34 + near * 0.28;
+        // Keep the distant field delicate, but make every mark legible as a
+        // three-face block. Ordered and attended particles move forward in
+        // depth instead of collapsing into tiny horizontal dashes.
+        const size = pt.pulse ? 5 : 1.9 + order * 1.15 + near * 0.65;
+        drawLogoBlock(ctx, p.x + ax, p.y + oy + ay, size, alpha);
       }
 
       // terminal ticks: a soft cobalt arrival at each lane end
