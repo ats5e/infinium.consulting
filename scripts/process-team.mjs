@@ -28,7 +28,13 @@ async function duotone(src, out, crop) {
   console.log(`${out}: duotone 800x800`);
 }
 
-await duotone("design/team/david-aston.jpg", "public/img/team-david");
+// david's source is a wide stage shot — crop to head-and-shoulders
+await duotone("design/team/david-aston.jpg", "public/img/team-david", {
+  left: 70,
+  top: 15,
+  width: 470,
+  height: 470,
+});
 // benjamin's source is a full-length environmental shot — crop to the
 // same head-and-shoulders framing as david's
 await duotone("design/team/benjamin-aston.png", "public/img/team-benjamin", {

@@ -34,10 +34,10 @@ export const LANES = [
   "Regulation",
 ] as const;
 
-const LANE_TOP = 0.12; // lane band as fraction of height
-const LANE_BOTTOM = 0.88;
-const LANE_END_X = 0.985; // the host bleeds beyond the viewport, so lanes continue off-screen
-const KNOT_X = 0.6; // the engineered waist
+const LANE_TOP = 0.14; // lane band as fraction of height
+const LANE_BOTTOM = 0.86;
+const LANE_END_X = 0.9; // terminals sit on-screen so the resolution is legible
+const KNOT_X = 0.52; // the engineered waist — earlier, so order owns more of the frame
 
 export function laneY(i: number) {
   return LANE_TOP + (i * (LANE_BOTTOM - LANE_TOP)) / (LANES.length - 1);
@@ -83,13 +83,19 @@ const COBALT = "35, 79, 189";
 
 /* A performance-conscious miniature of the three visible faces in the
  * Infinium crystal. The vertices use a true 2:1 isometric silhouette so
- * the mark remains square and recognisable when rendered at small sizes. */
+ * the mark remains square and recognisable when rendered at small sizes.
+ *
+ * `clarity` (0..1) tells the block how understood it is. Raw events read
+ * as faint monochrome specks — barely a face of cobalt — and only ignite
+ * into the full ice/navy/cobalt crystal as they resolve into a lane. The
+ * palette itself carries the narrative: grey noise → cobalt context. */
 function drawLogoBlock(
   ctx: CanvasRenderingContext2D,
   x: number,
   y: number,
   size: number,
   alpha: number,
+  clarity: number,
 ) {
   const top = y - size;
   const shoulder = y - size * 0.5;
@@ -97,8 +103,8 @@ function drawLogoBlock(
   const sideBase = y + size * 0.5;
   const base = y + size;
 
-  // ice-glass top face
-  ctx.fillStyle = `rgba(154, 199, 248, ${alpha * 0.64})`;
+  // ice-glass top face — catches the light only as the mark resolves
+  ctx.fillStyle = `rgba(154, 199, 248, ${alpha * (0.18 + 0.5 * clarity)})`;
   ctx.beginPath();
   ctx.moveTo(x, top);
   ctx.lineTo(x + size, shoulder);
@@ -107,8 +113,8 @@ function drawLogoBlock(
   ctx.closePath();
   ctx.fill();
 
-  // deep-navy left face
-  ctx.fillStyle = `rgba(${INK}, ${alpha * 0.88})`;
+  // deep-navy left face — present throughout, the mass of the mark
+  ctx.fillStyle = `rgba(${INK}, ${alpha * (0.5 + 0.4 * clarity)})`;
   ctx.beginPath();
   ctx.moveTo(x - size, shoulder);
   ctx.lineTo(x, waist);
@@ -117,8 +123,8 @@ function drawLogoBlock(
   ctx.closePath();
   ctx.fill();
 
-  // cobalt right face
-  ctx.fillStyle = `rgba(${COBALT}, ${alpha})`;
+  // cobalt right face — clarity itself; near-absent in the noise
+  ctx.fillStyle = `rgba(${COBALT}, ${alpha * (0.12 + 0.88 * clarity)})`;
   ctx.beginPath();
   ctx.moveTo(x + size, shoulder);
   ctx.lineTo(x, waist);
@@ -210,18 +216,18 @@ export default function ClarityField({
         }
       }
 
-      const count = W < 760 ? 520 : 1200;
+      const count = W < 760 ? 460 : 900;
       particles = [];
       for (let i = 0; i < count; i++) {
         particles.push({
           bundle: Math.floor(rand() * bundles.length),
           t: rand(),
           speed: 0.045 + rand() * 0.05,
-          slot: (rand() - 0.5) * 7,
+          slot: (rand() - 0.5) * 3.4,
           wanderA: 14 + rand() * 34,
           wanderF: 0.6 + rand() * 1.4,
           phase: rand() * Math.PI * 2,
-          pulse: i % 34 === 0,
+          pulse: i % 40 === 0,
         });
       }
 
@@ -238,14 +244,23 @@ export default function ClarityField({
       const p = { x: 0, y: 0 };
       const q = { x: 0, y: 0 };
 
+      // clarity band — the ordered right half sits on a soft cool wash,
+      // so the eye reads a lit, resolved zone against the raw grey field
+      const band = ctx.createLinearGradient(KNOT_X * W, 0, W, 0);
+      band.addColorStop(0, "rgba(255,255,255,0)");
+      band.addColorStop(1, `rgba(${COBALT}, 0.045)`);
+      ctx.fillStyle = band;
+      ctx.fillRect(KNOT_X * W, 0, W - KNOT_X * W, H);
+
       // convergence wash — one soft pool of cobalt at the waist
-      const knot = ctx.createRadialGradient(KNOT_X * W, H * 0.5, 0, KNOT_X * W, H * 0.5, Math.min(W, H) * 0.42);
-      knot.addColorStop(0, `rgba(${COBALT}, 0.05)`);
+      const knot = ctx.createRadialGradient(KNOT_X * W, H * 0.5, 0, KNOT_X * W, H * 0.5, Math.min(W, H) * 0.5);
+      knot.addColorStop(0, `rgba(${COBALT}, 0.06)`);
       knot.addColorStop(1, "rgba(255,255,255,0)");
       ctx.fillStyle = knot;
       ctx.fillRect(0, 0, W, H);
 
-      // guide strokes: each bundle braided with jittered siblings
+      // guide strokes: each bundle braided with jittered siblings. They
+      // strengthen toward the waist and thin out into clean lane threads.
       for (const b of bundles) {
         for (let s = 0; s < b.strokes; s++) {
           const off = (s - b.strokes / 2) * 2.4;
@@ -258,50 +273,49 @@ export default function ClarityField({
             if (i === 0) ctx.moveTo(p.x, y);
             else ctx.lineTo(p.x, y);
           }
-          ctx.strokeStyle = `rgba(${INK}, ${0.028 + 0.05 * (s / b.strokes)})`;
+          ctx.strokeStyle = `rgba(${INK}, ${0.03 + 0.055 * (s / b.strokes)})`;
           ctx.lineWidth = 0.7;
           ctx.stroke();
         }
       }
 
-      // capillaries: stray events joining a bundle early in its run
-      for (let i = 0; i < 240; i++) {
+      // capillaries: a few stray events joining a bundle early in its run
+      for (let i = 0; i < 130; i++) {
         const b = bundles[Math.floor(rand() * bundles.length)];
-        const join = 0.06 + rand() * 0.3;
+        const join = 0.06 + rand() * 0.28;
         point(b, join, q);
         const x0 = q.x - (20 + rand() * 90);
         const y0 = q.y + (rand() - 0.5) * 130;
         ctx.beginPath();
         ctx.moveTo(x0, y0);
         ctx.quadraticCurveTo(x0 + (q.x - x0) * 0.5, y0 + (q.y - y0) * 0.15, q.x, q.y);
-        ctx.strokeStyle = `rgba(${STEEL}, ${0.05 + rand() * 0.06})`;
+        ctx.strokeStyle = `rgba(${STEEL}, ${0.04 + rand() * 0.05})`;
         ctx.lineWidth = 0.6;
         ctx.stroke();
       }
 
-      // event debris: the unread world, left edge
-      ctx.textBaseline = "middle";
-      for (let i = 0; i < 130; i++) {
-        const x = rand() * W * 0.34;
+      // event debris: the unread world as a delicate grey dust, left edge
+      for (let i = 0; i < 80; i++) {
+        const x = rand() * W * 0.3;
         const y = rand() * H;
-        if (rand() < 0.5) {
-          ctx.fillStyle = `rgba(${STEEL}, ${0.1 + rand() * 0.12})`;
-          ctx.fillRect(x, y, 1.4, 1.4);
-        } else {
-          ctx.font = "500 7px system-ui, sans-serif";
-          ctx.fillStyle = `rgba(${STEEL}, ${0.07 + rand() * 0.05})`;
-          ctx.fillText((rand() * 9.99).toFixed(2), x, y);
-        }
+        ctx.fillStyle = `rgba(${STEEL}, ${0.08 + rand() * 0.1})`;
+        ctx.fillRect(x, y, 1.3, 1.3);
       }
 
-      // lane rails
+      // lane rails: fade in from the waist, resolve crisp toward the terminals
       for (let i = 0; i < LANES.length; i++) {
         const y = laneYPx(i);
-        ctx.beginPath();
-        ctx.moveTo((KNOT_X + 0.14) * W, y);
-        ctx.lineTo(LANE_END_X * W, y);
-        ctx.strokeStyle = `rgba(${INK}, 0.14)`;
+        const x0 = (KNOT_X + 0.12) * W;
+        const x1 = LANE_END_X * W;
+        const rail = ctx.createLinearGradient(x0, 0, x1, 0);
+        rail.addColorStop(0, `rgba(${INK}, 0)`);
+        rail.addColorStop(0.25, `rgba(${INK}, 0.14)`);
+        rail.addColorStop(1, `rgba(${INK}, 0.2)`);
+        ctx.strokeStyle = rail;
         ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(x0, y);
+        ctx.lineTo(x1, y);
         ctx.stroke();
       }
     };
@@ -352,20 +366,13 @@ export default function ClarityField({
           ay = -dy * near * 0.14;
         }
 
-        const alpha = pt.pulse ? 0.9 : 0.25 + order * 0.34 + near * 0.28;
-        // Keep the distant field delicate, but make every mark legible as a
-        // three-face block. Ordered and attended particles move forward in
-        // depth instead of collapsing into tiny horizontal dashes.
-        const size = pt.pulse ? 5 : 1.9 + order * 1.15 + near * 0.65;
-        drawLogoBlock(ctx, p.x + ax, p.y + oy + ay, size, alpha);
-      }
-
-      // terminal ticks: a soft cobalt arrival at each lane end
-      for (let i = 0; i < LANES.length; i++) {
-        const y = laneYPx(i);
-        const beat = 0.35 + 0.3 * Math.sin(clock * 1.4 + i * 1.1);
-        ctx.fillStyle = `rgba(${COBALT}, ${beat})`;
-        ctx.fillRect(LANE_END_X * W - 3, y - 1, 3, 2);
+        const alpha = pt.pulse ? 0.9 : 0.22 + order * 0.4 + near * 0.28;
+        // Keep the raw field delicate, but let resolved marks read as a
+        // full three-face block. Clarity drives both colour and size, so
+        // the lanes visibly sharpen as chaos becomes context.
+        const clarity = pt.pulse ? 1 : Math.min(1, order + near * 0.5);
+        const size = pt.pulse ? 5 : 1.7 + order * 1.5 + near * 0.65;
+        drawLogoBlock(ctx, p.x + ax, p.y + oy + ay, size, alpha, clarity);
       }
 
       onOrder?.(Math.round((ordered / particles.length) * 100));

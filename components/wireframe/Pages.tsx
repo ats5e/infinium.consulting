@@ -121,7 +121,7 @@ function CaseStudyVisual({ study }: { study: CaseStudy }) {
 const AWARDS = [
   {
     src: "/awards/Awards Collage 2.webp",
-    alt: "Sunday Times Best Places to Work 2023, EcoVadis Silver 2024, ISO 9001, NEN 4400-1 and Best Workplaces Netherlands 2024",
+    alt: "EcoVadis Silver 2024, NEN 4400-1 and Best Workplaces Netherlands 2024",
     featured: true,
   },
   {
