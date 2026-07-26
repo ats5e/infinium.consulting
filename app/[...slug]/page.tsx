@@ -20,10 +20,13 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   const route = routeFor(slug ?? []);
+  const path = `/${(slug ?? []).join("/")}`;
   return {
     title: route.meta.title,
     description: route.meta.description,
-    alternates: { canonical: `/${(slug ?? []).join("/")}` },
+    alternates: { canonical: path },
+    // per-route og:url, so shares resolve to the page rather than the root
+    openGraph: { url: path, title: route.meta.title, description: route.meta.description },
   };
 }
 

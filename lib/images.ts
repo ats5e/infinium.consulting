@@ -58,7 +58,19 @@ export type SiteImage = {
 
 export function siteImage(slot: keyof typeof CHOSEN): SiteImage {
   const entry = manifest[slot as keyof typeof manifest];
+  /* Fail with the slot name rather than a bare "cannot read properties of
+   * undefined" — a missing manifest entry has broken the build before. */
+  if (!entry) {
+    throw new Error(
+      `siteImage("${slot}"): no entry in public/img/manifest.json. Add the source to design/raw and run scripts/process-images.mjs.`,
+    );
+  }
   const v = entry.variants[CHOSEN[slot] - 1];
+  if (!v) {
+    throw new Error(
+      `siteImage("${slot}"): variant v${CHOSEN[slot]} is missing (manifest has ${entry.variants.length}). Check CHOSEN in lib/images.ts.`,
+    );
+  }
   // derivatives are capped at 3200px wide; manifest records source dims —
   // normalise so width/height attributes match the served file
   const width = Math.min(v.w, 3200);

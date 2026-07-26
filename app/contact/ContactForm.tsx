@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useActionState } from "react";
+import { useActionState, useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -19,7 +19,7 @@ const schema = z.object({
 type Fields = z.infer<typeof schema>;
 
 const inputCls =
-  "w-full border hairline bg-white px-4 py-3 text-glass shadow-[inset_0_1px_2px_rgba(23,56,102,0.04),0_4px_14px_rgba(23,56,102,0.035)] placeholder:text-steel/70 transition-[border-color,box-shadow] duration-(--duration-fast) focus:border-signal focus:shadow-[0_0_0_3px_rgba(27,87,200,0.1)] focus:outline-none";
+  "w-full border hairline bg-white px-4 py-3 text-glass shadow-[inset_0_1px_2px_rgba(23,56,102,0.04),0_4px_14px_rgba(23,56,102,0.035)] placeholder:text-steel transition-[border-color,box-shadow] duration-(--duration-fast) focus:border-signal focus:shadow-[0_0_0_3px_rgba(27,87,200,0.32)] focus:outline-none";
 const labelCls = "eyebrow block";
 const errCls = "mt-2 text-(length:--text-body-sm) text-error";
 
@@ -43,16 +43,38 @@ export function ContactForm() {
     formState: { errors },
   } = useForm<Fields>({ resolver: zodResolver(schema), mode: "onBlur" });
 
-  if (state.status === "sent") {
-    return (
-      <div aria-live="polite" className="border hairline p-8">
-        <p className="eyebrow text-signal">message sent</p>
-        <h2 className="mt-4 text-(length:--text-step-2)">Thank you, we will be in touch shortly.</h2>
-      </div>
-    );
-  }
+  const sent = state.status === "sent";
+  const confirmation = useRef<HTMLHeadingElement>(null);
+
+  /* On success the form unmounts, so focus would fall to <body>; anchor it on
+   * the confirmation instead. On failure, send focus to the first bad field. */
+  useEffect(() => {
+    if (sent) {
+      confirmation.current?.focus();
+      return;
+    }
+    if (state.status === "error" && state.fieldErrors) {
+      const first = (["name", "email", "topic", "message"] as const).find((k) => state.fieldErrors?.[k]);
+      if (first) document.getElementById(first)?.focus();
+    }
+  }, [sent, state]);
 
   return (
+    <div>
+      {/* A live region has to be in the DOM before its text changes, or nothing
+          is announced — so it is rendered in both states, never swapped in. */}
+      <p role="status" aria-live="polite" className="sr-only">
+        {sent ? "Message sent. Thank you, we will be in touch shortly." : ""}
+      </p>
+
+      {sent ? (
+        <div className="border hairline p-8">
+          <p className="eyebrow text-signal">message sent</p>
+          <h2 ref={confirmation} tabIndex={-1} className="mt-4 text-(length:--text-step-2) focus:outline-none">
+            Thank you, we will be in touch shortly.
+          </h2>
+        </div>
+      ) : (
     <form action={formAction} noValidate className="space-y-8">
       <div aria-live="assertive">
         {state.status === "error" && state.message ? (
@@ -69,6 +91,8 @@ export function ContactForm() {
           </label>
           <input
             id="name"
+            required
+            aria-required="true"
             autoComplete="name"
             placeholder="Your full name"
             className={`${inputCls} mt-3`}
@@ -77,7 +101,7 @@ export function ContactForm() {
             {...register("name")}
           />
           {(errors.name?.message ?? state.fieldErrors?.name) && (
-            <p id="name-error" className={errCls}>{errors.name?.message ?? state.fieldErrors?.name}</p>
+            <p id="name-error" role="alert" className={errCls}>{errors.name?.message ?? state.fieldErrors?.name}</p>
           )}
         </div>
         <div>
@@ -87,6 +111,8 @@ export function ContactForm() {
           <input
             id="email"
             type="email"
+            required
+            aria-required="true"
             autoComplete="email"
             placeholder="you@company.com"
             className={`${inputCls} mt-3`}
@@ -95,7 +121,7 @@ export function ContactForm() {
             {...register("email")}
           />
           {(errors.email?.message ?? state.fieldErrors?.email) && (
-            <p id="email-error" className={errCls}>{errors.email?.message ?? state.fieldErrors?.email}</p>
+            <p id="email-error" role="alert" className={errCls}>{errors.email?.message ?? state.fieldErrors?.email}</p>
           )}
         </div>
       </div>
@@ -123,6 +149,8 @@ export function ContactForm() {
         <textarea
           id="message"
           rows={6}
+          required
+          aria-required="true"
           placeholder="What would you like to discuss?"
           className={`${inputCls} mt-3 resize-y`}
           aria-invalid={!!(errors.message || state.fieldErrors?.message)}
@@ -130,7 +158,7 @@ export function ContactForm() {
           {...register("message")}
         />
         {(errors.message?.message ?? state.fieldErrors?.message) && (
-          <p id="message-error" className={errCls}>{errors.message?.message ?? state.fieldErrors?.message}</p>
+          <p id="message-error" role="alert" className={errCls}>{errors.message?.message ?? state.fieldErrors?.message}</p>
         )}
       </div>
 
@@ -162,5 +190,7 @@ export function ContactForm() {
         {pending ? "Sending…" : "Start a conversation"}
       </button>
     </form>
+      )}
+    </div>
   );
 }

@@ -239,7 +239,7 @@ export function HomeWirePage() {
             <Link
               key={item.title}
               href={item.href}
-              className="spot group relative block overflow-hidden border hairline outline-none transition-[border-color] duration-(--duration-base) ease-(--ease-out-expo) hover:border-signal/60 focus-visible:border-signal/60"
+              className="spot group relative block overflow-hidden border hairline outline-none focus-visible:ring-2 focus-visible:ring-signal focus-visible:ring-offset-2 focus-visible:ring-offset-void transition-[border-color] duration-(--duration-base) ease-(--ease-out-expo) hover:border-signal/60 focus-visible:border-signal/60"
             >
               <picture className="absolute inset-0">
                 <source
@@ -427,7 +427,7 @@ export function ServicesWirePage() {
               <Link
                 key={service.slug}
                 href={`/services/${service.slug}`}
-                className="spot group relative block overflow-hidden border hairline outline-none transition-[border-color] duration-(--duration-base) ease-(--ease-out-expo) hover:border-signal/60 focus-visible:border-signal/60"
+                className="spot group relative block overflow-hidden border hairline outline-none focus-visible:ring-2 focus-visible:ring-signal focus-visible:ring-offset-2 focus-visible:ring-offset-void transition-[border-color] duration-(--duration-base) ease-(--ease-out-expo) hover:border-signal/60 focus-visible:border-signal/60"
               >
                 <picture className="absolute inset-0">
                   <source
@@ -597,12 +597,12 @@ function ProductHero({ product }: { product: "qbricks" | "vbricks" }) {
               the rest of the type — the boxed white-on-black PNG fought it */}
           <div className="mt-8 flex flex-wrap items-center gap-5">
             {qbricks ? (
-              <p className="text-(length:--text-step-4) leading-none">
+              <p data-testid="product-wordmark" className="text-(length:--text-step-4) leading-none">
                 <QBricksWord />
               </p>
             ) : (
               <>
-                <p className="font-hero text-(length:--text-step-4) font-semibold tracking-[-0.025em] text-paper">VBricks</p>
+                <p data-testid="product-wordmark" className="font-hero text-(length:--text-step-4) font-semibold tracking-[-0.025em] text-paper">VBricks</p>
                 <ComingSoonPill />
               </>
             )}
@@ -858,6 +858,8 @@ export function SectorsWirePage() {
         body="Deep, current experience across the regulated financial landscape, capital markets, banking, insurance, wealth and the fintech community."
       />
       <ContentSection>
+        {/* h1 → h3 skipped a level without this */}
+        <SectionIntro eyebrow="Our coverage" title="Where our experience runs deepest" />
         <NumberedCards items={SECTORS.map((s) => ({ ...s, num: s.num, href: "/contact", cta: "Talk to us →" }))} />
       </ContentSection>
     </>
@@ -1002,7 +1004,7 @@ const TECHNOLOGY_DETAIL: Record<string, {
         { title: "DataVeritas", body: "our data quality validation solution that significantly improves data quality and reduces the need for large cleansing teams" },
       ] },
     ],
-    note: "We aim to make the best (Databricks)... better: certified experts focused where they add most value, with engineered solutions doing the generic work.",
+    note: "We aim to make the best — Databricks — better still: certified experts focused where they add most value, with engineered solutions doing the generic work.",
     links: [
       { href: "/technologies", label: "← All technologies" },
       { href: "/solutions/qbricks", label: "Explore QBricks →" },
@@ -1364,7 +1366,7 @@ export function AboutWirePage() {
             <Link
               key={slot}
               href={href}
-              className="spot group relative block h-full overflow-hidden border hairline bg-surface/82 shadow-[0_8px_24px_rgba(23,56,102,0.04)] outline-none transition-[border-color,transform,background,box-shadow] duration-(--duration-base) ease-(--ease-out-expo) hover:-translate-y-0.5 hover:border-signal/45 hover:bg-white hover:shadow-[0_14px_34px_rgba(23,56,102,0.075)] focus-visible:border-signal/60 focus-visible:bg-white"
+              className="spot group relative block h-full overflow-hidden border hairline bg-surface/82 shadow-[0_8px_24px_rgba(23,56,102,0.04)] outline-none focus-visible:ring-2 focus-visible:ring-signal focus-visible:ring-offset-2 focus-visible:ring-offset-void transition-[border-color,transform,background,box-shadow] duration-(--duration-base) ease-(--ease-out-expo) hover:-translate-y-0.5 hover:border-signal/45 hover:bg-white hover:shadow-[0_14px_34px_rgba(23,56,102,0.075)] focus-visible:border-signal/60 focus-visible:bg-white"
             >
               <span aria-hidden className="absolute inset-x-0 top-0 z-10 h-px origin-left scale-x-0 bg-signal transition-transform duration-(--duration-base) group-hover:scale-x-100 group-focus-visible:scale-x-100" />
               <div className="overflow-hidden">

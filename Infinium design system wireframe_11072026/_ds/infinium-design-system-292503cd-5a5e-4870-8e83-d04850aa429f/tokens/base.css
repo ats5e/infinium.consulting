@@ -1,9 +1,0 @@
-/* Infinium Design System — minimal base */
-* { box-sizing: border-box; }
-body {
-  margin: 0;
-  font: var(--style-body);
-  color: var(--text-body);
-  background: var(--surface-page);
-  -webkit-font-smoothing: antialiased;
-}

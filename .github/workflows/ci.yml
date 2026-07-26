@@ -18,13 +18,19 @@ jobs:
           node-version: 22
           cache: pnpm
       - run: pnpm install --frozen-lockfile
+      - name: Lint
+        run: pnpm lint
+      - name: Types
+        run: pnpm exec tsc --noEmit
+      - name: Dependency audit (production)
+        run: pnpm audit --prod
       - run: pnpm build
       - run: pnpm exec playwright install chromium --with-deps
       - name: Smoke + axe accessibility tests
         run: pnpm exec playwright test
         env:
           CI: "true"
-      - name: Lighthouse budget (fails below 95)
+      - name: Lighthouse budget (perf 90, a11y/best-practices/SEO 95)
         run: pnpm exec lhci autorun
       - uses: actions/upload-artifact@v4
         if: failure()

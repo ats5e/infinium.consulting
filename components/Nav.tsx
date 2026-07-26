@@ -228,8 +228,10 @@ export function Nav() {
         aria-modal="true"
         aria-label="Site navigation"
         aria-hidden={!open}
-        className={`fixed inset-0 z-40 overflow-y-auto bg-void transition-[clip-path] duration-(--duration-slow) ease-(--ease-out-expo) ${
-          open ? "[clip-path:inset(0_0_0%_0)]" : "pointer-events-none [clip-path:inset(0_0_100%_0)]"
+        /* overflow-y-auto only while open: a scrollable container is itself a
+           tab stop in Chrome, and clip-path does not remove it from tab order */
+        className={`fixed inset-0 z-40 bg-void transition-[clip-path] duration-(--duration-slow) ease-(--ease-out-expo) ${
+          open ? "overflow-y-auto [clip-path:inset(0_0_0%_0)]" : "overflow-hidden pointer-events-none [clip-path:inset(0_0_100%_0)]"
         }`}
       >
         <div aria-hidden className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_80%_10%,rgba(35,79,189,0.09),transparent_36rem)]" />
@@ -341,8 +343,9 @@ export function Nav() {
         aria-modal="true"
         aria-label="Site search"
         aria-hidden={!searching}
-        className={`fixed inset-0 z-40 overflow-y-auto bg-void transition-[clip-path] duration-(--duration-slow) ease-(--ease-out-expo) ${
-          searching ? "[clip-path:inset(0_0_0%_0)]" : "pointer-events-none [clip-path:inset(0_0_100%_0)]"
+        /* see #site-menu: scrollable containers are tab stops even when clipped */
+        className={`fixed inset-0 z-40 bg-void transition-[clip-path] duration-(--duration-slow) ease-(--ease-out-expo) ${
+          searching ? "overflow-y-auto [clip-path:inset(0_0_0%_0)]" : "overflow-hidden pointer-events-none [clip-path:inset(0_0_100%_0)]"
         }`}
       >
         <div aria-hidden className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_8%,rgba(35,79,189,0.08),transparent_34rem)]" />
@@ -360,7 +363,7 @@ export function Nav() {
             placeholder="Services, solutions, technologies, case studies…"
             autoComplete="off"
             spellCheck={false}
-            className="mt-4 w-full border-b border-ice/25 bg-transparent pb-5 font-display text-(length:--text-step-3) font-medium tracking-[-0.02em] text-paper outline-none placeholder:text-steel/60 focus:border-signal"
+            className="mt-4 w-full border-b border-ice/25 bg-transparent pb-5 font-display text-(length:--text-step-3) font-medium tracking-[-0.02em] text-paper outline-none placeholder:text-steel focus:border-signal"
           />
           <div className="mt-8">
             {q && results.length === 0 ? (

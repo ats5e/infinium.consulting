@@ -108,12 +108,14 @@ test("VBricks is marked as coming soon", async ({ page }) => {
 
 test("product pages expose their correct brand journeys", async ({ page }) => {
   await page.goto("/solutions/qbricks");
-  await expect(page.getByRole("img", { name: "QBricks", exact: true })).toHaveAttribute("src", /qbricks-logo-trimmed\.png/);
+  // the wordmark is set in the brand face, not a bitmap
+  await expect(page.getByTestId("product-wordmark")).toHaveText("QBricks");
   const qbricksSite = page.getByRole("link", { name: /visit the QBricks website/i });
   await expect(qbricksSite).toHaveAttribute("href", "https://qbricks.ai");
   await expect(qbricksSite).toHaveAttribute("target", "_blank");
 
   await page.goto("/solutions/vbricks");
+  await expect(page.getByTestId("product-wordmark")).toHaveText("VBricks");
   await expect(page.getByLabel("VBricks site coming soon").first()).toBeVisible();
   await expect(page.getByRole("link", { name: /request a VBricks demo/i })).toHaveAttribute("href", "/contact");
 });

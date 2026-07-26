@@ -23,6 +23,8 @@ export const metadata: Metadata = {
     siteName: "Infinium Technology",
     type: "website",
     locale: "en_GB",
+    // Next only emits og:url when it is set explicitly
+    url: "/",
   },
 };
 
@@ -43,15 +45,44 @@ const JSON_LD = {
       "@type": "Organization",
       "@id": `${SITE}/#org`,
       name: "Infinium Technology",
+      legalName: "Infinium Consulting B.V.",
       url: SITE,
+      logo: `${SITE}/img/logo.png`,
       email: "sales@infinium.technology",
+      // head office — Amsterdam. Dubai is a second office, declared below.
+      address: {
+        "@type": "PostalAddress",
+        streetAddress: "Fred Roeskestraat 115",
+        addressLocality: "Amsterdam",
+        addressCountry: "NL",
+      },
+      sameAs: ["https://www.linkedin.com/company/113267940/"],
+    },
+    {
+      "@type": "Organization",
+      "@id": `${SITE}/#office-amsterdam`,
+      name: "Infinium Consulting B.V.",
+      parentOrganization: { "@id": `${SITE}/#org` },
+      url: `${SITE}/about/amsterdam`,
+      address: {
+        "@type": "PostalAddress",
+        streetAddress: "Fred Roeskestraat 115",
+        addressLocality: "Amsterdam",
+        addressCountry: "NL",
+      },
+    },
+    {
+      "@type": "Organization",
+      "@id": `${SITE}/#office-dubai`,
+      name: "Infinium Technology Ltd",
+      parentOrganization: { "@id": `${SITE}/#org` },
+      url: `${SITE}/about/dubai`,
       address: {
         "@type": "PostalAddress",
         streetAddress: "Level 02, Innovation One, Dubai International Financial Centre",
         addressLocality: "Dubai",
         addressCountry: "AE",
       },
-      sameAs: ["https://www.linkedin.com/company/113267940/"],
     },
     {
       "@type": "WebSite",
@@ -88,7 +119,10 @@ export default function RootLayout({
         <div className="load-nav">
           <Nav />
         </div>
-        <main id="main">{children}</main>
+        {/* tabIndex allows the skip link to actually move focus here */}
+        <main id="main" tabIndex={-1}>
+          {children}
+        </main>
         <Footer />
         <Spotlight />
         {/* the injected scripts only exist on Vercel's edge — locally they 404 */}

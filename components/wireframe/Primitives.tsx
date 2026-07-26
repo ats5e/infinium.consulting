@@ -197,7 +197,7 @@ export function NumberedCards({
             {item.cta ? <p className="mt-6 font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-signal">{item.cta}</p> : null}
           </>
         );
-        const className = `${item.href ? "spot group hover:-translate-y-0.5 hover:border-signal/45 hover:bg-white hover:shadow-[0_14px_34px_rgba(23,56,102,0.075)] focus-visible:border-signal/60 focus-visible:bg-white" : ""} relative block h-full overflow-hidden border hairline bg-surface/82 shadow-[0_8px_24px_rgba(23,56,102,0.04)] outline-none transition-[border-color,transform,background,box-shadow] duration-(--duration-base) ease-(--ease-out-expo) ${itemSpan} ${compact ? "p-5" : "p-7"}`;
+        const className = `${item.href ? "spot group hover:-translate-y-0.5 hover:border-signal/45 hover:bg-white hover:shadow-[0_14px_34px_rgba(23,56,102,0.075)] focus-visible:border-signal/60 focus-visible:bg-white" : ""} relative block h-full overflow-hidden border hairline bg-surface/82 shadow-[0_8px_24px_rgba(23,56,102,0.04)] outline-none focus-visible:ring-2 focus-visible:ring-signal focus-visible:ring-offset-2 focus-visible:ring-offset-void transition-[border-color,transform,background,box-shadow] duration-(--duration-base) ease-(--ease-out-expo) ${itemSpan} ${compact ? "p-5" : "p-7"}`;
 
         return item.href ? (
           <Link key={`${item.num ?? i}-${item.title}`} href={item.href} className={className}>
@@ -233,7 +233,7 @@ export function CardGrid({
             {item.cta ? <p className="mt-6 font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-signal">{item.cta}</p> : null}
           </>
         );
-        const cls = `${item.href ? "spot group hover:-translate-y-0.5 hover:border-signal/45 hover:bg-white hover:shadow-[0_14px_34px_rgba(23,56,102,0.075)] focus-visible:border-signal/60 focus-visible:bg-white" : ""} relative block h-full overflow-hidden border hairline bg-surface/82 p-7 shadow-[0_8px_24px_rgba(23,56,102,0.04)] outline-none transition-[border-color,transform,background,box-shadow] duration-(--duration-base) ease-(--ease-out-expo)`;
+        const cls = `${item.href ? "spot group hover:-translate-y-0.5 hover:border-signal/45 hover:bg-white hover:shadow-[0_14px_34px_rgba(23,56,102,0.075)] focus-visible:border-signal/60 focus-visible:bg-white" : ""} relative block h-full overflow-hidden border hairline bg-surface/82 p-7 shadow-[0_8px_24px_rgba(23,56,102,0.04)] outline-none focus-visible:ring-2 focus-visible:ring-signal focus-visible:ring-offset-2 focus-visible:ring-offset-void transition-[border-color,transform,background,box-shadow] duration-(--duration-base) ease-(--ease-out-expo)`;
         return item.href ? (
           <Link key={item.title} href={item.href} className={cls}>
             <span aria-hidden className="absolute inset-x-0 top-0 h-px origin-left scale-x-0 bg-signal transition-transform duration-(--duration-base) group-hover:scale-x-100 group-focus-visible:scale-x-100" />
@@ -283,7 +283,7 @@ export function CaseStudyCard({ c }: { c: CaseStudy }) {
     <Link
       href={`/insights/${c.slug}`}
       data-testid="case-study-card"
-      className="spot group block overflow-hidden border hairline bg-surface/85 shadow-[0_8px_24px_rgba(23,56,102,0.045)] outline-none transition-[border-color,transform,background,box-shadow] duration-(--duration-base) ease-(--ease-out-expo) hover:-translate-y-0.5 hover:border-signal/45 hover:bg-white hover:shadow-[0_14px_36px_rgba(23,56,102,0.085)] focus-visible:border-signal/60 focus-visible:bg-white"
+      className="spot group block overflow-hidden border hairline bg-surface/85 shadow-[0_8px_24px_rgba(23,56,102,0.045)] outline-none focus-visible:ring-2 focus-visible:ring-signal focus-visible:ring-offset-2 focus-visible:ring-offset-void transition-[border-color,transform,background,box-shadow] duration-(--duration-base) ease-(--ease-out-expo) hover:-translate-y-0.5 hover:border-signal/45 hover:bg-white hover:shadow-[0_14px_36px_rgba(23,56,102,0.085)] focus-visible:border-signal/60 focus-visible:bg-white"
     >
       <picture className="block aspect-[16/9] overflow-hidden">
         <source

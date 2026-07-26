@@ -57,7 +57,10 @@ export async function sendMessage(
     };
   }
 
-  const { name, email, topic, message } = parsed.data;
+  const { name, email, topic, message, updates } = parsed.data;
+  /* The privacy notice states we record this preference, so it has to travel
+   * with the enquiry — it is the only record of the opt-in. */
+  const optedIn = Boolean(updates);
   const apiKey = process.env.RESEND_API_KEY;
 
   if (apiKey) {
@@ -69,7 +72,9 @@ export async function sendMessage(
         to: process.env.CONTACT_TO ?? "sales@infinium.technology",
         reply_to: email,
         subject: `Website enquiry — ${name}${topic ? `, ${topic}` : ""}`,
-        text: `${message}\n\n— ${name} <${email}>${topic ? ` · ${topic}` : ""}`,
+        text:
+          `${message}\n\n— ${name} <${email}>${topic ? ` · ${topic}` : ""}\n` +
+          `Marketing updates opt-in: ${optedIn ? "YES" : "no"} (recorded ${new Date().toISOString()})`,
       }),
     });
     if (!res.ok) {
@@ -88,7 +93,7 @@ export async function sendMessage(
       };
     }
     // Local development remains testable without delivering email.
-    console.log("[contact] no RESEND_API_KEY —", { name, email, topic, message });
+    console.log("[contact] no RESEND_API_KEY —", { name, email, topic, message, optedIn });
   }
 
   return { status: "sent" };
