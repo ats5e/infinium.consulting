@@ -114,7 +114,7 @@ function drawIsoCube(
   }
 }
 
-type Voxel = { i: number; j: number; k: number; pal: Pal; flashT: number };
+type Voxel = { i: number; j: number; k: number; pal: Pal; flashT: number; missing: boolean };
 
 type Resolver = {
   tj: number; // target tile on the mark's right face
@@ -178,6 +178,11 @@ export default function AssemblyField({
     let last = 0;
     let clock = 0;
     const pointer = { x: -1e4, y: -1e4, px: 0, py: 0 };
+    const GAP_TARGETS = [
+      { j: 1, k: 2 },
+      { j: 2, k: 1 },
+      { j: 0, k: 3 },
+    ];
 
     let voxels: Voxel[] = [];
     let drawOrder: number[] = [];
@@ -189,13 +194,14 @@ export default function AssemblyField({
     let glintSheet = 0;
     let glintAt = 4;
     let glintT = -1;
+    let nextReset = 25;
 
     /* the mark's anchor — voxel (0,0,0) bottom vertex, normalized */
     const ANCHOR_X = 0.175;
     const ANCHOR_Y = 0.64;
     const STACK_END = 0.6; // organised once left of here
 
-    const bob = () => Math.sin(clock * 0.5) * e * 0.14;
+    const bob = () => Math.sin(clock * 1.5) * e * 0.04;
 
     const voxelPos = (i: number, j: number, k: number, out: { x: number; y: number }) => {
       const w = e * 0.866;
@@ -222,12 +228,14 @@ export default function AssemblyField({
       for (let k = 0; k < N; k++)
         for (let j = 0; j < N; j++)
           for (let i = 0; i < N; i++) {
+            const isGap = i === 3 && ((j === 1 && k === 2) || (j === 2 && k === 1) || (j === 0 && k === 3));
             const sheenR = r() < 0.14 ? 0.12 : 0;
             voxels.push({
               i,
               j,
               k,
               flashT: 0,
+              missing: isGap,
               pal: {
                 top: mixc([18, 42, 80], [24, 50, 92], r()),
                 left: mixc([10, 21, 42], [14, 27, 52], r()),
@@ -239,19 +247,16 @@ export default function AssemblyField({
         .map((_, idx) => idx)
         .sort((a, b) => voxels[a].i + voxels[a].j + voxels[a].k - (voxels[b].i + voxels[b].j + voxels[b].k));
 
-      /* the scanning stack: three tight groups of glass sheets */
+      /* the scanning stack: exactly 6 sheets as in reference */
       const defs: Array<[number, number, number]> = [
-        // [x, height, width]
-        [0.355, 0.72, 0.044],
-        [0.39, 0.68, 0.044],
-        [0.46, 0.78, 0.05],
-        [0.49, 0.8, 0.05],
-        [0.52, 0.76, 0.05],
-        [0.55, 0.78, 0.05],
-        [0.63, 0.62, 0.042],
-        [0.66, 0.58, 0.042],
+        [0.38, 0.76, 0.046],
+        [0.44, 0.82, 0.046],
+        [0.50, 0.78, 0.05],
+        [0.56, 0.80, 0.05],
+        [0.62, 0.66, 0.046],
+        [0.68, 0.60, 0.046],
       ];
-      const dockCounts = [4, 6, 16, 22, 18, 14, 6, 4];
+      const dockCounts = [4, 12, 18, 16, 8, 4];
       sheets = defs.map(([x, hFrac, pwFrac], idx) => {
         const docks: Dock[] = [];
         const core = idx >= 2 && idx <= 5;
@@ -282,9 +287,9 @@ export default function AssemblyField({
         return { x, hFrac, pwFrac, phase: r() * Math.PI * 2, docks };
       });
 
-      /* the drifting cloud: chunky, calm, loosely on lattice bands */
-      const bands = Array.from({ length: 8 }, (_, i) => 0.18 + (i * 0.64) / 7);
-      const count = clamp(Math.round((W * H) / 5200), 140, 280);
+      /* the drifting cloud: much sparser, structured grid */
+      const bands = Array.from({ length: 12 }, (_, i) => 0.15 + (i * 0.7) / 11);
+      const count = clamp(Math.round((W * H) / 25000), 30, 60);
       motes = Array.from({ length: count }, () => {
         const u = r();
         const x = 0.38 + Math.pow(u, 0.8) * 0.7;
@@ -297,29 +302,16 @@ export default function AssemblyField({
           y,
           size,
           pal: roll < 0.45 ? M_NAVY : roll < 0.75 ? M_COBALT : GLASSY,
-          vx: 0.003 + r() * 0.005,
-          wf: 0.3 + r() * 0.7,
-          amp: 1.5 + r() * 2.5,
+          vx: 0.005 + r() * 0.005,
+          wf: 0,
+          amp: 0,
           phase: r() * Math.PI * 2,
           alpha: 0.82 + r() * 0.18,
         };
       });
 
-      /* a few cubes already resolving toward the mark */
+      /* resolvers will be spawned dynamically by maybeResolve */
       resolvers = [];
-      for (let n = 0; n < 3; n++) {
-        resolvers.push({
-          tj: Math.floor(r() * N),
-          tk: Math.floor(r() * N),
-          sx: 0.9 + r() * 0.14,
-          sy: 0.3 + r() * 0.4,
-          s: 0.15 + n * 0.28,
-          dur: 7 + r() * 3,
-          wf: 0.9 + r() * 1.2,
-          amp: 20 + r() * 24,
-          phase: r() * Math.PI * 2,
-        });
-      }
 
       /* the lattice: fine horizontal threads, painted once */
       const tctx = threadsCanvas.getContext("2d");
@@ -330,11 +322,11 @@ export default function AssemblyField({
         for (const band of bands) {
           const y = band * H;
           const x0 = (0.34 + tr() * 0.2) * W;
-          tctx.strokeStyle = `rgba(23, 56, 102, ${0.09 + tr() * 0.05})`;
+          tctx.strokeStyle = `rgba(23, 56, 102, ${0.08 + tr() * 0.05})`;
           tctx.lineWidth = 0.8;
           tctx.beginPath();
           tctx.moveTo(x0, y);
-          tctx.lineTo(W * 1.02, y + (tr() - 0.5) * 14);
+          tctx.lineTo(W * 1.02, y);
           tctx.stroke();
         }
         /* a few finer intermediate threads */
@@ -344,7 +336,7 @@ export default function AssemblyField({
           tctx.lineWidth = 0.7;
           tctx.beginPath();
           tctx.moveTo((0.4 + tr() * 0.3) * W, y);
-          tctx.lineTo(W * 1.02, y + (tr() - 0.5) * 20);
+          tctx.lineTo(W * 1.02, y);
           tctx.stroke();
         }
         /* threads running from the mark through the stack */
@@ -353,7 +345,7 @@ export default function AssemblyField({
           tctx.strokeStyle = `rgba(23, 56, 102, ${0.08 + tr() * 0.04})`;
           tctx.lineWidth = 0.8;
           tctx.beginPath();
-          tctx.moveTo(W * (ANCHOR_X + 0.09), y + (tr() - 0.5) * 10);
+          tctx.moveTo(W * (ANCHOR_X + 0.09), y);
           tctx.lineTo(W * (0.68 + tr() * 0.06), y);
           tctx.stroke();
         }
@@ -367,7 +359,7 @@ export default function AssemblyField({
       const pw = clamp(p.pwFrac * W, 30, 96);
       const ph = p.hFrac * H * 0.5;
       const ps = pw * 0.3;
-      const yc = 0.52 * H + Math.sin(clock * 0.3 + p.phase) * 2.5;
+      const yc = 0.52 * H;
 
       const TLx = x - pw, TRx = x + pw;
       const TLy = yc - ph + ps, TRy = yc - ph - ps;
@@ -481,10 +473,12 @@ export default function AssemblyField({
 
       for (const idx of drawOrder) {
         const v = voxels[idx];
-        voxelPos(v.i, v.j, v.k, p);
-        drawIsoCube(ctx, p.x, p.y, e, v.pal, 1, 0.3);
+        if (v.missing) continue;
+        const pos = { x: 0, y: 0 };
+        voxelPos(v.i, v.j, v.k, pos);
+        drawIsoCube(ctx, pos.x, pos.y, e, v.pal, 1, 0.3 + v.flashT * 0.7);
         if (v.flashT > 0)
-          drawIsoCube(ctx, p.x, p.y, e, { top: [214, 231, 252], left: [170, 200, 240], right: [190, 214, 248] }, v.flashT * 0.55);
+          drawIsoCube(ctx, pos.x, pos.y, e, { top: [214, 231, 252], left: [170, 200, 240], right: [190, 214, 248] }, v.flashT * 0.55);
       }
     };
 
@@ -502,7 +496,7 @@ export default function AssemblyField({
       if (!ctx) return;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       ctx.clearRect(0, 0, W, H);
-      ctx.translate(pointer.px * -8, pointer.py * -5);
+      ctx.translate(pointer.px * -40, pointer.py * -25);
 
       /* the stack, far to near */
       for (let i = sheets.length - 1; i >= 0; i--) drawSheet(ctx, sheets[i], i);
@@ -516,7 +510,20 @@ export default function AssemblyField({
         }
         if (m.x < STACK_END) organised++;
         const mx = m.x * W;
-        const my = m.y * H + Math.sin(clock * m.wf + m.phase) * m.amp;
+        let my = m.y * H;
+        
+        if (pointer.x > 0) {
+          const trueMx = mx + pointer.px * -40;
+          const trueMy = my + pointer.py * -25;
+          const dx = pointer.x - trueMx;
+          const dy = pointer.y - trueMy;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 140) {
+            const force = (140 - dist) / 140;
+            my += (dy > 0 ? -1 : 1) * force * 45;
+          }
+        }
+        
         const fade = smooth(clamp((m.x - 0.355) / 0.05, 0, 1));
         drawIsoCube(ctx, mx, my, m.size, m.pal, m.alpha * fade * glassDim(mx), m.size > 5 ? 0.14 : 0);
       }
@@ -528,7 +535,12 @@ export default function AssemblyField({
       const t = { x: 0, y: 0 };
       for (const a of resolvers) {
         a.s = Math.min(1, a.s + dt / a.dur);
-        const s = smooth(a.s);
+        const snapEase = (t: number) => {
+          const c1 = 1.70158;
+          const c3 = c1 + 1;
+          return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2);
+        };
+        const s = snapEase(a.s);
         voxelPos(N - 1, a.tj, a.tk, t);
         const x0 = a.sx * W;
         const y0 = a.sy * H;
@@ -538,10 +550,9 @@ export default function AssemblyField({
         const c2y = t.y - H * 0.02;
         const u = 1 - s;
         const x = u * u * u * x0 + 3 * u * u * s * c1x + 3 * u * s * s * c2x + s * s * s * t.x;
-        let y = u * u * u * y0 + 3 * u * u * s * c1y + 3 * u * s * s * c2y + s * s * s * t.y;
+        const y = u * u * u * y0 + 3 * u * u * s * c1y + 3 * u * s * s * c2y + s * s * s * t.y;
 
         const ord = clamp((0.7 - x / W) / 0.35, 0, 1);
-        y += Math.sin(clock * a.wf + a.phase) * a.amp * Math.pow(1 - ord, 1.7) * (1 - s * 0.75);
         if (x / W < STACK_END) organised++;
 
         const size = lerp(4.5, e * 0.92, smooth(clamp((s - 0.35) / 0.6, 0, 1)));
@@ -556,7 +567,10 @@ export default function AssemblyField({
 
         if (a.s >= 1) {
           const v = voxels.find((vv) => vv.i === N - 1 && vv.j === a.tj && vv.k === a.tk);
-          if (v) v.flashT = 1;
+          if (v) {
+            v.missing = false;
+            v.flashT = 1.5;
+          }
         }
       }
       resolvers = resolvers.filter((a) => a.s < 1);
@@ -569,18 +583,20 @@ export default function AssemblyField({
     /* ——— the living system's slow decisions ——— */
 
     const maybeResolve = () => {
-      if (clock < nextResolver || resolvers.length >= 4) return;
+      const availableGaps = voxels.filter((v) => v.i === N - 1 && v.missing && !resolvers.some((r) => r.tj === v.j && r.tk === v.k));
+      if (clock < nextResolver || availableGaps.length === 0) return;
       nextResolver = clock + 2.5 + rand() * 2;
+      const t = availableGaps[Math.floor(rand() * availableGaps.length)];
       resolvers.push({
-        tj: Math.floor(rand() * N),
-        tk: Math.floor(rand() * N),
-        sx: 0.9 + rand() * 0.14,
-        sy: 0.3 + rand() * 0.4,
+        tj: t.j,
+        tk: t.k,
+        sx: 0.85 + rand() * 0.15,
+        sy: 0.2 + rand() * 0.5,
         s: 0,
-        dur: 7 + rand() * 3,
-        wf: 0.9 + rand() * 1.2,
-        amp: 20 + rand() * 24,
-        phase: rand() * Math.PI * 2,
+        dur: 3 + rand() * 2.5,
+        wf: 0,
+        amp: 0,
+        phase: 0,
       });
     };
 
@@ -615,6 +631,16 @@ export default function AssemblyField({
       clock += dt;
       pointer.px += (clamp(pointer.x / W - 0.5, -0.5, 0.5) - pointer.px) * 0.04;
       pointer.py += (clamp(pointer.y / H - 0.5, -0.5, 0.5) - pointer.py) * 0.04;
+      
+      if (clock > nextReset) {
+        nextReset = clock + 25;
+        for (const v of voxels) {
+          if (GAP_TARGETS.some((g) => g.j === v.j && g.k === v.k && v.i === N - 1)) {
+            v.missing = true;
+          }
+        }
+      }
+
       maybeResolve();
       maybeShuffle(dt);
       maybeGlint(dt);

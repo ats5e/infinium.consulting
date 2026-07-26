@@ -135,8 +135,8 @@ export function Hero({ staticImage: _staticImage }: { staticImage: SiteImage }) 
       </div>
 
       {/* the field — owns the right, bleeds to the viewport edge */}
-      <div className="hero-field-wrap pointer-events-none relative -mr-[18%] mt-2 h-[36svh] min-h-60 max-h-80 w-[118%] pb-5 md:pointer-events-auto md:absolute md:inset-y-0 md:left-[32%] md:right-0 md:mr-0 md:mt-0 md:h-auto md:min-h-0 md:max-h-none md:w-auto md:pb-0">
-        <div data-testid="hero-graphic" className="absolute -bottom-[7%] left-0 right-0 top-[7%] md:-bottom-[8%] md:top-[8%]">
+      <div className="hero-field-wrap pointer-events-none relative -mr-[18%] mt-2 h-[36svh] min-h-60 max-h-80 w-[118%] pb-5 md:pointer-events-auto md:absolute md:inset-y-0 md:left-[42%] md:right-0 md:mr-0 md:mt-0 md:h-auto md:min-h-0 md:max-h-none md:w-auto md:pb-0">
+        <div data-testid="hero-graphic" className="absolute -bottom-[7%] left-0 right-0 top-[7%] md:bottom-[0%] md:top-[12%]">
           <AssemblyField still={still} onOrder={handleOrder} />
         </div>
         <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-[16%] bg-gradient-to-b from-transparent to-void" />
