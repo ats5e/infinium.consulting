@@ -3,12 +3,34 @@
   "modelNote": "imagen-4-ultra rejected: caps at 1280x720/1024x768. FLUX Ultra accepts native ratios at ~3MP with raw:true (natural photographic rendering). Enhance pass: topaz/standard-enhance on the winning hero only.",
   "raw": true,
   "suffix": "Shot on a Phase One with a 120mm macro. Pure black seamless background, #05070C. Single hard key light from upper-left, cobalt rim light from the right. Volumetric haze, visible caustics, chromatic dispersion at the edges. Extreme depth of field falloff. Physically accurate glass refraction. Cinematic, restrained, editorial. No text, no letters, no logos, no watermarks, no people, no faces, no user interfaces, no circuit boards, no neon, no lens flare cliché, no stock-photo composition.",
-  "seeds": [7, 1337, 9001],
+  "seeds": [
+    7,
+    1337,
+    9001
+  ],
   "decisions": {
     "hero": "v1 (client, 2026-07-10) — topaz High Fidelity V2 enhanced to 12544x5376; master is design/raw/hero-v1.png; OG base cropped from it",
     "tbricks": "v4 (2026-07-16) — light-studio ChatGPT generation retaining the warm-temperature engineering identity",
-    "data-engineering": "v4 (2026-07-16) — light-studio edit", "data-science": "v4 (2026-07-16) — light-studio edit", "digital-transformation": "v4 (2026-07-16) — light-studio edit",
-    "governance": "v4 (2026-07-16) — light-studio edit", "qbricks": "v4 (2026-07-16) — light-studio edit retaining the red product identity", "about-difc": "v4 (2026-07-16) — daylight architectural generation", "careers": "v3"
+    "data-engineering": "v4 (2026-07-16) — light-studio edit",
+    "data-science": "v4 (2026-07-16) — light-studio edit",
+    "digital-transformation": "v4 (2026-07-16) — light-studio edit",
+    "governance": "v4 (2026-07-16) — light-studio edit",
+    "qbricks": "v4 (2026-07-16) — light-studio edit retaining the red product identity",
+    "about-difc": "v4 (2026-07-16) — daylight architectural generation",
+    "careers": "v4 (2026-07-26) — real team photography (Infinium_group-5, balcony) replaces the v3 render",
+    "team-together": "v1 (2026-07-26) — Infinium_group-26, team on the steps; About page wide band",
+    "ams-exterior": "v1 (2026-07-26) — building-24 exterior; About locations card for Amsterdam",
+    "ams-stairs": "v1 (2026-07-26) — building-3 staircase; Amsterdam gallery (replaces low-res ams-building)",
+    "ams-hall": "v1 (2026-07-26) — building-37 hall overview; Amsterdam gallery wide (replaces 277px ams-workspace)",
+    "culture-cruise": "v1 (2026-07-26) — DSC-1371 canal-boat summer party; Culture mosaic",
+    "culture-gala": "v1 (2026-07-26) — DSC_0042 black-tie gala; Culture mosaic",
+    "culture-ski": "v1 (2026-07-26) — ski night group; Culture mosaic",
+    "culture-win": "v1 (2026-07-26) — medals celebration; Culture mosaic",
+    "culture-canal": "v1 (2026-07-26) — 20230712 canalside group; Culture mosaic",
+    "culture-summer": "v1 (2026-07-26) — 20230526 formal summer group; Culture mosaic",
+    "one4one-cohort": "v1 (2026-07-26) — 1000039022 Amsterdam gathering; One4One programme section",
+    "events-nextwave": "v1 (2026-07-26) — 1000039670 NextWave event; Industry events page",
+    "_about-us-folder": "source originals in 'About Us Images/' (repo root, untracked); slot-named copies in design/raw; processed additively (scripts/process-images.mjs full rerun would drop the SVG-sourced cs-* manifest entries)"
   },
   "slots": [
     {

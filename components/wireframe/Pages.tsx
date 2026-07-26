@@ -1342,11 +1342,50 @@ export function AboutWirePage() {
         </div>
       </ContentSection>
       <ContentSection>
+        <Reveal>
+          <figure className="overflow-hidden border hairline bg-surface/82 shadow-[0_8px_24px_rgba(23,56,102,0.04)]">
+            <GlassImage
+              image={siteImage("team-together")}
+              alt="The Infinium team gathered together outside the Amsterdam office"
+              sizes="(min-width: 1280px) 1216px, 100vw"
+              imageClassName="aspect-[3/2] object-cover md:aspect-[2/1]"
+            />
+            <figcaption className="flex flex-wrap items-baseline justify-between gap-3 border-t hairline p-5">
+              <span className="eyebrow">One team, two hubs</span>
+              <span className="font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-steel">Amsterdam · Dubai</span>
+            </figcaption>
+          </figure>
+        </Reveal>
+      </ContentSection>
+      <ContentSection>
         <SectionIntro eyebrow="Locations" title="Where you'll find us" body="We serve clients across the EU, Nordic and Middle East (GCC) markets from our two hubs." />
-        <CardGrid columns={2} items={[
-          { title: "Amsterdam, The Netherlands", body: "Infinium Consulting B.V., head office", href: "/about/amsterdam", cta: "Visit this office →" },
-          { title: "DIFC, Dubai", body: "Infinium Technology Ltd, Middle East", href: "/about/dubai", cta: "Visit this office →" },
-        ]} />
+        <Reveal className="grid gap-px md:grid-cols-2">
+          {([
+            ["ams-exterior", "Amsterdam, The Netherlands", "Infinium Consulting B.V., head office", "/about/amsterdam", "Our building at Fred Roeskestraat 115, Amsterdam"],
+            ["dxb-innovationone", "DIFC, Dubai", "Infinium Technology Ltd, Middle East", "/about/dubai", "Innovation One in the Dubai International Financial Centre"],
+          ] as const).map(([slot, title, body, href, alt]) => (
+            <Link
+              key={slot}
+              href={href}
+              className="spot group relative block h-full overflow-hidden border hairline bg-surface/82 shadow-[0_8px_24px_rgba(23,56,102,0.04)] outline-none transition-[border-color,transform,background,box-shadow] duration-(--duration-base) ease-(--ease-out-expo) hover:-translate-y-0.5 hover:border-signal/45 hover:bg-white hover:shadow-[0_14px_34px_rgba(23,56,102,0.075)] focus-visible:border-signal/60 focus-visible:bg-white"
+            >
+              <span aria-hidden className="absolute inset-x-0 top-0 z-10 h-px origin-left scale-x-0 bg-signal transition-transform duration-(--duration-base) group-hover:scale-x-100 group-focus-visible:scale-x-100" />
+              <div className="overflow-hidden">
+                <GlassImage
+                  image={siteImage(slot)}
+                  alt={alt}
+                  sizes="(min-width: 768px) 45vw, 100vw"
+                  imageClassName="aspect-[16/10] object-cover transition-transform duration-(--duration-base) ease-(--ease-out-expo) group-hover:scale-[1.03]"
+                />
+              </div>
+              <div className="border-t hairline p-7">
+                <h3 className="text-(length:--text-step-1) leading-tight">{title}</h3>
+                <p className="mt-3 text-(length:--text-body-sm) leading-relaxed text-ice">{body}</p>
+                <p className="mt-6 font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-signal">Visit this office →</p>
+              </div>
+            </Link>
+          ))}
+        </Reveal>
       </ContentSection>
       <CTASection title="Join the team" body="We are a values-led firm built from seasoned professionals and dynamic new talent." href="/careers" label="Your career" />
     </>
@@ -1391,6 +1430,29 @@ export function CulturePage() {
           { title: "Giving back is structural.", body: "One4One internships and our university partnerships are part of how the firm runs, not a side programme." },
         ]} />
       </ContentSection>
+      <ContentSection>
+        <SectionIntro eyebrow="In pictures" title="Moments from the year" body="Two hubs, one team — how it looks when we're together." />
+        <Reveal className="grid grid-cols-2 gap-px md:grid-cols-3">
+          {([
+            ["culture-cruise", "Summer party on the Amsterdam canals"],
+            ["culture-gala", "The end-of-year gala"],
+            ["culture-ski", "Ski night"],
+            ["culture-win", "Winning together"],
+            ["culture-canal", "Canalside in Amsterdam"],
+            ["culture-summer", "The team in the sunshine"],
+          ] as const).map(([slot, caption]) => (
+            <figure key={slot} className="overflow-hidden border hairline bg-surface/82 shadow-[0_8px_24px_rgba(23,56,102,0.04)]">
+              <GlassImage
+                image={siteImage(slot)}
+                alt={caption}
+                sizes="(min-width: 768px) 30vw, 50vw"
+                imageClassName="aspect-[4/3] object-cover"
+              />
+              <figcaption className="eyebrow border-t hairline p-4">{caption}</figcaption>
+            </figure>
+          ))}
+        </Reveal>
+      </ContentSection>
       <CTASection title="Sound like your kind of firm?" body="See open roles or start a conversation with the team." href="/careers" label="Your career" />
     </>
   );
@@ -1405,11 +1467,26 @@ export function SocialResponsibilityPage() {
         body="Established in 2020 with our partner NextWave Consulting in London, One4One is our social enterprise internship programme. The principle is simple: for every new client engagement we win, we create a paid internship for a young adult taking their first step into a professional career, so our growth directly creates opportunity for the next generation."
       />
       <ContentSection>
-        <SectionIntro eyebrow="The programme" title="Opportunities for the next generation" />
-        <Reveal className="max-w-3xl space-y-5 leading-relaxed text-ice">
-          <p>Some of the most powerful initiatives we have been involved in are those that create opportunities for the next generation. One4One helps young adults take their first step in a professional career through a unique, immersive internship experience, with each year&rsquo;s positions created in tandem with each new client engagement.</p>
-          <p>Interns learn about the financial services industry, its biggest challenges and opportunities, and how these can be addressed with technology, learning directly from key players in the industry, including our clients and alliance partners, who generously share their knowledge throughout the programme.</p>
-        </Reveal>
+        <div className="grid gap-12 md:grid-cols-2 md:items-center">
+          <div>
+            <SectionIntro eyebrow="The programme" title="Opportunities for the next generation" />
+            <Reveal className="space-y-5 leading-relaxed text-ice">
+              <p>Some of the most powerful initiatives we have been involved in are those that create opportunities for the next generation. One4One helps young adults take their first step in a professional career through a unique, immersive internship experience, with each year&rsquo;s positions created in tandem with each new client engagement.</p>
+              <p>Interns learn about the financial services industry, its biggest challenges and opportunities, and how these can be addressed with technology, learning directly from key players in the industry, including our clients and alliance partners, who generously share their knowledge throughout the programme.</p>
+            </Reveal>
+          </div>
+          <Reveal>
+            <figure className="overflow-hidden border hairline bg-surface/82 shadow-[0_8px_24px_rgba(23,56,102,0.04)]">
+              <GlassImage
+                image={siteImage("one4one-cohort")}
+                alt="The team and new joiners gathered at our Amsterdam hub"
+                sizes="(min-width: 768px) 45vw, 100vw"
+                imageClassName="aspect-[6/5] object-cover"
+              />
+              <figcaption className="eyebrow border-t hairline p-4">The team together in Amsterdam</figcaption>
+            </figure>
+          </Reveal>
+        </div>
       </ContentSection>
       <ContentSection>
         <NumberedCards items={[
@@ -1445,6 +1522,17 @@ export function IndustryEventsPage() {
           { eyebrow: "Copenhagen", title: "Nordic Fintech Week", body: "Meeting the Nordic fintech community, where we serve banks, insurers and fintechs across the region." },
           { eyebrow: "Amsterdam", title: "Money20/20", body: "The world's biggest fintech gathering, on our home ground. Find us on the floor, or book time with the team in advance." },
         ]} />
+        <Reveal className="mt-px">
+          <figure className="overflow-hidden border hairline bg-surface/82 shadow-[0_8px_24px_rgba(23,56,102,0.04)] md:grid md:grid-cols-[1fr_auto]">
+            <GlassImage
+              image={siteImage("events-nextwave")}
+              alt="The team at an industry evening with our partner NextWave"
+              sizes="(min-width: 1280px) 1216px, 100vw"
+              imageClassName="aspect-[3/2] object-cover md:col-span-2"
+            />
+            <figcaption className="eyebrow border-t hairline p-4 md:col-span-2">With our partner NextWave</figcaption>
+          </figure>
+        </Reveal>
       </ContentSection>
       <CTASection title="Meet us at an event" body="Book time with our practice leads ahead of any event we attend." />
     </>
@@ -1510,7 +1598,7 @@ export function CareersWirePage() {
             <SectionIntro eyebrow="Why Infinium" title="Work that would take a decade elsewhere" />
           </div>
           <div className="overflow-hidden border hairline md:col-span-5">
-            <GlassImage image={siteImage("careers")} alt="An immaculate glass-walled workspace at dawn" sizes="(min-width: 768px) 40vw, 100vw" />
+            <GlassImage image={siteImage("careers")} alt="The Infinium team looking down from the balcony of the Amsterdam office" sizes="(min-width: 768px) 40vw, 100vw" />
           </div>
         </div>
         <NumberedCards items={[
@@ -1554,9 +1642,9 @@ export function LocationPage({ city }: { city: "amsterdam" | "dubai" }) {
       ] as const)
     : ([
         ["ams-office", "Inside our Amsterdam office"],
-        ["ams-building", "Our Amsterdam building"],
-        ["ams-workspace", "The workspace"],
+        ["ams-stairs", "The staircase"],
         ["ams-atrium", "The atrium"],
+        ["ams-hall", "Fred Roeskestraat 115"],
       ] as const);
   const [, ...officeGallery] = officeImages;
 

@@ -10,7 +10,20 @@ const CHOSEN: Record<string, number> = {
   qbricks: 4,
   tbricks: 4,
   "about-difc": 4,
-  careers: 3,
+  careers: 4, // real team photography replaces the v3 render
+  // About Us photography (real): decisions logged in design/assets.json
+  "team-together": 1,
+  "ams-exterior": 1,
+  "ams-stairs": 1,
+  "ams-hall": 1,
+  "culture-cruise": 1,
+  "culture-gala": 1,
+  "culture-ski": 1,
+  "culture-win": 1,
+  "culture-canal": 1,
+  "culture-summer": 1,
+  "one4one-cohort": 1,
+  "events-nextwave": 1,
   // wireframe-supplied assets (single variant each)
   "cs-reg-reporting": 1,
   "cs-capital-requirements": 1,
