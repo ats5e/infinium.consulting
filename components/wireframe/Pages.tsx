@@ -118,32 +118,32 @@ function CaseStudyVisual({ study }: { study: CaseStudy }) {
   );
 }
 
+/* Credential band.
+ *
+ * Each mark was a separate file except the first four, which shipped as one
+ * pre-composed bitmap — fitted by height inside a full-width cell, so it
+ * rendered clustered with dead space either side. They are now individual
+ * assets extracted from that collage.
+ *
+ * `h` is a rendered height in px, derived from each mark's aspect ratio so
+ * the logos carry roughly equal optical AREA rather than equal height —
+ * h ∝ ratio^-0.4, tempered from true equal-area (^-0.5) so wide wordmarks
+ * stay legible. Without this, a 3:1 wordmark reads three times heavier than
+ * a square seal at the same height.
+ */
 const AWARDS = [
-  {
-    src: "/awards/Awards Collage 2.webp",
-    alt: "EcoVadis Silver 2024, NEN 4400-1 and Best Workplaces Netherlands 2024",
-    featured: true,
-  },
-  {
-    src: "/awards/Appian.webp",
-    alt: "Appian Europe 2024 Financial Services Partner of the Year",
-    featured: false,
-  },
-  {
-    src: "/awards/Consultancy Awards.png",
-    alt: "The Consultancy Awards 2025",
-    featured: false,
-  },
-  {
-    src: "/awards/Alteryx Partner.png",
-    alt: "Alteryx Partner — Authorized Professional Services",
-    featured: false,
-  },
-  {
-    src: "/awards/Partner_Program_Levels_Plus_Alliance.png",
-    alt: "Quantexa Plus Alliance Partner",
-    featured: false,
-  },
+  { src: "/awards/ecovadis-silver-2024.webp", alt: "EcoVadis Silver sustainability rating, top 15%, September 2024", w: 476, h: 478, height: 76 },
+  // solid bold type reads heavier than its area implies, so trimmed back
+  { src: "/awards/nen-4400-1.webp", alt: "NEN 4400-1 certified", w: 358, h: 224, height: 54 },
+  { src: "/awards/stichting-normering-arbeid.webp", alt: "Stichting Normering Arbeid registered", w: 247, h: 222, height: 72 },
+  { src: "/awards/best-workplaces-nl-2024.webp", alt: "Great Place To Work — Best Workplaces Netherlands 2024, top 5", w: 454, h: 447, height: 76 },
+  // outlined badge with a caption inside it — needs more height to read
+  { src: "/awards/Appian.webp", alt: "Appian Europe 2024 Financial Services Partner of the Year", w: 364, h: 200, height: 68 },
+  { src: "/awards/Consultancy Awards.png", alt: "The Consultancy Awards 2025", w: 440, h: 364, height: 70 },
+  { src: "/awards/Alteryx Partner.png", alt: "Alteryx Partner — Authorized Professional Services", w: 200, h: 232, height: 80 },
+  // re-cut with a transparent ground; the supplied file had an opaque white
+  // panel that showed as a box against the page tint
+  { src: "/awards/quantexa-plus-alliance.png", alt: "Quantexa Plus Alliance Partner", w: 2981, h: 707, height: 44 },
 ] as const;
 
 const HOME_PILLARS = [
@@ -158,7 +158,9 @@ const HOME_PILLARS = [
   {
     eyebrow: "Who we work with",
     title: "The world's leading firms across regulated finance",
-    slot: "about-difc" as const,
+    // the four cards in this grid hold one art direction: white-ground cobalt
+    // abstracts. Architectural photography here broke the set.
+    slot: "data-science" as const,
     body: "From Amsterdam and Dubai, we serve the EU, Nordic and Middle East (GCC) markets, across capital markets, banking, insurance, wealth and asset management. Our typical clients are C-suite and senior leaders with a transformation agenda, who are looking to accelerate the business with the use of AI and automation.",
     cta: "Read case studies →",
     href: "/insights",
@@ -174,7 +176,9 @@ const HOME_PILLARS = [
   {
     eyebrow: "Our solutions",
     title: "QBricks and VBricks, disruptive by design",
-    slot: "qbricks" as const,
+    // the QBricks red belongs on the product pages, where it reads as brand;
+    // beside three cobalt cards it read as a mistake. Layered glass instead.
+    slot: "governance" as const,
     body: "Our extreme-engineered solutions optimise the delivery value chain end to end: pre-built, proven components that compress implementations from years to months and significantly accelerate return on investment.",
     cta: "Explore QBricks & VBricks →",
     href: "/solutions",
@@ -211,26 +215,23 @@ export function HomeWirePage() {
 
       <ContentSection className="overflow-hidden" density="compact">
         <h2 className="eyebrow text-center">An award-winning consultancy</h2>
-        <div className="mt-7 grid grid-cols-2 gap-px border hairline sm:grid-cols-4">
+        {/* an open, optically levelled band — the boxed grid read as a table.
+            4×2 on desktop so each mark has room to be legible. */}
+        <Reveal className="mt-11 grid grid-cols-2 items-center justify-items-center gap-x-8 gap-y-12 sm:grid-cols-4 sm:gap-x-12">
           {AWARDS.map((award) => (
-            <div
+            <Image
               key={award.src}
-              className={`relative flex items-center justify-center overflow-hidden bg-white/82 shadow-[inset_0_0_0_1px_rgba(23,56,102,0.045)] ${
-                award.featured ? "col-span-2 min-h-32 px-3 py-4 sm:col-span-4 sm:min-h-40 sm:px-8 sm:py-6" : "min-h-36 px-5 py-6"
-              }`}
-            >
-              <Image
-                src={award.src}
-                alt={award.alt}
-                fill
-                sizes={award.featured ? "(min-width: 1440px) 1350px, (min-width: 640px) calc(100vw - 80px), calc(100vw - 40px)" : "(min-width: 1440px) 335px, (min-width: 640px) 25vw, 50vw"}
-                className={`object-contain ${
-                  award.featured ? "p-3 sm:p-5" : "p-5 sm:p-7"
-                }`}
-              />
-            </div>
+              src={award.src}
+              alt={award.alt}
+              width={award.w}
+              height={award.h}
+              loading="lazy"
+              sizes="280px"
+              style={{ height: `${award.height}px` }}
+              className="w-auto max-w-[40vw] object-contain sm:max-w-full"
+            />
           ))}
-        </div>
+        </Reveal>
       </ContentSection>
 
       <ContentSection density="feature">
