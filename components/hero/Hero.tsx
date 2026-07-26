@@ -4,20 +4,21 @@ import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react
 import Link from "next/link";
 import gsap from "gsap";
 import type { SiteImage } from "@/lib/images";
-import ClarityField from "./ClarityField";
+import AssemblyField from "./AssemblyField";
 
 const useIsoLayoutEffect =
   typeof document !== "undefined" ? useLayoutEffect : useEffect;
 
 /*
- * THE CLARITY FIELD hero.
+ * THE ASSEMBLY FIELD hero.
  *
  * A disciplined split: the copy column is pristine — stacked whisper,
  * one editorial sentence with a single cobalt word, a short measure,
  * two quiet actions — and all complexity is quarantined inside the
- * field on the right, where raw events braid into engineered
- * lanes and continue beyond the viewport. The bottom rail is live telemetry: the percentage is the real
- * fraction of the field currently in its ordered phase.
+ * field on the right: a granular cloud of raw events drawn leftward
+ * through a run of glass sorting planes until each voxel slots into
+ * the solid 4×4×4 mark. The bottom rail is live telemetry: the
+ * percentage is the real fraction of the mark currently assembled.
  */
 
 export function Hero({ staticImage: _staticImage }: { staticImage: SiteImage }) {
@@ -136,7 +137,7 @@ export function Hero({ staticImage: _staticImage }: { staticImage: SiteImage }) 
       {/* the field — owns the right, bleeds to the viewport edge */}
       <div className="hero-field-wrap pointer-events-none relative -mr-[18%] mt-2 h-[36svh] min-h-60 max-h-80 w-[118%] pb-5 md:pointer-events-auto md:absolute md:inset-y-0 md:left-[32%] md:right-0 md:mr-0 md:mt-0 md:h-auto md:min-h-0 md:max-h-none md:w-auto md:pb-0">
         <div data-testid="hero-graphic" className="absolute -bottom-[7%] left-0 right-0 top-[7%] md:-bottom-[8%] md:top-[8%]">
-          <ClarityField still={still} onOrder={handleOrder} />
+          <AssemblyField still={still} onOrder={handleOrder} />
         </div>
         <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-[16%] bg-gradient-to-b from-transparent to-void" />
       </div>
