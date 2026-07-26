@@ -64,7 +64,7 @@ test("navigation overlay isolates page content and restores focus", async ({ pag
   await expect(page.locator("#main")).not.toHaveAttribute("inert", "");
 });
 
-test("the hero offers the two journeys and live telemetry", async ({ page }) => {
+test("the hero offers the two journeys", async ({ page }) => {
   await page.goto("/");
   await expect(page.getByRole("link", { name: /explore our work/i })).toHaveAttribute("href", "/services");
   await expect(page.getByRole("link", { name: /meet us/i })).toHaveAttribute("href", "/contact");

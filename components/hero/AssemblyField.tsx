@@ -114,9 +114,19 @@ function drawIsoCube(
   }
 }
 
-type Voxel = { i: number; j: number; k: number; pal: Pal; flashT: number; missing: boolean };
+type Voxel = {
+  i: number;
+  j: number;
+  k: number;
+  pal: Pal;
+  flashT: number;
+  missing: boolean; // the socket is open
+  claimed: boolean; // a cube is already en route to it
+  dissolveT: number; // >0 while the voxel fades out to open the socket
+};
 
 type Resolver = {
+  vi: number; // index of the voxel whose socket it has claimed
   tj: number; // target tile on the mark's right face
   tk: number;
   sx: number;
@@ -126,6 +136,7 @@ type Resolver = {
   wf: number;
   amp: number;
   phase: number;
+  trail: Array<{ x: number; y: number }>;
 };
 
 type Mote = {
@@ -138,6 +149,7 @@ type Mote = {
   amp: number;
   phase: number;
   alpha: number;
+  depth: number; // 0 far → 1 near; drives parallax, scale and weight
 };
 
 type Dock = { col: number; row: number; pal: Pal; size: number; t: number };
@@ -178,12 +190,6 @@ export default function AssemblyField({
     let last = 0;
     let clock = 0;
     const pointer = { x: -1e4, y: -1e4, px: 0, py: 0 };
-    const GAP_TARGETS = [
-      { j: 1, k: 2 },
-      { j: 2, k: 1 },
-      { j: 0, k: 3 },
-    ];
-
     let voxels: Voxel[] = [];
     let drawOrder: number[] = [];
     let resolvers: Resolver[] = [];
@@ -194,14 +200,25 @@ export default function AssemblyField({
     let glintSheet = 0;
     let glintAt = 4;
     let glintT = -1;
-    let nextReset = 25;
+    let nextSocket = 2.5;
+
+    /* the scan pulse: a cobalt wavefront sweeping the stack right → left,
+     * lighting each sheet as it passes. The field's heartbeat. */
+    let pulseX = -1; // -1 = idle
+    let nextPulse = 1.2;
+    /* the mark's reaction when a cube seats: a ripple across its face */
+    let rippleT = 0;
+    let rippleJ = 0;
+    let rippleK = 0;
 
     /* the mark's anchor — voxel (0,0,0) bottom vertex, normalized */
     const ANCHOR_X = 0.175;
-    const ANCHOR_Y = 0.64;
+    /* the mark spans ±4e about this line, so matching the sheet stack's
+     * centre (0.52) sits it level with the rest of the field */
+    const ANCHOR_Y = 0.52;
     const STACK_END = 0.6; // organised once left of here
 
-    const bob = () => Math.sin(clock * 1.5) * e * 0.04;
+    const bob = () => Math.sin(clock * 0.8) * e * 0.1;
 
     const voxelPos = (i: number, j: number, k: number, out: { x: number; y: number }) => {
       const w = e * 0.866;
@@ -236,6 +253,8 @@ export default function AssemblyField({
               k,
               flashT: 0,
               missing: isGap,
+              claimed: false,
+              dissolveT: 0,
               pal: {
                 top: mixc([18, 42, 80], [24, 50, 92], r()),
                 left: mixc([10, 21, 42], [14, 27, 52], r()),
@@ -275,7 +294,9 @@ export default function AssemblyField({
           if (cells.has(key)) return;
           cells.add(key);
           const roll = r();
-          const pal = core ? (roll < 0.68 ? M_NAVY : M_COBALT) : roll < 0.4 ? M_NAVY : roll < 0.75 ? M_COBALT : GLASSY;
+          /* cobalt and glass only — the near-black cubes made the stack
+           * read as clutter against the paper */
+          const pal = core ? (roll < 0.62 ? M_COBALT : GLASSY) : roll < 0.45 ? M_COBALT : GLASSY;
           docks.push({ col, row, pal, size: e * (0.3 + r() * 0.16), t: 1 });
         };
         for (const col of columns) {
@@ -287,28 +308,33 @@ export default function AssemblyField({
         return { x, hFrac, pwFrac, phase: r() * Math.PI * 2, docks };
       });
 
-      /* the drifting cloud: much sparser, structured grid */
+      /* the drifting cloud: three depth layers, so the field has
+       * parallax and the flow is legible rather than a frozen scatter */
       const bands = Array.from({ length: 12 }, (_, i) => 0.15 + (i * 0.7) / 11);
-      const count = clamp(Math.round((W * H) / 25000), 30, 60);
+      const count = clamp(Math.round((W * H) / 13000), 55, 110);
       motes = Array.from({ length: count }, () => {
         const u = r();
         const x = 0.38 + Math.pow(u, 0.8) * 0.7;
         const roll = r();
         const onBand = r() < 0.55;
         const y = onBand ? bands[Math.floor(r() * bands.length)] + (r() - 0.5) * 0.03 : 0.1 + r() * 0.8;
-        const size = 3.2 + Math.pow(r(), 1.6) * 7;
+        const depth = Math.pow(r(), 0.85); // biased to the far field
         return {
           x,
           y,
-          size,
-          pal: roll < 0.45 ? M_NAVY : roll < 0.75 ? M_COBALT : GLASSY,
-          vx: 0.005 + r() * 0.005,
-          wf: 0,
-          amp: 0,
+          size: lerp(2.6, 10, depth),
+          /* a little navy for depth, but mostly cobalt and glass */
+          pal: roll < 0.16 ? M_NAVY : roll < 0.6 ? M_COBALT : GLASSY,
+          vx: lerp(0.012, 0.042, depth), // near cubes outrun far ones
+          wf: 0.35 + r() * 0.5,
+          amp: lerp(1.5, 5, depth),
           phase: r() * Math.PI * 2,
-          alpha: 0.82 + r() * 0.18,
+          alpha: lerp(0.4, 1, depth),
+          depth,
         };
       });
+      // painter order: far first, so near cubes sit convincingly in front
+      motes.sort((a, b) => a.depth - b.depth);
 
       /* resolvers will be spawned dynamically by maybeResolve */
       resolvers = [];
@@ -359,7 +385,9 @@ export default function AssemblyField({
       const pw = clamp(p.pwFrac * W, 30, 96);
       const ph = p.hFrac * H * 0.5;
       const ps = pw * 0.3;
-      const yc = 0.52 * H;
+      const yc = 0.52 * H + Math.sin(clock * 0.42 + p.phase) * 4;
+      /* how strongly the scan pulse is washing over this sheet */
+      const boost = pulseX < 0 ? 0 : Math.exp(-Math.pow((p.x - pulseX) / 0.05, 2));
 
       const TLx = x - pw, TRx = x + pw;
       const TLy = yc - ph + ps, TRy = yc - ph - ps;
@@ -372,10 +400,10 @@ export default function AssemblyField({
       ctx.lineTo(TRx, BRy);
       ctx.lineTo(TLx, BLy);
       ctx.closePath();
-      ctx.fillStyle = "rgba(255, 255, 255, 0.22)";
+      ctx.fillStyle = `rgba(${boost > 0 ? "236, 243, 255" : "255, 255, 255"}, ${0.22 + boost * 0.3})`;
       ctx.fill();
-      ctx.strokeStyle = "rgba(62, 102, 216, 0.5)";
-      ctx.lineWidth = 1.1;
+      ctx.strokeStyle = `rgba(62, 102, 216, ${0.5 + boost * 0.5})`;
+      ctx.lineWidth = 1.1 + boost * 0.9;
       ctx.stroke();
       ctx.strokeStyle = "rgba(62, 102, 216, 0.16)";
       ctx.beginPath();
@@ -387,7 +415,7 @@ export default function AssemblyField({
       ctx.stroke();
 
       /* fine grid */
-      ctx.strokeStyle = "rgba(35, 79, 189, 0.08)";
+      ctx.strokeStyle = `rgba(35, 79, 189, ${0.08 + boost * 0.34})`;
       ctx.lineWidth = 0.7;
       const cols = 6;
       const rows = 10;
@@ -413,7 +441,12 @@ export default function AssemblyField({
         const trr = (dk.row + 0.5) / rows;
         const dx = TLx + (TRx - TLx) * tc;
         const dy = TLy + (TRy - TLy) * tc + (BLy - TLy) * trr;
-        drawIsoCube(ctx, dx, dy + dk.size, dk.size, dk.pal, smooth(clamp(dk.t, 0, 1)), 0.2);
+        /* the pulse lifts and ignites the work it passes over */
+        const lift = boost * dk.size * 0.5;
+        const sz = dk.size * (1 + boost * 0.22);
+        drawIsoCube(ctx, dx, dy + dk.size - lift, sz, dk.pal, smooth(clamp(dk.t, 0, 1)), 0.2 + boost * 0.4);
+        if (boost > 0.05)
+          drawIsoCube(ctx, dx, dy + dk.size - lift, sz, { top: [206, 226, 252], left: [150, 186, 240], right: [178, 206, 248] }, boost * 0.5);
       }
 
       /* node spheres on the frame */
@@ -476,9 +509,20 @@ export default function AssemblyField({
         if (v.missing) continue;
         const pos = { x: 0, y: 0 };
         voxelPos(v.i, v.j, v.k, pos);
-        drawIsoCube(ctx, pos.x, pos.y, e, v.pal, 1, 0.3 + v.flashT * 0.7);
-        if (v.flashT > 0)
-          drawIsoCube(ctx, pos.x, pos.y, e, { top: [214, 231, 252], left: [170, 200, 240], right: [190, 214, 248] }, v.flashT * 0.55);
+        /* a voxel dissolving back out to open its socket */
+        const solid = v.dissolveT > 0 ? smooth(v.dissolveT) : 1;
+        drawIsoCube(ctx, pos.x, pos.y, e, v.pal, solid, (0.3 + v.flashT * 0.7) * solid);
+
+        /* the ripple: a ring of light travelling out from where a cube seated */
+        let ring = 0;
+        if (rippleT > 0 && v.i === N - 1) {
+          const d = Math.hypot(v.j - rippleJ, v.k - rippleK);
+          const front = (1 - rippleT) * 4.2; // expanding radius, in voxels
+          ring = Math.max(0, 1 - Math.abs(d - front) * 1.5) * rippleT;
+        }
+        const glow = Math.max(v.flashT * 0.55, ring * 0.6);
+        if (glow > 0)
+          drawIsoCube(ctx, pos.x, pos.y, e, { top: [214, 231, 252], left: [170, 200, 240], right: [190, 214, 248] }, glow);
       }
     };
 
@@ -509,9 +553,14 @@ export default function AssemblyField({
           m.x = 1.0 + rand() * 0.06;
         }
         if (m.x < STACK_END) organised++;
-        const mx = m.x * W;
-        let my = m.y * H;
-        
+        /* near layers travel further with the pointer — parallax depth */
+        const mx = m.x * W + pointer.px * -18 * m.depth;
+        let my = m.y * H + Math.sin(clock * m.wf + m.phase) * m.amp;
+
+        /* the pulse shoves and ignites what it sweeps past */
+        const kick = pulseX < 0 ? 0 : Math.exp(-Math.pow((m.x - pulseX) / 0.055, 2));
+        if (kick > 0.02) my -= kick * 7 * m.depth;
+
         if (pointer.x > 0) {
           const trueMx = mx + pointer.px * -40;
           const trueMy = my + pointer.py * -25;
@@ -525,7 +574,10 @@ export default function AssemblyField({
         }
         
         const fade = smooth(clamp((m.x - 0.355) / 0.05, 0, 1));
-        drawIsoCube(ctx, mx, my, m.size, m.pal, m.alpha * fade * glassDim(mx), m.size > 5 ? 0.14 : 0);
+        const sz = m.size * (1 + kick * 0.18);
+        drawIsoCube(ctx, mx, my, sz, m.pal, m.alpha * fade * glassDim(mx), m.size > 5 ? 0.14 : 0);
+        if (kick > 0.05)
+          drawIsoCube(ctx, mx, my, sz, { top: [206, 226, 252], left: [150, 186, 240], right: [178, 206, 248] }, kick * 0.45 * fade);
       }
 
       /* the mark */
@@ -535,69 +587,154 @@ export default function AssemblyField({
       const t = { x: 0, y: 0 };
       for (const a of resolvers) {
         a.s = Math.min(1, a.s + dt / a.dur);
-        const snapEase = (t: number) => {
-          const c1 = 1.70158;
-          const c3 = c1 + 1;
-          return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2);
-        };
-        const s = snapEase(a.s);
+        const tv = voxels[a.vi];
         voxelPos(N - 1, a.tj, a.tk, t);
-        const x0 = a.sx * W;
-        const y0 = a.sy * H;
-        const c1x = W * 0.62;
-        const c1y = y0 * 0.85 + H * 0.07;
-        const c2x = t.x + W * 0.1;
-        const c2y = t.y - H * 0.02;
-        const u = 1 - s;
-        const x = u * u * u * x0 + 3 * u * u * s * c1x + 3 * u * s * s * c2x + s * s * s * t.x;
-        const y = u * u * u * y0 + 3 * u * u * s * c1y + 3 * u * s * s * c2y + s * s * s * t.y;
 
-        const ord = clamp((0.7 - x / W) / 0.35, 0, 1);
+        /* The journey is two moves: a flight to a staging point held just
+         * off the face along its outward normal, then a short, accelerating
+         * slide straight down that normal into the socket — so the cube
+         * clicks home instead of drifting to a stop in front of it. */
+        const SLIDE = Math.min(0.3, 0.2 / a.dur); // ~0.2s of travel, always
+        const FLY = 1 - SLIDE;
+        const NX = 0.866; // the +i face normal, in screen space
+        const NY = 0.5;
+        const stageD = e * 1.35;
+        const apx = t.x + NX * stageD;
+        const apy = t.y + NY * stageD;
+
+        let x: number;
+        let y: number;
+        let size: number;
+        let seating = 0;
+
+        if (a.s < FLY) {
+          const f = a.s / FLY;
+          const s = f * f * (3 - 2 * f); // smooth, no overshoot
+          const x0 = a.sx * W;
+          const y0 = a.sy * H;
+          const c1x = W * 0.62;
+          const c1y = y0 * 0.85 + H * 0.07;
+          const c2x = apx + W * 0.08;
+          const c2y = apy - H * 0.02;
+          const u = 1 - s;
+          x = u * u * u * x0 + 3 * u * u * s * c1x + 3 * u * s * s * c2x + s * s * s * apx;
+          y = u * u * u * y0 + 3 * u * u * s * c1y + 3 * u * s * s * c2y + s * s * s * apy;
+          size = lerp(4.5, e, smooth(clamp((s - 0.25) / 0.75, 0, 1)));
+        } else {
+          /* the click: accelerate along the normal, arriving exactly */
+          seating = (a.s - FLY) / SLIDE;
+          const k = seating * seating;
+          x = lerp(apx, t.x, k);
+          y = lerp(apy, t.y, k);
+          size = e; // already socket-sized, so the hand-off is invisible
+        }
+
+        const ord = clamp(a.s / FLY, 0, 1);
         if (x / W < STACK_END) organised++;
 
-        const size = lerp(4.5, e * 0.92, smooth(clamp((s - 0.35) / 0.6, 0, 1)));
+        /* a comet trail, so the eye can follow the journey */
+        a.trail.push({ x, y });
+        if (a.trail.length > 14) a.trail.shift();
+        /* the trail retracts as the cube seats, so nothing smears the face */
+        for (let ti = 0; ti < a.trail.length - 1; ti++) {
+          const q = ti / a.trail.length;
+          const pt = a.trail[ti];
+          ctx.fillStyle = `rgba(52, 98, 219, ${q * q * 0.3 * (1 - seating)})`;
+          ctx.beginPath();
+          ctx.arc(pt.x, pt.y - e * 0.5, lerp(0.6, 3.2, q), 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+        /* it wears the socket's own colours by the time it arrives, so the
+         * swap from flying cube to seated voxel is invisible */
         const pal: Pal = {
-          top: mixc(GLASSY.top, M_COBALT.top, ord),
-          left: mixc(GLASSY.left, M_COBALT.left, ord),
-          right: mixc(GLASSY.right, M_COBALT.right, ord),
+          top: mixc(GLASSY.top, tv.pal.top, ord),
+          left: mixc(GLASSY.left, tv.pal.left, ord),
+          right: mixc(GLASSY.right, tv.pal.right, ord),
         };
-        /* merge into the face at the very end */
-        const merge = clamp((a.s - 0.965) / 0.035, 0, 1);
-        drawIsoCube(ctx, x, y, size, pal, (0.75 + ord * 0.25) * (1 - merge) * glassDim(x), ord * 0.2);
+        drawIsoCube(ctx, x, y, size, pal, lerp(0.8, 1, ord) * glassDim(x), 0.3 * ord);
 
         if (a.s >= 1) {
-          const v = voxels.find((vv) => vv.i === N - 1 && vv.j === a.tj && vv.k === a.tk);
-          if (v) {
-            v.missing = false;
-            v.flashT = 1.5;
-          }
+          tv.missing = false; // the socket it claimed is now filled
+          tv.claimed = false;
+          tv.flashT = 1.5;
+          /* the mark answers: a ring of light from the point of contact */
+          rippleT = 1;
+          rippleJ = a.tj;
+          rippleK = a.tk;
         }
       }
       resolvers = resolvers.filter((a) => a.s < 1);
 
-      for (const v of voxels) if (v.flashT > 0) v.flashT = Math.max(0, v.flashT - dt * 1.8);
+      for (const v of voxels) {
+        if (v.flashT > 0) v.flashT = Math.max(0, v.flashT - dt * 1.8);
+        if (v.dissolveT > 0) {
+          v.dissolveT = Math.max(0, v.dissolveT - dt * 2.4);
+          if (v.dissolveT === 0) v.missing = true; // fully faded: socket is open
+        }
+      }
 
       onOrder?.(Math.round((organised / (motes.length + resolvers.length)) * 100));
     };
 
     /* ——— the living system's slow decisions ——— */
 
+    /* A cube only launches once it owns an open socket, and it holds that
+     * claim until it seats. Nothing ever arrives at a solid face. */
     const maybeResolve = () => {
-      const availableGaps = voxels.filter((v) => v.i === N - 1 && v.missing && !resolvers.some((r) => r.tj === v.j && r.tk === v.k));
-      if (clock < nextResolver || availableGaps.length === 0) return;
-      nextResolver = clock + 2.5 + rand() * 2;
-      const t = availableGaps[Math.floor(rand() * availableGaps.length)];
+      if (clock < nextResolver || resolvers.length >= 4) return;
+      const free = voxels.filter((v) => v.i === N - 1 && v.missing && !v.claimed);
+      if (!free.length) return;
+      nextResolver = clock + 0.7 + rand() * 0.8;
+
+      const target = free[Math.floor(rand() * free.length)];
+      target.claimed = true;
       resolvers.push({
-        tj: t.j,
-        tk: t.k,
+        vi: voxels.indexOf(target),
+        tj: target.j,
+        tk: target.k,
         sx: 0.85 + rand() * 0.15,
-        sy: 0.2 + rand() * 0.5,
+        sy: 0.15 + rand() * 0.6,
         s: 0,
-        dur: 3 + rand() * 2.5,
+        dur: 2.6 + rand() * 1.8,
         wf: 0,
         amp: 0,
         phase: 0,
+        trail: [],
       });
+    };
+
+    /* The mark keeps a few sockets open ahead of demand: a seated voxel
+     * dissolves back out, so arrivals always have somewhere to go. */
+    const OPEN_SOCKETS = 3;
+    const maybeOpenSocket = () => {
+      if (clock < nextSocket) return;
+      const open = voxels.filter((v) => v.i === N - 1 && v.missing).length;
+      if (open >= OPEN_SOCKETS) return;
+      const seated = voxels.filter(
+        (v) => v.i === N - 1 && !v.missing && v.dissolveT === 0 && v.flashT === 0,
+      );
+      if (!seated.length) return;
+      nextSocket = clock + 1.2 + rand() * 1.4;
+
+      const v = seated[Math.floor(rand() * seated.length)];
+      v.dissolveT = 1; // fades out; the socket opens when it reaches 0
+      rippleT = 1;
+      rippleJ = v.j;
+      rippleK = v.k;
+    };
+
+    /* the heartbeat: a wavefront crossing the stack right → left */
+    const maybePulse = (dt: number) => {
+      if (pulseX >= 0) {
+        pulseX -= dt * 0.62;
+        if (pulseX < 0.28) pulseX = -1;
+        return;
+      }
+      if (clock >= nextPulse) {
+        nextPulse = clock + 4.2 + rand() * 2.2;
+        pulseX = 1.02;
+      }
     };
 
     const maybeShuffle = (dt: number) => {
@@ -632,16 +769,11 @@ export default function AssemblyField({
       pointer.px += (clamp(pointer.x / W - 0.5, -0.5, 0.5) - pointer.px) * 0.04;
       pointer.py += (clamp(pointer.y / H - 0.5, -0.5, 0.5) - pointer.py) * 0.04;
       
-      if (clock > nextReset) {
-        nextReset = clock + 25;
-        for (const v of voxels) {
-          if (GAP_TARGETS.some((g) => g.j === v.j && g.k === v.k && v.i === N - 1)) {
-            v.missing = true;
-          }
-        }
-      }
+      if (rippleT > 0) rippleT = Math.max(0, rippleT - dt * 1.15);
 
+      maybeOpenSocket();
       maybeResolve();
+      maybePulse(dt);
       maybeShuffle(dt);
       maybeGlint(dt);
       drawLive(dt);

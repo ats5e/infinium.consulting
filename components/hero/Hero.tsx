@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import Link from "next/link";
 import gsap from "gsap";
 import type { SiteImage } from "@/lib/images";
@@ -17,16 +17,13 @@ const useIsoLayoutEffect =
  * two quiet actions — and all complexity is quarantined inside the
  * field on the right: a granular cloud of raw events drawn leftward
  * through a run of glass sorting planes until each voxel slots into
- * the solid 4×4×4 mark. The bottom rail is live telemetry: the
- * percentage is the real fraction of the mark currently assembled.
+ * the solid 4×4×4 mark.
  */
 
 export function Hero({ staticImage: _staticImage }: { staticImage: SiteImage }) {
   void _staticImage;
   const section = useRef<HTMLElement>(null);
   const [still, setStill] = useState(false);
-  const [order, setOrder] = useState(0);
-  const orderGate = useRef({ v: -1, t: 0 });
 
   useEffect(() => {
     const rmq = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -35,16 +32,6 @@ export function Hero({ staticImage: _staticImage }: { staticImage: SiteImage }) 
     update();
     rmq.addEventListener("change", update);
     return () => rmq.removeEventListener("change", update);
-  }, []);
-
-  const handleOrder = useCallback((pct: number) => {
-    const now = performance.now();
-    const g = orderGate.current;
-    if (pct !== g.v && now - g.t > 300) {
-      g.v = pct;
-      g.t = now;
-      setOrder(pct);
-    }
   }, []);
 
   useIsoLayoutEffect(() => {
@@ -109,35 +96,23 @@ export function Hero({ staticImage: _staticImage }: { staticImage: SiteImage }) 
           </div>
         </div>
 
-        {/* the rail: a running system, not a picture */}
-        <div className="hero-rail mt-auto hidden items-end justify-between gap-6 pt-8 md:flex">
+        {/* the rail */}
+        <div className="hero-rail mt-auto hidden items-end gap-6 pt-8 md:flex">
           <div className="flex items-center gap-3">
             <span aria-hidden className="block h-5 w-px bg-navy/30" />
             <span className="font-mono text-[9px] uppercase tracking-[0.16em] text-steel">
               Scroll to explore
             </span>
           </div>
-          <div aria-hidden className="flex items-center gap-3">
-            <span className="font-mono text-[9px] uppercase tracking-[0.16em] text-steel">
-              Organising complexity into context
-            </span>
-            <span className="relative h-px w-28 overflow-hidden bg-navy/15">
-              <span
-                className="absolute inset-y-0 left-0 bg-cobalt transition-[width] duration-(--duration-base)"
-                style={{ width: `${order}%` }}
-              />
-            </span>
-            <span className="w-8 font-mono text-[9px] uppercase tracking-[0.1em] text-cobalt tabular-nums">
-              {order}%
-            </span>
-          </div>
         </div>
       </div>
 
       {/* the field — owns the right, bleeds to the viewport edge */}
-      <div className="hero-field-wrap pointer-events-none relative -mr-[18%] mt-2 h-[36svh] min-h-60 max-h-80 w-[118%] pb-5 md:pointer-events-auto md:absolute md:inset-y-0 md:left-[42%] md:right-0 md:mr-0 md:mt-0 md:h-auto md:min-h-0 md:max-h-none md:w-auto md:pb-0">
-        <div data-testid="hero-graphic" className="absolute -bottom-[7%] left-0 right-0 top-[7%] md:bottom-[0%] md:top-[12%]">
-          <AssemblyField still={still} onOrder={handleOrder} />
+      <div className="hero-field-wrap pointer-events-none relative -mr-[18%] -mt-6 h-[38svh] min-h-64 max-h-80 w-[118%] pb-2 md:pointer-events-auto md:absolute md:inset-y-0 md:left-[47%] md:right-0 md:mr-0 md:mt-0 md:h-auto md:min-h-0 md:max-h-none md:w-auto md:pb-0">
+        {/* the canvas stops short of the section edge, so the field always
+            has clear air beneath it before the next band */}
+        <div data-testid="hero-graphic" className="absolute inset-x-0 bottom-[9%] top-0 md:bottom-[7%] md:top-[12%]">
+          <AssemblyField still={still} />
         </div>
         <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-[16%] bg-gradient-to-b from-transparent to-void" />
       </div>

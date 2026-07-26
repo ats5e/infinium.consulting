@@ -593,23 +593,20 @@ function ProductHero({ product }: { product: "qbricks" | "vbricks" }) {
           <Link href="/solutions" className="link-wipe inline-block font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-steel transition-colors hover:text-signal">
             ← Our solutions
           </Link>
-          {qbricks ? (
-            <div className="mt-8 inline-flex rounded-sm bg-[#0b0d12] px-6 py-5 shadow-[0_14px_38px_rgba(11,13,18,0.16)]">
-              <Image
-                src="/qbricks-logo-trimmed.png"
-                alt="QBricks"
-                width={507}
-                height={140}
-                priority
-                className="h-auto w-52 sm:w-60"
-              />
-            </div>
-          ) : (
-            <div className="mt-8 flex flex-wrap items-center gap-5">
-              <p className="font-hero text-(length:--text-step-4) font-semibold tracking-[-0.025em] text-paper">VBricks</p>
-              <ComingSoonPill />
-            </div>
-          )}
+          {/* the wordmark in the brand face, so it sits on the paper like
+              the rest of the type — the boxed white-on-black PNG fought it */}
+          <div className="mt-8 flex flex-wrap items-center gap-5">
+            {qbricks ? (
+              <p className="text-(length:--text-step-4) leading-none">
+                <QBricksWord />
+              </p>
+            ) : (
+              <>
+                <p className="font-hero text-(length:--text-step-4) font-semibold tracking-[-0.025em] text-paper">VBricks</p>
+                <ComingSoonPill />
+              </>
+            )}
+          </div>
           <h1 className="mt-8 max-w-3xl text-(length:--text-step-5) leading-[1.01]">
             {qbricks ? "No more data pipelines." : "A major change in model testing."}
           </h1>
