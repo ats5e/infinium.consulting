@@ -30,7 +30,16 @@
     "culture-summer": "v1 (2026-07-26) — 20230526 formal summer group; Culture mosaic",
     "one4one-cohort": "v1 (2026-07-26) — 1000039022 Amsterdam gathering; One4One programme section",
     "events-nextwave": "v1 (2026-07-26) — 1000039670 NextWave event; Industry events page",
-    "_about-us-folder": "source originals in 'About Us Images/' (repo root, untracked); slot-named copies in design/raw; processed additively (scripts/process-images.mjs full rerun would drop the SVG-sourced cs-* manifest entries)"
+    "_about-us-folder": "source originals in 'About Us Images/' (repo root, untracked); slot-named copies in design/raw; processed additively (scripts/process-images.mjs full rerun would drop the SVG-sourced cs-* manifest entries)",
+    "cs-reg-reporting": "v2 (2026-07-27) — Krea flux-1.1-pro-ultra light-studio glass render: aligned cobalt glass plates snapping into registration. Replaces the v1 flat vector diagram, which read as generic stock data-viz and sat outside the site's render language. v1 retained.",
+    "cs-entity-standup": "v2 (2026-07-27) — Krea flux-1.1-pro-ultra light-studio glass render: clear glass cube enclosing a cobalt core, newly assembled. Replaces the v1 flat vector diagram, which read as generic stock data-viz and sat outside the site's render language. v1 retained.",
+    "cs-data-strategy": "v2 (2026-07-27) — Krea flux-1.1-pro-ultra light-studio glass render: clear glass rods converging on a faceted cobalt node. Replaces the v1 flat vector diagram, which read as generic stock data-viz and sat outside the site's render language. v1 retained.",
+    "cs-big-data": "v2 (2026-07-27) — Krea flux-1.1-pro-ultra light-studio glass render: scattered cobalt cubes resolving into one ordered block. Replaces the v1 flat vector diagram, which read as generic stock data-viz and sat outside the site's render language. v1 retained.",
+    "cs-finance-reeng": "v2 (2026-07-27) — Krea flux-1.1-pro-ultra light-studio glass render: a single smooth cobalt glass beam replacing a coarse grid. Replaces the v1 flat vector diagram, which read as generic stock data-viz and sat outside the site's render language. v1 retained.",
+    "cs-fintech-dx": "v2 (2026-07-27) — Krea flux-1.1-pro-ultra light-studio glass render: a cobalt glass ribbon curving upward through the frame. Replaces the v1 flat vector diagram, which read as generic stock data-viz and sat outside the site's render language. v1 retained.",
+    "cs-tbml-detection": "v2 (2026-07-27) — Krea flux-1.1-pro-ultra light-studio glass render: clear glass spheres with one cobalt sphere singled out. Replaces the v1 flat vector diagram, which read as generic stock data-viz and sat outside the site's render language. v1 retained.",
+    "cs-capital-requirements": "v2 (2026-07-27) — Krea flux-1.1-pro-ultra light-studio glass render: a clear glass plate balanced level on a cobalt wedge. Replaces the v1 flat vector diagram, which read as generic stock data-viz and sat outside the site's render language. v1 retained.",
+    "cs-climate-reporting": "v2 (2026-07-27) — Krea flux-1.1-pro-ultra light-studio glass render: an upright core sample of stacked cobalt and clear glass discs. Replaces the v1 flat vector diagram, which read as generic stock data-viz and sat outside the site's render language. v1 retained."
   },
   "slots": [
     {
@@ -107,5 +116,7 @@
       "ratio": "1200:630",
       "note": "cropped in code from the winning hero variant — tight crop on the object, heavy negative space right for the logo lockup composited at build time"
     }
-  ]
+  ],
+  "lightStudioSuffix": "Editorial product photography on a pure white seamless studio background. Soft large-source key light from the upper left with even fill; one soft contact shadow grounds the subject. Every element is cobalt blue, deep navy or clear optical glass. Cool colour temperature throughout. Crisp focus with shallow depth-of-field falloff. Shot on a Phase One with a 120mm macro. Cinematic and restrained. Negatives that proved necessary: no amber/gold/orange/warm tones and no purple (dispersion kept introducing them), no marble/granite/speckled stone (the word 'stone' produced countertops), no ceramic/bowls/tableware, no flat illustration, no bar charts or steps, plus the usual no text/logos/people/UI/neon/lens-flare.",
+  "lightStudioNote": "The original black-background suffix above applies to the v1-v3 era. The v4 slot renders and the cs-* v2 set are light-studio: white seamless ground. Use lightStudioSuffix for anything new that must sit beside them."
 }

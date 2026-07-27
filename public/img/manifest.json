@@ -132,6 +132,12 @@
         "w": 1000,
         "h": 600,
         "lqip": "data:image/webp;base64,UklGRmwAAABXRUJQVlA4IGAAAADQAwCdASoUAAwAPxFwsFAsJiSisAgBgCIJQBOmUABN5dBghszRdsAA/schgVGa4zIBfQj8qa5+UCXeUUUc6lpJSfGhL1oUpuO4j3/h4TVrP0zpuBAcnwRHBt3Zgm0AAAA="
+      },
+      {
+        "src": "/img/cs-big-data-v2",
+        "w": 2400,
+        "h": 1440,
+        "lqip": "data:image/webp;base64,UklGRlwAAABXRUJQVlA4IFAAAABwAwCdASoUAAwAPxFysFAsJqSisAgBgCIJaAC7ACGK/f/nVsAA/kBI+bVkkr3jKI6o+OQ8PwDSSynddUKgCD7sopTg/aQ+zxOvNgmidToAAA=="
       }
     ]
   },
@@ -142,6 +148,12 @@
         "w": 1000,
         "h": 600,
         "lqip": "data:image/webp;base64,UklGRlYAAABXRUJQVlA4IEoAAABQAwCdASoUAAwAPxFysFAsJqSisAgBgCIJZwAAP6TsgDk5gAD+6yWrsCAFSeX5sdkFObvwWa/MYIkiTsdBqrFm5Q74HuxmVhgIAA=="
+      },
+      {
+        "src": "/img/cs-data-strategy-v2",
+        "w": 2400,
+        "h": 1440,
+        "lqip": "data:image/webp;base64,UklGRl4AAABXRUJQVlA4IFIAAACQAwCdASoUAAwAPxFysFAsJqSisAgBgCIJQAALb+q3yxBSMcmAAP7nKvZwyWSjjecRTGI9kIC/OaqQsim2Vef+pqL4YfZ+ZoHeNEAxpIEAAAAA"
       }
     ]
   },
@@ -152,6 +164,12 @@
         "w": 1000,
         "h": 600,
         "lqip": "data:image/webp;base64,UklGRoYAAABXRUJQVlA4IHoAAADQAwCdASoUAAwAPxFysFAsJqSisAgBgCIJZgCdMoADTNg5sQSkRgAA/u1HJnmMlxsarWO1cZ9geUYM6BZNYKOZF1GizkWfZZ0nDGupw9qCy3tXRw3N40Z4DeskKRwB6TcAbUzj0aLmdb6aZ0OEqqgQ+qoFfz0onZAAAA=="
+      },
+      {
+        "src": "/img/cs-entity-standup-v2",
+        "w": 2400,
+        "h": 1440,
+        "lqip": "data:image/webp;base64,UklGRkoAAABXRUJQVlA4ID4AAAAwAwCdASoUAAwAPxFysFAsJqSisAgBgCIJZQAAW+qhQrAAAP7ejgrPh4CG4V0TJe4aW3zzdWDs5PIv99oAAA=="
       }
     ]
   },
@@ -162,6 +180,12 @@
         "w": 1000,
         "h": 600,
         "lqip": "data:image/webp;base64,UklGRlYAAABXRUJQVlA4IEoAAAAQAgCdASoUAAwABABoJQAAXOmEHl2j6llMAP702+f3cGPfxeypLRdjdfB0/OzQ4XMAxm90Y6JZ892cUmkss6ZdjXmOaS/iuYgAAA=="
+      },
+      {
+        "src": "/img/cs-finance-reeng-v2",
+        "w": 2400,
+        "h": 1440,
+        "lqip": "data:image/webp;base64,UklGRmoAAABXRUJQVlA4IF4AAADQAwCdASoUAAwAPxFysVAsJqSisAgBgCIJaAC7ACFU7bBSzkvNUAAA/up7Lgu0Kfzo73JML/xa/jAfVCJQ243pMtLght37QRU/+RDmy3x2VqC5u/sYjJnB1Z4SkAAA"
       }
     ]
   },
@@ -172,6 +196,12 @@
         "w": 1000,
         "h": 600,
         "lqip": "data:image/webp;base64,UklGRmwAAABXRUJQVlA4IGAAAADQAwCdASoUAAwAPxFwsFAsJiSisAgBgCIJZQCzgYvW322GPeJ63kAA/u03HfHxmWhIekp1QAOQqioV25HXcFaEM6iBLqWrW1o9adkuLZDWmQVv2VvmY9NVTN3jVT+AAAA="
+      },
+      {
+        "src": "/img/cs-fintech-dx-v2",
+        "w": 2400,
+        "h": 1440,
+        "lqip": "data:image/webp;base64,UklGRlwAAABXRUJQVlA4IFAAAADwAwCdASoUAAwAPxFysFAsJqSisAgBgCIJYwAAW+vpHQiwmPDgRj0AAP7erGWliH/258OBAl0YXxhvNCCqcHCHgol0PSP8xw1GEpsBn2gAAA=="
       }
     ]
   },
@@ -182,6 +212,12 @@
         "w": 1000,
         "h": 600,
         "lqip": "data:image/webp;base64,UklGRlgAAABXRUJQVlA4IEwAAABQAwCdASoUAAwAPxFwsFAsJiSisAgBgCIJYwCw7BuZP3SN4AD+4dCT53A96vKdWHovUp9xJW/Ph6iEdrGPbBgO0RVviq/3QtV2qAAA"
+      },
+      {
+        "src": "/img/cs-reg-reporting-v2",
+        "w": 2400,
+        "h": 1440,
+        "lqip": "data:image/webp;base64,UklGRoAAAABXRUJQVlA4IHQAAAAQBACdASoUAAwAPxFwsFAsJiSisAgBgCIJbACdMoACtU/BnmlvGqrQAAD+7WEE3XyzvUeLlDFVm6O8a6/czWBJYOP2+bKqHLN9/fsGyNeNArgHM2lwG2B50TkE3NUzV5QQ2ZMiRuu31sX1wh18/SaeIAAAAA=="
       }
     ]
   },
@@ -518,6 +554,12 @@
         "w": 1000,
         "h": 600,
         "lqip": "data:image/webp;base64,UklGRlgAAABXRUJQVlA4IEwAAABQAwCdASoUAAwAPxFwsFAsJiSisAgBgCIJYwCw7BuZP3SN4AD+4dCT53A96vKdWHovUp9xJW/Ph6iEdrGPbBgO0RVviq/3QtV2qAAA"
+      },
+      {
+        "src": "/img/cs-tbml-detection-v2",
+        "w": 2400,
+        "h": 1440,
+        "lqip": "data:image/webp;base64,UklGRpgAAABXRUJQVlA4IIwAAADQAwCdASoUAAwAPxFysFAsJqSisAgBgCIJYgCsAYv+ZAtLwLADe/AA/o4T6NcWN+hrBAMv387+wVKm7spVCSbJ39lkC8ZIJ1ITZcPLANfXx2Xl3jBmGNC871//C6ttbNfNl/yfpZhPVwH1T4pkwbivif3fD9DmacOZY2kslhT2nfPgGCYqzdtA6wAAAA=="
       }
     ]
   },
@@ -528,6 +570,12 @@
         "w": 1000,
         "h": 600,
         "lqip": "data:image/webp;base64,UklGRlgAAABXRUJQVlA4IEwAAABQAwCdASoUAAwAPxFwsFAsJiSisAgBgCIJYwCw7BuZP3SN4AD+4dCT53A96vKdWHovUp9xJW/Ph6iEdrGPbBgO0RVviq/3QtV2qAAA"
+      },
+      {
+        "src": "/img/cs-capital-requirements-v2",
+        "w": 2400,
+        "h": 1440,
+        "lqip": "data:image/webp;base64,UklGRkgAAABXRUJQVlA4IDwAAABQAwCdASoUAAwAPxFysFCsJqSisAgBgCIJZwAAW+oFl65lbAD+5xp441A+F/XDoHFAEk2CkUi0hkcAAAA="
       }
     ]
   },
@@ -538,6 +586,12 @@
         "w": 1000,
         "h": 600,
         "lqip": "data:image/webp;base64,UklGRlgAAABXRUJQVlA4IEwAAABQAwCdASoUAAwAPxFwsFAsJiSisAgBgCIJYwCw7BuZP3SN4AD+4dCT53A96vKdWHovUp9xJW/Ph6iEdrGPbBgO0RVviq/3QtV2qAAA"
+      },
+      {
+        "src": "/img/cs-climate-reporting-v2",
+        "w": 2400,
+        "h": 1440,
+        "lqip": "data:image/webp;base64,UklGRlgAAABXRUJQVlA4IEwAAACQAwCdASoUAAwAPxFysFAsJqSisAgBgCIJQBhQAxuIooUt2O+QAP7nQUTmC2Iba6ftwUr3OuJIpIpBIrnQTCAAaGb6ASavhqoAgAAA"
       }
     ]
   }
