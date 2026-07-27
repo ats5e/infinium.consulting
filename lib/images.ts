@@ -43,6 +43,12 @@ const CHOSEN: Record<string, number> = {
   "dxb-workspace": 1,
   "dxb-ai-campus": 1,
   "dxb-entrance": 1,
+  // originals were too small to ship; Topaz-upscaled from the client shoot
+  "dxb-difc-gate": 1,
+  "dxb-innovation-hub": 1,
+  "culture-toast": 1,
+  "culture-harbour": 1,
+  "culture-yearend": 1,
 };
 
 export type SiteImage = {

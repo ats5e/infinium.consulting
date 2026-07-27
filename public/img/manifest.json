@@ -594,5 +594,55 @@
         "lqip": "data:image/webp;base64,UklGRlgAAABXRUJQVlA4IEwAAACQAwCdASoUAAwAPxFysFAsJqSisAgBgCIJQBhQAxuIooUt2O+QAP7nQUTmC2Iba6ftwUr3OuJIpIpBIrnQTCAAaGb6ASavhqoAgAAA"
       }
     ]
+  },
+  "dxb-difc-gate": {
+    "variants": [
+      {
+        "src": "/img/dxb-difc-gate-v1",
+        "w": 2400,
+        "h": 1782,
+        "lqip": "data:image/webp;base64,UklGRooAAABXRUJQVlA4IH4AAACwAwCdASoUAA8APxFysFAsJqSisAgBgCIJaACdACEKQ9XmN1JyAAD+td8pHvefMeu96iHt03xzMVOnuL/wcmorxkgLzZ8otc8SMxG6BVRmLFMjprYt/Cz4vnJ8eElkXWe/SnUwT+YjAeCVgILatCffb/DOWL0QEe1MGXgAAAA="
+      }
+    ]
+  },
+  "dxb-innovation-hub": {
+    "variants": [
+      {
+        "src": "/img/dxb-innovation-hub-v1",
+        "w": 2400,
+        "h": 1803,
+        "lqip": "data:image/webp;base64,UklGRmYAAABXRUJQVlA4IFoAAADwAwCdASoUAA8APxFysFAsJqSisAgBgCIJYwAAWlGHMWUQ0n1SP/gAAP7FSdB/2piHkA2h0dcIFG77RWtWBZ0axCXSPlXGfs/o8seekajfUz5J8Jl3PfgOAAA="
+      }
+    ]
+  },
+  "culture-toast": {
+    "variants": [
+      {
+        "src": "/img/culture-toast-v1",
+        "w": 1600,
+        "h": 1068,
+        "lqip": "data:image/webp;base64,UklGRpIAAABXRUJQVlA4IIYAAAAwBACdASoUAA0APxFysFAsJqSisAgBgCIJagCdMoAlqhN1u0CMLJ4AV4AA/tmkyK3MkCJcFt358vunSi5JZ8UluiD+Vmiw6Qzt0CDNyVkox8nffEzK2zMozC7Lfi/2tFC/wl5p6YMmnF7XV9JVLcV6ctrlABOS1IQBSL2//uPRQUVhPcGAAA=="
+      }
+    ]
+  },
+  "culture-harbour": {
+    "variants": [
+      {
+        "src": "/img/culture-harbour-v1",
+        "w": 1600,
+        "h": 1200,
+        "lqip": "data:image/webp;base64,UklGRooAAABXRUJQVlA4IH4AAABQBACdASoUAA8APxFysFAsJqSisAgBgCIJagCdL1yB77+YIvUDbm34OIwAAPxnViEjGb+3arH4WyxyGWyIFnCHkvUsrwQfH45eOf2f0BlPgKPovcYl1Rsxh2DvyC1P1i/9LrKIeGbdhY4xqbHTN6HmY5PHetvbMDpzGzcQAAA="
+      }
+    ]
+  },
+  "culture-yearend": {
+    "variants": [
+      {
+        "src": "/img/culture-yearend-v1",
+        "w": 1600,
+        "h": 1068,
+        "lqip": "data:image/webp;base64,UklGRoQAAABXRUJQVlA4IHgAAABwBACdASoUAA0APxFysFAsJqSisAgBgCIJYgCdMoMpAEFqvKdLQOZfHpU8oAD+fWkWa5rLN/HFrYtfiZgcwJNMhirxyny5Cr4LuhSU5vEa4G3AfdE1w+pFyREuHjaz6l7pzxJcysY2rDQrkYIeA1VW70kMs2ibgAA="
+      }
+    ]
   }
 }

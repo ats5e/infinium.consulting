@@ -1440,6 +1440,9 @@ export function CulturePage() {
             ["culture-win", "Winning together"],
             ["culture-canal", "Canalside in Amsterdam"],
             ["culture-summer", "The team in the sunshine"],
+            ["culture-toast", "Celebrating together"],
+            ["culture-harbour", "Summer drinks by the harbour"],
+            ["culture-yearend", "The end-of-year celebration"],
           ] as const).map(([slot, caption]) => (
             <figure key={slot} className="overflow-hidden border hairline bg-surface/82 shadow-[0_8px_24px_rgba(23,56,102,0.04)]">
               <GlassImage
@@ -1638,7 +1641,10 @@ export function LocationPage({ city }: { city: "amsterdam" | "dubai" }) {
         ["dxb-innovationone", "Innovation One, DIFC"],
         ["dxb-workspace", "The workspace"],
         ["dxb-ai-campus", "Dubai AI Campus"],
+        ["dxb-innovation-hub", "The DIFC Innovation Hub"],
         ["dxb-entrance", "Innovation One entrance"],
+        // last entry spans both columns — the landmark shot earns it
+        ["dxb-difc-gate", "The Gate, Dubai International Financial Centre"],
       ] as const)
     : ([
         ["ams-office", "Inside our Amsterdam office"],

@@ -39,7 +39,12 @@
     "cs-fintech-dx": "v2 (2026-07-27) — Krea flux-1.1-pro-ultra light-studio glass render: a cobalt glass ribbon curving upward through the frame. Replaces the v1 flat vector diagram, which read as generic stock data-viz and sat outside the site's render language. v1 retained.",
     "cs-tbml-detection": "v2 (2026-07-27) — Krea flux-1.1-pro-ultra light-studio glass render: clear glass spheres with one cobalt sphere singled out. Replaces the v1 flat vector diagram, which read as generic stock data-viz and sat outside the site's render language. v1 retained.",
     "cs-capital-requirements": "v2 (2026-07-27) — Krea flux-1.1-pro-ultra light-studio glass render: a clear glass plate balanced level on a cobalt wedge. Replaces the v1 flat vector diagram, which read as generic stock data-viz and sat outside the site's render language. v1 retained.",
-    "cs-climate-reporting": "v2 (2026-07-27) — Krea flux-1.1-pro-ultra light-studio glass render: an upright core sample of stacked cobalt and clear glass discs. Replaces the v1 flat vector diagram, which read as generic stock data-viz and sat outside the site's render language. v1 retained."
+    "cs-climate-reporting": "v2 (2026-07-27) — Krea flux-1.1-pro-ultra light-studio glass render: an upright core sample of stacked cobalt and clear glass discs. Replaces the v1 flat vector diagram, which read as generic stock data-viz and sat outside the site's render language. v1 retained.",
+    "dxb-difc-gate": "v1 (2026-07-27) — 'dicsun' from the client shoot, 462x343, upscaled 5.2x to 2400x1782 with Krea topaz/standard-enhance (Low Resolution V2, faithful, face_enhancement off). Full-width feature at the foot of the Dubai office gallery.",
+    "dxb-innovation-hub": "v1 (2026-07-27) — 'difcinnovationhub2', 687x516, upscaled 3.5x to 2400x1803, same recipe. Dubai office gallery.",
+    "culture-toast": "v1 (2026-07-27) — 'team7', 400x267, upscaled 4x to 1600x1068, same recipe. Culture mosaic.",
+    "culture-harbour": "v1 (2026-07-27) — 'team8', 400x300, upscaled 4x to 1600x1200, same recipe. Culture mosaic.",
+    "culture-yearend": "v1 (2026-07-27) — 'endofyearevent', 400x267, upscaled 4x to 1600x1068, same recipe. Culture mosaic."
   },
   "slots": [
     {
@@ -118,5 +123,6 @@
     }
   ],
   "lightStudioSuffix": "Editorial product photography on a pure white seamless studio background. Soft large-source key light from the upper left with even fill; one soft contact shadow grounds the subject. Every element is cobalt blue, deep navy or clear optical glass. Cool colour temperature throughout. Crisp focus with shallow depth-of-field falloff. Shot on a Phase One with a 120mm macro. Cinematic and restrained. Negatives that proved necessary: no amber/gold/orange/warm tones and no purple (dispersion kept introducing them), no marble/granite/speckled stone (the word 'stone' produced countertops), no ceramic/bowls/tableware, no flat illustration, no bar charts or steps, plus the usual no text/logos/people/UI/neon/lens-flare.",
-  "lightStudioNote": "The original black-background suffix above applies to the v1-v3 era. The v4 slot renders and the cs-* v2 set are light-studio: white seamless ground. Use lightStudioSuffix for anything new that must sit beside them."
+  "lightStudioNote": "The original black-background suffix above applies to the v1-v3 era. The v4 slot renders and the cs-* v2 set are light-studio: white seamless ground. Use lightStudioSuffix for anything new that must sit beside them.",
+  "upscaleRecipe": "Krea topaz/standard-enhance, model 'Low Resolution V2', upscaling_activated true, sharpen 0.35-0.4, denoise 0.5-0.55, fix_compression 0.5-0.65, strength 0.5. face_enhancement is deliberately FALSE on every shot containing identifiable people: it is a generative pass and can alter real employees' likenesses. Low Resolution V2 resolves detail already present rather than inventing it — before/after crops were checked at 100% and features, expressions and proportions were preserved. Keep face_enhancement off for any future upscale of real photography."
 }
