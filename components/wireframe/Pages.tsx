@@ -8,6 +8,7 @@ import { QBricksWord } from "@/components/QBricksWord";
 import { DubaiOfficeVideo, NetherlandsOfficeVideo } from "@/components/OfficeVideo";
 import { Reveal } from "@/components/motion/Reveal";
 import { Counter } from "@/components/motion/Counter";
+import { PhotoMarquee, type MarqueeShot } from "@/components/PhotoMarquee";
 import {
   CASE_STUDIES,
   PERSPECTIVES,
@@ -1392,6 +1393,20 @@ export function AboutWirePage() {
   );
 }
 
+/* the ribbon that runs under the culture and careers stories */
+/* Deliberately shares no photograph with the captioned mosaic below — the
+ * ribbon carries the candid half of the set, the mosaic the composed half. */
+const CULTURE_RIBBON: readonly MarqueeShot[] = [
+  { slot: "culture-lounge", alt: "The team together in the Amsterdam lounge" },
+  { slot: "culture-toast", alt: "Celebrating together" },
+  { slot: "culture-night", alt: "The team on a night out" },
+  { slot: "culture-harbour", alt: "Summer drinks by the harbour" },
+  { slot: "culture-offsite", alt: "The team on an away day" },
+  { slot: "culture-standup", alt: "A team stand-up in the office" },
+  { slot: "culture-yearend", alt: "The end-of-year celebration" },
+  { slot: "culture-onthe-road", alt: "On the road between hubs" },
+] as const;
+
 export function CulturePage() {
   return (
     <>
@@ -1413,6 +1428,27 @@ export function CulturePage() {
           <p>Serving the EU, Nordic and GCC markets from Amsterdam and Dubai means our people move between cultures daily. That fluency is a professional skill we hire for and develop, not an afterthought.</p>
         </Reveal>
       </ContentSection>
+
+      {/* the whole firm, full bleed — the one moment on this page that
+          breaks the container and lets the photography carry the story */}
+      <section aria-label="The Infinium team" className="relative border-t hairline">
+        <GlassImage
+          image={siteImage("culture-terrace")}
+          alt="The Infinium team together on the terrace"
+          sizes="100vw"
+          imageClassName="aspect-[16/10] object-cover md:aspect-[21/9]"
+        />
+        <div aria-hidden className="pointer-events-none absolute inset-0 bg-gradient-to-t from-overlay/80 via-overlay/20 to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 mx-auto w-full max-w-(--container-content) px-(--spacing-gutter) pb-8 md:pb-12">
+          <p className="eyebrow text-on-dark-accent">All of us</p>
+          <p className="mt-3 max-w-2xl text-(length:--text-step-2) leading-tight text-on-dark">
+            One firm, two hubs, fifteen nationalities.
+          </p>
+        </div>
+      </section>
+
+      <PhotoMarquee shots={CULTURE_RIBBON} label="Life at Infinium, in pictures" />
+
       <ContentSection>
         <SectionIntro eyebrow="What shapes us" title="The values behind the work" />
         <NumberedCards items={[
@@ -1440,9 +1476,6 @@ export function CulturePage() {
             ["culture-win", "Winning together"],
             ["culture-canal", "Canalside in Amsterdam"],
             ["culture-summer", "The team in the sunshine"],
-            ["culture-toast", "Celebrating together"],
-            ["culture-harbour", "Summer drinks by the harbour"],
-            ["culture-yearend", "The end-of-year celebration"],
           ] as const).map(([slot, caption]) => (
             <figure key={slot} className="overflow-hidden border hairline bg-surface/82 shadow-[0_8px_24px_rgba(23,56,102,0.04)]">
               <GlassImage
@@ -1504,6 +1537,17 @@ export function SocialResponsibilityPage() {
           { value: "50+", label: "Students mentored & guided" },
           { value: "6", label: "Years, since 2020" },
         ]} />
+        <Reveal className="mt-10">
+          <figure className="overflow-hidden border hairline bg-abyss/25">
+            <GlassImage
+              image={siteImage("one4one-groningen")}
+              alt="An Infinium session with students at the University of Groningen"
+              sizes="(min-width: 1280px) 1216px, 100vw"
+              imageClassName="aspect-[16/9] object-cover"
+            />
+            <figcaption className="eyebrow border-t hairline p-4">With students at the University of Groningen</figcaption>
+          </figure>
+        </Reveal>
         <p className="mt-10 max-w-3xl leading-relaxed text-ice">We hold long-standing partnerships with the University of Groningen and the Erasmus School of Business Management. Since 2020 we have mentored and guided more than 50 students through internships, thesis supervision and hands-on project work, bringing academic rigour into our engagements and real financial services experience into their careers.</p>
         <CardGrid columns={2} items={[
           { title: "University of Groningen", body: "Long-standing partnership, student mentoring, internships and thesis supervision." },
@@ -1520,11 +1564,53 @@ export function IndustryEventsPage() {
     <>
       <HeroSection eyebrow="Who we are" title="Industry events" body="Where you'll find us. We speak, sponsor and share our thinking at the industry's leading events across the EU, Nordics and GCC, come and meet the team." />
       <ContentSection>
+        {/* h1 → h3 skipped a level without this */}
+        <SectionIntro eyebrow="Where we show up" title="Speaking, sponsoring and sharing our thinking" />
         <CardGrid columns={3} items={[
           { eyebrow: "Speaking", title: "TEDx", body: "Sharing our perspective on engineering, AI and the future of financial services with audiences beyond the industry." },
           { eyebrow: "Copenhagen", title: "Nordic Fintech Week", body: "Meeting the Nordic fintech community, where we serve banks, insurers and fintechs across the region." },
           { eyebrow: "Amsterdam", title: "Money20/20", body: "The world's biggest fintech gathering, on our home ground. Find us on the floor, or book time with the team in advance." },
         ]} />
+
+        {/* out in the industry — a staggered set rather than another even grid */}
+        <Reveal className="mt-px grid gap-px md:grid-cols-3">
+          <figure className="overflow-hidden border hairline bg-abyss/25 md:col-span-2">
+            <GlassImage
+              image={siteImage("event-panel")}
+              alt="An Infinium partner speaking on an industry panel"
+              sizes="(min-width: 768px) 60vw, 100vw"
+              imageClassName="aspect-[16/10] object-cover"
+            />
+            <figcaption className="eyebrow border-t hairline p-4">On the panel</figcaption>
+          </figure>
+          <figure className="overflow-hidden border hairline bg-abyss/25">
+            <GlassImage
+              image={siteImage("event-nordic")}
+              alt="The team at Nordic Fintech Week"
+              sizes="(min-width: 768px) 30vw, 100vw"
+              imageClassName="aspect-[4/5] object-cover md:aspect-auto md:h-full"
+            />
+            <figcaption className="eyebrow border-t hairline p-4">Nordic Fintech Week</figcaption>
+          </figure>
+          <figure className="overflow-hidden border hairline bg-abyss/25">
+            <GlassImage
+              image={siteImage("event-alteryx")}
+              alt="Presenting on the main stage at Alteryx Inspire"
+              sizes="(min-width: 768px) 30vw, 100vw"
+              imageClassName="aspect-[4/3] object-cover"
+            />
+            <figcaption className="eyebrow border-t hairline p-4">Alteryx Inspire, main stage</figcaption>
+          </figure>
+          <figure className="overflow-hidden border hairline bg-abyss/25 md:col-span-2">
+            <GlassImage
+              image={siteImage("event-roundtable")}
+              alt="An Infinium client roundtable in session"
+              sizes="(min-width: 768px) 60vw, 100vw"
+              imageClassName="aspect-[16/10] object-cover"
+            />
+            <figcaption className="eyebrow border-t hairline p-4">Client roundtables</figcaption>
+          </figure>
+        </Reveal>
         <Reveal className="mt-px">
           <figure className="overflow-hidden border hairline bg-surface/82 shadow-[0_8px_24px_rgba(23,56,102,0.04)] md:grid md:grid-cols-[1fr_auto]">
             <GlassImage
@@ -1629,6 +1715,7 @@ export function CareersWirePage() {
         </div>
         <p className="mt-8 text-ice">Don&rsquo;t see your role? We are always interested in exceptional people, <Link href="/contact" className="link-wipe text-signal">start a conversation</Link>.</p>
       </ContentSection>
+      <PhotoMarquee shots={CULTURE_RIBBON} label="The team at Infinium, in pictures" />
       <CTASection title="Ready to do the best work of your career?" body="Tell us about yourself and the work you want to do." label="Get in touch" />
     </>
   );
@@ -1642,6 +1729,9 @@ export function LocationPage({ city }: { city: "amsterdam" | "dubai" }) {
         ["dxb-workspace", "The workspace"],
         ["dxb-ai-campus", "Dubai AI Campus"],
         ["dxb-innovation-hub", "The DIFC Innovation Hub"],
+        ["dxb-lounge", "The team in the Innovation One lounge"],
+        ["dxb-innovation-wall", "Innovation One"],
+        ["dxb-lobby", "The lobby"],
         ["dxb-entrance", "Innovation One entrance"],
         // last entry spans both columns — the landmark shot earns it
         ["dxb-difc-gate", "The Gate, Dubai International Financial Centre"],

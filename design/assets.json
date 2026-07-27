@@ -44,7 +44,22 @@
     "dxb-innovation-hub": "v1 (2026-07-27) — 'difcinnovationhub2', 687x516, upscaled 3.5x to 2400x1803, same recipe. Dubai office gallery.",
     "culture-toast": "v1 (2026-07-27) — 'team7', 400x267, upscaled 4x to 1600x1068, same recipe. Culture mosaic.",
     "culture-harbour": "v1 (2026-07-27) — 'team8', 400x300, upscaled 4x to 1600x1200, same recipe. Culture mosaic.",
-    "culture-yearend": "v1 (2026-07-27) — 'endofyearevent', 400x267, upscaled 4x to 1600x1068, same recipe. Culture mosaic."
+    "culture-yearend": "v1 (2026-07-27) — 'endofyearevent', 400x267, upscaled 4x to 1600x1068, same recipe. Culture mosaic.",
+    "culture-terrace": "v1 (2026-07-27) — 1000042392, whole-firm terrace shot. Full-bleed band on /about/culture with an overlay caption; the page's one break from the container.",
+    "culture-night": "v1 (2026-07-27) — 1000036090, team night out. Culture ribbon.",
+    "culture-lounge": "v1 (2026-07-27) — Infinium_group-11, the team on the lounge sofa. Culture ribbon.",
+    "culture-offsite": "v1 (2026-07-27) — IMG-20230526-WA0004, away day. Culture ribbon.",
+    "culture-standup": "v1 (2026-07-27) — 'image (3)', team stand-up in the office. Culture ribbon.",
+    "culture-onthe-road": "v1 (2026-07-27) — 1000035932, between hubs. Culture ribbon.",
+    "event-panel": "v1 (2026-07-27) — 1000028241, industry panel. /about/industry-events, wide tile.",
+    "event-nordic": "v1 (2026-07-27) — 1000034202, Nordic Fintech Week; pairs with that card on the page.",
+    "event-roundtable": "v1 (2026-07-27) — 1000036018, client roundtable. /about/industry-events.",
+    "event-alteryx": "v1 (2026-07-27) — ALTERYX_inspire, 346x256 upscaled 5x to 1730x1280 (topaz Low Resolution V2). Main-stage shot at Alteryx Inspire.",
+    "dxb-lobby": "v1 (2026-07-27) — 1000043692, Innovation One lobby. Dubai gallery.",
+    "dxb-innovation-wall": "v1 (2026-07-27) — 1000043316, the INNOVATION wall. Dubai gallery.",
+    "dxb-lounge": "v1 (2026-07-27) — 20260417_151744, the team in the Dubai lounge. Dubai gallery.",
+    "one4one-groningen": "v1 (2026-07-27) — 141_Groningen, 800x498 upscaled 2.5x to 2000x1245. Academic partnerships section on /about/social-responsibility.",
+    "partners-aspiro": "v1 (2026-07-27) — aspiropartners, processed and available; not yet placed on /about/consulting-partners."
   },
   "slots": [
     {
@@ -124,5 +139,6 @@
   ],
   "lightStudioSuffix": "Editorial product photography on a pure white seamless studio background. Soft large-source key light from the upper left with even fill; one soft contact shadow grounds the subject. Every element is cobalt blue, deep navy or clear optical glass. Cool colour temperature throughout. Crisp focus with shallow depth-of-field falloff. Shot on a Phase One with a 120mm macro. Cinematic and restrained. Negatives that proved necessary: no amber/gold/orange/warm tones and no purple (dispersion kept introducing them), no marble/granite/speckled stone (the word 'stone' produced countertops), no ceramic/bowls/tableware, no flat illustration, no bar charts or steps, plus the usual no text/logos/people/UI/neon/lens-flare.",
   "lightStudioNote": "The original black-background suffix above applies to the v1-v3 era. The v4 slot renders and the cs-* v2 set are light-studio: white seamless ground. Use lightStudioSuffix for anything new that must sit beside them.",
-  "upscaleRecipe": "Krea topaz/standard-enhance, model 'Low Resolution V2', upscaling_activated true, sharpen 0.35-0.4, denoise 0.5-0.55, fix_compression 0.5-0.65, strength 0.5. face_enhancement is deliberately FALSE on every shot containing identifiable people: it is a generative pass and can alter real employees' likenesses. Low Resolution V2 resolves detail already present rather than inventing it — before/after crops were checked at 100% and features, expressions and proportions were preserved. Keep face_enhancement off for any future upscale of real photography."
+  "upscaleRecipe": "Krea topaz/standard-enhance, model 'Low Resolution V2', upscaling_activated true, sharpen 0.35-0.4, denoise 0.5-0.55, fix_compression 0.5-0.65, strength 0.5. face_enhancement is deliberately FALSE on every shot containing identifiable people: it is a generative pass and can alter real employees' likenesses. Low Resolution V2 resolves detail already present rather than inventing it — before/after crops were checked at 100% and features, expressions and proportions were preserved. Keep face_enhancement off for any future upscale of real photography.",
+  "freshPhotosTriage": "Second client drop, 'Fresh Photos' (75 files, 74MB, gitignored at repo root — it arrived inside public/ and was moved out so the raw originals are not served). 50 unique after checksum dedupe; 25 were byte-identical copies with [nn] suffixes. Of the 50, 39 were already on the site or previously reviewed, leaving 11 genuinely new. Where shots overlapped (Amsterdam interiors, Dubai meeting rooms, several near-identical formal group photos) one was chosen per cluster. Skipped: 1000035991 (table detail, no subject) and the duplicate Amsterdam interiors already represented by ams-office/ams-stairs/ams-atrium/ams-hall."
 }

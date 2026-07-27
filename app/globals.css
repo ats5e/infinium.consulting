@@ -82,10 +82,22 @@
   from { transform: translateX(0); }
   to { transform: translateX(-50%); }
 }
-.marquee-track { animation: marquee 44s linear infinite; }
+.marquee-track { animation: marquee 64s linear infinite; }
 .marquee-track:hover { animation-play-state: paused; }
+.marquee-viewport { overflow-x: hidden; }
+/* the second copy only exists to make the loop seamless */
+.marquee-dupe { display: contents; }
+/* With motion off the strip becomes a plain wrapped gallery: every photo is
+ * visible at once, so nothing is clipped and no scrollable region is created
+ * (a scroll container would need its own keyboard affordance). */
 @media (prefers-reduced-motion: reduce) {
-  .marquee-track { animation: none; }
+  .marquee-track {
+    animation: none;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: center;
+  }
+  .marquee-dupe { display: none; }
 }
 
 

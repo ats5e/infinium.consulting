@@ -49,6 +49,22 @@ const CHOSEN: Record<string, number> = {
   "culture-toast": 1,
   "culture-harbour": 1,
   "culture-yearend": 1,
+  // second client drop — culture, industry events, Dubai, academic partners
+  "culture-terrace": 1,
+  "culture-night": 1,
+  "culture-lounge": 1,
+  "culture-offsite": 1,
+  "culture-standup": 1,
+  "culture-onthe-road": 1,
+  "event-panel": 1,
+  "event-nordic": 1,
+  "event-roundtable": 1,
+  "event-alteryx": 1,
+  "dxb-lobby": 1,
+  "dxb-innovation-wall": 1,
+  "dxb-lounge": 1,
+  "one4one-groningen": 1,
+  "partners-aspiro": 1,
 };
 
 export type SiteImage = {
