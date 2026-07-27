@@ -8,7 +8,7 @@ import { QBricksWord } from "@/components/QBricksWord";
 import { DubaiOfficeVideo, NetherlandsOfficeVideo } from "@/components/OfficeVideo";
 import { Reveal } from "@/components/motion/Reveal";
 import { Counter } from "@/components/motion/Counter";
-import { PhotoMarquee, type MarqueeShot } from "@/components/PhotoMarquee";
+import { PhotoCollage, type CollageShot } from "@/components/PhotoCollage";
 import {
   CASE_STUDIES,
   PERSPECTIVES,
@@ -1358,6 +1358,19 @@ export function AboutWirePage() {
           </figure>
         </Reveal>
       </ContentSection>
+
+      <ContentSection density="compact">
+        <SectionIntro
+          eyebrow="Life here"
+          title="The firm, off the slide deck"
+          body="Two hubs, one team. A look at how it actually feels to work here."
+        />
+        <p className="-mt-4 mb-2">
+          <SecondaryLink href="/about/culture">More about our culture →</SecondaryLink>
+        </p>
+      </ContentSection>
+      <PhotoCollage shots={CULTURE_COLLAGE} label="Life at Infinium, in pictures" />
+
       <ContentSection>
         <SectionIntro eyebrow="Locations" title="Where you'll find us" body="We serve clients across the EU, Nordic and Middle East (GCC) markets from our two hubs." />
         <Reveal className="grid gap-px md:grid-cols-2">
@@ -1394,17 +1407,19 @@ export function AboutWirePage() {
 }
 
 /* the ribbon that runs under the culture and careers stories */
-/* Deliberately shares no photograph with the captioned mosaic below — the
- * ribbon carries the candid half of the set, the mosaic the composed half. */
-const CULTURE_RIBBON: readonly MarqueeShot[] = [
-  { slot: "culture-lounge", alt: "The team together in the Amsterdam lounge" },
-  { slot: "culture-toast", alt: "Celebrating together" },
-  { slot: "culture-night", alt: "The team on a night out" },
-  { slot: "culture-harbour", alt: "Summer drinks by the harbour" },
-  { slot: "culture-offsite", alt: "The team on an away day" },
-  { slot: "culture-standup", alt: "A team stand-up in the office" },
-  { slot: "culture-yearend", alt: "The end-of-year celebration" },
-  { slot: "culture-onthe-road", alt: "On the road between hubs" },
+/* Deliberately shares no photograph with the captioned mosaic on the culture
+ * page — the collage carries the candid half of the set, the mosaic the
+ * composed half. Order matters: the twelve-column rhythm in PhotoCollage
+ * gives tiles 1 and 7 the wide slots, so the strongest frames sit there. */
+const CULTURE_COLLAGE: readonly CollageShot[] = [
+  { slot: "culture-lounge", alt: "The team together in the Amsterdam lounge", caption: "The Amsterdam lounge" },
+  { slot: "culture-standup", alt: "A team stand-up in the office", caption: "Team stand-up" },
+  { slot: "culture-toast", alt: "Colleagues celebrating together", caption: "Celebrating together" },
+  { slot: "culture-harbour", alt: "Summer drinks by the harbour", caption: "Summer by the harbour" },
+  { slot: "culture-night", alt: "The team on a night out", caption: "A night out" },
+  { slot: "culture-onthe-road", alt: "Colleagues travelling between the hubs", caption: "Between the hubs" },
+  { slot: "culture-offsite", alt: "The team on an away day", caption: "The away day" },
+  { slot: "culture-yearend", alt: "The end-of-year celebration", caption: "End of year" },
 ] as const;
 
 export function CulturePage() {
@@ -1447,7 +1462,7 @@ export function CulturePage() {
         </div>
       </section>
 
-      <PhotoMarquee shots={CULTURE_RIBBON} label="Life at Infinium, in pictures" />
+      <PhotoCollage shots={CULTURE_COLLAGE} label="Life at Infinium, in pictures" />
 
       <ContentSection>
         <SectionIntro eyebrow="What shapes us" title="The values behind the work" />
@@ -1638,7 +1653,10 @@ export function ConsultingPartnersPage() {
             {
               eyebrow: "Partner · GCC",
               title: "Aspiro Management Consultants",
-              facts: ["Region — Middle East (GCC), based in Dubai", "Focus — Business transformation for financial services", "Website — aspiro.me"],
+              facts: ["Region — Middle East (GCC), based in Dubai", "Focus — Business transformation for financial services"],
+              site: { label: "aspiro.me", href: "https://aspiro.me" },
+              slot: "partners-aspiro" as const,
+              imageAlt: "Infinium and Aspiro leadership together in Dubai",
               ps: [
                 "Aspiro are business transformation management consultants who help ambitious financial services companies transform, grow and thrive in the regional and global marketplace.",
                 "Based in the GCC with global reach to source talent, Aspiro puts real industry experience at the heart of consultancy, its team includes former bank COOs, CEOs and heads of operations from major regional and international institutions. Their extensive network of associates and partners allows engagements to scale up and down rapidly.",
@@ -1649,7 +1667,10 @@ export function ConsultingPartnersPage() {
             {
               eyebrow: "Partner · UK",
               title: "NextWave Consulting",
-              facts: ["Region — United Kingdom, 100 Bishopsgate, City of London", "Focus — Digital acceleration for financial services", "Website — nxwave.com"],
+              facts: ["Region — United Kingdom, 100 Bishopsgate, City of London", "Focus — Digital acceleration for financial services"],
+              site: { label: "nxwave.com", href: "https://nxwave.com" },
+              slot: null,
+              imageAlt: "",
               ps: [
                 "NextWave is an award-winning digital acceleration consultancy based in the heart of the City, London's financial hub, a specialist alternative to the big-brand consultancies.",
                 "Established in 2019, NextWave's leadership team has a 30-year track record supporting Global Tier 1 clients with complex change delivery, from specialised advisory to enterprise-scale programmes. The team is composed of senior C-level executives focused on large-scale transformation, data and digitally focused initiatives, everything done agile, at pace, and supported by best-in-class technology partners.",
@@ -1662,7 +1683,30 @@ export function ConsultingPartnersPage() {
               <div className="md:col-span-4">
                 <p className="eyebrow text-signal">{p.eyebrow}</p>
                 <h2 className="mt-4 text-(length:--text-step-2)">{p.title}</h2>
-                <ul className="mt-6 space-y-2 text-(length:--text-body-sm) text-steel">{p.facts.map((f) => <li key={f}>{f}</li>)}</ul>
+                <ul className="mt-6 space-y-2 text-(length:--text-body-sm) text-steel">
+                  {p.facts.map((f) => <li key={f}>{f}</li>)}
+                  <li>
+                    Website —{" "}
+                    <a
+                      href={p.site.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="link-wipe text-signal underline decoration-signal/30 underline-offset-4 transition-colors hover:text-navy"
+                    >
+                      {p.site.label} ↗
+                    </a>
+                  </li>
+                </ul>
+                {p.slot ? (
+                  <figure className="mt-7 overflow-hidden border hairline">
+                    <GlassImage
+                      image={siteImage(p.slot)}
+                      alt={p.imageAlt}
+                      sizes="(min-width: 768px) 30vw, 100vw"
+                      imageClassName="aspect-[4/3] object-cover"
+                    />
+                  </figure>
+                ) : null}
               </div>
               <div className="space-y-5 leading-relaxed text-ice md:col-span-8">
                 {p.ps.map((x) => <p key={x}>{x}</p>)}
@@ -1715,7 +1759,7 @@ export function CareersWirePage() {
         </div>
         <p className="mt-8 text-ice">Don&rsquo;t see your role? We are always interested in exceptional people, <Link href="/contact" className="link-wipe text-signal">start a conversation</Link>.</p>
       </ContentSection>
-      <PhotoMarquee shots={CULTURE_RIBBON} label="The team at Infinium, in pictures" />
+      <PhotoCollage shots={CULTURE_COLLAGE} label="The team at Infinium, in pictures" />
       <CTASection title="Ready to do the best work of your career?" body="Tell us about yourself and the work you want to do." label="Get in touch" />
     </>
   );

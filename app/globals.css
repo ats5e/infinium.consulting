@@ -77,27 +77,23 @@
   --pointer-y: 24vh;
 }
 
-/* awards marquee — a slow, continuous drift; parks under reduced motion */
-@keyframes marquee {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
+/* collage parallax — each tile drifts at its own rate while the section
+ * crosses the viewport, giving the grid depth. Scroll-driven, so it runs on
+ * the compositor with no scroll listeners; unsupported browsers and anyone
+ * with reduced motion get the static grid, which is the real layout. */
+@keyframes collage-drift {
+  from { transform: translate3d(0, var(--drift, 0px), 0); }
+  to { transform: translate3d(0, calc(var(--drift, 0px) * -1), 0); }
 }
-.marquee-track { animation: marquee 64s linear infinite; }
-.marquee-track:hover { animation-play-state: paused; }
-.marquee-viewport { overflow-x: hidden; }
-/* the second copy only exists to make the loop seamless */
-.marquee-dupe { display: contents; }
-/* With motion off the strip becomes a plain wrapped gallery: every photo is
- * visible at once, so nothing is clipped and no scrollable region is created
- * (a scroll container would need its own keyboard affordance). */
-@media (prefers-reduced-motion: reduce) {
-  .marquee-track {
-    animation: none;
-    flex-wrap: wrap;
-    width: 100%;
-    justify-content: center;
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .collage-tile {
+      animation: collage-drift linear both;
+      animation-timeline: view();
+      animation-range: cover 0% cover 100%;
+      will-change: transform;
+    }
   }
-  .marquee-dupe { display: none; }
 }
 
 
