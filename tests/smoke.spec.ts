@@ -41,13 +41,13 @@ for (const [path, h1] of ROUTES) {
 
 test("nav reaches every route", async ({ page }) => {
   await page.goto("/");
-  // the takeover menu is the primary navigation on every viewport
+  // the takeover menu is the primary navigation on every viewport.
+  // QBricks/VBricks are intentionally NOT top-level here — they live under
+  // Solutions and remain reachable via search — so they're not asserted.
   await page.getByRole("button", { name: /open menu/i }).click();
-  for (const label of ["QBricks", "VBricks", "Services", "Solutions", "Sectors", "Technologies", "Insights", "About", "Careers", "Contact"]) {
+  for (const label of ["Services", "Solutions", "Sectors", "Technologies", "Insights", "About", "Careers", "Contact"]) {
     await expect(page.getByRole("link", { name: label, exact: true }).first()).toBeVisible();
   }
-  await expect(page.getByRole("link", { name: "QBricks", exact: true }).first()).toHaveAttribute("href", "/solutions/qbricks");
-  await expect(page.getByRole("link", { name: "VBricks", exact: true }).first()).toHaveAttribute("href", "/solutions/vbricks");
   // home stays reachable through the wordmark
   await expect(page.getByRole("link", { name: /home/i }).first()).toBeVisible();
 });
