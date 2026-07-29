@@ -7,8 +7,17 @@
  * Output: public/img/<slot>-v<n>.{avif,webp} at full + half width,
  *         public/img/manifest.json { slot: { variants: [{src, w, h, lqip}] } },
  *         public/contact-sheet/index.html for review.
+ *
+ * The manifest is MERGED with the existing one, not rebuilt from scratch:
+ * a few case-study slots have an SVG v1 source that sharp cannot process
+ * (it only reads png/jpg/webp), so their variants were rasterised once by
+ * a separate step and only ever lived in the committed manifest. A naive
+ * from-scratch rebuild silently dropped those entries, which shifted the
+ * surviving v2 to index 0 while lib/images.ts CHOSEN still asked for v2 at
+ * index 1 — the build then hard-failed prerendering the case-study pages.
+ * Merging preserves any variant whose derivative files still exist on disk.
  */
-import { readdir, mkdir, writeFile } from "node:fs/promises";
+import { readdir, mkdir, writeFile, readFile, access } from "node:fs/promises";
 import path from "node:path";
 import sharp from "sharp";
 
@@ -25,7 +34,26 @@ if (files.length === 0) {
   process.exit(1);
 }
 
+const exists = (p) => access(p).then(() => true, () => false);
+
+/* Seed from the existing manifest so variants this run cannot regenerate
+ * (e.g. SVG-sourced ones) survive — but only if their served files are
+ * still on disk, so a genuinely deleted variant is still pruned. */
 const manifest = {};
+let priorManifest = {};
+try {
+  priorManifest = JSON.parse(await readFile(path.join(OUT, "manifest.json"), "utf8"));
+} catch {
+  /* first run, or no manifest yet — start empty */
+}
+for (const [slot, entry] of Object.entries(priorManifest)) {
+  const kept = [];
+  for (const v of entry.variants ?? []) {
+    if (await exists(path.join(OUT, `${path.basename(v.src)}.webp`))) kept.push(v);
+    else console.warn(`dropping ${v.src} — no derivative file on disk`);
+  }
+  if (kept.length) manifest[slot] = { variants: kept };
+}
 
 for (const file of files.sort()) {
   const name = file.replace(/\.[^.]+$/, "");
@@ -49,13 +77,23 @@ for (const file of files.sort()) {
   }
 
   const lqipBuf = await src.clone().resize({ width: 20 }).webp({ quality: 30 }).toBuffer();
-  (manifest[slot] ??= { variants: [] }).variants.push({
+  const entry = {
     src: `/img/${name}`,
     w: meta.width,
     h: meta.height,
     lqip: `data:image/webp;base64,${lqipBuf.toString("base64")}`,
-  });
+  };
+  const variants = (manifest[slot] ??= { variants: [] }).variants;
+  // replace a same-src variant carried over from the prior manifest, else append
+  const at = variants.findIndex((v) => v.src === entry.src);
+  if (at >= 0) variants[at] = entry;
+  else variants.push(entry);
   console.log(`${name}: ${meta.width}x${meta.height} → avif/webp + lqip`);
+}
+
+// keep each slot's variants in v-number order so array index ↔ v<n> stays stable
+for (const entry of Object.values(manifest)) {
+  entry.variants.sort((a, b) => a.src.localeCompare(b.src, undefined, { numeric: true }));
 }
 
 await writeFile(path.join(OUT, "manifest.json"), JSON.stringify(manifest, null, 2));
