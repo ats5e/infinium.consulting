@@ -61,39 +61,33 @@ export async function sendMessage(
   /* The privacy notice states we record this preference, so it has to travel
    * with the enquiry — it is the only record of the opt-in. */
   const optedIn = Boolean(updates);
-  const apiKey = process.env.RESEND_API_KEY;
 
-  if (apiKey) {
-    const res = await fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
-      body: JSON.stringify({
-        from: process.env.CONTACT_FROM ?? "website@infinium.technology",
-        to: process.env.CONTACT_TO ?? "sales@infinium.technology",
-        reply_to: email,
-        subject: `Website enquiry — ${name}${topic ? `, ${topic}` : ""}`,
-        text:
-          `${message}\n\n— ${name} <${email}>${topic ? ` · ${topic}` : ""}\n` +
-          `Marketing updates opt-in: ${optedIn ? "YES" : "no"} (recorded ${new Date().toISOString()})`,
-      }),
-    });
-    if (!res.ok) {
-      console.error("resend failed", res.status, await res.text());
-      return {
-        status: "error",
-        message: "The message didn’t send — that’s on our side, not yours. Email sales@infinium.technology and we’ll pick it up.",
-      };
-    }
-  } else {
-    if (process.env.NODE_ENV === "production") {
-      console.error("[contact] RESEND_API_KEY is not configured");
-      return {
-        status: "error",
-        message: "The message service is temporarily unavailable. Email sales@infinium.technology and we’ll pick it up.",
-      };
-    }
-    // Local development remains testable without delivering email.
-    console.log("[contact] no RESEND_API_KEY —", { name, email, topic, message, optedIn });
+  /* Delivery via Formspree (https://formspree.io/f/xrendqrr) rather than a
+   * transactional-email API: Formspree owns spam filtering and inbox
+   * delivery, so this endpoint is the only moving part on our side. The
+   * env var lets the endpoint rotate without a redeploy; the literal is a
+   * safe default, not a secret — Formspree's protection is server-side. */
+  const endpoint = process.env.FORMSPREE_ENDPOINT ?? "https://formspree.io/f/xrendqrr";
+  const res = await fetch(endpoint, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", Accept: "application/json" },
+    body: JSON.stringify({
+      name,
+      email,
+      topic,
+      message,
+      updates: optedIn ? "yes" : "no",
+      _replyto: email,
+      _subject: `Website enquiry — ${name}${topic ? `, ${topic}` : ""}`,
+    }),
+  });
+
+  if (!res.ok) {
+    console.error("formspree failed", res.status, await res.text());
+    return {
+      status: "error",
+      message: "The message didn’t send — that’s on our side, not yours. Email sales@infinium.technology and we’ll pick it up.",
+    };
   }
 
   return { status: "sent" };

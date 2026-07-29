@@ -16,7 +16,7 @@ optical glass.**
 - **Canvas 2D** — the homepage hero graphic (`components/hero/AssemblyField.tsx`). No WebGL, no 3D libraries.
 - **sharp** build-time imaging → AVIF/WebP + LQIP manifest
 - Type: Outfit (display), Geist, Inter, Quicksand (the QBricks wordmark) — self-hosted latin-subset woff2
-- Contact: server action + Zod, honeypot, rate limit, delivery via Resend
+- Contact: server action + Zod, honeypot, rate limit, delivery via Formspree
 - Vercel Analytics + Speed Insights, mounted only on Vercel
 
 ## Commands
@@ -106,8 +106,10 @@ then update the `@theme` block in `app/globals.css`, the gradients in
 
 ## Deployment (Vercel)
 
-- Import the repo; the framework auto-detects. The site renders without any
-  env vars, but **the contact form needs `RESEND_API_KEY`** — see below.
+- Import the repo; the framework auto-detects. The site, including the
+  contact form, renders and works with no env vars — the Formspree endpoint
+  is hardcoded as a default and only needs overriding to point at a
+  different form (see below).
 - Copy `.env.example` to `.env.local` for development, and set the same keys
   in the Vercel project (Settings → Environment Variables).
 - Security headers, including the Content-Security-Policy, are defined in
@@ -118,16 +120,15 @@ then update the `@theme` block in `app/globals.css`, the gradients in
 
 ### Contact form
 
-Enquiries POST to Resend and are delivered to `CONTACT_TO`
-(default `sales@infinium.technology`). Behaviour without a key:
+Enquiries POST from the server action to Formspree
+(`https://formspree.io/f/xrendqrr` by default, override with
+`FORMSPREE_ENDPOINT`), which owns spam filtering and delivers to whatever
+inbox the Formspree form is configured with. If the POST fails, the visitor
+sees an error asking them to email directly — enquiries are never silently
+dropped.
 
-- **Production:** the visitor sees an error asking them to email directly.
-  Enquiries are *not* silently dropped, but they are also not delivered —
-  set the key before launch.
-- **Development:** submissions are logged to the server console.
-
-There is no CRM or database, so delivery to that inbox is the only record of
-an enquiry, including the marketing opt-in.
+There is no CRM or database, so Formspree's own dashboard/inbox delivery is
+the only record of an enquiry, including the marketing opt-in.
 
 ## Known gaps before client sign-off
 
