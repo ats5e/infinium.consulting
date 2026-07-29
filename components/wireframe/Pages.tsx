@@ -835,6 +835,107 @@ export function AssessmentPage({ kind }: { kind: "ai" | "quantexa" }) {
             />
           </ContentSection>
           <ContentSection>
+            <SectionIntro
+              eyebrow="Sample output — illustrative"
+              title="What the report looks like"
+              body="Every engagement ends in a scored, evidence-backed report. The figures below are illustrative, drawn from a representative assessment."
+            />
+
+            {/* the four pillar scores — ruled cells, weak pillars flagged */}
+            <Reveal className="grid grid-cols-2 gap-px border hairline lg:grid-cols-4">
+              {([
+                ["Platform — solution design", 72, "Infrastructure the strongest area", "ok"],
+                ["Project delivery", 80, "Leadership & governance leading", "ok"],
+                ["Testing", 35, "The clearest gap in the estate", "focus"],
+                ["Resource capability", 55, "Capability still at novice level", "watch"],
+              ] as const).map(([label, score, note, state]) => (
+                <div
+                  key={label}
+                  className={`p-6 sm:p-7 ${
+                    state === "focus" ? "bg-error/[0.06]" : state === "watch" ? "bg-warning/[0.06]" : "bg-white/82"
+                  }`}
+                >
+                  <p className="font-mono text-[10px] uppercase tracking-[0.1em] text-steel">{label}</p>
+                  <p
+                    className={`mt-3 font-display text-(length:--text-step-3) leading-none ${
+                      state === "focus" ? "text-error" : state === "watch" ? "text-warning" : "text-paper"
+                    }`}
+                  >
+                    {score}%
+                  </p>
+                  <p className="mt-3 text-(length:--text-body-sm) leading-relaxed text-ice">{note}</p>
+                </div>
+              ))}
+            </Reveal>
+
+            <div className="mt-4 grid gap-4 lg:grid-cols-2">
+              {/* highest-scoring capabilities — quiet cobalt bars */}
+              <Reveal className="border hairline bg-white/82 p-7">
+                <p className="eyebrow text-signal">Highest-scoring capabilities</p>
+                <ul className="mt-6 space-y-4">
+                  {([
+                    ["Entity resolution quality", 96],
+                    ["Platform architecture", 91],
+                    ["Data ingestion", 88],
+                    ["Delivery governance", 87],
+                    ["Scoring configuration", 80],
+                  ] as const).map(([cap, v]) => (
+                    <li key={cap} className="grid grid-cols-[1fr_auto] items-center gap-x-4 gap-y-1 sm:grid-cols-[11rem_1fr_auto]">
+                      <span className="text-(length:--text-body-sm) text-glass">{cap}</span>
+                      <span aria-hidden className="hidden h-1.5 overflow-hidden rounded-full bg-abyss/60 sm:block">
+                        <span className="block h-full rounded-full bg-cobalt" style={{ width: `${v}%` }} />
+                      </span>
+                      <span className="font-mono text-(length:--text-label) text-paper tabular-nums">{v}</span>
+                    </li>
+                  ))}
+                </ul>
+              </Reveal>
+
+              {/* movement since the last assessment — the benchmark over time */}
+              <Reveal className="border hairline bg-white/82 p-7">
+                <p className="eyebrow text-signal">Movement since the last assessment</p>
+                <ul className="mt-6 divide-y divide-navy/10">
+                  {([
+                    ["Test automation", 35, 75],
+                    ["Data controls", 50, 77],
+                    ["Component adoption", 66, 96],
+                    ["Learning pathways", 74, 87],
+                  ] as const).map(([cap, from, to]) => (
+                    <li key={cap} className="flex items-baseline justify-between gap-4 py-3.5">
+                      <span className="text-(length:--text-body-sm) text-glass">{cap}</span>
+                      <span className="font-mono text-(length:--text-label) tabular-nums">
+                        <span className="text-steel">{from}%</span>
+                        <span aria-hidden className="mx-2 text-steel">→</span>
+                        <span className="text-success">{to}%</span>
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+                <p className="mt-5 text-(length:--text-body-sm) leading-relaxed text-ice">
+                  Re-running the assessment turns the score into a benchmark — progress is measured, not asserted.
+                </p>
+              </Reveal>
+            </div>
+
+            {/* where attention pays back fastest */}
+            <Reveal className="mt-4 border hairline bg-abyss/25 p-7">
+              <p className="eyebrow text-signal">Where attention pays back fastest</p>
+              <div className="mt-6 grid gap-px border hairline bg-ice/12 md:grid-cols-3">
+                {([
+                  ["01", "Testing", "Coverage and automation are the clearest gap — findings are concentrated, not systemic, so focused effort moves the score quickly."],
+                  ["02", "Data controls", "Controls exist but are unevenly applied across the estate; standardising them removes the widest spread of low scores."],
+                  ["03", "Component adoption", "Secondary components are under-used relative to licence; adoption unlocks value already paid for."],
+                ] as const).map(([num, title, body]) => (
+                  <div key={num} className="bg-surface/82 p-6">
+                    <p className="font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-signal">{num}</p>
+                    <h3 className="mt-4 text-(length:--text-step-1) leading-tight">{title}</h3>
+                    <p className="mt-3 text-(length:--text-body-sm) leading-relaxed text-ice">{body}</p>
+                  </div>
+                ))}
+              </div>
+            </Reveal>
+          </ContentSection>
+          <ContentSection>
             <SectionIntro eyebrow="How it works" title="Defined outcomes, not opinions" />
             <NumberedCards
               columns={4}
