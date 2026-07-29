@@ -6,9 +6,9 @@ const CHOSEN: Record<string, number> = {
   "data-engineering": 4,
   "data-science": 4,
   "digital-transformation": 4,
-  governance: 4,
-  qbricks: 4,
-  tbricks: 4,
+  governance: 5,
+  qbricks: 5,
+  tbricks: 5,
   "about-difc": 4,
   careers: 4, // real team photography replaces the v3 render
   // About Us photography (real): decisions logged in design/assets.json
