@@ -23,8 +23,13 @@ export type CollageShot = { slot: Parameters<typeof siteImage>[0]; alt: string; 
 
 /* Column and row spans, cycled across the set. Tiles fill their grid cell
  * rather than carrying their own aspect ratio — with unequal widths, equal
- * aspects give unequal heights and the short tile leaves a hole. Row spans
- * plus dense auto-flow keep the grid solid whatever the photo count.
+ * aspects give unequal heights and the short tile leaves a hole.
+ * This pattern is hand-tuned for exactly six photos (the only count
+ * CULTURE_COLLAGE ever passes in): 7+5 across row 1, 4+4+4 across row 2,
+ * a full-width 12 to close row 3. Every row's spans sum to 12, so dense
+ * auto-flow has no leftover cell to leave as a gap — unlike a plain
+ * repeating cycle, which only tiles cleanly for the count it was tuned to
+ * and leaves a dangling hole under the last tile for any other count.
  * Drift alternates sign so neighbours separate rather than moving as a slab. */
 const RHYTHM = [
   { span: "md:col-span-7 md:row-span-2", drift: "18px" },
@@ -32,9 +37,7 @@ const RHYTHM = [
   { span: "md:col-span-4", drift: "-14px" },
   { span: "md:col-span-4", drift: "22px" },
   { span: "md:col-span-4", drift: "-20px" },
-  { span: "md:col-span-5 md:row-span-2", drift: "16px" },
-  { span: "md:col-span-7 md:row-span-2", drift: "-18px" },
-  { span: "md:col-span-4", drift: "12px" },
+  { span: "md:col-span-12 md:row-span-2", drift: "16px" },
 ] as const;
 
 export function PhotoCollage({

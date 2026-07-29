@@ -1275,6 +1275,19 @@ export function AlteryxBootcampsPage() {
         body="Intensive, hands-on training that takes your analysts from spreadsheet dependence to governed, self-service analytics, delivered by an Alteryx Authorised Training Partner."
       />
       <ContentSection>
+        <Reveal>
+          <figure className="overflow-hidden border hairline bg-surface/82 shadow-[0_8px_24px_rgba(23,56,102,0.04)]">
+            <GlassImage
+              image={siteImage("culture-standup")}
+              alt="A cohort at a recent Alteryx bootcamp session"
+              sizes="(min-width: 1280px) 1216px, 100vw"
+              imageClassName="aspect-[16/9] object-cover"
+            />
+            <figcaption className="eyebrow border-t hairline p-4">A bootcamp cohort in session</figcaption>
+          </figure>
+        </Reveal>
+      </ContentSection>
+      <ContentSection>
         <SectionIntro eyebrow="The format" title="Learn by building, on your own data" />
         <NumberedCards items={[
           { title: "Foundation Bootcamp", body: "Five days. Workflow fundamentals through advanced preparation, macros, apps and governed deployment patterns, building towards Alteryx certification, participants leave having automated a real process from their own desk." },
@@ -1419,7 +1432,7 @@ export function CaseStudyWirePage({ slug }: { slug: string }) {
 
 export function AboutWirePage() {
   const leadership = [
-    ["David Aston", "CEO, Infinium", "david-aston"],
+    ["David Aston", "CEO, Infinium", "david-aston-v2"],
     ["Toby Smith-Cullen", "Partner, Infinium", "toby-smith-cullen"],
     ["Erik Rowbotham", "Partner, Infinium", "erik-rowbotham"],
     ["Helen Bull", "Partner, Infinium", "helen-bull"],
@@ -1443,7 +1456,7 @@ export function AboutWirePage() {
           </Reveal>
           <div className="grid grid-cols-4 gap-px overflow-hidden border hairline bg-ice/12" aria-label="Infinium leadership team">
             <Image
-              src="/img/team-david.avif"
+              src="/img/team-david-v2.avif"
               alt="David Aston, Chief Executive Officer"
               width={800}
               height={800}
@@ -1469,7 +1482,7 @@ export function AboutWirePage() {
         <div className="grid gap-12 md:grid-cols-[380px_1fr]">
           <figure className="overflow-hidden border hairline bg-abyss/25">
             <Image
-              src="/img/team-david.avif"
+              src="/img/team-david-v2.avif"
               alt="David Aston, Chief Executive Officer"
               width={800}
               height={800}
@@ -1507,22 +1520,6 @@ export function AboutWirePage() {
             </article>
           ))}
         </div>
-      </ContentSection>
-      <ContentSection>
-        <Reveal>
-          <figure className="overflow-hidden border hairline bg-surface/82 shadow-[0_8px_24px_rgba(23,56,102,0.04)]">
-            <GlassImage
-              image={siteImage("team-together")}
-              alt="The Infinium team gathered together outside the Amsterdam office"
-              sizes="(min-width: 1280px) 1216px, 100vw"
-              imageClassName="aspect-[3/2] object-cover md:aspect-[2/1]"
-            />
-            <figcaption className="flex flex-wrap items-baseline justify-between gap-3 border-t hairline p-5">
-              <span className="eyebrow">One team, two hubs</span>
-              <span className="font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-steel">Amsterdam · Dubai</span>
-            </figcaption>
-          </figure>
-        </Reveal>
       </ContentSection>
 
       <ContentSection density="compact">
@@ -1575,18 +1572,21 @@ export function AboutWirePage() {
 /* the ribbon that runs under the culture and careers stories */
 /* Deliberately shares no photograph with the captioned mosaic on the culture
  * page — the collage carries the candid half of the set, the mosaic the
- * composed half. Order matters: the twelve-column rhythm in PhotoCollage
- * gives tiles 1 and 7 the wide slots, so the strongest frames sit there. */
+ * composed half. Order matters: PhotoCollage's rhythm is hand-tuned for
+ * exactly these six entries (wide+tall pair, then a row of three, then a
+ * full-width closer) — adding, removing or reordering an entry without
+ * updating RHYTHM in PhotoCollage.tsx will leave a gap in the grid. */
 const CULTURE_COLLAGE: readonly CollageShot[] = [
   { slot: "culture-lounge", alt: "The team together in the Amsterdam lounge", caption: "The Amsterdam lounge" },
-  { slot: "culture-standup", alt: "A team stand-up in the office", caption: "Team stand-up" },
   { slot: "culture-toast", alt: "Colleagues celebrating together", caption: "Celebrating together" },
   { slot: "culture-harbour", alt: "Summer drinks by the harbour", caption: "Summer by the harbour" },
   { slot: "culture-night", alt: "The team on a night out", caption: "A night out" },
   { slot: "culture-onthe-road", alt: "Colleagues travelling between the hubs", caption: "Between the hubs" },
-  { slot: "culture-offsite", alt: "The team on an away day", caption: "The away day" },
   { slot: "culture-yearend", alt: "The end-of-year celebration", caption: "End of year" },
 ] as const;
+/* culture-standup moved to the Alteryx Bootcamps page, culture-offsite to
+ * the One4One/social-responsibility page — see AlteryxBootcampsPage and
+ * SocialResponsibilityPage below. */
 
 export function CulturePage() {
   return (
@@ -1718,9 +1718,16 @@ export function SocialResponsibilityPage() {
           { value: "50+", label: "Students mentored & guided" },
           { value: "6", label: "Years, since 2020" },
         ]} />
-        {/* no figure here: the only usable photograph of this session is the
-            same event already shown in the programme section above, and the
-            upscaled variant redrew people's faces — removed, not replaced */}
+        <Reveal className="mt-10">
+          <figure className="overflow-hidden border hairline bg-surface/82 shadow-[0_8px_24px_rgba(23,56,102,0.04)]">
+            <GlassImage
+              image={siteImage("culture-offsite")}
+              alt="One4One interns and mentors together outdoors"
+              sizes="(min-width: 1280px) 1216px, 100vw"
+              imageClassName="aspect-[21/9] object-cover"
+            />
+          </figure>
+        </Reveal>
         <p className="mt-10 max-w-3xl leading-relaxed text-ice">We hold long-standing partnerships with the University of Groningen and Rotterdam School of Management, Erasmus University. Since 2020 we have mentored and guided more than 50 students through internships, thesis supervision and hands-on project work, bringing academic rigour into our engagements and real financial services experience into their careers.</p>
         {/* CardGrid carries no top margin of its own */}
         <div className="mt-10">
@@ -1945,7 +1952,6 @@ export function LocationPage({ city }: { city: "amsterdam" | "dubai" }) {
         ["dxb-workspace", "The workspace"],
         ["dxb-ai-campus", "Dubai AI Campus"],
         ["dxb-innovation-hub", "The DIFC Innovation Hub"],
-        ["dxb-lounge", "The team in the Innovation One lounge"],
         ["dxb-innovation-wall", "Innovation One"],
         ["dxb-lobby", "The lobby"],
         ["dxb-entrance", "Innovation One entrance"],
@@ -1955,6 +1961,7 @@ export function LocationPage({ city }: { city: "amsterdam" | "dubai" }) {
     : ([
         ["ams-office", "Inside our Amsterdam office"],
         ["ams-stairs", "The staircase"],
+        ["dxb-lounge", "Our R&D team in Amsterdam"],
         ["ams-atrium", "The atrium"],
         ["ams-hall", "Fred Roeskestraat 115"],
       ] as const);
@@ -2035,32 +2042,118 @@ export function LocationPage({ city }: { city: "amsterdam" | "dubai" }) {
 export function ContactWireIntro({ form }: { form: React.ReactNode }) {
   return (
     <>
-      <HeroSection
-        eyebrow="Contact"
-        title="Start a conversation"
-        body="We provide a free goals review with one of our industry leaders to understand your ambitions and explore the options to accelerate your business."
-      />
-      <ContentSection>
-        <div className="grid gap-14 lg:grid-cols-12">
-          <div className="lg:col-span-5">
-            <SectionIntro eyebrow="How it works" title="Working with Infinium" />
-            <NumberedCards columns={1} compact items={[
-              { num: "1", title: "Schedule a discussion", body: "With one of our industry practice leads to review your goals and challenges." },
-              { num: "2", title: "Get a customised approach", body: "We shape strategy and solution options around your business." },
-              { num: "3", title: "Deliver together", body: "We work with you to deliver your strategic initiatives." },
-            ]} />
-            <div className="mt-10 border hairline bg-abyss/25 p-6">
-              <p className="eyebrow text-signal">Offices</p>
-              <p className="mt-4 text-(length:--text-body-sm) leading-relaxed text-ice">
-                Amsterdam, The Netherlands · DIFC, Dubai, serving the EU, Nordic and Middle East (GCC) markets
-              </p>
-            </div>
-          </div>
-          <div className="lg:col-span-7">
-            <h2 className="mb-8 text-(length:--text-step-2)">Tell us about your goals</h2>
-            {form}
+      {/* one composition, not hero-then-page: the old layout spent 400px
+          restating what the form heading already says */}
+      <section className="relative overflow-hidden pb-20 pt-40 md:pb-24">
+        <div aria-hidden className="absolute inset-0 bg-[radial-gradient(circle_at_80%_10%,rgba(35,79,189,0.08),transparent_32rem)]" />
+        <div className="relative mx-auto max-w-(--container-content) px-(--spacing-gutter)">
+          <Reveal>
+            <p className="eyebrow text-signal">Contact</p>
+            <h1 className="mt-6 max-w-4xl text-(length:--text-step-5) leading-[1.02]">Start a conversation</h1>
+            <p className="mt-7 max-w-3xl text-(length:--text-step-1) leading-normal text-ice">
+              We provide a free goals review with one of our industry leaders to understand your ambitions and explore the options to accelerate your business.
+            </p>
+          </Reveal>
+
+          <div className="mt-16 grid gap-10 lg:grid-cols-12 lg:gap-14">
+            <Reveal className="lg:col-span-5">
+              {/* the enquiry goes to people, and here they are */}
+              <div className="flex items-center gap-4 border hairline bg-white/82 p-5 shadow-[0_8px_24px_rgba(23,56,102,0.04)]">
+                <div aria-hidden className="flex shrink-0 -space-x-2.5">
+                  {["david-aston-v2", "toby-smith-cullen", "erik-rowbotham"].map((slug) => (
+                    <Image
+                      key={slug}
+                      src={`/img/team/${slug}.webp`}
+                      alt=""
+                      width={600}
+                      height={600}
+                      sizes="44px"
+                      className="size-11 rounded-full border-2 border-white object-cover grayscale"
+                    />
+                  ))}
+                </div>
+                <p className="text-(length:--text-body-sm) leading-snug text-glass">
+                  Your message goes straight to our practice leads — there is no sales layer.
+                </p>
+              </div>
+
+              <div className="mt-10">
+                <p className="eyebrow text-signal">What happens next</p>
+                <ol className="mt-6 space-y-0">
+                  {([
+                    ["01", "Schedule a discussion", "With one of our industry practice leads to review your goals and challenges."],
+                    ["02", "Get a customised approach", "We shape strategy and solution options around your business."],
+                    ["03", "Deliver together", "We work with you to deliver your strategic initiatives."],
+                  ] as const).map(([num, title, body], i) => (
+                    <li key={num} className={`flex gap-5 py-5 ${i > 0 ? "border-t hairline" : ""}`}>
+                      <span className="font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-signal">{num}</span>
+                      <span>
+                        <span className="block text-(length:--text-body) font-medium text-paper">{title}</span>
+                        <span className="mt-1.5 block text-(length:--text-body-sm) leading-relaxed text-ice">{body}</span>
+                      </span>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+
+              <div className="mt-8 border-t hairline pt-8">
+                <p className="eyebrow text-signal">Prefer email?</p>
+                <p className="mt-4">
+                  <a
+                    href="mailto:sales@infinium.technology"
+                    className="link-wipe font-mono text-(length:--text-label) uppercase tracking-[0.1em] text-cobalt transition-colors duration-(--duration-fast) hover:text-navy"
+                  >
+                    sales@infinium.technology →
+                  </a>
+                </p>
+                <p className="mt-4 text-(length:--text-body-sm) leading-relaxed text-ice">
+                  Serving the EU, Nordic and Middle East (GCC) markets from Amsterdam and Dubai.
+                </p>
+              </div>
+            </Reveal>
+
+            <Reveal className="lg:col-span-7">
+              {/* the form earns a surface of its own */}
+              <div className="border hairline bg-surface/82 p-6 shadow-[0_14px_40px_rgba(23,56,102,0.06)] sm:p-9">
+                <h2 className="text-(length:--text-step-2)">Tell us about your goals</h2>
+                <div className="mt-8">{form}</div>
+              </div>
+            </Reveal>
           </div>
         </div>
+        <div aria-hidden className="absolute inset-x-0 bottom-0 h-px bg-ice/12" />
+      </section>
+
+      {/* the offices, done properly — we have the photography */}
+      <ContentSection>
+        <SectionIntro eyebrow="Or visit us" title="Where you'll find us" />
+        <Reveal className="grid gap-px md:grid-cols-2">
+          {([
+            ["ams-exterior", "Amsterdam, The Netherlands", "Infinium Consulting B.V. — Fred Roeskestraat 115, Amsterdam", "/about/amsterdam", "Our building at Fred Roeskestraat 115, Amsterdam"],
+            ["dxb-innovationone", "DIFC, Dubai", "Infinium Technology Ltd — Innovation One, Dubai International Financial Centre", "/about/dubai", "Innovation One in the Dubai International Financial Centre"],
+          ] as const).map(([slot, title, body, href, alt]) => (
+            <Link
+              key={slot}
+              href={href}
+              className="spot group relative block h-full overflow-hidden border hairline bg-surface/82 shadow-[0_8px_24px_rgba(23,56,102,0.04)] outline-none focus-visible:ring-2 focus-visible:ring-signal focus-visible:ring-offset-2 focus-visible:ring-offset-void transition-[border-color,transform,background,box-shadow] duration-(--duration-base) ease-(--ease-out-expo) hover:-translate-y-0.5 hover:border-signal/45 hover:bg-white hover:shadow-[0_14px_34px_rgba(23,56,102,0.075)] focus-visible:border-signal/60 focus-visible:bg-white"
+            >
+              <span aria-hidden className="absolute inset-x-0 top-0 z-10 h-px origin-left scale-x-0 bg-signal transition-transform duration-(--duration-base) group-hover:scale-x-100 group-focus-visible:scale-x-100" />
+              <div className="overflow-hidden">
+                <GlassImage
+                  image={siteImage(slot)}
+                  alt={alt}
+                  sizes="(min-width: 768px) 45vw, 100vw"
+                  imageClassName="aspect-[16/9] object-cover transition-transform duration-(--duration-base) ease-(--ease-out-expo) group-hover:scale-[1.03]"
+                />
+              </div>
+              <div className="border-t hairline p-7">
+                <h3 className="text-(length:--text-step-1) leading-tight">{title}</h3>
+                <p className="mt-3 text-(length:--text-body-sm) leading-relaxed text-ice">{body}</p>
+                <p className="mt-6 font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-signal">Visit this office →</p>
+              </div>
+            </Link>
+          ))}
+        </Reveal>
       </ContentSection>
     </>
   );
