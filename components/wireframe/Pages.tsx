@@ -786,16 +786,17 @@ export function AssessmentPage({ kind }: { kind: "ai" | "quantexa" }) {
         backHref="/solutions"
         backLabel="Our solutions"
         eyebrow="Assessment tooling"
-        title={ai ? "AI assessment" : "Quantexa maturity assessment"}
+        title={ai ? "AI assessment" : "How mature is your Quantexa capability?"}
         brand={!ai ? <TechnologyLogo slug="quantexa" decorative className="h-8 sm:h-10" sizes="220px" /> : undefined}
         body={
           ai
             ? "A measured, practitioner-built view of your AI readiness, from data foundations to governance, so you can move from pilots to production with confidence."
-            : "A structured, evidence-based review of your Quantexa estate: 750 questions built by industry practitioners, with defined outcomes and a roadmap to enable self-sustainability."
+            : "The Infinium Quantexa Maturity Assessment benchmarks your organisation against 750+ proven criteria across four dimensions — so you know exactly where you stand, and exactly what to fix first."
         }
+        actions={!ai ? [{ href: "/contact", label: "Request an assessment" }] : undefined}
         stats={!ai ? [
-          { value: "750", label: "Assessment questions" },
-          { value: "4", label: "Assessment dimensions" },
+          { value: "750+", label: "Assessment questions" },
+          { value: "4", label: "Focus areas" },
           { value: "20+", label: "Quantexa projects behind it" },
         ] : undefined}
       />
@@ -823,16 +824,52 @@ export function AssessmentPage({ kind }: { kind: "ai" | "quantexa" }) {
       ) : (
         <>
           <ContentSection>
-            <SectionIntro eyebrow="What we assess" title="Four dimensions, one score" />
-            <NumberedCards
-              columns={4}
-              items={[
-                { title: "Implementation", body: "Entity resolution quality, scoring configuration, data ingestion and platform architecture, measured against best practice." },
-                { title: "Project delivery", body: "Delivery practice, governance and ways of working across your Quantexa programme." },
-                { title: "Resource capability", body: "Team skills, roles and learning pathways, benchmarked against what a self-sufficient organisation needs." },
-                { title: "Testing practice", body: "Test coverage, automation and controls across the estate, so change lands safely." },
-              ]}
-            />
+            <SectionIntro eyebrow="Why it matters" title="Power alone doesn't deliver outcomes" />
+            <Reveal className="max-w-3xl space-y-5 leading-relaxed text-ice">
+              <p>Quantexa is a powerful platform — but power alone doesn&rsquo;t deliver outcomes. The difference between a Quantexa deployment that transforms decisioning and one that stalls in delivery is rarely the software. It&rsquo;s the maturity of everything around it: how the platform is engineered, how solutions are designed, how change is delivered and tested, and whether the right people are in the right roles.</p>
+              <p>The Infinium Quantexa Maturity Assessment is a structured, evidence-based benchmark of your entire Quantexa capability. Built from real-world delivery experience across banking, financial markets and insurance, it examines your implementation through more than 750 targeted questions spanning four focus areas: Platform &amp; Solution Design, Project Delivery, Testing, and Resource Capability.</p>
+              <p>The result is not a generic scorecard. It&rsquo;s a precise map of your strengths and weaknesses, benchmarked against how the best Quantexa implementations operate — with a prioritised, practical roadmap for closing the gaps.</p>
+            </Reveal>
+            <Reveal className="mt-10 max-w-3xl border-l-2 border-cobalt pl-6">
+              <p className="leading-relaxed text-glass"><strong className="text-paper">Engineering with context.</strong> We don&rsquo;t assess from the sidelines; every question in the framework exists because we&rsquo;ve seen it decide the success or failure of a live programme.</p>
+            </Reveal>
+          </ContentSection>
+          <ContentSection>
+            <SectionIntro eyebrow="The four focus areas" title="What we examine, and what you gain" />
+            <div className="space-y-px">
+              {([
+                ["01", "Platform & Solution Design", "Is your Quantexa estate engineered to scale — and are your solutions designed to last?",
+                  "We examine the technical foundations of your deployment end to end: environment architecture, infrastructure and capacity, upgrade posture and version currency, security and access design, and operational resilience. On the solution side, we go deep into the decisions that determine long-term value — entity resolution configuration and tuning, data model and source-onboarding patterns, network generation, scoring logic, and how well your design standards keep multiple use cases coherent on one platform rather than becoming a set of disconnected builds.",
+                  "A clear view of whether your platform can support where you're heading — more data, more use cases, more users — before you commit to it. Design weaknesses are the most expensive category of Quantexa problem to fix late; this assessment surfaces them while they're still cheap. You'll also see where sound engineering already exists, so you can codify it as your standard rather than reinventing it per project."],
+                ["02", "Project Delivery", "Does your delivery model get Quantexa change into production predictably?",
+                  "We assess how Quantexa work actually flows through your organisation: delivery methodology and cadence, backlog and scope management, estimation accuracy, environment and release management, dependency handling with upstream data teams, stakeholder governance, and the quality of the handover from project into run. We look at real delivery artefacts and real release history — not just the operating model on paper.",
+                  "An honest read on delivery predictability, and a diagnosis of why releases slip when they slip. Most Quantexa programmes lose time in the same handful of places — data readiness, environment contention, unclear definition-of-done — and the assessment shows you which of these are costing you, quantified against what good looks like. The benefit is faster, calmer releases and a delivery plan leadership can actually rely on."],
+                ["03", "Testing", "Can you prove your Quantexa outputs are right — and keep proving it, release after release?",
+                  "Testing Quantexa is not like testing a conventional application: entity resolution, network generation and scoring demand their own disciplines. We assess your test strategy across every layer — data ingestion and transformation testing, entity resolution quality measurement, scenario and score validation, regression coverage across upgrades and config change, performance and volume testing, and the automation that makes all of this repeatable rather than heroic.",
+                  "Confidence that the results your investigators, analysts and models depend on are demonstrably correct — and evidence you can put in front of model validation, internal audit and regulators. You'll learn where your regression safety net has holes, where manual effort can be automated, and how to make each release cheaper to assure than the last, so testing accelerates delivery instead of gating it."],
+                ["04", "Resource Capability", "Do you have the right people, in the right roles, with a path to self-sufficiency?",
+                  "We map your Quantexa organisation against the roles a healthy capability needs — platform engineers, data engineers, solution designers, scorecard and analytics specialists, testers, product owners — and assess depth, certification coverage, key-person risk and the balance between partners and permanent staff. We also examine how knowledge moves: onboarding, documentation, communities of practice, and whether expertise is compounding inside your organisation or leaving with every contractor rotation.",
+                  "A skills heat-map showing exactly where you're strong, thin or exposed, and a realistic capability plan: who to hire, who to train, what to document, and where partner support genuinely adds value versus where it's masking a gap. The benefit is durable self-sufficiency — a team that can run, extend and improve Quantexa on its own terms, with vendor and partner spend directed where it counts."],
+              ] as const).map(([num, title, question, approach, gain]) => (
+                <article key={num} className="grid gap-x-10 gap-y-6 border hairline bg-white/82 p-7 sm:p-9 md:grid-cols-12">
+                  <div className="md:col-span-4">
+                    <p className="font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-signal">{num}</p>
+                    <h3 className="mt-4 text-(length:--text-step-2) leading-tight">{title}</h3>
+                    <p className="mt-4 leading-relaxed text-ice">{question}</p>
+                  </div>
+                  <div className="space-y-6 md:col-span-8">
+                    <div>
+                      <p className="eyebrow">Our approach</p>
+                      <p className="mt-3 text-(length:--text-body-sm) leading-relaxed text-glass">{approach}</p>
+                    </div>
+                    <div>
+                      <p className="eyebrow">What you gain</p>
+                      <p className="mt-3 text-(length:--text-body-sm) leading-relaxed text-glass">{gain}</p>
+                    </div>
+                  </div>
+                </article>
+              ))}
+            </div>
           </ContentSection>
           <ContentSection>
             <SectionIntro
@@ -844,7 +881,7 @@ export function AssessmentPage({ kind }: { kind: "ai" | "quantexa" }) {
             {/* the four pillar scores — ruled cells, weak pillars flagged */}
             <Reveal className="grid grid-cols-2 gap-px border hairline lg:grid-cols-4">
               {([
-                ["Platform — solution design", 72, "Infrastructure the strongest area", "ok"],
+                ["Platform & solution design", 72, "Infrastructure the strongest area", "ok"],
                 ["Project delivery", 80, "Leadership & governance leading", "ok"],
                 ["Testing", 35, "The clearest gap in the estate", "focus"],
                 ["Resource capability", 55, "Capability still at novice level", "watch"],
@@ -936,18 +973,42 @@ export function AssessmentPage({ kind }: { kind: "ai" | "quantexa" }) {
             </Reveal>
           </ContentSection>
           <ContentSection>
-            <SectionIntro eyebrow="How it works" title="Defined outcomes, not opinions" />
+            <SectionIntro eyebrow="How it works" title="Four steps, three to four weeks" />
             <NumberedCards
               columns={4}
               items={[
-                { title: "Evidence gathering", body: "750 practitioner-built questions across the four dimensions, answered through workshops, documentation review and hands-on inspection of the estate." },
-                { title: "Scored findings", body: "Every dimension scored against defined maturity levels, so you know exactly where you stand and can benchmark progress over time." },
-                { title: "Prioritised roadmap", body: "Findings translate into a sequenced roadmap of recommendations, with defined outcomes for each step." },
-                { title: "Self-sustainability", body: "The end goal: a self-reliant Quantexa organisation, reduced dependence on external providers, with the capability plan to keep it that way." },
+                { title: "Discover", body: "We agree scope, gather documentation and system evidence, and schedule structured sessions with your platform, delivery, testing and business teams." },
+                { title: "Assess", body: "Our practitioners work through the 750+ question framework — a blend of evidence review, hands-on inspection and interviews — scoring each area against defined maturity levels." },
+                { title: "Benchmark", body: "Your results are compared against our reference model of high-performing Quantexa implementations, area by area." },
+                { title: "Roadmap", body: "You receive a full findings report, an executive summary, and a prioritised improvement roadmap — sequenced by impact, effort and risk, and ready to execute." },
               ]}
             />
+            <p className="mt-8 max-w-3xl text-(length:--text-body-sm) leading-relaxed text-ice">Typical elapsed time: three to four weeks, with minimal disruption to in-flight delivery.</p>
+
+            <div className="mt-14 grid gap-px border hairline md:grid-cols-2">
+              <div className="bg-abyss/25 p-7 sm:p-8">
+                <p className="eyebrow text-signal">Why Infinium</p>
+                <p className="mt-4 leading-relaxed text-glass">We are engineers first. Our assessors have designed, delivered, tested and run Quantexa in production at scale — the framework distils that experience into a benchmark you can act on. And because we deliver improvement programmes as well as assessments, every recommendation is one we&rsquo;d be prepared to implement ourselves.</p>
+              </div>
+              <div className="flex flex-col justify-between gap-6 bg-white/82 p-7 sm:p-8">
+                <div>
+                  <p className="eyebrow text-signal">Take it with you</p>
+                  <h3 className="mt-4 text-(length:--text-step-1) leading-tight">The Quantexa Benchmark, on one page</h3>
+                  <p className="mt-3 text-(length:--text-body-sm) leading-relaxed text-ice">The focus areas, the process and the outcome — a one-page overview to share with your team.</p>
+                </div>
+                <p>
+                  <a
+                    href="/downloads/infinium-quantexa-benchmark.pdf"
+                    download
+                    className="link-wipe font-mono text-(length:--text-label) uppercase tracking-[0.1em] text-cobalt transition-colors duration-(--duration-fast) hover:text-navy"
+                  >
+                    Download the one-pager (PDF, 0.7&nbsp;MB) ↓
+                  </a>
+                </p>
+              </div>
+            </div>
           </ContentSection>
-          <CTASection title="Benchmark your Quantexa estate" body="Talk to our Quantexa practice about running the assessment." />
+          <CTASection title="Know where you stand. Fix what matters first." body="Book a scoping conversation and we'll walk you through the framework, the process and what your benchmark would cover." label="Talk to us about your assessment" />
         </>
       )}
     </>
@@ -2016,7 +2077,7 @@ export function routeFor(slug: string[]): Route {
     "/solutions/qbricks": { render: () => <QBricksPage />, meta: { title: "QBricks", description: "Turn systems of record into governed, A.I.-ready data products in hours, not years." } },
     "/solutions/vbricks": { render: () => <VBricksPage />, meta: { title: "VBricks", description: "Engineered model testing with automated test packs, challenger comparisons and complete evidence trails." } },
     "/solutions/ai-assessment": { render: () => <AssessmentPage kind="ai" />, meta: { title: "AI assessment", description: "A measured, practitioner-built view of your AI readiness." } },
-    "/solutions/quantexa-maturity-assessment": { render: () => <AssessmentPage kind="quantexa" />, meta: { title: "Quantexa maturity assessment", description: "A structured, evidence-based review of your Quantexa estate." } },
+    "/solutions/quantexa-maturity-assessment": { render: () => <AssessmentPage kind="quantexa" />, meta: { title: "Quantexa maturity assessment", description: "Benchmark your Quantexa maturity with Infinium's 750+ question assessment across platform & solution design, delivery, testing and resource capability." } },
     "/sectors": { render: () => <SectorsWirePage />, meta: { title: "Sectors", description: "Deep, current experience across the regulated financial landscape." } },
     "/technologies": { render: () => <TechnologiesWirePage />, meta: { title: "Technologies", description: "Best-in-class fintech and platform technology partners." } },
     "/technologies/alteryx-bootcamps": { render: () => <AlteryxBootcampsPage />, meta: { title: "Alteryx Bootcamps", description: "Intensive, hands-on Alteryx training." } },
