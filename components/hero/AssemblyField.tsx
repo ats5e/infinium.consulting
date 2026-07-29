@@ -375,6 +375,65 @@ export default function AssemblyField({
           tctx.lineTo(W * (0.68 + tr() * 0.06), y);
           tctx.stroke();
         }
+
+        /* The ground plane. Everything else lives level with or right of
+         * the mark, which left the area beneath it empty. This continues
+         * the mark's own isometric lattice outward across the floor,
+         * fading with distance — it grounds the composition rather than
+         * adding a new object that competes with the copy above.
+         * Same axes as voxelPos: +u runs down-right, +v down-left. */
+        const gw = e * 0.866;
+        const gh = e * 0.5;
+        const bx = ANCHOR_X * W;
+        const by = ANCHOR_Y * H + e;
+        const gx = (u: number, v: number) => bx + (u - v) * gw;
+        const gy = (u: number, v: number) => by + (u + v) * gh;
+        const U0 = -1, U1 = 8, V0 = 4, V1 = 18;
+        const dim = (u: number, v: number) =>
+          Math.max(0, 0.11 * (1 - (u + v - (U0 + V0)) / (U1 + V1 - U0 - V0)));
+        tctx.lineWidth = 0.7;
+        for (let u = U0; u <= U1; u++) {
+          const grad = tctx.createLinearGradient(gx(u, V0), gy(u, V0), gx(u, V1), gy(u, V1));
+          grad.addColorStop(0, `rgba(23, 56, 102, ${dim(u, V0)})`);
+          grad.addColorStop(1, "rgba(23, 56, 102, 0)");
+          tctx.strokeStyle = grad;
+          tctx.beginPath();
+          tctx.moveTo(gx(u, V0), gy(u, V0));
+          tctx.lineTo(gx(u, V1), gy(u, V1));
+          tctx.stroke();
+        }
+        for (let v = V0; v <= V1; v++) {
+          const grad = tctx.createLinearGradient(gx(U1, v), gy(U1, v), gx(U0, v), gy(U0, v));
+          grad.addColorStop(0, `rgba(23, 56, 102, ${dim(U1, v) * 0.6})`);
+          grad.addColorStop(0.7, `rgba(23, 56, 102, ${dim(U0, v)})`);
+          grad.addColorStop(1, "rgba(23, 56, 102, 0)");
+          tctx.strokeStyle = grad;
+          tctx.beginPath();
+          tctx.moveTo(gx(U1, v), gy(U1, v));
+          tctx.lineTo(gx(U0, v), gy(U0, v));
+          tctx.stroke();
+        }
+
+        /* finished work resting on that floor: a sparse scatter of small
+         * cubes on lattice intersections, denser near the mark. Painted
+         * once with the threads — deliberately still. */
+        const sr = mulberry32(4242);
+        for (let n = 0; n < 14; n++) {
+          const v = V0 + 1 + Math.floor(sr() * (V1 - V0 - 3));
+          const u = U0 + 1 + Math.floor(sr() * (U1 - U0 - 2));
+          const a = dim(u, v) * (5 + sr() * 3);
+          if (a <= 0.05) continue;
+          const size = e * (0.16 + sr() * 0.16);
+          const roll = sr();
+          drawIsoCube(
+            tctx,
+            gx(u, v),
+            gy(u, v),
+            size,
+            roll < 0.5 ? M_COBALT : roll < 0.8 ? GLASSY : M_NAVY,
+            Math.min(0.75, a),
+          );
+        }
       }
     };
 
