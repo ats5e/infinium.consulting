@@ -11,11 +11,13 @@ import { CASE_STUDIES, PERSPECTIVES, SERVICES, TECHNOLOGIES } from "@/lib/conten
  * Infinium's floating navigation: a translucent wordmark and region
  * lockup paired with a joined search/menu control and full-screen
  * editorial overlays.
- * The menu runs three editorial columns (NAVIGATION with return-arrow
- * products, LATEST PERSPECTIVES + QUICK LINKS, LATEST CASE STUDY);
- * search filters the whole IA. Escape or any route change closes.
+ * The menu runs three editorial columns (NAVIGATION, LATEST PERSPECTIVES
+ * + QUICK LINKS, LATEST CASE STUDY); search filters the whole IA. Escape
+ * or any route change closes.
  */
 
+/* QBricks/VBricks live under Solutions, not the top-level nav — kept here
+ * only so they remain findable via the search overlay. */
 const PRODUCTS = [
   { label: "QBricks", href: "/solutions/qbricks" },
   { label: "VBricks", href: "/solutions/vbricks" },
@@ -240,35 +242,28 @@ export function Nav() {
           <div className="lg:col-span-5">
             <ColumnHead label="Navigation" open={open} tabbable={open} />
             <ul className="mt-4">
-              {[...PRODUCTS.map((l) => ({ ...l, product: true })), ...SECTIONS.map((l) => ({ ...l, product: false }))].map(
-                ({ label, href, product }, i) => (
-                  <li key={`${label}-${href}`} className="overflow-hidden">
-                    <Link
-                      ref={i === 0 ? menuFirst : undefined}
-                      href={href}
-                      tabIndex={open ? 0 : -1}
-                      aria-current={pathname === href ? "page" : undefined}
-                      className={`group flex items-baseline gap-4 py-2.5 font-display text-[clamp(1.75rem,3.2vw,2.5rem)] font-medium leading-tight tracking-[-0.02em] text-paper transition-[transform,opacity,color] duration-(--duration-slow) ease-(--ease-out-expo) hover:text-signal ${
-                        open ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
-                      }`}
-                      style={{ transitionDelay: open ? `${140 + i * 45}ms` : "0ms" }}
+              {SECTIONS.map(({ label, href }, i) => (
+                <li key={`${label}-${href}`} className="overflow-hidden">
+                  <Link
+                    ref={i === 0 ? menuFirst : undefined}
+                    href={href}
+                    tabIndex={open ? 0 : -1}
+                    aria-current={pathname === href ? "page" : undefined}
+                    className={`group flex items-baseline gap-4 py-2.5 font-display text-[clamp(1.75rem,3.2vw,2.5rem)] font-medium leading-tight tracking-[-0.02em] text-paper transition-[transform,opacity,color] duration-(--duration-slow) ease-(--ease-out-expo) hover:text-signal ${
+                      open ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
+                    }`}
+                    style={{ transitionDelay: open ? `${140 + i * 45}ms` : "0ms" }}
+                  >
+                    {label}
+                    <span
+                      aria-hidden
+                      className="ml-auto -translate-x-2 text-[0.55em] text-steel opacity-0 transition-[transform,opacity] duration-(--duration-fast) group-hover:translate-x-0 group-hover:text-signal group-hover:opacity-100"
                     >
-                      {product ? (
-                        <span aria-hidden className="text-[0.7em] text-signal transition-transform duration-(--duration-fast) group-hover:translate-x-1">
-                          ↳
-                        </span>
-                      ) : null}
-                      {label}
-                      <span
-                        aria-hidden
-                        className="ml-auto -translate-x-2 text-[0.55em] text-steel opacity-0 transition-[transform,opacity] duration-(--duration-fast) group-hover:translate-x-0 group-hover:text-signal group-hover:opacity-100"
-                      >
-                        →
-                      </span>
-                    </Link>
-                  </li>
-                ),
-              )}
+                      →
+                    </span>
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
