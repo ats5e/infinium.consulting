@@ -216,21 +216,25 @@ export function HomeWirePage() {
 
       <ContentSection className="overflow-hidden" density="compact">
         <h2 className="eyebrow text-center">An award-winning consultancy</h2>
-        {/* an open, optically levelled band — the boxed grid read as a table.
-            4×2 on desktop so each mark has room to be legible. */}
-        <Reveal className="mt-11 grid grid-cols-2 items-center justify-items-center gap-x-8 gap-y-12 sm:grid-cols-4 sm:gap-x-12">
+        {/* ruled cells, so this band reads as a set with the figures strip
+            above it. Each mark keeps its optically-matched height. */}
+        <Reveal className="mt-8 grid grid-cols-2 gap-px border hairline sm:grid-cols-4">
           {AWARDS.map((award) => (
-            <Image
+            <div
               key={award.src}
-              src={award.src}
-              alt={award.alt}
-              width={award.w}
-              height={award.h}
-              loading="lazy"
-              sizes="280px"
-              style={{ height: `${award.height}px` }}
-              className="w-auto max-w-[40vw] object-contain sm:max-w-full"
-            />
+              className="flex min-h-36 items-center justify-center bg-white/82 px-5 py-7 shadow-[inset_0_0_0_1px_rgba(23,56,102,0.045)] sm:min-h-40"
+            >
+              <Image
+                src={award.src}
+                alt={award.alt}
+                width={award.w}
+                height={award.h}
+                loading="lazy"
+                sizes="280px"
+                style={{ height: `${award.height}px` }}
+                className="w-auto max-w-full object-contain"
+              />
+            </div>
           ))}
         </Reveal>
       </ContentSection>
@@ -1289,8 +1293,8 @@ export function AboutWirePage() {
                 key={name}
                 src={`/img/team/${img}.webp`}
                 alt={`${name} — ${role}`}
-                width={150}
-                height={150}
+                width={600}
+                height={600}
                 loading="lazy"
                 sizes="(min-width: 768px) 12.5vw, 25vw"
                 className="aspect-square h-full w-full object-cover grayscale"
@@ -1330,8 +1334,8 @@ export function AboutWirePage() {
               <Image
                 src={`/img/team/${img}.webp`}
                 alt={`${name} — ${role}`}
-                width={150}
-                height={150}
+                width={600}
+                height={600}
                 loading="lazy"
                 sizes="(min-width: 1024px) 150px, (min-width: 768px) 28vw, 45vw"
                 className="mx-auto aspect-square w-full max-w-[150px] border hairline object-cover grayscale"
@@ -1563,11 +1567,14 @@ export function SocialResponsibilityPage() {
             <figcaption className="eyebrow border-t hairline p-4">With students at the University of Groningen</figcaption>
           </figure>
         </Reveal>
-        <p className="mt-10 max-w-3xl leading-relaxed text-ice">We hold long-standing partnerships with the University of Groningen and the Erasmus School of Business Management. Since 2020 we have mentored and guided more than 50 students through internships, thesis supervision and hands-on project work, bringing academic rigour into our engagements and real financial services experience into their careers.</p>
-        <CardGrid columns={2} items={[
-          { title: "University of Groningen", body: "Long-standing partnership, student mentoring, internships and thesis supervision." },
-          { title: "Erasmus School of Business Management", body: "Long-standing partnership, guiding students from business school into financial services careers." },
-        ]} />
+        <p className="mt-10 max-w-3xl leading-relaxed text-ice">We hold long-standing partnerships with the University of Groningen and Rotterdam School of Management, Erasmus University. Since 2020 we have mentored and guided more than 50 students through internships, thesis supervision and hands-on project work, bringing academic rigour into our engagements and real financial services experience into their careers.</p>
+        {/* CardGrid carries no top margin of its own */}
+        <div className="mt-10">
+          <CardGrid columns={2} items={[
+            { title: "University of Groningen", body: "Long-standing partnership, student mentoring, internships and thesis supervision." },
+            { title: "Rotterdam School of Management, Erasmus University", body: "Long-standing partnership, guiding students from business school into financial services careers." },
+          ]} />
+        </div>
       </ContentSection>
       <CTASection title="Interested in joining One4One?" body="Tell us about yourself, we review applications for every new cohort." label="Get in touch" />
     </>
@@ -1655,6 +1662,8 @@ export function ConsultingPartnersPage() {
               title: "Aspiro Management Consultants",
               facts: ["Region — Middle East (GCC), based in Dubai", "Focus — Business transformation for financial services"],
               site: { label: "aspiro.me", href: "https://aspiro.me" },
+              // wide wordmarks, so heights are matched by optical area
+              logo: { src: "/partners/aspiro.png", w: 463, h: 119, height: 34, alt: "Aspiro Management Consultants" },
               slot: "partners-aspiro" as const,
               imageAlt: "Infinium and Aspiro leadership together in Dubai",
               ps: [
@@ -1669,6 +1678,7 @@ export function ConsultingPartnersPage() {
               title: "NextWave Consulting",
               facts: ["Region — United Kingdom, 100 Bishopsgate, City of London", "Focus — Digital acceleration for financial services"],
               site: { label: "nxwave.com", href: "https://nxwave.com" },
+              logo: { src: "/partners/nextwave.png", w: 720, h: 168, height: 33, alt: "NextWave Consulting" },
               slot: null,
               imageAlt: "",
               ps: [
@@ -1682,7 +1692,15 @@ export function ConsultingPartnersPage() {
             <article key={p.title} className="grid gap-8 border hairline bg-abyss/25 p-8 md:grid-cols-12">
               <div className="md:col-span-4">
                 <p className="eyebrow text-signal">{p.eyebrow}</p>
-                <h2 className="mt-4 text-(length:--text-step-2)">{p.title}</h2>
+                <Image
+                  src={p.logo.src}
+                  alt={p.logo.alt}
+                  width={p.logo.w}
+                  height={p.logo.h}
+                  style={{ height: `${p.logo.height}px` }}
+                  className="mt-5 w-auto max-w-[70%] object-contain"
+                />
+                <h2 className="mt-5 text-(length:--text-step-2)">{p.title}</h2>
                 <ul className="mt-6 space-y-2 text-(length:--text-body-sm) text-steel">
                   {p.facts.map((f) => <li key={f}>{f}</li>)}
                   <li>
