@@ -1556,17 +1556,9 @@ export function SocialResponsibilityPage() {
           { value: "50+", label: "Students mentored & guided" },
           { value: "6", label: "Years, since 2020" },
         ]} />
-        <Reveal className="mt-10">
-          <figure className="overflow-hidden border hairline bg-abyss/25">
-            <GlassImage
-              image={siteImage("one4one-groningen")}
-              alt="An Infinium session with students at the University of Groningen"
-              sizes="(min-width: 1280px) 1216px, 100vw"
-              imageClassName="aspect-[16/9] object-cover"
-            />
-            <figcaption className="eyebrow border-t hairline p-4">With students at the University of Groningen</figcaption>
-          </figure>
-        </Reveal>
+        {/* no figure here: the only usable photograph of this session is the
+            same event already shown in the programme section above, and the
+            upscaled variant redrew people's faces — removed, not replaced */}
         <p className="mt-10 max-w-3xl leading-relaxed text-ice">We hold long-standing partnerships with the University of Groningen and Rotterdam School of Management, Erasmus University. Since 2020 we have mentored and guided more than 50 students through internships, thesis supervision and hands-on project work, bringing academic rigour into our engagements and real financial services experience into their careers.</p>
         {/* CardGrid carries no top margin of its own */}
         <div className="mt-10">

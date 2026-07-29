@@ -63,7 +63,6 @@ const CHOSEN: Record<string, number> = {
   "dxb-lobby": 1,
   "dxb-innovation-wall": 1,
   "dxb-lounge": 1,
-  "one4one-groningen": 1,
   "partners-aspiro": 1,
 };
 

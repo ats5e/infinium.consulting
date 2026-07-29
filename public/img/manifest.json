@@ -639,9 +639,9 @@
     "variants": [
       {
         "src": "/img/culture-yearend-v1",
-        "w": 1600,
-        "h": 1068,
-        "lqip": "data:image/webp;base64,UklGRoQAAABXRUJQVlA4IHgAAABwBACdASoUAA0APxFysFAsJqSisAgBgCIJYgCdMoMpAEFqvKdLQOZfHpU8oAD+fWkWa5rLN/HFrYtfiZgcwJNMhirxyny5Cr4LuhSU5vEa4G3AfdE1w+pFyREuHjaz6l7pzxJcysY2rDQrkYIeA1VW70kMs2ibgAA="
+        "w": 400,
+        "h": 267,
+        "lqip": "data:image/webp;base64,UklGRoAAAABXRUJQVlA4IHQAAABQBACdASoUAA0APxFysFAsJqSisAgBgCIJYgCdMoMsdEJeHTuXeLlmI+2QAP59aRZrmss38dIBeMikgNYxmffC/I4ahfY2xO/8Tqp1eQlxDt1ig/NeYSXh2P9VmM9qt5Ldq+tdo1Nd9n5XT0RG7ZBiRAFIAA=="
       }
     ]
   },
@@ -772,16 +772,6 @@
         "w": 2000,
         "h": 1500,
         "lqip": "data:image/webp;base64,UklGRpQAAABXRUJQVlA4IIgAAAAQBACdASoUAA8APxFysFAsJqSisAgBgCIJYwDG9CLTImEMxO5vJ5TlsADibTjc3bg31V5SLuCVe8ADwTAX6JzAVa0Ei7aqIsCeTJaCd4eGlUw2S3sYtfr89om7pd4leJVmQtAw86yAV01E7L+M8KrVZh4/l2WcRYp1HMHyRE6HJt1qxPanAAAA"
-      }
-    ]
-  },
-  "one4one-groningen": {
-    "variants": [
-      {
-        "src": "/img/one4one-groningen-v1",
-        "w": 2000,
-        "h": 1245,
-        "lqip": "data:image/webp;base64,UklGRnYAAABXRUJQVlA4IGoAAACwAwCdASoUAAwAPxFysFAsJqSisAgBgCIJZQCw7BskAXIlvzZLoAD+jiziUg9o+YkdogmPrzSOkkl57zLS5vGyvCI1Y2glHvZE1zglM/WPBpCNR1b0xquEeGu/OG+7bj/ChCl9L2ieZVAA"
       }
     ]
   },
