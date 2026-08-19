@@ -20,6 +20,7 @@ import {
 } from "@/lib/content";
 import { siteImage } from "@/lib/images";
 import { CaseStudyExplorer } from "@/components/wireframe/CaseStudyExplorer";
+import { FactoryLineBand } from "@/components/FactoryLine";
 import {
   CardGrid,
   CaseStudyCard,
@@ -150,7 +151,7 @@ const AWARDS = [
 const HOME_PILLARS = [
   {
     eyebrow: "What we do",
-    title: "A specialist alternative to the big-brand consultancies",
+    title: "Outcomes in weeks, not roadmaps in quarters",
     slot: "digital-transformation" as const,
     body: "Financial services firms trust us to provide market-leading strategy, specialist transformation and AI-enabled automation solutions. We help our clients rapidly deliver business outcomes.",
     cta: "Learn more →",
@@ -158,7 +159,7 @@ const HOME_PILLARS = [
   },
   {
     eyebrow: "Who we work with",
-    title: "The world's leading firms across regulated finance",
+    title: "For leaders accountable for transformation",
     // the four cards in this grid hold one art direction: white-ground cobalt
     // abstracts. Architectural photography here broke the set.
     slot: "data-science" as const,
@@ -168,7 +169,7 @@ const HOME_PILLARS = [
   },
   {
     eyebrow: "How we do it",
-    title: "Extreme engineering, applied with industry context",
+    title: "Delivery that starts on day one",
     slot: "data-engineering" as const,
     body: "Hands-on practitioners pair deep financial services expertise with disciplined, engineering-led delivery. Packaged methodologies, proven patterns and automation mean we start delivering from day one, measurable outcomes, not slideware.",
     cta: "Our services →",
@@ -176,7 +177,7 @@ const HOME_PILLARS = [
   },
   {
     eyebrow: "Our solutions",
-    title: "QBricks and VBricks, disruptive by design",
+    title: "QBricks & VBricks: implementations compressed from years to months",
     // the QBricks red belongs on the product pages, where it reads as brand;
     // beside three cobalt cards it read as a mistake. Layered glass instead.
     slot: "governance" as const,
@@ -215,7 +216,10 @@ export function HomeWirePage() {
       </section>
 
       <ContentSection className="overflow-hidden" density="compact">
-        <h2 className="eyebrow text-center">An award-winning consultancy</h2>
+        <h2 className="eyebrow text-center">Recognised for delivery, not decks</h2>
+        <p className="mx-auto mt-4 max-w-2xl text-center text-(length:--text-body-sm) text-ice">
+          Partner-of-the-year awards from the platforms our clients run on.
+        </p>
         {/* ruled cells, so this band reads as a set with the figures strip
             above it. Each mark keeps its optically-matched height. */}
         <Reveal className="mt-8 grid grid-cols-2 gap-px border hairline sm:grid-cols-4">
@@ -278,18 +282,25 @@ export function HomeWirePage() {
         <div className="grid gap-12 md:grid-cols-2 md:items-center">
           <Reveal>
             <p className="eyebrow">Research &amp; development</p>
-            <h2 className="mt-6 text-(length:--text-step-3)">Engineered in the Netherlands and the UAE</h2>
+            <h2 className="mt-6 text-(length:--text-step-3)">Products that cut the cost of running your data estate</h2>
             <p className="mt-6 leading-relaxed text-ice">
-              Our R&amp;D teams produce disruptive, best-in-class technology solutions, built from real delivery experience, not theory: QBricks is designed and developed in the Netherlands, VBricks in DIFC, Dubai. Every solution is designed to help our clients save cost and operate more efficiently and effectively: fewer manual processes, faster implementations, measurable results.
+              Built from real delivery experience in Amsterdam and DIFC, Dubai &mdash; every solution exists to remove manual work, shorten implementations and lower cost of ownership. QBricks is designed and developed in the Netherlands, VBricks in DIFC, Dubai: fewer manual processes, faster implementations, measurable results.
             </p>
-            <p className="mt-8"><SecondaryLink href="/solutions">See what we&rsquo;ve built →</SecondaryLink></p>
+            <p className="mt-8 flex flex-wrap gap-6">
+              <SecondaryLink href="/solutions">See what we&rsquo;ve built →</SecondaryLink>
+              <SecondaryLink href="/about/infinium-labs">Meet Infinium Labs →</SecondaryLink>
+            </p>
           </Reveal>
           <PageImage slot="tbricks" alt="Abstract glass engineering structure" />
         </div>
       </ContentSection>
 
       <ContentSection>
-        <SectionIntro eyebrow="Case studies" title="How we have helped our clients" />
+        <SectionIntro
+          eyebrow="Case studies"
+          title="Four weeks to five minutes: outcomes we've delivered"
+          body="Regulatory reporting, entity stand-ups, data strategy — measured results across regulated finance."
+        />
         <div className="mb-8"><SecondaryLink href="/insights">View all case studies →</SecondaryLink></div>
         <div className="grid gap-px md:grid-cols-3">
           {CASE_STUDIES.slice(0, 6).map((c) => <CaseStudyCard key={c.slug} c={c} />)}
@@ -298,22 +309,22 @@ export function HomeWirePage() {
 
 
       <ContentSection>
-        <SectionIntro eyebrow="Why Infinium" title="Five reasons to work with us" />
+        <SectionIntro eyebrow="Why Infinium" title="What you get that big-brand firms can't give you" />
         <NumberedCards
           columns={3}
           items={[
             { title: "Outcome-focused, not PowerPoint-focused", body: "We are measured on delivered business results — working systems, automated processes, realised savings — not decks and recommendations." },
             { title: "Practitioners, not career consultants", body: "Our team has run the functions you are transforming. We have done it ourselves, so we understand your challenges from the inside." },
-            { title: "World-beating engineers, on-shore", body: "Highly educated engineering talent that works alongside you and your teams — on-shore, not off-shore — with the quality and pace that proximity brings." },
-            { title: "Deep financial markets, services and asset management expertise", body: "More than 30 years operating across the world's financial centres — capital markets, banking, insurance, wealth and asset management." },
+            { title: "Senior engineers in your office, not a delivery centre", body: "Highly educated engineering talent that works alongside you and your teams — on-shore, not off-shore — with the quality and pace that proximity brings." },
+            { title: "People who've run the function you're transforming", body: "More than 30 years operating across the world's financial centres — capital markets, banking, insurance, wealth and asset management." },
             { title: "Our own solutions, designed to improve efficiency", body: "Pre-built, extreme-engineered solutions like QBricks and VBricks that compress implementations from years to months and cut cost of ownership." },
           ]}
         />
       </ContentSection>
 
       <CTASection
-        title="Ready to accelerate your business?"
-        body="Start with a free goals review with one of our industry practice leads."
+        title="Pick one outcome. We'll show you the fastest route to it."
+        body="A free goals review with a practice lead — you leave with a concrete plan, whether or not you work with us."
         label="Schedule a discussion"
       />
     </>
@@ -557,6 +568,27 @@ export function SolutionsWirePage() {
         </div>
       </ContentSection>
       <ContentSection>
+        <Reveal>
+          <Link
+            href="/solutions/ai-factory"
+            className="spot group relative block overflow-hidden border hairline bg-surface/85 p-8 shadow-[0_8px_24px_rgba(23,56,102,0.045)] outline-none transition-[border-color,transform,background,box-shadow] duration-(--duration-base) ease-(--ease-out-expo) hover:-translate-y-0.5 hover:border-signal/45 hover:bg-white hover:shadow-[0_14px_36px_rgba(23,56,102,0.085)] focus-visible:border-signal/60 focus-visible:bg-white focus-visible:ring-2 focus-visible:ring-signal focus-visible:ring-offset-2 focus-visible:ring-offset-void md:p-10"
+          >
+            <span aria-hidden className="absolute inset-x-0 top-0 h-px origin-left scale-x-0 bg-signal transition-transform duration-(--duration-base) group-hover:scale-x-100 group-focus-visible:scale-x-100" />
+            <div className="grid gap-8 md:grid-cols-12 md:items-end">
+              <div className="md:col-span-9">
+                <p className="eyebrow text-signal">Packaged offering</p>
+                <h2 className="mt-6 text-(length:--text-step-4)">AI Factory</h2>
+                <p className="mt-4 text-(length:--text-step-1) text-glass">From AI pilots to an industrial AI capability.</p>
+                <p className="mt-6 max-w-3xl leading-relaxed text-ice">One governed capability — data engine, platform, delivery pods and operating model — that serves every use case across the firm. Powered by QBricks and engineered for regulated finance.</p>
+              </div>
+              <div className="md:col-span-3 md:text-right">
+                <p className="font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-signal">Explore the AI Factory →</p>
+              </div>
+            </div>
+          </Link>
+        </Reveal>
+      </ContentSection>
+      <ContentSection>
         <SectionIntro eyebrow="Tooling" title="Assessment tooling" />
         <CardGrid
           columns={2}
@@ -718,6 +750,29 @@ export function QBricksPage() {
           <SecondaryLink href="/solutions/vbricks">Explore VBricks →</SecondaryLink>
         </div>
       </ContentSection>
+      <ContentSection className="bg-abyss/20">
+        <SectionIntro
+          eyebrow="Use cases"
+          title="Built for the work that burns data budgets"
+          body="Each use case below is drawn from programmes we have delivered by hand — QBricks packages that delivery experience into a product."
+        />
+        <NumberedCards
+          items={[
+            { title: "AML & KYC data products", body: "Entity-ready customer and counterparty data for financial-crime platforms — contracted quality and lineage that stands up to a regulator's audit trail, feeding tools like Quantexa without months of remediation." },
+            { title: "Regulatory reporting", body: "A governed, single source of trading and finance data for reporting cycles — the same problem we cut from four weeks to five minutes by hand, now productised so the pipeline builds itself." },
+            { title: "AI-ready data estates", body: "Governed data products that make AI programmes possible: contracted schema, quality and ownership per product, so models train and run on data your firm can defend." },
+          ]}
+        />
+        <div className="mt-12">
+          <p className="eyebrow mb-6 text-signal">The delivery experience behind it</p>
+          <div className="grid gap-px md:grid-cols-2">
+            {["regulatory-reporting", "big-data-engineering"].map((slug) => {
+              const c = caseStudy(slug);
+              return c ? <CaseStudyCard key={slug} c={c} /> : null;
+            })}
+          </div>
+        </div>
+      </ContentSection>
       <CTASection title="From record to report in minutes" body="See how governed data contracts and products are created against your own use case." label="Request a demo" />
     </>
   );
@@ -786,37 +841,85 @@ export function AssessmentPage({ kind }: { kind: "ai" | "quantexa" }) {
         backHref="/solutions"
         backLabel="Our solutions"
         eyebrow="Assessment tooling"
-        title={ai ? "AI assessment" : "How mature is your Quantexa capability?"}
+        title={ai ? "AI assessment: know where AI pays back first" : "How mature is your Quantexa capability?"}
         brand={!ai ? <TechnologyLogo slug="quantexa" decorative className="h-8 sm:h-10" sizes="220px" /> : undefined}
         body={
           ai
             ? "A measured, practitioner-built view of your AI readiness, from data foundations to governance, so you can move from pilots to production with confidence."
             : "The Infinium Quantexa Maturity Assessment benchmarks your organisation against 750+ proven criteria across four dimensions — so you know exactly where you stand, and exactly what to fix first."
         }
-        actions={!ai ? [{ href: "/contact", label: "Request an assessment" }] : undefined}
+        actions={[{ href: "/contact", label: "Request an assessment" }]}
         stats={!ai ? [
           { value: "750+", label: "Assessment questions" },
           { value: "4", label: "Focus areas" },
           { value: "20+", label: "Quantexa projects behind it" },
-        ] : undefined}
+        ] : [
+          { value: "4", label: "Readiness dimensions, scored" },
+          { value: "1", label: "Prioritised use-case portfolio" },
+          { value: "1", label: "Sequenced roadmap to production" },
+        ]}
       />
       {ai ? (
         <>
           <ContentSection>
-            <SectionIntro eyebrow="What we assess" title="AI readiness, end to end" />
+            <SectionIntro eyebrow="Why it matters" title="Most AI programmes stall for reasons visible on day one" />
+            <Reveal className="max-w-3xl space-y-5 leading-relaxed text-ice">
+              <p>Most banks and insurers do not lack AI ideas — they lack a defensible view of which ideas their data, controls and teams can actually carry to production. Pilots multiply, budgets fragment, and the honest questions arrive late: can our data feed this reliably? Would this survive model validation? Who runs it after the consultants leave?</p>
+              <p>The AI assessment answers those questions before you commit serious money. It is a structured, evidence-based review of your AI readiness — built by practitioners who deliver agentic AI into production for regulated financial services firms, not by a strategy desk.</p>
+              <p>The result is not a maturity poster. It&rsquo;s a scored readiness profile, a use-case portfolio ranked by value, feasibility and risk, and a sequenced set of recommendations — what to fix, build and govern first.</p>
+            </Reveal>
+          </ContentSection>
+          <ContentSection className="bg-abyss/20">
+            <SectionIntro eyebrow="What we assess" title="Four dimensions, scored on evidence" />
+            <div className="space-y-px">
+              {([
+                ["01", "Data foundations", "Can your data estate feed AI reliably?",
+                  "We examine quality, lineage, governance and access across the data that would feed your priority use cases: where it lives, who owns it, how it is contracted and controlled, and how much remediation stands between today's estate and model-grade inputs.",
+                  "A clear read on the real cost of data readiness — usually the largest and most underestimated line in any AI business case — and where engineered solutions like QBricks collapse that cost."],
+                ["02", "Use-case portfolio", "Which use cases will genuinely move the business?",
+                  "We inventory the AI work underway and proposed — financial crime, credit, fraud, servicing, reporting and beyond — and score each for value, feasibility and risk against your data and control reality, not the vendor demo.",
+                  "A prioritised portfolio your board can fund with confidence: what to accelerate, what to pause, and what to stop — with the reasoning documented."],
+                ["03", "Governance & risk", "Would your AI survive supervisory scrutiny?",
+                  "We assess model governance, human-in-the-loop controls, auditability and regulatory alignment — including EU AI Act and DORA obligations — against what supervised firms are actually being asked to evidence.",
+                  "The gap list between your current controls and defensible production AI, sequenced so governance work enables delivery rather than trailing it."],
+                ["04", "Pilots to production", "Can your operating model industrialise AI?",
+                  "We review the engineering practice, platform foundations, skills and operating model needed to run AI as a capability: environments, MLOps, monitoring, and who owns each model in run.",
+                  "A realistic capability plan — what to hire, train, buy and partner for — so production AI survives the departure of whoever built the pilot."],
+              ] as const).map(([num, title, question, approach, gain]) => (
+                <article key={num} className="grid gap-x-10 gap-y-6 border hairline bg-white/82 p-7 sm:p-9 md:grid-cols-12">
+                  <div className="md:col-span-4">
+                    <p className="font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-signal">{num}</p>
+                    <h3 className="mt-4 text-(length:--text-step-2) leading-tight">{title}</h3>
+                    <p className="mt-4 leading-relaxed text-ice">{question}</p>
+                  </div>
+                  <div className="space-y-6 md:col-span-8">
+                    <div>
+                      <p className="eyebrow text-steel">What we examine</p>
+                      <p className="mt-3 leading-relaxed text-ice">{approach}</p>
+                    </div>
+                    <div>
+                      <p className="eyebrow text-signal">What you gain</p>
+                      <p className="mt-3 leading-relaxed text-ice">{gain}</p>
+                    </div>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </ContentSection>
+          <ContentSection>
+            <SectionIntro eyebrow="How it runs" title="Evidence in, decisions out" />
             <NumberedCards
-              columns={4}
               items={[
-                { title: "Data foundations", body: "Whether your data estate can feed AI reliably: quality, lineage, governance and access." },
-                { title: "Use-case portfolio", body: "Which AI use cases will genuinely move the business, prioritised by value, feasibility and risk." },
-                { title: "Governance & risk", body: "Model governance, regulatory alignment and controls fit for supervised financial services." },
-                { title: "Pilots to production", body: "The operating model, skills and engineering practice needed to industrialise AI, not just demo it." },
+                { num: "Step 01", title: "Discover", body: "Structured interviews with data, risk, technology and business owners, plus artefact review — architectures, model inventories, control frameworks, live pilot results." },
+                { num: "Step 02", title: "Assess", body: "Each dimension scored on evidence against how production AI actually runs in regulated finance — not against a generic maturity model." },
+                { num: "Step 03", title: "Report", body: "Readiness profile, prioritised use-case portfolio and sequenced roadmap, presented to your leadership with the reasoning open to challenge." },
               ]}
             />
             <div className="mt-14 border hairline bg-abyss/25 p-8">
-              <p className="eyebrow text-signal">The outcome</p>
-              <h3 className="mt-4 text-(length:--text-step-2)">Clear recommendations, sequenced for delivery</h3>
-              <p className="mt-5 max-w-3xl leading-relaxed text-ice">You receive a scored readiness profile across the four dimensions, a prioritised use-case portfolio and a sequenced set of recommendations, what to fix, build and govern first, grounded in what we see delivering agentic AI into production for financial services firms.</p>
+              <p className="eyebrow text-signal">Where it leads</p>
+              <h3 className="mt-4 text-(length:--text-step-2)">The first step of the AI Factory</h3>
+              <p className="mt-5 max-w-3xl leading-relaxed text-ice">For firms ready to industrialise, the assessment doubles as the entry point to our AI Factory — the packaged offering that builds one governed AI capability: data engine, platform, delivery pods and operating model.</p>
+              <p className="mt-6"><SecondaryLink href="/solutions/ai-factory">Explore the AI Factory →</SecondaryLink></p>
             </div>
           </ContentSection>
           <CTASection title="Is your business ready for AI?" body="Talk to our practice leads about running the assessment." />
@@ -1015,6 +1118,88 @@ export function AssessmentPage({ kind }: { kind: "ai" | "quantexa" }) {
   );
 }
 
+export function AIFactoryPage() {
+  return (
+    <>
+      <HeroSection
+        backHref="/solutions"
+        backLabel="Our solutions"
+        eyebrow="Packaged offering"
+        title="From AI pilots to an industrial AI capability."
+        body="Most banks run AI as a series of disconnected pilots. The AI Factory is our packaged offering to build one governed capability — data engine, platform, delivery pods and operating model — that serves every use case across the firm, engineered for regulated finance."
+        actions={[
+          { href: "/contact", label: "Start with a factory assessment" },
+          { href: "/solutions/qbricks", label: "Explore QBricks →" },
+        ]}
+        stats={[
+          { value: "4 weeks", label: "To an assessed, costed factory blueprint" },
+          { value: "1 platform", label: "Shared data, models and controls — built once" },
+          { value: "Every use case", label: "Financial crime, credit, fraud, servicing, reporting" },
+        ]}
+      />
+      <FactoryLineBand />
+      <ContentSection>
+        <div className="grid gap-10 lg:grid-cols-12 lg:gap-16">
+          <Reveal className="lg:col-span-5">
+            <p className="eyebrow text-signal">Why a factory</p>
+            <h2 className="mt-5 text-(length:--text-step-3) leading-[1.03]">Pilots prove ideas. Factories deliver returns.</h2>
+          </Reveal>
+          <Reveal className="lg:col-span-7">
+            <p className="border-t hairline py-5 text-(length:--text-step-1) leading-relaxed text-ice">Every large consultancy now sells an AI factory. What they share is the right instinct: AI only pays back when data, models, governance and delivery are industrialised — not rebuilt per use case.</p>
+            <p className="border-t hairline py-5 text-(length:--text-step-1) leading-relaxed text-ice">Our difference is where we start. In a bank, the factory constraint is never the model — it&rsquo;s the data and the audit trail. So our factory is built around a data engine, <QBricksWord />, that remediates legacy data, generates pipelines and codifies data contracts before a single model ships.</p>
+            <p className="border-y hairline py-5 text-(length:--text-step-1) leading-relaxed text-ice">The result is a smaller, faster factory: pre-built components in place of programme headcount, and measurable outcomes — working systems, automated processes, realised savings — not slideware.</p>
+          </Reveal>
+        </div>
+      </ContentSection>
+      <ContentSection className="bg-abyss/20">
+        <SectionIntro eyebrow="The offering" title="Four services, one capability" />
+        <NumberedCards
+          columns={4}
+          items={[
+            { title: "Factory assessment & blueprint", body: "A four-week review of your data estate, AI portfolio and controls — producing a costed target architecture, a prioritised use-case backlog and a business case your board can sign." },
+            { title: "Data engine, powered by QBricks", body: "Remediation of legacy data, auto-generated pipelines and codified data contracts — trusted, contracted data products on your cloud platform, delivered in months not years." },
+            { title: "Use-case delivery pods", body: "Small, senior, on-shore pods that ship production use cases on the shared platform — financial crime, credit decisioning, fraud, customer servicing, regulatory reporting." },
+            { title: "Operate, govern & enable", body: "Model risk and AI governance aligned to EU AI Act and DORA, run-and-monitor operations, and a structured enablement cascade so your teams own the factory — not ours." },
+          ]}
+        />
+      </ContentSection>
+      <ContentSection>
+        <div className="grid gap-10 lg:grid-cols-12 lg:items-center lg:gap-16">
+          <Reveal className="lg:col-span-6">
+            <p className="eyebrow text-signal">The engine room</p>
+            <h2 className="mt-5 text-(length:--text-step-3) leading-[1.03]"><QBricksWord /> makes the factory economics work</h2>
+            <p className="mt-5 leading-relaxed text-ice">Designed and developed in the Netherlands by our R&amp;D team, QBricks compresses the most expensive phase of any AI programme — making bank data trustworthy. What competitors staff with hundreds of consultants, the factory does with pre-built, extreme-engineered components.</p>
+            <p className="mt-8"><SecondaryLink href="/solutions/qbricks">Explore QBricks &amp; VBricks →</SecondaryLink></p>
+          </Reveal>
+          <Reveal className="space-y-px lg:col-span-6">
+            {[
+              ["Data remediation", "Profiles, cleanses and standardises siloed legacy data at scale"],
+              ["Pipeline generation", "Auto-generates ingestion and transformation pipelines for your cloud platform"],
+              ["Data contract generation", "Codifies schema, quality and ownership per data product — the audit trail regulators expect"],
+            ].map(([title, body]) => (
+              <article key={title} className="border hairline bg-surface/82 p-6 shadow-[0_8px_24px_rgba(23,56,102,0.04)]">
+                <h3 className="text-(length:--text-step-1) leading-tight">{title}</h3>
+                <p className="mt-2 text-(length:--text-body-sm) leading-relaxed text-ice">{body}</p>
+              </article>
+            ))}
+          </Reveal>
+        </div>
+      </ContentSection>
+      <ContentSection className="bg-abyss/20">
+        <SectionIntro eyebrow="How an engagement runs" title="Assess, build, scale" />
+        <NumberedCards
+          items={[
+            { num: "Weeks 1–4", title: "Assess", body: "Factory assessment across data, platform, governance and skills. Output: blueprint, backlog, business case." },
+            { num: "Months 2–5", title: "Build", body: "Stand up the factory foundation: QBricks data engine, platform controls and the first production use case as proof." },
+            { num: "Month 6 onwards", title: "Scale", body: "Delivery pods ship use case after use case on the shared platform, while enablement transfers ownership to your teams." },
+          ]}
+        />
+      </ContentSection>
+      <CTASection title="Ready to industrialise AI?" body="Start with a free goals review with one of our industry practice leads." label="Schedule a discussion" />
+    </>
+  );
+}
+
 /* ---- Sectors, technologies, insights ---------------------------------- */
 
 export function SectorsWirePage() {
@@ -1033,6 +1218,31 @@ export function SectorsWirePage() {
     </>
   );
 }
+
+/* Partner credentials and fuller descriptions for the technologies index —
+ * the card grid promotes each partnership's proof points, not just a tagline. */
+const PARTNER_CREDENTIALS: Record<string, { credential: string; body: string }> = {
+  alteryx: {
+    credential: "Authorised PS & Training Partner",
+    body: "Analytics automation that retires spreadsheet-bound processes — clients have cut core reporting from 18 hours to 5 minutes. We implement, then train your analysts to self-sufficiency as an Authorised Training Partner.",
+  },
+  appian: {
+    credential: "FS Partner of the Year 2024",
+    body: "Low-code case management and customer-lifecycle automation, delivered as partners since 2019 — with Innovation Partner of the Year awards in 2020 and 2021 and certified lead developers on every engagement.",
+  },
+  databricks: {
+    credential: "Certified architects & engineers",
+    body: "Lakehouse implementations for enterprise data and AI — data contracts in Unity Catalog, petabyte-scale risk and transaction data, and QBricks streaming governed data products straight into the platform.",
+  },
+  "microsoft-fabric": {
+    credential: "Early adopter · DP-700 certified",
+    body: "Fabric and Azure data foundations for regulated workloads. Every engineer is DP-700 certified, and we run our own business on Fabric — so deployment advice comes from first-hand operation, not the datasheet.",
+  },
+  quantexa: {
+    credential: "Plus Alliance Partner · 20+ projects",
+    body: "Decision intelligence at bank scale — contextual monitoring for CDD, correspondent banking and fraud — with a Centre of Excellence, 20 solution experts and a 750+ question maturity assessment behind it.",
+  },
+};
 
 export function TechnologiesWirePage() {
   return (
@@ -1058,18 +1268,20 @@ export function TechnologiesWirePage() {
         </div>
       </ContentSection>
       <ContentSection>
+        <SectionIntro eyebrow="The partnerships" title="Certified depth on every platform we recommend" />
         <CardGrid
           items={TECHNOLOGIES.map((p) => ({
             title: p.name,
+            eyebrow: PARTNER_CREDENTIALS[p.slug]?.credential,
             logo: (
               <div
                 data-testid={`technology-card-logo-${p.slug}`}
-                className="flex h-12 items-center"
+                className="mt-4 flex h-12 items-center"
               >
                 <TechnologyLogo slug={p.slug} decorative className="h-8" />
               </div>
             ),
-            body: p.tagline,
+            body: PARTNER_CREDENTIALS[p.slug]?.body ?? p.tagline,
             href: `/technologies/${p.slug}`,
             cta: `How we work with ${p.name} →`,
           }))}
@@ -1089,6 +1301,8 @@ const TECHNOLOGY_DETAIL: Record<string, {
   note?: string;
   links: Array<{ href: string; label: string }>;
   cta: string;
+  /* client-facing proof points: case-study slugs delivered on this platform */
+  caseStudies?: string[];
 }> = {
   alteryx: {
     eyebrow: "Technologies · Partner",
@@ -1119,6 +1333,7 @@ const TECHNOLOGY_DETAIL: Record<string, {
       { href: "/insights", label: "Read the case studies →" },
     ],
     cta: "Which process should Alteryx take off your hands?",
+    caseStudies: ["regulatory-reporting", "finance-re-engineering", "capital-requirements"],
   },
   appian: {
     eyebrow: "Technologies · FS Partner of the Year 2024",
@@ -1169,7 +1384,7 @@ const TECHNOLOGY_DETAIL: Record<string, {
       ] },
       { title: "Engineered solutions", items: [
         { title: "QBricks", body: "streams governed, contract-enforced data products straight into your lakehouse, A.I.-ready in hours, not years" },
-        { title: "DataVeritas", body: "our data quality validation solution that significantly improves data quality and reduces the need for large cleansing teams" },
+        { title: "QBricks data quality", body: "built-in data quality validation that significantly improves data quality and reduces the need for large cleansing teams" },
       ] },
     ],
     note: "We aim to make the best — Databricks — better still: certified experts focused where they add most value, with engineered solutions doing the generic work.",
@@ -1178,6 +1393,7 @@ const TECHNOLOGY_DETAIL: Record<string, {
       { href: "/solutions/qbricks", label: "Explore QBricks →" },
     ],
     cta: "Is your lakehouse working as hard as it should?",
+    caseStudies: ["big-data-engineering", "data-strategy", "climate-reporting"],
   },
   "microsoft-fabric": {
     eyebrow: "Technologies · Partner",
@@ -1198,6 +1414,7 @@ const TECHNOLOGY_DETAIL: Record<string, {
       { href: "/solutions/qbricks", label: "Explore QBricks →" },
     ],
     cta: "Planning a Fabric or Azure move?",
+    caseStudies: ["fintech-transformation"],
   },
   quantexa: {
     eyebrow: "Technologies · Plus Alliance Partner",
@@ -1222,6 +1439,7 @@ const TECHNOLOGY_DETAIL: Record<string, {
       { href: "/solutions/quantexa-maturity-assessment", label: "Quantexa maturity assessment →" },
     ],
     cta: "How mature is your Quantexa estate?",
+    caseStudies: ["tbml-detection"],
   },
 };
 
@@ -1259,6 +1477,17 @@ export function TechnologyDetailPage({ slug }: { slug: string }) {
           {t.links.filter((l) => !l.label.includes("Spotlight")).map((l) => <SecondaryLink key={l.label} href={l.href}>{l.label}</SecondaryLink>)}
         </div>
       </ContentSection>
+      {t.caseStudies?.length ? (
+        <ContentSection className="bg-abyss/20">
+          <SectionIntro eyebrow="Proof, not promises" title="Measured outcomes delivered on this platform" />
+          <div className={`grid gap-px ${t.caseStudies.length >= 3 ? "md:grid-cols-3" : "md:grid-cols-2"}`}>
+            {t.caseStudies.map((slug) => {
+              const c = caseStudy(slug);
+              return c ? <CaseStudyCard key={slug} c={c} /> : null;
+            })}
+          </div>
+        </ContentSection>
+      ) : null}
       <CTASection title={t.cta} label="Schedule a discussion" />
     </>
   );
@@ -1328,7 +1557,7 @@ export function InsightsWirePage() {
       />
       <ContentSection>
         <SectionIntro
-          title="How have we helped our clients?"
+          title="Weeks to minutes, years to months: the results our clients keep"
           body="Our clients have implemented AI and data-driven decisioning, automated processes from weeks to minutes, accelerated solution development by 8–10 times and saved months from transformation timelines."
         />
         <CaseStudyExplorer />
@@ -1431,12 +1660,13 @@ export function CaseStudyWirePage({ slug }: { slug: string }) {
 /* ---- About and adjacent pages ----------------------------------------- */
 
 export function AboutWirePage() {
+  /* names, roles and bios sourced from nxwave.com/locations/infinium-amsterdam-en */
   const leadership = [
-    ["David Aston", "CEO, Infinium", "david-aston-v2"],
-    ["Toby Smith-Cullen", "Partner, Infinium", "toby-smith-cullen"],
-    ["Erik Rowbotham", "Partner, Infinium", "erik-rowbotham"],
-    ["Helen Bull", "Partner, Infinium", "helen-bull"],
-    ["Jeanette Zeilmaker", "Operations Head, Infinium", "jeanette-zeilmaker"],
+    ["David Aston", "CEO, Infinium", "david-aston-v2", "30+ years in financial markets, founder of the NextWave Group and CEO & founder of Infinium. Has delivered complex transformation inside tier-1 banks. Works in English, French and Italian."],
+    ["Toby Smith-Cullen", "Partner, Infinium", "toby-smith-cullen", "Twenty years in transformation and innovation in the financial industry, formerly fintech partnership lead at a leading Dutch bank. MSc, Delft University of Technology."],
+    ["Erik Rowbotham", "Partner, Infinium", "erik-rowbotham", "Regulation & Compliance practice lead. Change delivery leader with an accounting and business background, built inside major UK banking institutions."],
+    ["Helen Bull", "Partner, Infinium", "helen-bull", "Leads the Transformation practice, operating at board level with large corporate and financial services clients across the UK, Germany and the Netherlands. Certified project manager."],
+    ["Jeanette Zeilmaker", "Operations Head, Infinium", "jeanette-zeilmaker", "Head of operations for Infinium in the Netherlands — more than 29 years across operations, HR, contract management and compliance."],
   ] as const;
 
   return (
@@ -1503,20 +1733,21 @@ export function AboutWirePage() {
       <ContentSection>
         <SectionIntro eyebrow="Management team" title="Leadership" body="Hands-on practitioners from major global financial services firms, leading from Amsterdam and Dubai." />
         {/* portraits + roles sourced from nxwave.com/locations/infinium-amsterdam-en */}
-        <div className="grid grid-cols-2 gap-px md:grid-cols-3 lg:grid-cols-5">
-          {leadership.map(([name, role, img]) => (
-            <article key={name} className="border hairline bg-abyss/25 p-5">
+        <div className="grid gap-px sm:grid-cols-2 lg:grid-cols-3">
+          {leadership.map(([name, role, img, bio]) => (
+            <article key={name} className="border hairline bg-abyss/25 p-6">
               <Image
                 src={`/img/team/${img}.webp`}
                 alt={`${name} — ${role}`}
                 width={600}
                 height={600}
                 loading="lazy"
-                sizes="(min-width: 1024px) 150px, (min-width: 768px) 28vw, 45vw"
-                className="mx-auto aspect-square w-full max-w-[150px] border hairline object-cover grayscale"
+                sizes="(min-width: 1024px) 170px, (min-width: 640px) 28vw, 45vw"
+                className="aspect-square w-full max-w-[170px] border hairline object-cover grayscale"
               />
               <h3 className="mt-5 text-(length:--text-body)">{name}</h3>
               <p className="eyebrow mt-2">{role}</p>
+              <p className="mt-4 text-(length:--text-body-sm) leading-relaxed text-ice">{bio}</p>
             </article>
           ))}
         </div>
@@ -1582,11 +1813,119 @@ const CULTURE_COLLAGE: readonly CollageShot[] = [
   { slot: "culture-harbour", alt: "Summer drinks by the harbour", caption: "Summer by the harbour" },
   { slot: "culture-night", alt: "The team on a night out", caption: "A night out" },
   { slot: "culture-onthe-road", alt: "Colleagues travelling between the hubs", caption: "Between the hubs" },
-  { slot: "culture-yearend", alt: "The end-of-year celebration", caption: "End of year" },
+  { slot: "culture-yearend", alt: "The team in the Amsterdam hub, spring 2026", caption: "In the Amsterdam hub" },
 ] as const;
 /* culture-standup moved to the Alteryx Bootcamps page, culture-offsite to
  * the One4One/social-responsibility page — see AlteryxBootcampsPage and
  * SocialResponsibilityPage below. */
+
+export function InfiniumLabsPage() {
+  return (
+    <>
+      <HeroSection
+        backHref="/about"
+        backLabel="About us"
+        eyebrow="Infinium Labs"
+        title="Products built by people who've run your systems."
+        body="Infinium Labs is our engineering and product team, working across Amsterdam and DIFC, Dubai. The same people who deliver client engagements design and build our product suite — so every feature exists because a real programme needed it."
+        actions={[
+          { href: "/solutions", label: "Explore the products" },
+          { href: "/contact", label: "Talk to the team →" },
+        ]}
+        stats={[
+          { value: "2", label: "Labs — Amsterdam & DIFC, Dubai" },
+          { value: "1 live", label: "QBricks, in production today" },
+          { value: "1 next", label: "VBricks, coming soon" },
+        ]}
+      />
+      <ContentSection>
+        <div className="grid gap-12 md:grid-cols-12">
+          <div className="md:col-span-5">
+            <SectionIntro eyebrow="The team" title="Bank-side experience, engineering-grade credentials" />
+          </div>
+          <Reveal className="space-y-5 leading-relaxed text-ice md:col-span-7">
+            <p>The Labs team combines experience from inside the institutions our clients run &mdash; ABN AMRO, ING, APG and MSCI &mdash; with deep technical credentials: PhD-level computer science and certified expertise across Databricks and Microsoft Fabric.</p>
+            <p>That mix is deliberate. Products for regulated finance fail when they are built at arm&rsquo;s length from the work; ours are shaped by people who have owned the data estates, the reporting cycles and the audit conversations themselves.</p>
+          </Reveal>
+        </div>
+        <div className="mt-12">
+          <NumberedCards
+            columns={3}
+            items={[
+              { title: "Practitioners first", body: "Team experience drawn from ABN AMRO, ING, APG and MSCI — the buy side, the sell side and the index provider's view of the same data problems." },
+              { title: "Engineering depth", body: "PhD Computer Science in the team, with certified Databricks and Microsoft Fabric engineers building on the platforms our clients already run." },
+              { title: "Products from delivery", body: "Every Labs product started life inside a client engagement — packaged, hardened and productised once it had proven itself in the field." },
+            ]}
+          />
+        </div>
+      </ContentSection>
+      <ContentSection className="bg-abyss/20">
+        <SectionIntro eyebrow="The product suite" title="One suite, two products, one goal: cheaper, faster data estates" />
+        <div className="grid gap-px lg:grid-cols-2">
+          <article className="border hairline bg-white/78 p-8 shadow-[0_12px_34px_rgba(23,56,102,0.055)] md:p-10">
+            <div className="flex flex-wrap items-center gap-4">
+              <h3 className="text-(length:--text-step-2)"><QBricksWord /></h3>
+              <span className="inline-flex min-h-7 items-center gap-2 rounded-full border border-signal/25 bg-signal/[0.06] px-3 font-mono text-[10px] uppercase tracking-[0.08em] text-signal">
+                <span aria-hidden className="size-1.5 rounded-full bg-signal" />
+                Live
+              </span>
+            </div>
+            <p className="mt-4 text-(length:--text-step-1) text-glass">Governed, A.I.-ready data products in hours.</p>
+            <p className="mt-5 leading-relaxed text-ice">Designed and developed in the Amsterdam lab. Streams data from systems of record into contract-governed products on Databricks, Fabric, Snowflake or your own database.</p>
+            <p className="mt-7"><SecondaryLink href="/solutions/qbricks">Explore QBricks →</SecondaryLink></p>
+          </article>
+          <article className="border hairline bg-white/78 p-8 shadow-[0_12px_34px_rgba(23,56,102,0.055)] md:p-10">
+            <div className="flex flex-wrap items-center gap-4">
+              <h3 className="font-hero text-(length:--text-step-2) font-semibold tracking-[-0.025em] text-paper">VBricks</h3>
+              <span className="inline-flex min-h-7 items-center gap-2 rounded-full border border-signal/25 bg-signal/[0.06] px-3 font-mono text-[10px] uppercase tracking-[0.08em] text-signal">
+                <span aria-hidden className="size-1.5 rounded-full bg-signal" />
+                Coming soon
+              </span>
+            </div>
+            <p className="mt-4 text-(length:--text-step-1) text-glass">Model validation from weeks to a repeatable run.</p>
+            <p className="mt-5 leading-relaxed text-ice">Designed and developed in the DIFC, Dubai lab. Automated test packs, challenger comparisons and complete evidence trails for credit, KYC, fraud and AML models.</p>
+            <p className="mt-7"><SecondaryLink href="/solutions/vbricks">Explore VBricks →</SecondaryLink></p>
+          </article>
+        </div>
+      </ContentSection>
+      <ContentSection>
+        <SectionIntro eyebrow="Two labs, one practice" title="Amsterdam builds the data engine, Dubai builds the validator" />
+        <Reveal className="grid gap-px md:grid-cols-2">
+          {([
+            ["ams-exterior", "Amsterdam lab", "Home of QBricks. The Netherlands team owns the data-engine roadmap: streaming ingestion, contract enforcement and agentic metadata.", "/about/amsterdam", "Our building at Fred Roeskestraat 115, Amsterdam"],
+            ["dxb-innovationone", "DIFC, Dubai lab", "Home of VBricks, based in Innovation One. Supported by the UAE government to design, develop and deliver AI-focused solutions.", "/about/dubai", "Innovation One in the Dubai International Financial Centre"],
+          ] as const).map(([slot, title, body, href, alt]) => (
+            <Link
+              key={slot}
+              href={href}
+              className="spot group relative block h-full overflow-hidden border hairline bg-surface/82 shadow-[0_8px_24px_rgba(23,56,102,0.04)] outline-none focus-visible:ring-2 focus-visible:ring-signal focus-visible:ring-offset-2 focus-visible:ring-offset-void transition-[border-color,transform,background,box-shadow] duration-(--duration-base) ease-(--ease-out-expo) hover:-translate-y-0.5 hover:border-signal/45 hover:bg-white hover:shadow-[0_14px_34px_rgba(23,56,102,0.075)] focus-visible:border-signal/60 focus-visible:bg-white"
+            >
+              <span aria-hidden className="absolute inset-x-0 top-0 z-10 h-px origin-left scale-x-0 bg-signal transition-transform duration-(--duration-base) group-hover:scale-x-100 group-focus-visible:scale-x-100" />
+              <div className="overflow-hidden">
+                <GlassImage
+                  image={siteImage(slot)}
+                  alt={alt}
+                  sizes="(min-width: 768px) 45vw, 100vw"
+                  imageClassName="aspect-[16/10] object-cover transition-transform duration-(--duration-base) ease-(--ease-out-expo) group-hover:scale-[1.03]"
+                />
+              </div>
+              <div className="border-t hairline p-7">
+                <h3 className="text-(length:--text-step-1) leading-tight">{title}</h3>
+                <p className="mt-3 text-(length:--text-body-sm) leading-relaxed text-ice">{body}</p>
+                <p className="mt-6 font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-signal">Visit this office →</p>
+              </div>
+            </Link>
+          ))}
+        </Reveal>
+      </ContentSection>
+      <CTASection
+        title="See what the Labs could take off your roadmap"
+        body="A working session with the product team — bring a data or validation problem, leave with an engineered answer."
+        label="Book a Labs session"
+      />
+    </>
+  );
+}
 
 export function CulturePage() {
   return (
@@ -2169,6 +2508,7 @@ export function routeFor(slug: string[]): Route {
     "/solutions": { render: () => <SolutionsWirePage />, meta: { title: "Our solutions", description: "Pre-built solutions and assessment tooling that shorten delivery timelines and de-risk your programmes." } },
     "/solutions/qbricks": { render: () => <QBricksPage />, meta: { title: "QBricks", description: "Turn systems of record into governed, A.I.-ready data products in hours, not years." } },
     "/solutions/vbricks": { render: () => <VBricksPage />, meta: { title: "VBricks", description: "Engineered model testing with automated test packs, challenger comparisons and complete evidence trails." } },
+    "/solutions/ai-factory": { render: () => <AIFactoryPage />, meta: { title: "AI Factory", description: "From AI pilots to an industrial AI capability — one governed data engine, platform, delivery pods and operating model, engineered for regulated finance." } },
     "/solutions/ai-assessment": { render: () => <AssessmentPage kind="ai" />, meta: { title: "AI assessment", description: "A measured, practitioner-built view of your AI readiness." } },
     "/solutions/quantexa-maturity-assessment": { render: () => <AssessmentPage kind="quantexa" />, meta: { title: "Quantexa maturity assessment", description: "Benchmark your Quantexa maturity with Infinium's 750+ question assessment across platform & solution design, delivery, testing and resource capability." } },
     "/sectors": { render: () => <SectorsWirePage />, meta: { title: "Sectors", description: "Deep, current experience across the regulated financial landscape." } },
@@ -2176,6 +2516,7 @@ export function routeFor(slug: string[]): Route {
     "/technologies/alteryx-bootcamps": { render: () => <AlteryxBootcampsPage />, meta: { title: "Alteryx Bootcamps", description: "Intensive, hands-on Alteryx training." } },
     "/insights": { render: () => <InsightsWirePage />, meta: { title: "Case studies", description: "How we have helped our clients." } },
     "/about": { render: () => <AboutWirePage />, meta: { title: "About us", description: "It's all about business outcomes." } },
+    "/about/infinium-labs": { render: () => <InfiniumLabsPage />, meta: { title: "Infinium Labs", description: "Our engineering and product team in Amsterdam and DIFC, Dubai — practitioners from ABN AMRO, ING, APG and MSCI building QBricks and VBricks." } },
     "/about/culture": { render: () => <CulturePage />, meta: { title: "Our culture", description: "An international firm by design." } },
     "/about/social-responsibility": { render: () => <SocialResponsibilityPage />, meta: { title: "Social responsibility", description: "One4One social enterprise internship programme." } },
     "/about/industry-events": { render: () => <IndustryEventsPage />, meta: { title: "Industry events", description: "Where you'll find us." } },
@@ -2210,6 +2551,7 @@ export const ALL_PATHS = [
   "solutions",
   "solutions/qbricks",
   "solutions/vbricks",
+  "solutions/ai-factory",
   "solutions/ai-assessment",
   "solutions/quantexa-maturity-assessment",
   "sectors",
@@ -2219,6 +2561,7 @@ export const ALL_PATHS = [
   "insights",
   ...CASE_STUDIES.map((c) => `insights/${c.slug}`),
   "about",
+  "about/infinium-labs",
   "about/culture",
   "about/social-responsibility",
   "about/industry-events",

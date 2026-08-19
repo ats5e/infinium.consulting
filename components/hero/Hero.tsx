@@ -65,19 +65,19 @@ export function Hero({ staticImage: _staticImage }: { staticImage: SiteImage }) 
         <div data-testid="hero-copy-column" className="flex w-full max-w-2xl flex-col items-start pt-6 text-left md:pt-6">
           <h1 className="w-full font-hero text-[clamp(2.5rem,4.6vw,4.2rem)] font-semibold leading-[1.05] tracking-[-0.02em] text-paper">
             <span className="block w-full overflow-hidden pb-[0.06em] -mb-[0.06em]">
-              <span className="hero-line block">From complex systems</span>
+              <span className="hero-line block">Trusted, decision-ready data</span>
             </span>{" "}
             <span className="block w-full overflow-hidden pb-[0.06em] -mb-[0.06em]">
               <span className="hero-line block">
-                to <span className="text-cobalt">confident decisions.</span>
+                — <span className="text-cobalt">in months, not years.</span>
               </span>
             </span>
           </h1>
 
           <p className="hero-body mt-6 w-full max-w-xl text-[clamp(0.98rem,1.25vw,1.12rem)] leading-[1.6] text-ice">
-            We help banks, insurers and asset managers turn siloed and messy data
-            into intelligent, scalable assets, built on deep financial services
-            context and engineered with AI &amp; automation.
+            We take banks, insurers and asset managers from siloed systems to
+            governed, AI-ready data estates &mdash; with pre-built solutions that
+            make the outcome fast, auditable and yours to keep.
           </p>
 
           <div className="hero-actions mt-9 flex w-full flex-wrap items-center justify-start gap-x-8 gap-y-4">

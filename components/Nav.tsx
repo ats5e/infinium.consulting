@@ -35,6 +35,7 @@ const SECTIONS = [
 
 const QUICK_LINKS = [
   { label: "Our solutions", href: "/solutions" },
+  { label: "AI Factory", href: "/solutions/ai-factory" },
   { label: "AI assessment", href: "/solutions/ai-assessment" },
   { label: "Quantexa maturity assessment", href: "/solutions/quantexa-maturity-assessment" },
   { label: "Industry events", href: "/about/industry-events" },

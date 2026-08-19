@@ -474,6 +474,7 @@ export const NAV_GROUPS: NavGroup[] = [
       { label: "Our solutions", href: "/solutions" },
       { label: "QBricks", href: "/solutions/qbricks" },
       { label: "VBricks", href: "/solutions/vbricks" },
+      { label: "AI Factory", href: "/solutions/ai-factory" },
       { label: "AI assessment", href: "/solutions/ai-assessment" },
       { label: "Quantexa maturity assessment", href: "/solutions/quantexa-maturity-assessment" },
     ],
@@ -515,6 +516,7 @@ export const NAV_GROUPS: NavGroup[] = [
     href: "/about",
     items: [
       { label: "About us", href: "/about" },
+      { label: "Infinium Labs", href: "/about/infinium-labs" },
       { label: "Our culture", href: "/about/culture" },
       { label: "Social responsibility", href: "/about/social-responsibility" },
       { label: "Industry events", href: "/about/industry-events" },
@@ -552,6 +554,7 @@ export const FOOTER_COLUMNS: NavGroup[] = [
     href: "/about",
     items: [
       { label: "About us", href: "/about" },
+      { label: "Infinium Labs", href: "/about/infinium-labs" },
       { label: "Our culture", href: "/about/culture" },
       { label: "Your career", href: "/careers" },
       { label: "Social responsibility", href: "/about/social-responsibility" },

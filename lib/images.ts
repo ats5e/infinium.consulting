@@ -48,7 +48,9 @@ const CHOSEN: Record<string, number> = {
   "dxb-innovation-hub": 1,
   "culture-toast": 1,
   "culture-harbour": 1,
-  "culture-yearend": 1,
+  // v2 (2026-08-19): recent Amsterdam-hub team shot replaces the dated,
+  // low-res (400px) end-of-year event photo — client checklist item 5
+  "culture-yearend": 2,
   // second client drop — culture, industry events, Dubai, academic partners
   "culture-terrace": 1,
   "culture-night": 1,
