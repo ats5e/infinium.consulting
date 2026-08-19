@@ -1,6 +1,7 @@
 # force patched transitives that next pins internally (postcss/sharp advisories)
 overrides:
   postcss: '>=8.5.18'
+  nanoid: '^3.3.18'
   sharp: '>=0.35.0'
 allowBuilds:
   sharp: true
