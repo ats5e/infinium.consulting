@@ -24,6 +24,7 @@ const ROUTES = [
   "/careers",
   "/contact",
   "/privacy",
+  "/one4one", // unlisted page — same accessibility bar as the public site
 ];
 
 for (const path of ROUTES) {

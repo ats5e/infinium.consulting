@@ -15,6 +15,8 @@ const ROUTES: Array<[path: string, h1: RegExp]> = [
   ["/careers", /Your career/i],
   ["/contact", /start a conversation/i],
   ["/privacy", /privacy notice/i],
+  // unlisted, noindexed — reachable only by direct URL, but held to the same bar
+  ["/one4one", /Your first professional role/i],
 ];
 
 for (const [path, h1] of ROUTES) {
