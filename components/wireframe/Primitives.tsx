@@ -220,10 +220,15 @@ export function CardGrid({
   items: Array<{ title: string; body: string; eyebrow?: string; logo?: React.ReactNode; href?: string; cta?: string }>;
   columns?: 2 | 3;
 }) {
-  const colClass = columns === 2 ? "md:grid-cols-2" : "md:grid-cols-3";
+  /* five items in three columns leaves a hole — keep every card the same
+     width and centre the two-card final row instead (6-col grid, span 2,
+     the fourth card starts at track 2) */
+  const fiveItemLayout = columns === 3 && items.length === 5;
+  const colClass = fiveItemLayout ? "md:grid-cols-6" : columns === 2 ? "md:grid-cols-2" : "md:grid-cols-3";
   return (
     <Reveal className={`grid gap-px ${colClass}`}>
-      {items.map((item) => {
+      {items.map((item, i) => {
+        const itemSpan = fiveItemLayout ? `md:col-span-2 ${i === 3 ? "md:col-start-2" : ""}` : "";
         const inner = (
           <>
             {item.eyebrow ? <p className="eyebrow text-signal">{item.eyebrow}</p> : null}
@@ -233,7 +238,7 @@ export function CardGrid({
             {item.cta ? <p className="mt-6 font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-signal">{item.cta}</p> : null}
           </>
         );
-        const cls = `${item.href ? "spot group hover:-translate-y-0.5 hover:border-signal/45 hover:bg-white hover:shadow-[0_14px_34px_rgba(23,56,102,0.075)] focus-visible:border-signal/60 focus-visible:bg-white" : ""} relative block h-full overflow-hidden border hairline bg-surface/82 p-7 shadow-[0_8px_24px_rgba(23,56,102,0.04)] outline-none focus-visible:ring-2 focus-visible:ring-signal focus-visible:ring-offset-2 focus-visible:ring-offset-void transition-[border-color,transform,background,box-shadow] duration-(--duration-base) ease-(--ease-out-expo)`;
+        const cls = `${item.href ? "spot group hover:-translate-y-0.5 hover:border-signal/45 hover:bg-white hover:shadow-[0_14px_34px_rgba(23,56,102,0.075)] focus-visible:border-signal/60 focus-visible:bg-white" : ""} relative block h-full overflow-hidden border hairline bg-surface/82 p-7 shadow-[0_8px_24px_rgba(23,56,102,0.04)] outline-none focus-visible:ring-2 focus-visible:ring-signal focus-visible:ring-offset-2 focus-visible:ring-offset-void transition-[border-color,transform,background,box-shadow] duration-(--duration-base) ease-(--ease-out-expo) ${itemSpan}`;
         return item.href ? (
           <Link key={item.title} href={item.href} className={cls}>
             <span aria-hidden className="absolute inset-x-0 top-0 h-px origin-left scale-x-0 bg-signal transition-transform duration-(--duration-base) group-hover:scale-x-100 group-focus-visible:scale-x-100" />

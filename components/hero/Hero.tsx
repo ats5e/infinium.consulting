@@ -62,14 +62,20 @@ export function Hero({ staticImage: _staticImage }: { staticImage: SiteImage }) 
       />
 
       <div className="relative z-10 mx-auto flex w-full max-w-(--container-content) flex-col px-(--spacing-gutter) pb-7 pt-24 md:min-h-[clamp(38rem,82svh,44rem)] md:pt-28">
-        <div data-testid="hero-copy-column" className="flex w-full max-w-2xl flex-col items-start pt-6 text-left md:pt-6">
+        {/* md–lg: the field starts at 47vw, so the copy column must stop
+            there — otherwise the body runs under the mark. Full 2xl measure
+            returns once the viewport gives the field room of its own. */}
+        <div data-testid="hero-copy-column" className="flex w-full max-w-2xl flex-col items-start pt-6 text-left md:max-w-[46vw] md:pt-6 xl:max-w-2xl">
           <h1 className="w-full font-hero text-[clamp(2.5rem,4.6vw,4.2rem)] font-semibold leading-[1.05] tracking-[-0.02em] text-paper">
+            {/* the dash rides line one: the long line stays high where the
+                field is empty, and the cobalt line — the lowest, beside the
+                mark — is the shortest */}
             <span className="block w-full overflow-hidden pb-[0.06em] -mb-[0.06em]">
-              <span className="hero-line block">Trusted, decision-ready data</span>
+              <span className="hero-line block">Trusted, decision-ready data —</span>
             </span>{" "}
             <span className="block w-full overflow-hidden pb-[0.06em] -mb-[0.06em]">
               <span className="hero-line block">
-                — <span className="text-cobalt">in months, not years.</span>
+                <span className="text-cobalt">in months, not years.</span>
               </span>
             </span>
           </h1>

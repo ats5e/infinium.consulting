@@ -136,9 +136,8 @@ function CaseStudyVisual({ study }: { study: CaseStudy }) {
  */
 const AWARDS = [
   { src: "/awards/ecovadis-silver-2024.webp", alt: "EcoVadis Silver sustainability rating, top 15%, September 2024", w: 476, h: 478, height: 76 },
-  // solid bold type reads heavier than its area implies, so trimmed back
-  { src: "/awards/nen-4400-1.webp", alt: "NEN 4400-1 certified", w: 358, h: 224, height: 54 },
-  { src: "/awards/stichting-normering-arbeid.webp", alt: "Stichting Normering Arbeid registered", w: 247, h: 222, height: 72 },
+  /* NEN 4400-1 and Stichting Normering Arbeid removed per client (20 Aug):
+     compliance registrations, not awards — files kept in public/awards */
   { src: "/awards/best-workplaces-nl-2024.webp", alt: "Great Place To Work — Best Workplaces Netherlands 2024, top 5", w: 454, h: 447, height: 76 },
   // outlined badge with a caption inside it — needs more height to read
   { src: "/awards/Appian.webp", alt: "Appian Europe 2024 Financial Services Partner of the Year", w: 364, h: 200, height: 68 },
@@ -228,11 +227,13 @@ export function HomeWirePage() {
         </p>
         {/* ruled cells, so this band reads as a set with the figures strip
             above it. Each mark keeps its optically-matched height. */}
-        <Reveal className="mt-8 grid grid-cols-2 gap-px border hairline sm:grid-cols-4">
+        {/* flush with the page ground — no tiles, no rules — so the marks
+            read as a quiet credential row (client, 20 Aug) */}
+        <Reveal className="mt-8 grid grid-cols-2 sm:grid-cols-3">
           {AWARDS.map((award) => (
             <div
               key={award.src}
-              className="flex min-h-36 items-center justify-center bg-white/82 px-5 py-7 shadow-[inset_0_0_0_1px_rgba(23,56,102,0.045)] sm:min-h-40"
+              className="flex min-h-36 items-center justify-center px-5 py-7 sm:min-h-40"
             >
               <Image
                 src={award.src}
@@ -1993,9 +1994,11 @@ export function AboutWirePage() {
       <ContentSection>
         <SectionIntro eyebrow="Management team" title="Leadership" body="Hands-on practitioners from major global financial services firms, leading from Amsterdam and Dubai." />
         {/* portraits + roles sourced from nxwave.com/locations/infinium-amsterdam-en */}
-        <div className="grid gap-px sm:grid-cols-2 lg:grid-cols-3">
-          {leadership.map(([name, role, img, bio]) => (
-            <article key={name} className="border hairline bg-abyss/25 p-6">
+        {/* five people, three columns: equal-width cards with the two-card
+            final row centred, not stretched */}
+        <div className="grid gap-px sm:grid-cols-2 lg:grid-cols-6">
+          {leadership.map(([name, role, img, bio], i) => (
+            <article key={name} className={`border hairline bg-abyss/25 p-6 lg:col-span-2 ${i === 3 ? "lg:col-start-2" : ""}`}>
               <Image
                 src={`/img/team/${img}.webp`}
                 alt={`${name} — ${role}`}
