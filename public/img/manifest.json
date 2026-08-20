@@ -818,5 +818,31 @@
         "lqip": "data:image/webp;base64,UklGRmoAAABXRUJQVlA4IF4AAADwAwCdASoUAAoAPxFysVCsJqSisAgBgCIJQBOmUABsDzY6s8q6I7YAAPa5N7OaTEJGe7fP0unQHb4JUI4/usVTBLwE93dEdwxDq0IaFZ9iHvq/VRYXHJNKkieFAAAA"
       }
     ]
+  },
+  "sustainable-finance": {
+    "variants": [
+      {
+        "src": "/img/sustainable-finance-v1",
+        "w": 2752,
+        "h": 1536,
+        "lqip": "data:image/webp;base64,UklGRoQAAABXRUJQVlA4IHgAAAAwBACdASoUAAsAPxFysFAsJqSisAgBgCIJYgAu9UB3a4M3App8K5odpwAA/uccghuHi8loUDf6O5tBS7HaPBiLdOAsCDBHjweKyweL8UGApEVzQCqOXd0WPgqoXLaPSJLIWFK8n1MTje3URIxx4JGUbo0hwDHqAAA="
+      },
+      {
+        "src": "/img/sustainable-finance-v2",
+        "w": 2752,
+        "h": 1536,
+        "lqip": "data:image/webp;base64,UklGRmoAAABXRUJQVlA4IF4AAADwAwCdASoUAAsAPxF0tFAsJyUisAgBgCIJZAC/OGlpUPqG8D8M7BQAAP7rk+hemsD3+PQbkPGRD/2+Z3Wx8y/U10QdXGQN86eZJIjZFmJVqu+cgy9kegdK0PDyAAAA"
+      }
+    ]
+  },
+  "strategy-change": {
+    "variants": [
+      {
+        "src": "/img/strategy-change-v1",
+        "w": 2752,
+        "h": 1536,
+        "lqip": "data:image/webp;base64,UklGRk4AAABXRUJQVlA4IEIAAABQAwCdASoUAAsAPxFysFAsJqSisAgBgCIJQBfJBDvx+oX7gAD+6nm4QXW3FeWI5s6KsEEVM/l9kfOnIVnz5JCaAAA="
+      }
+    ]
   }
 }

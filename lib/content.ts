@@ -64,7 +64,7 @@ export const SERVICES: Service[] = [
     slug: "sustainable-finance",
     eyebrow: "Risk & control",
     category: "Risk & control",
-    title: "Sustainable finance",
+    title: "ESG",
     lead: "ESG reporting and climate-aligned finance solutions, delivered at programme pace.",
     navBody:
       "ESG reporting and climate-aligned finance solutions, delivered at programme pace.",
@@ -405,7 +405,7 @@ export const CASE_STUDIES: CaseStudy[] = [
   },
   {
     slug: "climate-reporting",
-    service: "Sustainable Finance",
+    service: "ESG",
     sector: "Banks",
     location: "Amsterdam",
     title: "Automating bank-wide climate reporting disclosures",
@@ -464,7 +464,7 @@ export const NAV_GROUPS: NavGroup[] = [
       { label: "Digital and Automation", href: "/services/digital-and-automation" },
       { label: "Data and AI", href: "/services/data-and-ai" },
       { label: "Regulation and Compliance", href: "/services/regulation-and-compliance" },
-      { label: "Sustainable Finance", href: "/services/sustainable-finance" },
+      { label: "ESG", href: "/services/sustainable-finance" },
     ],
   },
   {

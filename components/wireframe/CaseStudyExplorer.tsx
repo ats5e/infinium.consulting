@@ -14,7 +14,7 @@ const FILTERS: Array<{ key: "service" | "sector" | "location"; label: string; op
   {
     key: "service",
     label: "Service",
-    options: ["All", "Strategy and Change", "Transformation", "Digital & Automation", "Data & AI", "Regulation and Compliance", "Sustainable Finance"],
+    options: ["All", "Strategy and Change", "Transformation", "Digital & Automation", "Data & AI", "Regulation and Compliance", "ESG"],
   },
   { key: "sector", label: "Sector", options: ["All", "Banks", "Financial Markets", "Insurers", "Fintechs"] },
   { key: "location", label: "Location", options: ["All", "Amsterdam", "Dubai"] },

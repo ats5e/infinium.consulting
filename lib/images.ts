@@ -54,6 +54,12 @@ const CHOSEN: Record<string, number> = {
   // client-supplied Power BI screenshot of the live assessment tool
   // (David Aston, 31 Jul 2026 — "A screenshot for the Quantexa assessment page")
   "quantexa-dashboard": 1,
+  // v2 (2026-08-20): Krea glass render for the services card — the team
+  // photo (careers slot) broke the cobalt-render set on the services index
+  "sustainable-finance": 2,
+  // v1 (2026-08-20): Krea glass render replacing the about-difc architecture
+  // shot on the Strategy and Change services card (client alignment feedback)
+  "strategy-change": 1,
   // second client drop — culture, industry events, Dubai, academic partners
   "culture-terrace": 1,
   "culture-night": 1,

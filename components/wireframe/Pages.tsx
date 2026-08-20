@@ -182,7 +182,7 @@ const HOME_PILLARS = [
     // the QBricks red belongs on the product pages, where it reads as brand;
     // beside three cobalt cards it read as a mistake. Layered glass instead.
     slot: "governance" as const,
-    body: "Our extreme-engineered solutions optimise the delivery value chain end to end: pre-built, proven components that compress implementations from years to months and significantly accelerate return on investment.",
+    body: "Our high-end engineered solutions optimise the delivery value chain end to end: pre-built, proven components that compress implementations from years to months and significantly accelerate return on investment.",
     cta: "Explore QBricks & VBricks →",
     href: "/solutions",
   },
@@ -202,12 +202,17 @@ export function HomeWirePage() {
             [22, "", "Leading global FS clients"],
             [100, "+", "Projects completed"],
             [30, "", "Fintech solution technologies"],
-            [2, "", "Global offices"],
+            /* chairman's note: name the hubs rather than count them */
+            ["Amsterdam & Dubai", "", "Serving EMEA & MENA"],
           ] as const).map(([value, suffix, label]) => (
             <div key={label} className="px-4 py-8 first:pl-0 sm:px-7 sm:py-10">
-              <p className="font-display text-(length:--text-step-3) leading-none text-paper">
-                <Counter value={value} suffix={suffix} />
-              </p>
+              {typeof value === "number" ? (
+                <p className="font-display text-(length:--text-step-3) leading-none text-paper">
+                  <Counter value={value} suffix={suffix} />
+                </p>
+              ) : (
+                <p className="font-display text-(length:--text-step-2) leading-[1.1] text-paper">{value}</p>
+              )}
               <p className="mt-3 font-mono text-[10px] uppercase tracking-[0.1em] text-steel">
                 {label}
               </p>
@@ -315,10 +320,10 @@ export function HomeWirePage() {
           columns={3}
           items={[
             { title: "Outcome-focused, not PowerPoint-focused", body: "We are measured on delivered business results — working systems, automated processes, realised savings — not decks and recommendations." },
-            { title: "Practitioners, not career consultants", body: "Our team has run the functions you are transforming. We have done it ourselves, so we understand your challenges from the inside." },
+            { title: "Seasoned practitioners on every engagement", body: "Our team has run the functions you are transforming. We have done it ourselves, so we understand your challenges from the inside." },
             { title: "Senior engineers in your office, not a delivery centre", body: "Highly educated engineering talent that works alongside you and your teams — on-shore, not off-shore — with the quality and pace that proximity brings." },
             { title: "People who've run the function you're transforming", body: "More than 30 years operating across the world's financial centres — capital markets, banking, insurance, wealth and asset management." },
-            { title: "Our own solutions, designed to improve efficiency", body: "Pre-built, extreme-engineered solutions like QBricks and VBricks that compress implementations from years to months and cut cost of ownership." },
+            { title: "Our own solutions, designed to improve efficiency", body: "Pre-built, high-end engineered solutions like QBricks and VBricks that compress implementations from years to months and cut cost of ownership." },
           ]}
         />
       </ContentSection>
@@ -338,8 +343,8 @@ const SERVICE_IMAGE: Record<string, Parameters<typeof siteImage>[0]> = {
   "data-and-ai": "data-science",
   "digital-and-automation": "data-engineering",
   "regulation-and-compliance": "governance",
-  "strategy-and-change": "about-difc",
-  "sustainable-finance": "careers",
+  "strategy-and-change": "strategy-change",
+  "sustainable-finance": "sustainable-finance",
   transformation: "digital-transformation",
 };
 
@@ -1195,7 +1200,7 @@ export function AIFactoryPage() {
           <Reveal className="lg:col-span-6">
             <p className="eyebrow text-signal">The engine room</p>
             <h2 className="mt-5 text-(length:--text-step-3) leading-[1.03]"><QBricksWord /> makes the factory economics work</h2>
-            <p className="mt-5 leading-relaxed text-ice">Designed and developed in the Netherlands by our R&amp;D team, QBricks compresses the most expensive phase of any AI programme — making bank data trustworthy. What competitors staff with hundreds of consultants, the factory does with pre-built, extreme-engineered components.</p>
+            <p className="mt-5 leading-relaxed text-ice">Designed and developed in the Netherlands by our R&amp;D team, QBricks compresses the most expensive phase of any AI programme — making bank data trustworthy. What competitors staff with hundreds of consultants, the factory does with pre-built, high-end engineered components.</p>
             <p className="mt-8"><SecondaryLink href="/solutions/qbricks">Explore QBricks &amp; VBricks →</SecondaryLink></p>
           </Reveal>
           <Reveal className="space-y-px lg:col-span-6">
@@ -1250,7 +1255,7 @@ export function ESGReportingPage() {
         body="Financial institutions struggle with complex data for ESG reporting. Our AI-enabled solution is a modular, three-hub platform — data sourcing, processing and reporting — built on proven technology and powered by a best-in-class Alteryx data analytics engine."
         actions={[
           { href: "/contact", label: "Request a demo" },
-          { href: "/services/sustainable-finance", label: "Sustainable finance services →" },
+          { href: "/services/sustainable-finance", label: "ESG services →" },
         ]}
         stats={[
           { value: "3", label: "Hubs — sourcing, processing, reporting" },
@@ -1482,20 +1487,20 @@ const TECHNOLOGY_DETAIL: Record<string, {
       intro: {
         eyebrow: "In the field",
         title: "Eleven processes, hours back every month",
-        body: "Recent automation engagements inside tier-1 banks in Türkiye and the UAE: finance and risk processes taken from manual effort to governed, repeatable workflows.",
+        body: "Recent automation engagements inside tier-1 banks in Turkey and the UAE: finance and risk processes taken from manual effort to governed, repeatable workflows.",
       },
       items: [
-        { tag: "Finance · Türkiye", metric: "2 hrs", metricLabel: "saved per month", title: "From manual reconciliation to automatic exception handling", body: "A legacy macro and line-by-line checking replaced by a workflow that auto-matches agreeing records, routes every mismatch to a review queue and reports the exceptions." },
-        { tag: "Finance · Türkiye", metric: "16 hrs", metricLabel: "saved per month", title: "From manual P&L extraction to instant daily reporting", body: "Daily P&L built from multiple trading-system screens now runs as one governed workflow — joins in seconds, unmatched datasets flagged for troubleshooting." },
+        { tag: "Finance · Turkey", metric: "2 hrs", metricLabel: "saved per month", title: "From manual reconciliation to automatic exception handling", body: "A legacy macro and line-by-line checking replaced by a workflow that auto-matches agreeing records, routes every mismatch to a review queue and reports the exceptions." },
+        { tag: "Finance · Turkey", metric: "16 hrs", metricLabel: "saved per month", title: "From manual P&L extraction to instant daily reporting", body: "Daily P&L built from multiple trading-system screens now runs as one governed workflow — joins in seconds, unmatched datasets flagged for troubleshooting." },
         { tag: "Finance · UAE", metric: "8 days", metricLabel: "saved per month", title: "From days of RWA calculation to a 15-minute run", body: "RWA calculations across legacy systems and massive datasets — data tested first, then run in full — cut from days of error-prone manual work to a 15-minute run." },
         { tag: "Finance · UAE", metric: "6 hrs", metricLabel: "saved per month", title: "From memorised rules to an auditable variance engine", body: "Cost-variance logic once hardcoded across spreadsheets is now coded explicitly — transparent, auditable and easy to troubleshoot when something looks off." },
-        { tag: "Finance · Türkiye", metric: "4 hrs", metricLabel: "saved per month", title: "From manual screening to traceable sanctions matching", body: "Asset-freezing notices answered from unified data: standardised names and identifiers, risk-based escalation and clear supporting evidence for every match." },
-        { tag: "Finance · Türkiye", metric: "8 hrs", metricLabel: "saved per month, up to", title: "From scattered files to one governed BIST report", body: "Customer, usage and pricing files consolidated automatically against the current price list — a full audit trail from source to final payable figure." },
-        { tag: "Finance · Türkiye", metric: "4 hrs", metricLabel: "saved per month", title: "From blended AUM moves to a clear customer-vs-market bridge", body: "Monthly AUM movement decomposed automatically into customer-driven flows and market-value effects, product by product, period over period." },
-        { tag: "Risk · Türkiye", metric: "4 hrs", metricLabel: "saved per month", title: "From manual trade checks to automated FX reconciliation", body: "FX option trades matched against their London legs across every key attribute, with matches, gaps and exceptions prioritised for Operations." },
-        { tag: "Risk · Türkiye", metric: "4 hrs", metricLabel: "saved per month", title: "From fragmented pricing files to one central repository", body: "Pricing data from multiple systems standardised, matched on agreed keys and deduplicated into one governed central dataset." },
-        { tag: "Risk · Türkiye", metric: "4 hrs", metricLabel: "saved per month", title: "From manual NPL workbooks to a repeatable monthly workflow", body: "Monthly NPL ratios calculated in one workflow with consistent definitions, sector mapping and data-quality exceptions flagged for review." },
-        { tag: "Risk · Türkiye", metric: "12 hrs", metricLabel: "saved per month, up to", title: "From daily manual charting to one-click RMM packs", body: "Daily risk management and monitoring graphs rebuilt on demand from the latest data — no manual charting, no email assembly." },
+        { tag: "Finance · Turkey", metric: "4 hrs", metricLabel: "saved per month", title: "From manual screening to traceable sanctions matching", body: "Asset-freezing notices answered from unified data: standardised names and identifiers, risk-based escalation and clear supporting evidence for every match." },
+        { tag: "Finance · Turkey", metric: "8 hrs", metricLabel: "saved per month, up to", title: "From scattered files to one governed BIST report", body: "Customer, usage and pricing files consolidated automatically against the current price list — a full audit trail from source to final payable figure." },
+        { tag: "Finance · Turkey", metric: "4 hrs", metricLabel: "saved per month", title: "From blended AUM moves to a clear customer-vs-market bridge", body: "Monthly AUM movement decomposed automatically into customer-driven flows and market-value effects, product by product, period over period." },
+        { tag: "Risk · Turkey", metric: "4 hrs", metricLabel: "saved per month", title: "From manual trade checks to automated FX reconciliation", body: "FX option trades matched against their London legs across every key attribute, with matches, gaps and exceptions prioritised for Operations." },
+        { tag: "Risk · Turkey", metric: "4 hrs", metricLabel: "saved per month", title: "From fragmented pricing files to one central repository", body: "Pricing data from multiple systems standardised, matched on agreed keys and deduplicated into one governed central dataset." },
+        { tag: "Risk · Turkey", metric: "4 hrs", metricLabel: "saved per month", title: "From manual NPL workbooks to a repeatable monthly workflow", body: "Monthly NPL ratios calculated in one workflow with consistent definitions, sector mapping and data-quality exceptions flagged for review." },
+        { tag: "Risk · Turkey", metric: "12 hrs", metricLabel: "saved per month, up to", title: "From daily manual charting to one-click RMM packs", body: "Daily risk management and monitoring graphs rebuilt on demand from the latest data — no manual charting, no email assembly." },
       ],
     },
   },
@@ -1917,11 +1922,11 @@ export function CaseStudyWirePage({ slug }: { slug: string }) {
 export function AboutWirePage() {
   /* names, roles and bios sourced from nxwave.com/locations/infinium-amsterdam-en */
   const leadership = [
-    ["David Aston", "CEO, Infinium", "david-aston-v2", "30+ years in financial markets, founder of the NextWave Group and CEO & founder of Infinium. Has delivered complex transformation inside tier-1 banks. Works in English, French and Italian."],
+    ["David Aston", "CEO, Infinium", "david-aston-v2", "30+ years in financial markets, founder of the NextWave Group and CEO & founder of Infinium. Has delivered complex transformation inside tier-1 banks."],
     ["Toby Smith-Cullen", "Partner, Infinium", "toby-smith-cullen", "Twenty years in transformation and innovation in the financial industry, formerly fintech partnership lead at a leading Dutch bank. MSc, Delft University of Technology."],
     ["Erik Rowbotham", "Partner, Infinium", "erik-rowbotham", "Regulation & Compliance practice lead. Change delivery leader with an accounting and business background, built inside major UK banking institutions."],
     ["Helen Bull", "Partner, Infinium", "helen-bull", "Leads the Transformation practice, operating at board level with large corporate and financial services clients across the UK, Germany and the Netherlands. Certified project manager."],
-    ["Jeanette Zeilmaker", "Operations Head, Infinium", "jeanette-zeilmaker", "Head of operations for Infinium in the Netherlands — more than 29 years across operations, HR, contract management and compliance."],
+    ["Jeanette Zeilmaker", "Operations Head, Infinium", "jeanette-zeilmaker", "Head of operations for Infinium in the Netherlands — 20 years across operations, HR, contract management and compliance."],
   ] as const;
 
   return (
@@ -1935,7 +1940,7 @@ export function AboutWirePage() {
         <div className="grid gap-12 md:grid-cols-2 md:items-center">
           <Reveal>
             <p className="eyebrow text-signal">Our firm</p>
-            <h2 className="mt-6 text-(length:--text-step-3)">Industry practitioners, not career consultants</h2>
+            <h2 className="mt-6 text-(length:--text-step-3)">Industry practitioners at our core</h2>
             <p className="mt-6 leading-relaxed text-ice">Our leadership team are hands-on MD-level practitioners from major global financial services firms, with deep experience of the same challenges our clients face. Delivery teams pair seasoned industry specialists with dynamic new talent.</p>
             <p className="mt-5 leading-relaxed text-ice">Together with best-in-class fintech and platform partners, we deliver unique business solutions with the latest enabling technologies, helping our clients go faster.</p>
           </Reveal>
@@ -2082,7 +2087,7 @@ export function InfiniumLabsPage() {
         backLabel="About us"
         eyebrow="Infinium Labs"
         title="Products built by people who've run your systems."
-        body="Infinium Labs is Infinium's engineering and product team — a single unit collaborating across Amsterdam and Dubai, turning hands-on financial services delivery experience into engineered software."
+        body="Infinium Labs is Infinium's engineering and product team, a single unit collaborating across Amsterdam and Dubai, turning hands-on financial services delivery experience into engineered software."
         actions={[
           { href: "/solutions", label: "Explore the products" },
           { href: "/contact", label: "Talk to the team →" },
@@ -2099,17 +2104,17 @@ export function InfiniumLabsPage() {
             <SectionIntro eyebrow="The team" title="Bank-side experience, engineering-grade credentials" />
           </div>
           <Reveal className="space-y-5 leading-relaxed text-ice md:col-span-7">
-            <p>The team&rsquo;s collective background spans tier-1 banks and asset managers &mdash; ABN AMRO, ING, APG Asset Management and MSCI &mdash; alongside research posts at the Australian National University and Eindhoven University of Technology. Between them, the team has led cloud data platform migrations, built automated model-testing solutions for wholesale and business banking credit risk models, and worked as technical consultants to the market for over a decade.</p>
-            <p>The team is small by design and structured so that engineers who have sat inside a bank&rsquo;s risk, data or technology function build the tools other banks now use to solve the same problems &mdash; there&rsquo;s no separation between the people who understand the industry and the people who write the code. The Amsterdam and Dubai arms operate as one unit, sharing standards, tooling and delivery discipline across both locations.</p>
+            <p>The team&rsquo;s collective background spans tier-1 banks and asset managers, including ABN AMRO, ING, APG Asset Management and MSCI, alongside research posts at the Australian National University and Eindhoven University of Technology. Between them, the team has led cloud data platform migrations, built automated model-testing solutions for wholesale and business banking credit risk models, and worked as technical consultants to the market for over a decade.</p>
+            <p>The team is small by design and structured so that engineers who have sat inside a bank&rsquo;s risk, data or technology function build the tools other banks now use to solve the same problems: there&rsquo;s no separation between the people who understand the industry and the people who write the code. The Amsterdam and Dubai arms operate as one unit, sharing standards, tooling and delivery discipline across both locations.</p>
           </Reveal>
         </div>
         <div className="mt-12">
           <NumberedCards
             columns={3}
             items={[
-              { title: "Practitioners first", body: "Experience drawn from inside ABN AMRO, ING, APG Asset Management and MSCI, hands-on, outcome-led and close to the client problem — with over a decade as technical consultants to the market." },
+              { title: "Practitioners first", body: "Experience drawn from inside ABN AMRO, ING, APG Asset Management and MSCI, hands-on, outcome-led and close to the client problem, with over a decade as technical consultants to the market." },
               { title: "Calibre that's hard to combine", body: "A PhD in Computer Science, postdoctoral research in artificial intelligence, and industry certifications including Azure Databricks Platform Architect and Microsoft Fabric Data Engineer Associate. Automated testing designed and implemented across more than 20 credit risk models." },
-              { title: "Research, applied", body: "A PhD from the Australian National University, a Master of Research in Computer Science, postgraduate study in AI and high-performance computing, and business education from RSM Erasmus and Frankfurt School — translated directly into product engineering, not left on the page." },
+              { title: "Research, applied", body: "A PhD from the Australian National University, a Master of Research in Computer Science, postgraduate study in AI and high-performance computing, and business education from RSM Erasmus and Frankfurt School, translated directly into product engineering rather than left on the page." },
             ]}
           />
         </div>
