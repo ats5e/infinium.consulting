@@ -808,5 +808,15 @@
         "lqip": "data:image/webp;base64,UklGRoAAAABXRUJQVlA4IHQAAADwAwCdASoUAA0APxFysFAsJqSisAgBgCIJQBOgBEE3r87vxUPjs1zAAMtCGn+FVt7UPPz/L3gchHnjTbRrsH2qcpKg0VpyY5G3ogbfr8rddTjDfG0MSgazQJ3dbzQkO0lc9o+nx02qPx2KG2QIupJvcMAAAA=="
       }
     ]
+  },
+  "quantexa-dashboard": {
+    "variants": [
+      {
+        "src": "/img/quantexa-dashboard-v1",
+        "w": 1276,
+        "h": 640,
+        "lqip": "data:image/webp;base64,UklGRmoAAABXRUJQVlA4IF4AAADwAwCdASoUAAoAPxFysVCsJqSisAgBgCIJQBOmUABsDzY6s8q6I7YAAPa5N7OaTEJGe7fP0unQHb4JUI4/usVTBLwE93dEdwxDq0IaFZ9iHvq/VRYXHJNKkieFAAAA"
+      }
+    ]
   }
 }

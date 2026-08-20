@@ -8,6 +8,7 @@ const ROUTES: Array<[path: string, h1: RegExp]> = [
   ["/solutions/qbricks", /No more data pipelines/i],
   ["/solutions/vbricks", /major change in model testing/i],
   ["/solutions/ai-factory", /From AI pilots to an industrial AI capability/i],
+  ["/solutions/esg-reporting", /Audit-ready ESG disclosure/i],
   ["/solutions/ai-assessment", /AI assessment/i],
   ["/technologies", /Technologies/i],
   ["/insights", /Case studies/i],

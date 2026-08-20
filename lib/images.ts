@@ -51,6 +51,9 @@ const CHOSEN: Record<string, number> = {
   // v2 (2026-08-19): recent Amsterdam-hub team shot replaces the dated,
   // low-res (400px) end-of-year event photo — client checklist item 5
   "culture-yearend": 2,
+  // client-supplied Power BI screenshot of the live assessment tool
+  // (David Aston, 31 Jul 2026 — "A screenshot for the Quantexa assessment page")
+  "quantexa-dashboard": 1,
   // second client drop — culture, industry events, Dubai, academic partners
   "culture-terrace": 1,
   "culture-night": 1,

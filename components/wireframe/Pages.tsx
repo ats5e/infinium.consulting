@@ -21,6 +21,7 @@ import {
 import { siteImage } from "@/lib/images";
 import { CaseStudyExplorer } from "@/components/wireframe/CaseStudyExplorer";
 import { FactoryLineBand } from "@/components/FactoryLine";
+import { AssessmentDashboard } from "@/components/AssessmentDashboard";
 import {
   CardGrid,
   CaseStudyCard,
@@ -410,7 +411,10 @@ const SERVICE_DETAIL: Record<string, {
       { title: "Climate & sustainable funding", body: "Climate and sustainable funding & finance solutions, engineered for auditability and regulatory alignment from day one." },
       { title: "Regulatory alignment", body: "CSRD, SFDR and evolving disclosure regimes translated into data requirements, controls and reporting your teams can run." },
     ],
-    links: [{ href: "/insights", label: "Read the case studies →" }],
+    links: [
+      { href: "/solutions/esg-reporting", label: "Explore the ESG reporting platform →" },
+      { href: "/insights", label: "Read the case studies →" },
+    ],
     ctaTitle: "Where is your ESG programme today?",
     ctaBody: "Talk to a practice lead about your reporting obligations and timeline.",
   },
@@ -583,6 +587,25 @@ export function SolutionsWirePage() {
               </div>
               <div className="md:col-span-3 md:text-right">
                 <p className="font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-signal">Explore the AI Factory →</p>
+              </div>
+            </div>
+          </Link>
+        </Reveal>
+        <Reveal className="mt-px">
+          <Link
+            href="/solutions/esg-reporting"
+            className="spot group relative block overflow-hidden border hairline bg-surface/85 p-8 shadow-[0_8px_24px_rgba(23,56,102,0.045)] outline-none transition-[border-color,transform,background,box-shadow] duration-(--duration-base) ease-(--ease-out-expo) hover:-translate-y-0.5 hover:border-signal/45 hover:bg-white hover:shadow-[0_14px_36px_rgba(23,56,102,0.085)] focus-visible:border-signal/60 focus-visible:bg-white focus-visible:ring-2 focus-visible:ring-signal focus-visible:ring-offset-2 focus-visible:ring-offset-void md:p-10"
+          >
+            <span aria-hidden className="absolute inset-x-0 top-0 h-px origin-left scale-x-0 bg-signal transition-transform duration-(--duration-base) group-hover:scale-x-100 group-focus-visible:scale-x-100" />
+            <div className="grid gap-8 md:grid-cols-12 md:items-end">
+              <div className="md:col-span-9">
+                <p className="eyebrow text-signal">Platform</p>
+                <h2 className="mt-6 text-(length:--text-step-4)">ESG reporting</h2>
+                <p className="mt-4 text-(length:--text-step-1) text-glass">Audit-ready ESG disclosure, on one governed platform.</p>
+                <p className="mt-6 max-w-3xl leading-relaxed text-ice">A modular, three-hub platform — data sourcing, processing and reporting — aligned to CSRD, CSDDD, GRI and ISSB, and powered by a best-in-class Alteryx data analytics engine.</p>
+              </div>
+              <div className="md:col-span-3 md:text-right">
+                <p className="font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-signal">Explore ESG reporting →</p>
               </div>
             </div>
           </Link>
@@ -1076,7 +1099,7 @@ export function AssessmentPage({ kind }: { kind: "ai" | "quantexa" }) {
             </Reveal>
           </ContentSection>
           <ContentSection>
-            <SectionIntro eyebrow="How it works" title="Four steps, three to four weeks" />
+            <SectionIntro eyebrow="How it works" title="Four steps, eight weeks" />
             <NumberedCards
               columns={4}
               items={[
@@ -1086,7 +1109,11 @@ export function AssessmentPage({ kind }: { kind: "ai" | "quantexa" }) {
                 { title: "Roadmap", body: "You receive a full findings report, an executive summary, and a prioritised improvement roadmap — sequenced by impact, effort and risk, and ready to execute." },
               ]}
             />
-            <p className="mt-8 max-w-3xl text-(length:--text-body-sm) leading-relaxed text-ice">Typical elapsed time: three to four weeks, with minimal disruption to in-flight delivery.</p>
+            <p className="mt-8 max-w-3xl text-(length:--text-body-sm) leading-relaxed text-ice">Typical elapsed time: eight weeks, with minimal disruption to in-flight delivery.</p>
+
+            <Reveal className="mt-14">
+              <AssessmentDashboard />
+            </Reveal>
 
             <div className="mt-14 grid gap-px border hairline md:grid-cols-2">
               <div className="bg-abyss/25 p-7 sm:p-8">
@@ -1200,6 +1227,111 @@ export function AIFactoryPage() {
   );
 }
 
+/* Consolidated from the csrd.consulting microsite (client direction,
+ * 21 Jul 2026) so the microsite can be retired. Copy — hub descriptions,
+ * framework dates and testimonials — is carried over verbatim. */
+export function ESGReportingPage() {
+  const testimonials = [
+    ["Your solution solves data processing for structured and unstructured information across the entire process.", "Senior Reporting Lead", "Major Dutch corporate"],
+    ["Solution significantly reduces audit burden and demonstrates keystroke-level auditability from sourcing to report.", "Reporting Lead", "Dutch corporate"],
+    ["Built on proven technology with extensive client base significantly de-risks the implementation process.", "Head of Reporting COE", "Major international bank"],
+    ["Alteryx's market-leading platform enables quick data source additions and multiple format processing.", "Data Analyst", "Major US bank"],
+    ["Built-in horizon scanner links regulations throughout the process, demonstrating regulatory traceability.", "CSRD Reporting Lead", "Major UAE bank"],
+    ["AI-powered draft report generation from narrative and numeric inputs saves significant time and effort.", "ESG Reporting Lead", "MENA bank"],
+  ] as const;
+
+  return (
+    <>
+      <HeroSection
+        backHref="/solutions"
+        backLabel="Our solutions"
+        eyebrow="Our solutions"
+        title="Audit-ready ESG disclosure, on one governed platform."
+        body="Financial institutions struggle with complex data for ESG reporting. Our AI-enabled solution is a modular, three-hub platform — data sourcing, processing and reporting — built on proven technology and powered by a best-in-class Alteryx data analytics engine."
+        actions={[
+          { href: "/contact", label: "Request a demo" },
+          { href: "/services/sustainable-finance", label: "Sustainable finance services →" },
+        ]}
+        stats={[
+          { value: "3", label: "Hubs — sourcing, processing, reporting" },
+          { value: "4", label: "Frameworks — CSRD, CSDDD, GRI & ISSB" },
+          { value: "8,000+", label: "Clients on the underlying Alteryx platform" },
+        ]}
+      />
+      <ContentSection>
+        <SectionIntro
+          eyebrow="Why now"
+          title="A shift in ESG disclosure, written into law"
+          body="New regulatory frameworks have turned ESG reporting from voluntary communication into a supervised obligation — with the data burden landing on finance, risk and sustainability teams at once."
+        />
+        <Reveal className="grid gap-px sm:grid-cols-2 lg:grid-cols-4">
+          {([
+            ["CSRD", "The Corporate Sustainability Reporting Directive — in force since 5 January 2023."],
+            ["CSDDD", "The Corporate Sustainability Due Diligence Directive 2024/1760 — in force since 25 July 2024."],
+            ["GRI", "The Global Reporting Initiative — the most widely used voluntary sustainability reporting standards."],
+            ["ISSB", "The IFRS Foundation's International Sustainability Standards Board, launched at COP26, Glasgow."],
+          ] as const).map(([name, body]) => (
+            <article key={name} className="border hairline bg-surface/82 p-6 shadow-[0_8px_24px_rgba(23,56,102,0.04)]">
+              <h3 className="font-mono text-(length:--text-step-1) tracking-[0.02em] text-signal">{name}</h3>
+              <p className="mt-3 text-(length:--text-body-sm) leading-relaxed text-ice">{body}</p>
+            </article>
+          ))}
+        </Reveal>
+      </ContentSection>
+      <ContentSection className="bg-abyss/20">
+        <SectionIntro eyebrow="The platform" title="Three hubs, one governed flow from source to disclosure" />
+        <NumberedCards
+          items={[
+            { title: "Data sourcing", body: "A workflow-driven solution that supports the collection of ESG data both within and outside of an organisation — bespoke questionnaires, stakeholder engagement and gap identification built in." },
+            { title: "Data processing", body: "Consolidate, cleanse, prepare, process and report structured and unstructured data types at scale, using Alteryx." },
+            { title: "Reporting", body: "Produce real-time management information to support strategic decisions and precise portfolio management — with export to the formats regulators expect, including XBRL." },
+          ]}
+        />
+        <div className="mt-12 border hairline bg-white/78 p-8 shadow-[0_12px_34px_rgba(23,56,102,0.055)]">
+          <p className="eyebrow text-signal">What&rsquo;s built in</p>
+          <ul className="mt-6 grid gap-x-8 gap-y-3 text-(length:--text-body-sm) text-ice sm:grid-cols-2 lg:grid-cols-3">
+            {[
+              "Compliance with GRI, ESRS & ISSB standards",
+              "Horizon scanning with custom AI models",
+              "Advanced AI data analytics via Alteryx",
+              "Open API data integration",
+              "Stakeholder engagement workflow",
+              "Materiality assessment",
+              "Gap analysis",
+              "System integration",
+              "Structured & unstructured data processing",
+              "Portfolio tracking",
+              "Emission tracking",
+              "Audit logging",
+            ].map((f) => (
+              <li key={f} className="flex gap-3 border-t hairline pt-3"><span aria-hidden className="text-signal">↳</span><span>{f}</span></li>
+            ))}
+          </ul>
+        </div>
+      </ContentSection>
+      <ContentSection>
+        <SectionIntro eyebrow="What reporting teams say" title="Less audit burden, faster reports, traceable regulation" />
+        <Reveal className="grid gap-px md:grid-cols-3">
+          {testimonials.map(([quote, who, org]) => (
+            <article key={quote} className="flex h-full flex-col justify-between border hairline bg-abyss/25 p-7">
+              <blockquote className="leading-relaxed text-glass">&ldquo;{quote}&rdquo;</blockquote>
+              <footer className="mt-6">
+                <p className="text-(length:--text-body-sm) text-paper">{who}</p>
+                <p className="eyebrow mt-1">{org}</p>
+              </footer>
+            </article>
+          ))}
+        </Reveal>
+      </ContentSection>
+      <CTASection
+        title="ESG obligations landing on your desk?"
+        body="Talk to a practice lead about your reporting obligations and timeline — we'll show the platform against your own frameworks."
+        label="Request a demo"
+      />
+    </>
+  );
+}
+
 /* ---- Sectors, technologies, insights ---------------------------------- */
 
 export function SectorsWirePage() {
@@ -1303,6 +1435,18 @@ const TECHNOLOGY_DETAIL: Record<string, {
   cta: string;
   /* client-facing proof points: case-study slugs delivered on this platform */
   caseStudies?: string[];
+  /* in-the-field results wall: anonymised engagement outcomes with a
+   * time-saved metric (source: client-supplied case-study deck, Jul 2026) */
+  results?: {
+    intro: { eyebrow: string; title: string; body: string };
+    items: Array<{ tag: string; metric: string; metricLabel: string; title: string; body: string }>;
+  };
+  /* delivery-pattern cases: problem → what we provide → outcome, no metrics
+   * (source: client-supplied designed case pages, Jul 2026) */
+  fieldCases?: {
+    intro: { eyebrow: string; title: string; body: string };
+    items: Array<{ tag: string; title: string; problem: string; points: Array<[string, string]>; outcome: string }>;
+  };
 }> = {
   alteryx: {
     eyebrow: "Technologies · Partner",
@@ -1334,6 +1478,26 @@ const TECHNOLOGY_DETAIL: Record<string, {
     ],
     cta: "Which process should Alteryx take off your hands?",
     caseStudies: ["regulatory-reporting", "finance-re-engineering", "capital-requirements"],
+    results: {
+      intro: {
+        eyebrow: "In the field",
+        title: "Eleven processes, hours back every month",
+        body: "Recent automation engagements inside tier-1 banks in Türkiye and the UAE: finance and risk processes taken from manual effort to governed, repeatable workflows.",
+      },
+      items: [
+        { tag: "Finance · Türkiye", metric: "2 hrs", metricLabel: "saved per month", title: "From manual reconciliation to automatic exception handling", body: "A legacy macro and line-by-line checking replaced by a workflow that auto-matches agreeing records, routes every mismatch to a review queue and reports the exceptions." },
+        { tag: "Finance · Türkiye", metric: "16 hrs", metricLabel: "saved per month", title: "From manual P&L extraction to instant daily reporting", body: "Daily P&L built from multiple trading-system screens now runs as one governed workflow — joins in seconds, unmatched datasets flagged for troubleshooting." },
+        { tag: "Finance · UAE", metric: "8 days", metricLabel: "saved per month", title: "From days of RWA calculation to a 15-minute run", body: "RWA calculations across legacy systems and massive datasets — data tested first, then run in full — cut from days of error-prone manual work to a 15-minute run." },
+        { tag: "Finance · UAE", metric: "6 hrs", metricLabel: "saved per month", title: "From memorised rules to an auditable variance engine", body: "Cost-variance logic once hardcoded across spreadsheets is now coded explicitly — transparent, auditable and easy to troubleshoot when something looks off." },
+        { tag: "Finance · Türkiye", metric: "4 hrs", metricLabel: "saved per month", title: "From manual screening to traceable sanctions matching", body: "Asset-freezing notices answered from unified data: standardised names and identifiers, risk-based escalation and clear supporting evidence for every match." },
+        { tag: "Finance · Türkiye", metric: "8 hrs", metricLabel: "saved per month, up to", title: "From scattered files to one governed BIST report", body: "Customer, usage and pricing files consolidated automatically against the current price list — a full audit trail from source to final payable figure." },
+        { tag: "Finance · Türkiye", metric: "4 hrs", metricLabel: "saved per month", title: "From blended AUM moves to a clear customer-vs-market bridge", body: "Monthly AUM movement decomposed automatically into customer-driven flows and market-value effects, product by product, period over period." },
+        { tag: "Risk · Türkiye", metric: "4 hrs", metricLabel: "saved per month", title: "From manual trade checks to automated FX reconciliation", body: "FX option trades matched against their London legs across every key attribute, with matches, gaps and exceptions prioritised for Operations." },
+        { tag: "Risk · Türkiye", metric: "4 hrs", metricLabel: "saved per month", title: "From fragmented pricing files to one central repository", body: "Pricing data from multiple systems standardised, matched on agreed keys and deduplicated into one governed central dataset." },
+        { tag: "Risk · Türkiye", metric: "4 hrs", metricLabel: "saved per month", title: "From manual NPL workbooks to a repeatable monthly workflow", body: "Monthly NPL ratios calculated in one workflow with consistent definitions, sector mapping and data-quality exceptions flagged for review." },
+        { tag: "Risk · Türkiye", metric: "12 hrs", metricLabel: "saved per month, up to", title: "From daily manual charting to one-click RMM packs", body: "Daily risk management and monitoring graphs rebuilt on demand from the latest data — no manual charting, no email assembly." },
+      ],
+    },
   },
   appian: {
     eyebrow: "Technologies · FS Partner of the Year 2024",
@@ -1415,6 +1579,49 @@ const TECHNOLOGY_DETAIL: Record<string, {
     ],
     cta: "Planning a Fabric or Azure move?",
     caseStudies: ["fintech-transformation"],
+    fieldCases: {
+      intro: {
+        eyebrow: "Delivery patterns",
+        title: "From source to defensible decisions: three Fabric builds",
+        body: "What we provide when delivering with Microsoft Fabric, shown through three focused builds — every engineer DP-700 certified, every build governed from the first pipeline.",
+      },
+      items: [
+        {
+          tag: "Data platform",
+          title: "One governed pipeline from source to report",
+          problem: "Company data lives everywhere — CRM, HR, finance, project tools — and each system tells only part of the story.",
+          points: [
+            ["One medallion architecture", "OneLake brings every source into one place: one copy of the data, checked, cleaned and governed on the way in."],
+            ["No-code to pro-code", "From Data Factory pipelines to Spark notebooks, tooling is built into standardised, reusable patterns."],
+            ["Reports for every department", "The same governed copy of the data feeds Power BI reports across the business, so everyone works from the full story."],
+            ["Governance built in", "Lineage, sensitivity labels and access control cover the whole platform, not just the data."],
+          ],
+          outcome: "The full story, always up-to-date and accurate, from source to report.",
+        },
+        {
+          tag: "Risk & compliance",
+          title: "Know your customer, in real time",
+          problem: "Customer data is fragmented across systems; keeping KYC current is expensive and error-prone.",
+          points: [
+            ["One view, updated in real time", "Customer data from every system flows into a single, always-current picture — no more stitching together fragments at review time."],
+            ["Reviews triggered the moment something changes", "Real-Time Intelligence monitors streaming data and triggers a review as soon as a customer's circumstances change."],
+            ["Protected and traceable with Purview", "Every attribute is classified, protected and traceable back to its source. The audit trail comes with the platform."],
+          ],
+          outcome: "From periodic reviews to continuous assurance, with the audit trail built in.",
+        },
+        {
+          tag: "Risk modelling",
+          title: "Risk models you can audit",
+          problem: "Credit risk models are only as good as the data behind them, and regulators expect to see the working, not just the score.",
+          points: [
+            ["Built directly on OneLake", "Models are built with Data Science tooling on one data pool: no copies, no handovers, no drift between training data and the source of truth."],
+            ["Every version on record", "Each model version is stored in the model registry with its performance metrics and parameters, ready for review at any time."],
+            ["Full traceability", "From source data to risk model, the working is there to show, not just the score."],
+          ],
+          outcome: "Defensible risk models, from training data to production.",
+        },
+      ],
+    },
   },
   quantexa: {
     eyebrow: "Technologies · Plus Alliance Partner",
@@ -1477,8 +1684,56 @@ export function TechnologyDetailPage({ slug }: { slug: string }) {
           {t.links.filter((l) => !l.label.includes("Spotlight")).map((l) => <SecondaryLink key={l.label} href={l.href}>{l.label}</SecondaryLink>)}
         </div>
       </ContentSection>
-      {t.caseStudies?.length ? (
+      {t.results ? (
         <ContentSection className="bg-abyss/20">
+          <SectionIntro eyebrow={t.results.intro.eyebrow} title={t.results.intro.title} body={t.results.intro.body} />
+          <Reveal className="grid gap-px sm:grid-cols-2 lg:grid-cols-3">
+            {t.results.items.map((r) => (
+              <article key={r.title} className="flex h-full flex-col border hairline bg-white/82 p-6 shadow-[0_8px_24px_rgba(23,56,102,0.04)]">
+                <p className="eyebrow text-steel">{r.tag}</p>
+                <p className="mt-4 font-display text-(length:--text-step-3) leading-none text-paper">
+                  {r.metric}
+                  <span className="ml-2 font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-signal">{r.metricLabel}</span>
+                </p>
+                <h3 className="mt-4 text-(length:--text-step-1) leading-tight">{r.title}</h3>
+                <p className="mt-3 text-(length:--text-body-sm) leading-relaxed text-ice">{r.body}</p>
+              </article>
+            ))}
+          </Reveal>
+        </ContentSection>
+      ) : null}
+      {t.fieldCases ? (
+        <ContentSection className="bg-abyss/20">
+          <SectionIntro eyebrow={t.fieldCases.intro.eyebrow} title={t.fieldCases.intro.title} body={t.fieldCases.intro.body} />
+          <div className="space-y-px">
+            {t.fieldCases.items.map((c) => (
+              <Reveal key={c.title}>
+                <article className="grid gap-x-10 gap-y-6 border hairline bg-white/82 p-7 sm:p-9 md:grid-cols-12">
+                  <div className="md:col-span-4">
+                    <p className="eyebrow text-signal">{c.tag}</p>
+                    <h3 className="mt-4 text-(length:--text-step-2) leading-tight">{c.title}</h3>
+                    <p className="mt-4 leading-relaxed text-ice">{c.problem}</p>
+                    <p className="mt-6 border-l-2 border-cobalt pl-4 text-(length:--text-body-sm) leading-relaxed text-glass">{c.outcome}</p>
+                  </div>
+                  <div className="md:col-span-8">
+                    <p className="eyebrow text-steel">What we provide</p>
+                    <div className="mt-3 divide-y divide-ice/12">
+                      {c.points.map(([pt, pb]) => (
+                        <div key={pt} className="grid gap-2 py-4 md:grid-cols-12 md:gap-6">
+                          <h4 className="text-(length:--text-body) leading-snug md:col-span-4">{pt}</h4>
+                          <p className="text-(length:--text-body-sm) leading-relaxed text-ice md:col-span-8">{pb}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </article>
+              </Reveal>
+            ))}
+          </div>
+        </ContentSection>
+      ) : null}
+      {t.caseStudies?.length ? (
+        <ContentSection className={t.results || t.fieldCases ? undefined : "bg-abyss/20"}>
           <SectionIntro eyebrow="Proof, not promises" title="Measured outcomes delivered on this platform" />
           <div className={`grid gap-px ${t.caseStudies.length >= 3 ? "md:grid-cols-3" : "md:grid-cols-2"}`}>
             {t.caseStudies.map((slug) => {
@@ -1827,7 +2082,7 @@ export function InfiniumLabsPage() {
         backLabel="About us"
         eyebrow="Infinium Labs"
         title="Products built by people who've run your systems."
-        body="Infinium Labs is our engineering and product team, working across Amsterdam and DIFC, Dubai. The same people who deliver client engagements design and build our product suite — so every feature exists because a real programme needed it."
+        body="Infinium Labs is Infinium's engineering and product team — a single unit collaborating across Amsterdam and Dubai, turning hands-on financial services delivery experience into engineered software."
         actions={[
           { href: "/solutions", label: "Explore the products" },
           { href: "/contact", label: "Talk to the team →" },
@@ -1844,17 +2099,17 @@ export function InfiniumLabsPage() {
             <SectionIntro eyebrow="The team" title="Bank-side experience, engineering-grade credentials" />
           </div>
           <Reveal className="space-y-5 leading-relaxed text-ice md:col-span-7">
-            <p>The Labs team combines experience from inside the institutions our clients run &mdash; ABN AMRO, ING, APG and MSCI &mdash; with deep technical credentials: PhD-level computer science and certified expertise across Databricks and Microsoft Fabric.</p>
-            <p>That mix is deliberate. Products for regulated finance fail when they are built at arm&rsquo;s length from the work; ours are shaped by people who have owned the data estates, the reporting cycles and the audit conversations themselves.</p>
+            <p>The team&rsquo;s collective background spans tier-1 banks and asset managers &mdash; ABN AMRO, ING, APG Asset Management and MSCI &mdash; alongside research posts at the Australian National University and Eindhoven University of Technology. Between them, the team has led cloud data platform migrations, built automated model-testing solutions for wholesale and business banking credit risk models, and worked as technical consultants to the market for over a decade.</p>
+            <p>The team is small by design and structured so that engineers who have sat inside a bank&rsquo;s risk, data or technology function build the tools other banks now use to solve the same problems &mdash; there&rsquo;s no separation between the people who understand the industry and the people who write the code. The Amsterdam and Dubai arms operate as one unit, sharing standards, tooling and delivery discipline across both locations.</p>
           </Reveal>
         </div>
         <div className="mt-12">
           <NumberedCards
             columns={3}
             items={[
-              { title: "Practitioners first", body: "Team experience drawn from ABN AMRO, ING, APG and MSCI — the buy side, the sell side and the index provider's view of the same data problems." },
-              { title: "Engineering depth", body: "PhD Computer Science in the team, with certified Databricks and Microsoft Fabric engineers building on the platforms our clients already run." },
-              { title: "Products from delivery", body: "Every Labs product started life inside a client engagement — packaged, hardened and productised once it had proven itself in the field." },
+              { title: "Practitioners first", body: "Experience drawn from inside ABN AMRO, ING, APG Asset Management and MSCI, hands-on, outcome-led and close to the client problem — with over a decade as technical consultants to the market." },
+              { title: "Calibre that's hard to combine", body: "A PhD in Computer Science, postdoctoral research in artificial intelligence, and industry certifications including Azure Databricks Platform Architect and Microsoft Fabric Data Engineer Associate. Automated testing designed and implemented across more than 20 credit risk models." },
+              { title: "Research, applied", body: "A PhD from the Australian National University, a Master of Research in Computer Science, postgraduate study in AI and high-performance computing, and business education from RSM Erasmus and Frankfurt School — translated directly into product engineering, not left on the page." },
             ]}
           />
         </div>
@@ -2509,6 +2764,7 @@ export function routeFor(slug: string[]): Route {
     "/solutions/qbricks": { render: () => <QBricksPage />, meta: { title: "QBricks", description: "Turn systems of record into governed, A.I.-ready data products in hours, not years." } },
     "/solutions/vbricks": { render: () => <VBricksPage />, meta: { title: "VBricks", description: "Engineered model testing with automated test packs, challenger comparisons and complete evidence trails." } },
     "/solutions/ai-factory": { render: () => <AIFactoryPage />, meta: { title: "AI Factory", description: "From AI pilots to an industrial AI capability — one governed data engine, platform, delivery pods and operating model, engineered for regulated finance." } },
+    "/solutions/esg-reporting": { render: () => <ESGReportingPage />, meta: { title: "ESG reporting platform", description: "Audit-ready ESG disclosure on one governed platform — three hubs for sourcing, processing and reporting, aligned to CSRD, CSDDD, GRI and ISSB." } },
     "/solutions/ai-assessment": { render: () => <AssessmentPage kind="ai" />, meta: { title: "AI assessment", description: "A measured, practitioner-built view of your AI readiness." } },
     "/solutions/quantexa-maturity-assessment": { render: () => <AssessmentPage kind="quantexa" />, meta: { title: "Quantexa maturity assessment", description: "Benchmark your Quantexa maturity with Infinium's 750+ question assessment across platform & solution design, delivery, testing and resource capability." } },
     "/sectors": { render: () => <SectorsWirePage />, meta: { title: "Sectors", description: "Deep, current experience across the regulated financial landscape." } },
@@ -2552,6 +2808,7 @@ export const ALL_PATHS = [
   "solutions/qbricks",
   "solutions/vbricks",
   "solutions/ai-factory",
+  "solutions/esg-reporting",
   "solutions/ai-assessment",
   "solutions/quantexa-maturity-assessment",
   "sectors",

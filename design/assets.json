@@ -59,7 +59,8 @@
     "dxb-innovation-wall": "v1 (2026-07-27) — 1000043316, the INNOVATION wall. Dubai gallery.",
     "dxb-lounge": "v1 (2026-07-27) — 20260417_151744, the team in the Dubai lounge. Dubai gallery.",
     "partners-aspiro": "v1 (2026-07-27) — aspiropartners, processed and available; not yet placed on /about/consulting-partners.",
-    "_one4one-groningen-withdrawn": "141_Groningen was upscaled 2.5x and placed on /about/social-responsibility, then withdrawn twice over: the upscale redrew the students' faces, AND the frame is the same event as one4one-cohort (two frames of one moment — checksum dedupe cannot catch visual near-duplicates). The page keeps the cohort image only, at its native resolution."
+    "_one4one-groningen-withdrawn": "141_Groningen was upscaled 2.5x and placed on /about/social-responsibility, then withdrawn twice over: the upscale redrew the students' faces, AND the frame is the same event as one4one-cohort (two frames of one moment — checksum dedupe cannot catch visual near-duplicates). The page keeps the cohort image only, at its native resolution.",
+    "quantexa-dashboard": "v1 (client screenshot, David Aston 31 Jul 2026) retained as reference only — SUPERSEDED same day by components/AssessmentDashboard.tsx, an interactive on-brand recreation (user: 'rebuild that quantexa image, slicker, on brand, interactive'). Slide1-4.PNG carry a 'DRAFT – ILLUSTRATIVE ONLY' watermark and were not published."
   },
   "slots": [
     {

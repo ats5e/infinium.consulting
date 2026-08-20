@@ -475,6 +475,7 @@ export const NAV_GROUPS: NavGroup[] = [
       { label: "QBricks", href: "/solutions/qbricks" },
       { label: "VBricks", href: "/solutions/vbricks" },
       { label: "AI Factory", href: "/solutions/ai-factory" },
+      { label: "ESG reporting platform", href: "/solutions/esg-reporting" },
       { label: "AI assessment", href: "/solutions/ai-assessment" },
       { label: "Quantexa maturity assessment", href: "/solutions/quantexa-maturity-assessment" },
     ],

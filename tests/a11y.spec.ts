@@ -13,6 +13,7 @@ const ROUTES = [
   "/solutions/qbricks",
   "/solutions/vbricks",
   "/solutions/ai-factory",
+  "/solutions/esg-reporting",
   "/solutions/ai-assessment",
   "/services/data-and-ai",
   "/technologies",
