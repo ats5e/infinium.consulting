@@ -24,12 +24,12 @@ const labelCls = "eyebrow block";
 const errCls = "mt-2 text-(length:--text-body-sm) text-error";
 
 const TOPICS = [
-  "Strategy and Change",
+  "Strategy & change",
   "Transformation",
   "Digital & automation",
   "Data & AI",
   "Regulation & compliance",
-  "Sustainable finance",
+  "ESG",
   "Other",
 ];
 

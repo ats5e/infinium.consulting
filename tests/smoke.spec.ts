@@ -12,9 +12,10 @@ const ROUTES: Array<[path: string, h1: RegExp]> = [
   ["/solutions/ai-assessment", /AI assessment/i],
   ["/technologies", /Technologies/i],
   ["/insights", /Case studies/i],
+  ["/perspectives", /News & perspectives/i],
   ["/about/infinium-labs", /Products built by people/i],
   ["/careers", /Your career/i],
-  ["/contact", /start a conversation/i],
+  ["/contact", /speak to an expert/i],
   ["/privacy", /privacy notice/i],
   // unlisted, noindexed — reachable only by direct URL, but held to the same bar
   ["/one4one", /Your first professional role/i],
@@ -50,7 +51,7 @@ test("nav reaches every route", async ({ page }) => {
   // QBricks/VBricks are intentionally NOT top-level here — they live under
   // Solutions and remain reachable via search — so they're not asserted.
   await page.getByRole("button", { name: /open menu/i }).click();
-  for (const label of ["Services", "Solutions", "Sectors", "Technologies", "Insights", "About", "Careers", "Contact"]) {
+  for (const label of ["Services", "Solutions", "Sectors", "Technologies", "Case studies", "About", "Careers", "Contact"]) {
     await expect(page.getByRole("link", { name: label, exact: true }).first()).toBeVisible();
   }
   // home stays reachable through the wordmark

@@ -19,6 +19,7 @@ const ROUTES = [
   "/technologies",
   "/technologies/quantexa",
   "/insights",
+  "/perspectives",
   "/insights/regulatory-reporting",
   "/about/infinium-labs",
   "/about/amsterdam",

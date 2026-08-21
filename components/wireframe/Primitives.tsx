@@ -258,7 +258,7 @@ export function CTASection({
   title,
   body,
   href = "/contact",
-  label = "Start a conversation",
+  label = "Speak to an expert",
 }: {
   title: string;
   body?: string;

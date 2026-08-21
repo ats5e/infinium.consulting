@@ -37,6 +37,14 @@ export function Footer() {
         </div>
         <div className="mt-16 flex flex-col gap-4 border-t hairline pt-6 md:flex-row md:items-center md:justify-between">
           <p className="eyebrow">© 2026 Infinium Consulting B.V. All rights reserved.</p>
+          <a
+            href="https://www.linkedin.com/company/infinium-consulting/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="link-wipe eyebrow text-steel transition-colors duration-(--duration-fast) hover:text-signal"
+          >
+            LinkedIn ↗
+          </a>
           <Link
             href="/privacy"
             className="link-wipe eyebrow text-steel transition-colors duration-(--duration-fast) hover:text-signal"

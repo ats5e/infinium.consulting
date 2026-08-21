@@ -12,6 +12,7 @@ export function GlassImage({
   priority = false,
   className,
   imageClassName,
+  imageStyle,
 }: {
   image: SiteImage;
   alt: string;
@@ -19,6 +20,7 @@ export function GlassImage({
   priority?: boolean;
   className?: string;
   imageClassName?: string;
+  imageStyle?: React.CSSProperties;
 }) {
   return (
     <picture className={className}>
@@ -41,6 +43,7 @@ export function GlassImage({
         style={{
           backgroundImage: `url(${image.lqip})`,
           backgroundSize: "cover",
+          ...imageStyle,
         }}
       />
     </picture>

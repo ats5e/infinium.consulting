@@ -19,7 +19,9 @@ import { siteImage } from "@/lib/images";
  *
  * Captions sit under a gradient and lift on hover or keyboard focus.
  */
-export type CollageShot = { slot: Parameters<typeof siteImage>[0]; alt: string; caption: string };
+/* `position` overrides object-position for crops that would otherwise cut
+ * heads off — e.g. "50% 22%" biases the visible band toward the top. */
+export type CollageShot = { slot: Parameters<typeof siteImage>[0]; alt: string; caption: string; position?: string };
 
 /* Column and row spans, cycled across the set. Tiles fill their grid cell
  * rather than carrying their own aspect ratio — with unequal widths, equal
@@ -64,6 +66,7 @@ export function PhotoCollage({
                   alt={shot.alt}
                   sizes="(min-width: 768px) 45vw, (min-width: 640px) 50vw, 100vw"
                   className="block md:h-full"
+                  imageStyle={shot.position ? { objectPosition: shot.position } : undefined}
                   imageClassName="aspect-[4/3] object-cover transition-transform duration-(--duration-grand) ease-(--ease-out-expo) group-hover:scale-[1.04] md:!aspect-auto md:!h-full"
                 />
                 <div

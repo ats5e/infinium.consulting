@@ -55,7 +55,7 @@ export const SERVICES: Service[] = [
     slug: "strategy-and-change",
     eyebrow: "Advisory",
     category: "Advisory",
-    title: "Strategy and Change",
+    title: "Strategy & change",
     lead: "Business, technology and data strategy shaped up front to pave the way for successful execution.",
     navBody:
       "Business, technology and data strategy shaped up front to pave the way for successful execution.",
@@ -149,7 +149,7 @@ export type CaseStudy = {
 export const CASE_STUDIES: CaseStudy[] = [
   {
     slug: "regulatory-reporting",
-    service: "Digital & Automation",
+    service: "Digital & automation",
     sector: "Banks",
     location: "Amsterdam",
     title: "Automated regulatory reporting for an international banking corporation",
@@ -213,7 +213,7 @@ export const CASE_STUDIES: CaseStudy[] = [
   },
   {
     slug: "data-strategy",
-    service: "Strategy and Change",
+    service: "Strategy & change",
     sector: "Insurers",
     location: "Amsterdam",
     title: "Data and technology strategy for a leading insurance and technology group",
@@ -277,7 +277,7 @@ export const CASE_STUDIES: CaseStudy[] = [
   },
   {
     slug: "finance-re-engineering",
-    service: "Digital & Automation",
+    service: "Digital & automation",
     sector: "Insurers",
     location: "Amsterdam",
     title: "Insurance finance re-engineering: retiring Excel-reliant processes",
@@ -309,7 +309,7 @@ export const CASE_STUDIES: CaseStudy[] = [
   },
   {
     slug: "fintech-transformation",
-    service: "Digital & Automation",
+    service: "Digital & automation",
     sector: "Fintechs",
     location: "Amsterdam",
     title: "Digital transformation for a fast-growing fintech",
@@ -373,7 +373,7 @@ export const CASE_STUDIES: CaseStudy[] = [
   },
   {
     slug: "capital-requirements",
-    service: "Regulation and Compliance",
+    service: "Regulation & compliance",
     sector: "Banks",
     location: "Dubai",
     title: "Capital requirements regulatory reporting for an international bank",
@@ -459,11 +459,11 @@ export const NAV_GROUPS: NavGroup[] = [
     href: "/services",
     items: [
       { label: "Our services", href: "/services" },
-      { label: "Strategy and Change", href: "/services/strategy-and-change" },
+      { label: "Strategy & change", href: "/services/strategy-and-change" },
       { label: "Transformation", href: "/services/transformation" },
-      { label: "Digital and Automation", href: "/services/digital-and-automation" },
-      { label: "Data and AI", href: "/services/data-and-ai" },
-      { label: "Regulation and Compliance", href: "/services/regulation-and-compliance" },
+      { label: "Digital & automation", href: "/services/digital-and-automation" },
+      { label: "Data & AI", href: "/services/data-and-ai" },
+      { label: "Regulation & compliance", href: "/services/regulation-and-compliance" },
       { label: "ESG", href: "/services/sustainable-finance" },
     ],
   },
@@ -509,7 +509,7 @@ export const NAV_GROUPS: NavGroup[] = [
     href: "/insights",
     items: [
       { label: "Case studies", href: "/insights" },
-      { label: "News & perspectives", href: "/insights" },
+      { label: "News & perspectives", href: "/perspectives" },
     ],
   },
   {

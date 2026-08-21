@@ -122,7 +122,7 @@
 }
 
 .partner-logo {
-  filter: grayscale(1) brightness(0.48) sepia(0.26) saturate(1.7) hue-rotate(175deg);
+  filter: grayscale(1) brightness(0.36) sepia(0.26) saturate(1.7) hue-rotate(175deg);
 }
 
 /* CTA sheen — a band of light sweeps the button once on hover */

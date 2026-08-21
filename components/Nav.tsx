@@ -28,19 +28,21 @@ const SECTIONS = [
   { label: "Solutions", href: "/solutions" },
   { label: "Sectors", href: "/sectors" },
   { label: "Technologies", href: "/technologies" },
-  { label: "Insights", href: "/insights" },
+  { label: "Case studies", href: "/insights" },
   { label: "About", href: "/about" },
   { label: "Careers", href: "/careers" },
+  { label: "Contact", href: "/contact" },
 ];
 
+/* deep links only — everything the NAVIGATION column already lists was
+ * duplication (client review, 20 Aug) */
 const QUICK_LINKS = [
-  { label: "Our solutions", href: "/solutions" },
   { label: "AI Factory", href: "/solutions/ai-factory" },
+  { label: "ESG reporting platform", href: "/solutions/esg-reporting" },
   { label: "AI assessment", href: "/solutions/ai-assessment" },
   { label: "Quantexa maturity assessment", href: "/solutions/quantexa-maturity-assessment" },
   { label: "Industry events", href: "/about/industry-events" },
-  { label: "Your career", href: "/careers" },
-  { label: "Contact", href: "/contact" },
+  { label: "News & perspectives", href: "/perspectives" },
 ];
 
 /* everything reachable, for the search overlay */
@@ -274,10 +276,10 @@ export function Nav() {
             style={{ transitionDelay: open ? "260ms" : "0ms" }}
           >
             <div className="hidden md:block">
-              <ColumnHead label="Latest perspectives" linkLabel="All insights" href="/insights" open={open} tabbable={open} />
+              <ColumnHead label="Latest perspectives" linkLabel="All perspectives" href="/perspectives" open={open} tabbable={open} />
               <div className="mt-6 grid gap-8 sm:grid-cols-2">
                 {PERSPECTIVES.slice(0, 2).map(([tag, title]) => (
-                  <Link key={title} href="/insights" tabIndex={open ? 0 : -1} className="group block">
+                  <Link key={title} href="/perspectives" tabIndex={open ? 0 : -1} className="group block">
                     <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-steel">{tag}</p>
                     <p className="mt-3 text-(length:--text-body) leading-snug text-ice transition-colors duration-(--duration-fast) group-hover:text-paper">
                       {title}

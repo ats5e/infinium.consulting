@@ -154,7 +154,7 @@ const HOME_PILLARS = [
     title: "Outcomes in weeks, not roadmaps in quarters",
     slot: "digital-transformation" as const,
     body: "Financial services firms trust us to provide market-leading strategy, specialist transformation and AI-enabled automation solutions. We help our clients rapidly deliver business outcomes.",
-    cta: "Learn more →",
+    cta: "See what we deliver →",
     href: "/services",
   },
   {
@@ -200,7 +200,8 @@ export function HomeWirePage() {
           {([
             [22, "", "Leading global FS clients"],
             [100, "+", "Projects completed"],
-            [30, "", "Fintech solution technologies"],
+            /* David (21 Aug): no count here — "30 is way too broad" */
+            ["Best in class", "", "Fintech solution technologies"],
             /* chairman's note: name the hubs rather than count them */
             ["Amsterdam & Dubai", "", "Serving EMEA & MENA"],
           ] as const).map(([value, suffix, label]) => (
@@ -286,6 +287,19 @@ export function HomeWirePage() {
       </ContentSection>
 
       <ContentSection>
+        <SectionIntro eyebrow="Why Infinium" title="What you get that big-brand firms can't give you" />
+        <NumberedCards
+          columns={3}
+          items={[
+            { title: "Outcome-focused, not PowerPoint-focused", body: "We are measured on delivered business results — working systems, automated processes, realised savings — not decks and recommendations." },
+            { title: "Seasoned practitioners on every engagement", body: "Our team has run the functions you are transforming. We have done it ourselves, so we understand your challenges from the inside." },
+            { title: "Senior engineers in your office, not a delivery centre", body: "Highly educated engineering talent that works alongside you and your teams — on-shore, not off-shore — with the quality and pace that proximity brings." },
+            { title: "People who've run the function you're transforming", body: "More than 30 years operating across the world's financial centres — capital markets, banking, insurance, wealth and asset management." },
+            { title: "Our own solutions, designed to improve efficiency", body: "Pre-built, high-end engineered solutions like QBricks and VBricks that compress implementations from years to months and cut cost of ownership." },
+          ]}
+        />
+      </ContentSection>
+      <ContentSection>
         <div className="grid gap-12 md:grid-cols-2 md:items-center">
           <Reveal>
             <p className="eyebrow">Research &amp; development</p>
@@ -315,19 +329,6 @@ export function HomeWirePage() {
       </ContentSection>
 
 
-      <ContentSection>
-        <SectionIntro eyebrow="Why Infinium" title="What you get that big-brand firms can't give you" />
-        <NumberedCards
-          columns={3}
-          items={[
-            { title: "Outcome-focused, not PowerPoint-focused", body: "We are measured on delivered business results — working systems, automated processes, realised savings — not decks and recommendations." },
-            { title: "Seasoned practitioners on every engagement", body: "Our team has run the functions you are transforming. We have done it ourselves, so we understand your challenges from the inside." },
-            { title: "Senior engineers in your office, not a delivery centre", body: "Highly educated engineering talent that works alongside you and your teams — on-shore, not off-shore — with the quality and pace that proximity brings." },
-            { title: "People who've run the function you're transforming", body: "More than 30 years operating across the world's financial centres — capital markets, banking, insurance, wealth and asset management." },
-            { title: "Our own solutions, designed to improve efficiency", body: "Pre-built, high-end engineered solutions like QBricks and VBricks that compress implementations from years to months and cut cost of ownership." },
-          ]}
-        />
-      </ContentSection>
 
       <CTASection
         title="Pick one outcome. We'll show you the fastest route to it."
@@ -339,6 +340,17 @@ export function HomeWirePage() {
 }
 
 /* ---- Services ---------------------------------------------------------- */
+
+/* action-oriented card CTAs — six identical "Learn more" links read as
+ * passive (client review, 20 Aug) */
+const SERVICE_CTA: Record<string, string> = {
+  "data-and-ai": "Put your data to work →",
+  "digital-and-automation": "Automate a process →",
+  "regulation-and-compliance": "De-risk your compliance →",
+  "strategy-and-change": "Shape the strategy →",
+  "sustainable-finance": "Get audit-ready →",
+  transformation: "Deliver the change →",
+};
 
 const SERVICE_IMAGE: Record<string, Parameters<typeof siteImage>[0]> = {
   "data-and-ai": "data-science",
@@ -477,7 +489,7 @@ export function ServicesWirePage() {
                   <p className="eyebrow text-on-dark-accent">{service.eyebrow}</p>
                   <h2 className="mt-4 text-(length:--text-step-2) leading-tight text-on-dark">{service.title}</h2>
                   <p className="mt-4 max-w-xl text-(length:--text-body-sm) leading-relaxed text-on-dark-muted">{service.navBody}</p>
-                  <p className="mt-6 font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-on-dark-accent">Learn more →</p>
+                  <p className="mt-6 font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-on-dark-accent">{SERVICE_CTA[service.slug] ?? "Learn more →"}</p>
                 </div>
               </Link>
             );
@@ -538,7 +550,7 @@ export function SolutionsWirePage() {
   return (
     <>
       <HeroSection
-        eyebrow="What we do"
+        eyebrow="What we offer"
         title="Our solutions"
         body="Pre-built solutions and assessment tooling that shorten delivery timelines and de-risk your programmes."
       />
@@ -622,12 +634,12 @@ export function SolutionsWirePage() {
         <CardGrid
           columns={2}
           items={[
-            { title: "AI assessment", body: "A measured view of your AI readiness, data foundations, governance, use-case portfolio and the path from pilots to production, with clear recommendations.", href: "/solutions/ai-assessment", cta: "Learn more →" },
+            { title: "AI assessment", body: "A measured view of your AI readiness, data foundations, governance, use-case portfolio and the path from pilots to production, with clear recommendations.", href: "/solutions/ai-assessment", cta: "Request an assessment →" },
             {
               title: "Quantexa maturity assessment",
               body: "A structured review of your Quantexa estate, implementation quality, self-sufficiency, delivery practice and resource capability, with scored findings and a prioritised roadmap.",
               href: "/solutions/quantexa-maturity-assessment",
-              cta: "Learn more →",
+              cta: "Benchmark your estate →",
               logo: <TechnologyLogo slug="quantexa" decorative className="mt-1 h-7 sm:h-8" sizes="(min-width: 768px) 18vw, 48vw" />,
             },
           ]}
@@ -857,7 +869,7 @@ export function VBricksPage() {
           </div>
         </div>
       </ContentSection>
-      <CTASection title="Make model testing repeatable" body="Talk to the team about your validation estate and the first model family to engineer." label="Start a conversation" />
+      <CTASection title="Make model testing repeatable" body="Talk to the team about your validation estate and the first model family to engineer." label="Speak to an expert" />
     </>
   );
 }
@@ -1808,11 +1820,10 @@ export function InsightsWirePage() {
     { headline: "A digital platform in 8 weeks", quote: "Our alternatives investment process was digitised in less than 3 months, creating an end-to-end deal platform we now show to our clients.", who: "CTO", org: "Leading PE firm" },
     { headline: "A 5-year strategy in 3 months", quote: "The specialist team hit the ground running and delivered our 5-year technology strategy in less than 3 months.", who: "Group CIO", org: "Leading digital insurer" },
   ];
-  const posts = PERSPECTIVES;
   return (
     <>
       <HeroSection
-        eyebrow="Insights"
+        eyebrow="Client work"
         title="Case studies"
         body="We leverage industry expertise together with the world's leading decision intelligence, data and automation technologies to deliver enterprise business solutions and transformation faster, cheaper and more effectively."
       />
@@ -1840,19 +1851,33 @@ export function InsightsWirePage() {
           ))}
         </div>
       </ContentSection>
+    </>
+  );
+}
+
+/* Split out of the case-studies page (client review, 20 Aug): buyers scan
+ * case studies; internal thinking lives here under its own address. */
+export function PerspectivesPage() {
+  return (
+    <>
+      <HeroSection
+        eyebrow="News & perspectives"
+        title="What we're seeing in the market"
+        body="Perspectives from our practice leads and R&D teams — the regulation, platforms and delivery patterns shaping regulated finance."
+      />
       <ContentSection>
-        <SectionIntro eyebrow="News & perspectives" title="Latest perspectives" />
-        <div className="divide-y divide-ice/12 border-y hairline">
+        <Reveal className="divide-y divide-ice/12 border-y hairline">
           {/* TODO(wireframe): perspective detail pages and destinations were not supplied. */}
-          {posts.map(([tag, title]) => (
+          {PERSPECTIVES.map(([tag, title]) => (
             <div key={title} className="grid gap-4 py-5 md:grid-cols-[200px_1fr_auto] md:items-baseline">
               <p className="eyebrow">{tag}</p>
               <h3 className="text-(length:--text-step-1)">{title}</h3>
               <span className="font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-steel">Perspective</span>
             </div>
           ))}
-        </div>
+        </Reveal>
       </ContentSection>
+      <CTASection title="Talk these through against your own agenda" body="A free goals review with a practice lead — you leave with a concrete plan, whether or not you work with us." label="Speak to an expert" />
     </>
   );
 }
@@ -1987,7 +2012,7 @@ export function AboutWirePage() {
             <h2 className="mt-6 text-(length:--text-step-3)">David Aston, Chief Executive Officer</h2>
             <p className="mt-6 leading-relaxed text-ice">David founded Infinium after more than 30 years operating in financial markets, across all of the world&rsquo;s financial centres.</p>
             <p className="mt-5 leading-relaxed text-ice">Having led complex transformation from inside major global financial services firms, he built Infinium on a simple conviction: clients are best served by practitioners who have stood in their shoes, paired with disciplined, engineering-led delivery. That conviction, engineering with context, shapes everything the firm does, from the QBricks and VBricks solutions to how every engagement is staffed and run. When you meet with David or any of our team, you won&rsquo;t be buried in theory or PowerPoint presentations. Instead you&rsquo;ll have a deep, detailed discussion about how Infinium can help you with your toughest issues.</p>
-            <p className="mt-8"><PrimaryLink href="/contact">Start a conversation</PrimaryLink></p>
+            <p className="mt-8"><PrimaryLink href="/contact">Speak to an expert</PrimaryLink></p>
           </Reveal>
         </div>
       </ContentSection>
@@ -2076,7 +2101,7 @@ const CULTURE_COLLAGE: readonly CollageShot[] = [
   { slot: "culture-harbour", alt: "Summer drinks by the harbour", caption: "Summer by the harbour" },
   { slot: "culture-night", alt: "The team on a night out", caption: "A night out" },
   { slot: "culture-onthe-road", alt: "Colleagues travelling between the hubs", caption: "Between the hubs" },
-  { slot: "culture-yearend", alt: "The team in the Amsterdam hub, spring 2026", caption: "In the Amsterdam hub" },
+  { slot: "culture-yearend", alt: "The team in the Amsterdam hub, spring 2026", caption: "In the Amsterdam hub", position: "50% 30%" },
 ] as const;
 /* culture-standup moved to the Alteryx Bootcamps page, culture-offsite to
  * the One4One/social-responsibility page — see AlteryxBootcampsPage and
@@ -2631,7 +2656,7 @@ export function LocationPage({ city }: { city: "amsterdam" | "dubai" }) {
                 </div>
               ))}
             </dl>
-            <p className="mt-8"><PrimaryLink href="/contact">Start a conversation</PrimaryLink></p>
+            <p className="mt-8"><PrimaryLink href="/contact">Speak to an expert</PrimaryLink></p>
           </aside>
         </div>
       </ContentSection>
@@ -2651,7 +2676,7 @@ export function ContactWireIntro({ form }: { form: React.ReactNode }) {
         <div className="relative mx-auto max-w-(--container-content) px-(--spacing-gutter)">
           <Reveal>
             <p className="eyebrow text-signal">Contact</p>
-            <h1 className="mt-6 max-w-4xl text-(length:--text-step-5) leading-[1.02]">Start a conversation</h1>
+            <h1 className="mt-6 max-w-4xl text-(length:--text-step-5) leading-[1.02]">Speak to an expert</h1>
             <p className="mt-7 max-w-3xl text-(length:--text-step-1) leading-normal text-ice">
               We provide a free goals review with one of our industry leaders to understand your ambitions and explore the options to accelerate your business.
             </p>
@@ -2662,7 +2687,7 @@ export function ContactWireIntro({ form }: { form: React.ReactNode }) {
               {/* the enquiry goes to people, and here they are */}
               <div className="flex items-center gap-4 border hairline bg-white/82 p-5 shadow-[0_8px_24px_rgba(23,56,102,0.04)]">
                 <div aria-hidden className="flex shrink-0 -space-x-2.5">
-                  {["david-aston-v2", "toby-smith-cullen", "erik-rowbotham"].map((slug) => (
+                  {["david-aston-v2", "toby-smith-cullen", "erik-rowbotham", "helen-bull"].map((slug) => (
                     <Image
                       key={slug}
                       src={`/img/team/${slug}.webp`}
@@ -2779,6 +2804,7 @@ export function routeFor(slug: string[]): Route {
     "/technologies": { render: () => <TechnologiesWirePage />, meta: { title: "Technologies", description: "Best-in-class fintech and platform technology partners." } },
     "/technologies/alteryx-bootcamps": { render: () => <AlteryxBootcampsPage />, meta: { title: "Alteryx Bootcamps", description: "Intensive, hands-on Alteryx training." } },
     "/insights": { render: () => <InsightsWirePage />, meta: { title: "Case studies", description: "How we have helped our clients." } },
+    "/perspectives": { render: () => <PerspectivesPage />, meta: { title: "News & perspectives", description: "Perspectives from our practice leads and R&D teams across regulated finance." } },
     "/about": { render: () => <AboutWirePage />, meta: { title: "About us", description: "It's all about business outcomes." } },
     "/about/infinium-labs": { render: () => <InfiniumLabsPage />, meta: { title: "Infinium Labs", description: "Our engineering and product team in Amsterdam and DIFC, Dubai — practitioners from ABN AMRO, ING, APG and MSCI building QBricks and VBricks." } },
     "/about/culture": { render: () => <CulturePage />, meta: { title: "Our culture", description: "An international firm by design." } },
@@ -2825,6 +2851,7 @@ export const ALL_PATHS = [
   "technologies/alteryx-bootcamps",
   "insights",
   ...CASE_STUDIES.map((c) => `insights/${c.slug}`),
+  "perspectives",
   "about",
   "about/infinium-labs",
   "about/culture",
