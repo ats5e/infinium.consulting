@@ -19,7 +19,7 @@ const SECTIONS = [
   },
   {
     title: "Service providers",
-    body: "This website is hosted by Vercel and uses Vercel performance and aggregate analytics services in production. Contact enquiries may be delivered using Resend. These providers process limited information on our behalf to operate and improve the website.",
+    body: "This website is hosted by Vercel and uses Vercel performance and aggregate analytics services in production. Contact enquiries are delivered using Formspree. These providers process limited information on our behalf to operate and improve the website.",
   },
   {
     title: "Retention and security",

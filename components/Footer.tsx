@@ -45,12 +45,32 @@ export function Footer() {
           >
             LinkedIn ↗
           </a>
+          <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
           <Link
             href="/privacy"
             className="link-wipe eyebrow text-steel transition-colors duration-(--duration-fast) hover:text-signal"
           >
-            Privacy &amp; cookies
+            Privacy
           </Link>
+          <Link
+            href="/cookies"
+            className="link-wipe eyebrow text-steel transition-colors duration-(--duration-fast) hover:text-signal"
+          >
+            Cookies
+          </Link>
+          <Link
+            href="/terms"
+            className="link-wipe eyebrow text-steel transition-colors duration-(--duration-fast) hover:text-signal"
+          >
+            Terms
+          </Link>
+          <Link
+            href="/accessibility"
+            className="link-wipe eyebrow text-steel transition-colors duration-(--duration-fast) hover:text-signal"
+          >
+            Accessibility
+          </Link>
+          </div>
         </div>
       </div>
     </footer>

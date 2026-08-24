@@ -26,6 +26,9 @@ const ROUTES = [
   "/careers",
   "/contact",
   "/privacy",
+  "/terms",
+  "/cookies",
+  "/accessibility",
   "/one4one", // unlisted page — same accessibility bar as the public site
 ];
 

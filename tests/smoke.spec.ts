@@ -12,11 +12,14 @@ const ROUTES: Array<[path: string, h1: RegExp]> = [
   ["/solutions/ai-assessment", /AI assessment/i],
   ["/technologies", /Technologies/i],
   ["/insights", /Case studies/i],
-  ["/perspectives", /News & perspectives/i],
+  ["/perspectives", /seeing in the market/i],
   ["/about/infinium-labs", /Products built by people/i],
   ["/careers", /Your career/i],
   ["/contact", /speak to an expert/i],
   ["/privacy", /privacy notice/i],
+  ["/terms", /terms of use/i],
+  ["/cookies", /cookie policy/i],
+  ["/accessibility", /accessibility statement/i],
   // unlisted, noindexed — reachable only by direct URL, but held to the same bar
   ["/one4one", /Your first professional role/i],
 ];

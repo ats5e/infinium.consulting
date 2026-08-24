@@ -1467,7 +1467,7 @@ const TECHNOLOGY_DETAIL: Record<string, {
   };
 }> = {
   alteryx: {
-    eyebrow: "Technologies · Partner",
+    eyebrow: "Technologies",
     title: "How we work with Alteryx",
     body: "Self-service, unified, enterprise-grade analytics automation. As an Authorised Professional Services Partner and Authorised Training Partner, we deliver expert implementation and train your teams to become truly self-sufficient.",
     cards: [
@@ -1518,7 +1518,7 @@ const TECHNOLOGY_DETAIL: Record<string, {
     },
   },
   appian: {
-    eyebrow: "Technologies · FS Partner of the Year 2024",
+    eyebrow: "Technologies",
     title: "How we work with Appian",
     body: "Appian is the only recognised triple crown leader in automation, low-code and case management. We build more powerful apps, dramatically increase productivity and significantly reduce costs on the platform, as partners since 2019.",
     cards: [
@@ -1548,7 +1548,7 @@ const TECHNOLOGY_DETAIL: Record<string, {
     cta: "Have a process that needs a platform?",
   },
   databricks: {
-    eyebrow: "Technologies · Partner",
+    eyebrow: "Technologies",
     title: "How we work with Databricks",
     body: "Every decision in financial services depends on data, managing risk, complying with regulation, creating exceptional client experiences. We help you transform your data estate with the Databricks Lakehouse Platform and accelerate your A.I. journey.",
     cards: [
@@ -1578,7 +1578,7 @@ const TECHNOLOGY_DETAIL: Record<string, {
     caseStudies: ["big-data-engineering", "data-strategy", "climate-reporting"],
   },
   "microsoft-fabric": {
-    eyebrow: "Technologies · Partner",
+    eyebrow: "Technologies",
     title: "How we work with Microsoft Fabric & Azure",
     body: "Data should do more than sit in silos, it should fuel smarter decisions and support your A.I. agenda. All of our engineers are DP700 certified; we were an early adopter of Fabric and run our entire business on it.",
     cards: [
@@ -1642,7 +1642,7 @@ const TECHNOLOGY_DETAIL: Record<string, {
     },
   },
   quantexa: {
-    eyebrow: "Technologies · Plus Alliance Partner",
+    eyebrow: "Technologies",
     title: "How we work with Quantexa",
     body: "Transform your business with decision intelligence, reimagine how you drive your business, reduce risk and serve customers. Our Quantexa Centre of Excellence supports three core, integrated services.",
     cards: [
@@ -1677,7 +1677,18 @@ export function TechnologyDetailPage({ slug }: { slug: string }) {
         eyebrow={t.eyebrow}
         title={t.title}
         body={t.body}
-        brand={slug === "quantexa" ? <TechnologyLogo slug="quantexa" decorative className="h-8 sm:h-10" sizes="220px" /> : undefined}
+        brand={
+          /* the partnership credential, worn as a badge (client, 23 Aug) */
+          <div className="flex flex-col items-start gap-4">
+            {slug === "quantexa" ? <TechnologyLogo slug="quantexa" decorative className="h-8 sm:h-10" sizes="220px" /> : null}
+            {PARTNER_CREDENTIALS[slug] ? (
+              <span className="inline-flex min-h-9 items-center gap-2 rounded-full border border-signal/25 bg-signal/[0.06] px-4 font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-signal shadow-[inset_0_1px_0_rgba(255,255,255,0.8)]">
+                <span aria-hidden className="size-1.5 rounded-full bg-signal shadow-[0_0_0_4px_rgba(35,79,189,0.08)]" />
+                {PARTNER_CREDENTIALS[slug].credential}
+              </span>
+            ) : null}
+          </div>
+        }
       />
       <ContentSection>
         <NumberedCards items={t.cards} />
@@ -1776,19 +1787,6 @@ export function AlteryxBootcampsPage() {
         title="Alteryx Bootcamps"
         body="Intensive, hands-on training that takes your analysts from spreadsheet dependence to governed, self-service analytics, delivered by an Alteryx Authorised Training Partner."
       />
-      <ContentSection>
-        <Reveal>
-          <figure className="overflow-hidden border hairline bg-surface/82 shadow-[0_8px_24px_rgba(23,56,102,0.04)]">
-            <GlassImage
-              image={siteImage("culture-standup")}
-              alt="A cohort at a recent Alteryx bootcamp session"
-              sizes="(min-width: 1280px) 1216px, 100vw"
-              imageClassName="aspect-[16/9] object-cover"
-            />
-            <figcaption className="eyebrow border-t hairline p-4">A bootcamp cohort in session</figcaption>
-          </figure>
-        </Reveal>
-      </ContentSection>
       <ContentSection>
         <SectionIntro eyebrow="The format" title="Learn by building, on your own data" />
         <NumberedCards items={[
@@ -2010,8 +2008,9 @@ export function AboutWirePage() {
           <Reveal>
             <p className="eyebrow text-signal">Founder</p>
             <h2 className="mt-6 text-(length:--text-step-3)">David Aston, Chief Executive Officer</h2>
-            <p className="mt-6 leading-relaxed text-ice">David founded Infinium after more than 30 years operating in financial markets, across all of the world&rsquo;s financial centres.</p>
-            <p className="mt-5 leading-relaxed text-ice">Having led complex transformation from inside major global financial services firms, he built Infinium on a simple conviction: clients are best served by practitioners who have stood in their shoes, paired with disciplined, engineering-led delivery. That conviction, engineering with context, shapes everything the firm does, from the QBricks and VBricks solutions to how every engagement is staffed and run. When you meet with David or any of our team, you won&rsquo;t be buried in theory or PowerPoint presentations. Instead you&rsquo;ll have a deep, detailed discussion about how Infinium can help you with your toughest issues.</p>
+            <p className="mt-6 leading-relaxed text-ice">Banks, asset managers and insurers today grapple with exponential data growth, financial crime prevention, evolving ESG mandates and rising regulatory pressure, while slow systems and siloed data cost them agility and put compliance at risk. Infinium exists to solve these challenges.</p>
+            <p className="mt-5 leading-relaxed text-ice">David founded Infinium Consulting, a Top-5 Best Place to Work, where a Netherlands-based team of 40+ experts helps banks across Europe, the Nordics and the Middle East harness big data and AI to meet CSRD, DORA and ESG demands.</p>
+            <p className="mt-5 leading-relaxed text-ice">With over 30 years in financial markets, as partner or founder at Infinium, m.a.partners, avantage and NextWave Group, David has delivered mission-critical merger integrations, Brexit transitions and transformations for tier-1 banks worldwide. David is a TEDx speaker and sponsor and founder of One4One, an internship programme supporting young talent.</p>
             <p className="mt-8"><PrimaryLink href="/contact">Speak to an expert</PrimaryLink></p>
           </Reveal>
         </div>
@@ -2546,25 +2545,6 @@ export function CareersWirePage() {
           { title: "Engineering with context", body: "Build disruptive products — QBricks in our Netherlands R&D team, VBricks in DIFC, Dubai — or deliver them with clients." },
         ]} />
       </ContentSection>
-      <ContentSection>
-        <SectionIntro eyebrow="Open roles" title="Current openings" />
-        <div className="divide-y divide-ice/12 border-y hairline">
-          {[
-            ["Senior Consultant", "Data & AI", "Amsterdam"],
-            ["Consultant", "Model validation (VBricks)", "Dubai (DIFC)"],
-            ["Data Engineer", "R&D, QBricks", "Amsterdam"],
-            ["Engagement Manager", "Transformation", "Dubai (DIFC)"],
-          ].map(([title, practice, location]) => (
-            <div key={title} className="grid gap-3 py-5 md:grid-cols-[1fr_1fr_1fr_auto] md:items-center">
-              <h3 className="text-(length:--text-step-1)">{title}</h3>
-              <p className="text-ice">{practice}</p>
-              <p className="text-steel">{location}</p>
-              <SecondaryLink href="/contact">Apply →</SecondaryLink>
-            </div>
-          ))}
-        </div>
-        <p className="mt-8 text-ice">Don&rsquo;t see your role? We are always interested in exceptional people, <Link href="/contact" className="link-wipe text-signal">start a conversation</Link>.</p>
-      </ContentSection>
       <PhotoCollage shots={CULTURE_COLLAGE} label="The team at Infinium, in pictures" />
       <CTASection title="Ready to do the best work of your career?" body="Tell us about yourself and the work you want to do." label="Get in touch" />
     </>
@@ -2863,4 +2843,7 @@ export const ALL_PATHS = [
   "careers",
   "contact",
   "privacy",
+  "terms",
+  "cookies",
+  "accessibility",
 ];
