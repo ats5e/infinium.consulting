@@ -245,7 +245,12 @@ test("footer carries the wireframe structure", async ({ page }) => {
   await expect(page.getByRole("link", { name: "Our solutions" }).last()).toBeVisible();
   await expect(page.locator('a[href*="office@yourwebsite.com"]')).toHaveCount(0);
   await expect(page.locator('a[href*="tel:"]')).toHaveCount(0);
-  await expect(page.getByRole("link", { name: /privacy & cookies/i })).toHaveAttribute("href", "/privacy");
+  // the legal row: privacy split from cookies, plus terms and accessibility
+  await expect(page.getByRole("link", { name: "Privacy", exact: true })).toHaveAttribute("href", "/privacy");
+  await expect(page.getByRole("link", { name: "Cookies", exact: true })).toHaveAttribute("href", "/cookies");
+  await expect(page.getByRole("link", { name: "Terms", exact: true })).toHaveAttribute("href", "/terms");
+  await expect(page.getByRole("link", { name: "Accessibility", exact: true })).toHaveAttribute("href", "/accessibility");
+  await expect(page.getByRole("link", { name: /linkedin/i })).toHaveAttribute("href", /linkedin\.com\/company\/infinium-consulting/);
 });
 
 test("every sitemap route renders one page without horizontal overflow", async ({ page }) => {
