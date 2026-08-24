@@ -1,7 +1,7 @@
 import { test, expect } from "@playwright/test";
 
 const ROUTES: Array<[path: string, h1: RegExp]> = [
-  ["/", /Trusted, decision-ready data/i],
+  ["/", /Months,\s*not years/i],
   ["/about", /business outcomes/i],
   ["/services", /Our services/i],
   ["/solutions", /Our solutions/i],

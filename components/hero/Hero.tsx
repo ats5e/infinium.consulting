@@ -66,24 +66,21 @@ export function Hero({ staticImage: _staticImage }: { staticImage: SiteImage }) 
             there — otherwise the body runs under the mark. Full 2xl measure
             returns once the viewport gives the field room of its own. */}
         <div data-testid="hero-copy-column" className="flex w-full max-w-2xl flex-col items-start pt-6 text-left md:max-w-[46vw] md:pt-6 xl:max-w-2xl">
-          <h1 className="w-full font-hero text-[clamp(2.5rem,4.6vw,4.2rem)] font-semibold leading-[1.05] tracking-[-0.02em] text-paper">
-            {/* the dash rides line one: the long line stays high where the
-                field is empty, and the cobalt line — the lowest, beside the
-                mark — is the shortest */}
+          <h1 className="w-full font-hero text-[clamp(3.25rem,7.5vw,6.5rem)] font-semibold leading-[1.02] tracking-[-0.02em] text-paper">
+            {/* David's final header (24 Aug): short, monumental, cobalt close */}
             <span className="block w-full overflow-hidden pb-[0.06em] -mb-[0.06em]">
-              <span className="hero-line block">Trusted, decision-ready data —</span>
+              <span className="hero-line block">Months,</span>
             </span>{" "}
             <span className="block w-full overflow-hidden pb-[0.06em] -mb-[0.06em]">
               <span className="hero-line block">
-                <span className="text-cobalt">in months, not years.</span>
+                <span className="text-cobalt">not years.</span>
               </span>
             </span>
           </h1>
 
-          <p className="hero-body mt-6 w-full max-w-xl text-[clamp(0.98rem,1.25vw,1.12rem)] leading-[1.6] text-ice">
-            We take banks, insurers and asset managers from siloed systems to
-            governed, AI-ready data estates &mdash; with pre-built solutions that
-            make the outcome fast, auditable and yours to keep.
+          <p className="hero-body mt-7 w-full max-w-xl text-[clamp(1.05rem,1.45vw,1.3rem)] leading-[1.6] text-ice">
+            Engineering excellence combined with deep industry expertise.
+            Turning data into decisions.
           </p>
 
           <div className="hero-actions mt-9 flex w-full flex-wrap items-center justify-start gap-x-8 gap-y-4">

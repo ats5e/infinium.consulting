@@ -2759,7 +2759,7 @@ export function ContactWireIntro({ form }: { form: React.ReactNode }) {
 export function routeFor(slug: string[]): Route {
   const path = `/${slug.join("/")}`;
   const routes: Record<string, Route> = {
-    "/": { render: () => <HomeWirePage />, meta: { title: "Engineering with context.", description: "Banking & financial services consultancy." } },
+    "/": { render: () => <HomeWirePage />, meta: { title: "Months, not years", description: "Engineering excellence combined with deep industry expertise. Turning data into decisions." } },
     "/services": { render: () => <ServicesWirePage />, meta: { title: "Our services", description: "Market-leading strategy, specialist transformation and AI-enabled automation solutions for regulated financial services." } },
     "/solutions": { render: () => <SolutionsWirePage />, meta: { title: "Our solutions", description: "Pre-built solutions and assessment tooling that shorten delivery timelines and de-risk your programmes." } },
     "/solutions/qbricks": { render: () => <QBricksPage />, meta: { title: "QBricks", description: "Turn systems of record into governed, A.I.-ready data products in hours, not years." } },
