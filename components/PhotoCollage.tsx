@@ -17,7 +17,8 @@ import { siteImage } from "@/lib/images";
  * scroll listeners; browsers without support simply get the static
  * grid, as does anyone with prefers-reduced-motion.
  *
- * Captions sit under a gradient and lift on hover or keyboard focus.
+ * Captions were retired at client request (24 Aug) — alt text carries
+ * each description invisibly.
  */
 /* `position` overrides object-position for crops that would otherwise cut
  * heads off — e.g. "50% 22%" biases the visible band toward the top. */
@@ -69,13 +70,6 @@ export function PhotoCollage({
                   imageStyle={shot.position ? { objectPosition: shot.position } : undefined}
                   imageClassName="aspect-[4/3] object-cover transition-transform duration-(--duration-grand) ease-(--ease-out-expo) group-hover:scale-[1.04] md:!aspect-auto md:!h-full"
                 />
-                <div
-                  aria-hidden
-                  className="pointer-events-none absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-overlay/85 to-transparent opacity-0 transition-opacity duration-(--duration-base) group-hover:opacity-100"
-                />
-                <figcaption className="pointer-events-none absolute inset-x-0 bottom-0 translate-y-2 p-5 font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-on-dark opacity-0 transition-[opacity,transform] duration-(--duration-base) ease-(--ease-out-expo) group-hover:translate-y-0 group-hover:opacity-100">
-                  {shot.caption}
-                </figcaption>
               </figure>
             );
           })}

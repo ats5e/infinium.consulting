@@ -112,10 +112,6 @@ function CaseStudyVisual({ study }: { study: CaseStudy }) {
             className="pointer-events-none absolute inset-0 ring-1 ring-inset ring-white/35"
           />
         </div>
-        <figcaption className="flex flex-col gap-2 border-t border-navy/10 bg-white px-4 py-3 font-mono text-[9px] uppercase tracking-[0.09em] text-steel sm:flex-row sm:items-center sm:justify-between sm:px-5">
-          <span>Illustrative project view</span>
-          <span>{study.sector} / {study.location}</span>
-        </figcaption>
       </figure>
     </Reveal>
   );
@@ -2291,7 +2287,6 @@ export function CulturePage() {
                 sizes="(min-width: 768px) 30vw, 50vw"
                 imageClassName="aspect-[4/3] object-cover"
               />
-              <figcaption className="eyebrow border-t hairline p-4">{caption}</figcaption>
             </figure>
           ))}
         </Reveal>
@@ -2326,7 +2321,6 @@ export function SocialResponsibilityPage() {
                 sizes="(min-width: 768px) 45vw, 100vw"
                 imageClassName="aspect-[6/5] object-cover"
               />
-              <figcaption className="eyebrow border-t hairline p-4">The team together in Amsterdam</figcaption>
             </figure>
           </Reveal>
         </div>
@@ -2390,7 +2384,6 @@ export function IndustryEventsPage() {
               sizes="(min-width: 768px) 60vw, 100vw"
               imageClassName="aspect-[16/10] object-cover"
             />
-            <figcaption className="eyebrow border-t hairline p-4">On the panel</figcaption>
           </figure>
           <figure className="overflow-hidden border hairline bg-abyss/25">
             <GlassImage
@@ -2399,7 +2392,6 @@ export function IndustryEventsPage() {
               sizes="(min-width: 768px) 30vw, 100vw"
               imageClassName="aspect-[4/5] object-cover md:aspect-auto md:h-full"
             />
-            <figcaption className="eyebrow border-t hairline p-4">Nordic Fintech Week</figcaption>
           </figure>
           <figure className="overflow-hidden border hairline bg-abyss/25">
             <GlassImage
@@ -2408,7 +2400,6 @@ export function IndustryEventsPage() {
               sizes="(min-width: 768px) 30vw, 100vw"
               imageClassName="aspect-[4/3] object-cover"
             />
-            <figcaption className="eyebrow border-t hairline p-4">Alteryx Inspire, main stage</figcaption>
           </figure>
           <figure className="overflow-hidden border hairline bg-abyss/25 md:col-span-2">
             <GlassImage
@@ -2417,7 +2408,6 @@ export function IndustryEventsPage() {
               sizes="(min-width: 768px) 60vw, 100vw"
               imageClassName="aspect-[16/10] object-cover"
             />
-            <figcaption className="eyebrow border-t hairline p-4">Client roundtables</figcaption>
           </figure>
         </Reveal>
         <Reveal className="mt-px">
@@ -2428,7 +2418,6 @@ export function IndustryEventsPage() {
               sizes="(min-width: 1280px) 1216px, 100vw"
               imageClassName="aspect-[3/2] object-cover md:col-span-2"
             />
-            <figcaption className="eyebrow border-t hairline p-4 md:col-span-2">With our partner NextWave</figcaption>
           </figure>
         </Reveal>
       </ContentSection>
@@ -2604,7 +2593,6 @@ export function LocationPage({ city }: { city: "amsterdam" | "dubai" }) {
                         sizes={isFinalImage ? "(min-width: 1024px) 55vw, 100vw" : "(min-width: 640px) 30vw, 100vw"}
                         imageClassName={isFinalImage ? "aspect-video object-cover" : "aspect-[4/3] object-cover"}
                       />
-                      <figcaption className="eyebrow border-t hairline p-4">{caption}</figcaption>
                     </figure>
                   );
                 })}

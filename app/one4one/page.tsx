@@ -58,7 +58,6 @@ export default function One4OneApplyPage() {
                 sizes="(min-width: 768px) 45vw, 100vw"
                 imageClassName="aspect-[6/5] object-cover"
               />
-              <figcaption className="eyebrow border-t hairline p-4">A cohort with the team in Amsterdam</figcaption>
             </figure>
           </Reveal>
         </div>

@@ -264,9 +264,6 @@ export function AssessmentDashboard() {
         </div>
       </div>
 
-      <figcaption className="eyebrow border-t hairline p-4">
-        The live scoring dashboard behind the assessment, recreated with illustrative data — every answer, score and gap tracked by focus area and role
-      </figcaption>
     </figure>
   );
 }

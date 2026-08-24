@@ -11,8 +11,6 @@ type OfficeVideoProps = {
   location: string;
   heading: string;
   description: string;
-  caption: string;
-  city: string;
   coverPosition?: string;
 };
 
@@ -24,8 +22,6 @@ function OfficeVideo({
   location,
   heading,
   description,
-  caption,
-  city,
   coverPosition = "object-center",
 }: OfficeVideoProps) {
   const [playing, setPlaying] = useState(false);
@@ -90,10 +86,6 @@ function OfficeVideo({
           </button>
         )}
       </div>
-      <figcaption className="flex flex-wrap items-center justify-between gap-2 border-t hairline px-4 py-3">
-        <span className="eyebrow">{caption}</span>
-        <span className="font-mono text-[9px] uppercase tracking-[0.12em] text-steel">{city}</span>
-      </figcaption>
     </figure>
   );
 }
@@ -108,8 +100,6 @@ export function NetherlandsOfficeVideo() {
       location="Amsterdam · The Netherlands"
       heading="Inside Infinium’s Netherlands HQ"
       description="Meet the Amsterdam team and see where our consultants and QBricks R&D engineers work."
-      caption="Infinium — Netherlands HQ"
-      city="Amsterdam"
     />
   );
 }
@@ -124,8 +114,6 @@ export function DubaiOfficeVideo() {
       location="DIFC · Dubai"
       heading="DIFC: a world-leading FinTech hub"
       description="See why Dubai is one of the world’s leading financial technology centres—and the strategic home of Infinium’s GCC practice."
-      caption="DIFC — Dubai FinTech hub"
-      city="Dubai"
       coverPosition="object-[center_48%]"
     />
   );
