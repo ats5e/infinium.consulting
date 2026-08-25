@@ -104,6 +104,23 @@ export function NetherlandsOfficeVideo() {
   );
 }
 
+/* The Quantexa "Better Together" partner film (David, 25 Aug), on Mux
+ * alongside the Netherlands film. Public playback policy, no domain
+ * restriction — verified against stream.mux.com before shipping. */
+export function QuantexaFilm() {
+  return (
+    <OfficeVideo
+      embedSrc="https://player.mux.com/cYgMrv9lCWOdUAA5jFzWz6P1LPAkqeBIbH02VZmrcSJ8?metadata-video-title=Quantexa+-+Better+Together&video-title=Quantexa+-+Better+Together&autoplay=any"
+      playerTitle="Quantexa & Infinium — Better Together"
+      playLabel="Play the Quantexa and Infinium Better Together film"
+      coverSrc="/img/governance-v5.webp"
+      location="In partnership with Quantexa"
+      heading="Better together"
+      description="Quantexa and Infinium on what the partnership delivers for banks and financial markets firms."
+    />
+  );
+}
+
 export function DubaiOfficeVideo() {
   return (
     <OfficeVideo
