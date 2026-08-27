@@ -66,12 +66,12 @@ export function Hero({ staticImage: _staticImage }: { staticImage: SiteImage }) 
             there — otherwise the body runs under the mark. Full 2xl measure
             returns once the viewport gives the field room of its own. */}
         <div data-testid="hero-copy-column" className="flex w-full max-w-2xl flex-col items-start pt-6 text-left md:max-w-[46vw] md:pt-6 xl:max-w-2xl">
-          <h1 className="w-full font-hero text-[clamp(3.25rem,7.5vw,6.5rem)] font-semibold leading-[1.02] tracking-[-0.02em] text-paper">
+          <h1 className="w-full font-hero text-[clamp(3.25rem,7.5vw,6.5rem)] font-semibold leading-[0.88] tracking-[-0.02em] text-paper">
             {/* David's final header (24 Aug): short, monumental, cobalt close */}
-            <span className="block w-full overflow-hidden pb-[0.06em] -mb-[0.06em]">
+            <span className="block w-full overflow-hidden pb-[0.16em] -mb-[0.16em]">
               <span className="hero-line block">Months,</span>
             </span>{" "}
-            <span className="block w-full overflow-hidden pb-[0.06em] -mb-[0.06em]">
+            <span className="block w-full overflow-hidden pb-[0.16em] -mb-[0.16em]">
               <span className="hero-line block">
                 <span className="text-cobalt">not years.</span>
               </span>
