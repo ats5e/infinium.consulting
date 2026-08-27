@@ -5,7 +5,7 @@ import { GlassImage } from "@/components/GlassImage";
 import { Hero } from "@/components/hero/Hero";
 import { PartnerLogos, TechnologyLogo } from "@/components/PartnerLogos";
 import { QBricksWord } from "@/components/QBricksWord";
-import { DubaiOfficeVideo, NetherlandsOfficeVideo, QuantexaFilm } from "@/components/OfficeVideo";
+import { DubaiOfficeVideo, NetherlandsOfficeVideo, QBricksFilm, QuantexaFilm } from "@/components/OfficeVideo";
 import { Reveal } from "@/components/motion/Reveal";
 import { Counter } from "@/components/motion/Counter";
 import { PhotoCollage, type CollageShot } from "@/components/PhotoCollage";
@@ -726,6 +726,12 @@ export function QBricksPage() {
   return (
     <>
       <ProductHero product="qbricks" />
+      <ContentSection className="bg-abyss/20">
+        <SectionIntro eyebrow="Watch" title="An introduction to QBricks" />
+        <Reveal>
+          <QBricksFilm />
+        </Reveal>
+      </ContentSection>
       <ContentSection>
         <SectionIntro
           eyebrow="What it does"

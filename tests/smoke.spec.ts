@@ -175,6 +175,19 @@ test("Quantexa partner film is click-to-load and points at the supplied Mux asse
   await expect(player).toHaveAttribute("src", /player\.mux\.com\/cYgMrv9lCWOdUAA5jFzWz6P1LPAkqeBIbH02VZmrcSJ8/);
 });
 
+test("QBricks intro film is click-to-load and points at the supplied Mux asset", async ({ page }) => {
+  await page.goto("/solutions/qbricks");
+  const play = page.getByRole("button", { name: /play the introduction to QBricks film/i });
+  await expect(play).toBeVisible();
+  // nothing is requested from Mux until the visitor asks for it
+  await expect(page.locator('iframe[title="An Introduction to QBricks"]')).toHaveCount(0);
+
+  await play.click();
+  const player = page.locator('iframe[title="An Introduction to QBricks"]');
+  await expect(player).toBeVisible();
+  await expect(player).toHaveAttribute("src", /player\.mux\.com\/H5y1DJSNDvypOg6iEB6ZFr3lStVOOj3EjR02rt6w2NTs/);
+});
+
 test("Dubai office film has a branded cover and loads the supplied YouTube player", async ({ page }) => {
   await page.goto("/about/dubai");
   const play = page.getByRole("button", { name: /play the Infinium Dubai headquarters film/i });

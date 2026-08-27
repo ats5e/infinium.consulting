@@ -121,6 +121,23 @@ export function QuantexaFilm() {
   );
 }
 
+/* David's QBricks intro film (sent 25 Aug, evening). Public playback policy
+ * with no domain restriction — verified against stream.mux.com, unlike the
+ * earlier QBricks cut that was locked to qbricks.ai. */
+export function QBricksFilm() {
+  return (
+    <OfficeVideo
+      embedSrc="https://player.mux.com/H5y1DJSNDvypOg6iEB6ZFr3lStVOOj3EjR02rt6w2NTs?metadata-video-title=An+Introduction+to+QBricks&video-title=An+Introduction+to+QBricks&autoplay=any"
+      playerTitle="An Introduction to QBricks"
+      playLabel="Play the introduction to QBricks film"
+      coverSrc="/img/qbricks-v3.webp"
+      location="Designed and developed in the Netherlands"
+      heading="An introduction to QBricks"
+      description="How QBricks turns systems of record into governed, A.I.-ready data products — in hours, not months or years."
+    />
+  );
+}
+
 export function DubaiOfficeVideo() {
   return (
     <OfficeVideo
