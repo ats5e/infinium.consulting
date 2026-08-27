@@ -25,8 +25,11 @@ export async function generateMetadata({
     title: route.meta.title,
     description: route.meta.description,
     alternates: { canonical: path },
-    // per-route og:url, so shares resolve to the page rather than the root
-    openGraph: { url: path, title: route.meta.title, description: route.meta.description },
+    // per-route og:url, so shares resolve to the page rather than the root.
+    // Setting openGraph here REPLACES the inherited object (shallow merge),
+    // which silently dropped the root opengraph-image on every slug route —
+    // so the branded card is re-attached explicitly.
+    openGraph: { url: path, title: route.meta.title, description: route.meta.description, images: ["/opengraph-image"] },
   };
 }
 

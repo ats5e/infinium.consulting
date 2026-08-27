@@ -2412,7 +2412,7 @@ export function IndustryEventsPage() {
               image={siteImage("event-alteryx")}
               alt="Presenting on the main stage at Alteryx Inspire"
               sizes="(min-width: 768px) 30vw, 100vw"
-              imageClassName="aspect-[4/3] object-cover"
+              imageClassName="aspect-[4/3] object-cover md:aspect-auto md:h-full"
             />
           </figure>
           <figure className="overflow-hidden border hairline bg-abyss/25 md:col-span-2">
@@ -2573,6 +2573,7 @@ export function LocationPage({ city }: { city: "amsterdam" | "dubai" }) {
         ["ams-stairs", "The staircase"],
         ["dxb-lounge", "Our R&D team in Amsterdam"],
         ["ams-atrium", "The atrium"],
+        ["team-together", "The Amsterdam team outside the office"],
         ["ams-hall", "Fred Roeskestraat 115"],
       ] as const);
   const [, ...officeGallery] = officeImages;
