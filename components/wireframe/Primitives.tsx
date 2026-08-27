@@ -125,7 +125,9 @@ export function SectionIntro({
   body,
 }: {
   eyebrow?: string;
-  title: string;
+  /* a node, not a string — headings that name the product carry the
+     <QBricksWord /> wordmark rather than plain type */
+  title: React.ReactNode;
   body?: string;
 }) {
   return (

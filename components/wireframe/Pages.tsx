@@ -727,7 +727,7 @@ export function QBricksPage() {
     <>
       <ProductHero product="qbricks" />
       <ContentSection className="bg-abyss/20">
-        <SectionIntro eyebrow="Watch" title="An introduction to QBricks" />
+        <SectionIntro eyebrow="Watch" title={<>An introduction to <QBricksWord /></>} />
         <Reveal>
           <QBricksFilm />
         </Reveal>
