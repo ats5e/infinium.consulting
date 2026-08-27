@@ -78,7 +78,7 @@ export function Hero({ staticImage: _staticImage }: { staticImage: SiteImage }) 
             </span>
           </h1>
 
-          <p className="hero-body mt-7 w-full max-w-xl text-[clamp(1.05rem,1.45vw,1.3rem)] leading-[1.6] text-ice">
+          <p className="hero-body mt-7 w-full max-w-xl text-[clamp(1.15rem,1.6vw,1.45rem)] leading-[1.35] text-ice">
             Engineering excellence combined with deep industry expertise.
             Turning data into decisions.
           </p>
