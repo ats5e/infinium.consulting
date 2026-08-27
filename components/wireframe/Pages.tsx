@@ -2573,10 +2573,13 @@ export function LocationPage({ city }: { city: "amsterdam" | "dubai" }) {
         ["ams-stairs", "The staircase"],
         ["dxb-lounge", "Our R&D team in Amsterdam"],
         ["ams-atrium", "The atrium"],
-        ["team-together", "The Amsterdam team outside the office"],
         ["ams-hall", "Fred Roeskestraat 115"],
       ] as const);
-  const [, ...officeGallery] = officeImages;
+  // Dubai's first entry is dropped for its 3x2+final layout; Amsterdam keeps
+  // all five so the grid fills 2x2 before the full-width closer. The client
+  // removed the wider team photo (27 Aug 2026 review traced it to David's
+  // 27 Jul "Image updates" email), so the gallery draws only on office shots.
+  const officeGallery = dubai ? officeImages.slice(1) : officeImages;
 
   return (
     <>
