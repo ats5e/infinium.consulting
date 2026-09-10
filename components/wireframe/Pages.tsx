@@ -1985,7 +1985,7 @@ export function AboutWirePage() {
               width={800}
               height={800}
               sizes="(min-width: 768px) 25vw, 50vw"
-              className="col-span-2 row-span-2 h-full w-full object-cover grayscale"
+              className="col-span-2 row-span-2 aspect-square w-full min-w-0 object-cover grayscale"
             />
             {leadership.slice(1).map(([name, role, img]) => (
               <Image
@@ -1996,7 +1996,7 @@ export function AboutWirePage() {
                 height={600}
                 loading="lazy"
                 sizes="(min-width: 768px) 12.5vw, 25vw"
-                className="aspect-square h-full w-full object-cover grayscale"
+                className="aspect-square w-full min-w-0 object-cover grayscale"
               />
             ))}
           </div>
@@ -2004,7 +2004,7 @@ export function AboutWirePage() {
       </ContentSection>
       <ContentSection>
         <div className="grid gap-12 md:grid-cols-[380px_1fr]">
-          <figure className="overflow-hidden border hairline bg-abyss/25">
+          <figure className="min-w-0 overflow-hidden border hairline bg-abyss/25">
             <Image
               src="/img/team-david-v2.avif"
               alt="David Aston, Chief Executive Officer"
@@ -2012,7 +2012,7 @@ export function AboutWirePage() {
               height={800}
               loading="lazy"
               sizes="(min-width: 768px) 380px, 100vw"
-              className="h-full min-h-[28rem] w-full object-cover grayscale"
+              className="aspect-square w-full object-cover grayscale md:aspect-auto md:h-full md:min-h-[28rem]"
             />
           </figure>
           <Reveal>
