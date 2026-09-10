@@ -6,7 +6,11 @@ import type { NextConfig } from "next";
  * beforeInteractive load-sequence script and an inline JSON-LD block; a
  * nonce-based policy would need middleware, which this static export does
  * not use. Tailwind v4 emits inline styles, hence style-src. No
- * 'unsafe-eval' — GSAP and the canvas hero do not need it.
+ * 'unsafe-eval' in production — GSAP and the canvas hero do not need it.
+ * It is allowed under `next dev` only: React's development build uses
+ * eval() for its debugging features (callstack reconstruction) and the
+ * dev overlay raises a console error on every page without it. React
+ * never uses eval() in production, so the shipped header is unchanged.
  *
  * Frame/media/img allowances cover the click-to-load Mux and
  * YouTube (nocookie) players in components/OfficeVideo.tsx; connect-src
@@ -14,7 +18,7 @@ import type { NextConfig } from "next";
  */
 const csp = [
   "default-src 'self'",
-  "script-src 'self' 'unsafe-inline' https://va.vercel-scripts.com",
+  `script-src 'self' 'unsafe-inline'${process.env.NODE_ENV === "development" ? " 'unsafe-eval'" : ""} https://va.vercel-scripts.com`,
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: blob: https://i.ytimg.com https://image.mux.com",
   "font-src 'self' data:",
