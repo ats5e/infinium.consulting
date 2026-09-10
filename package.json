@@ -16,11 +16,11 @@
     "@vercel/analytics": "^2.0.1",
     "@vercel/speed-insights": "^2.0.0",
     "gsap": "^3.15.0",
-    "next": "16.2.12",
+    "next": "16.3.4",
     "react": "19.2.7",
     "react-dom": "19.2.7",
     "react-hook-form": "^7.81.0",
-    "sharp": "^0.35.3",
+    "sharp": "0.35.4",
     "zod": "^4.4.3"
   },
   "devDependencies": {
@@ -33,7 +33,7 @@
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
     "eslint": "^9",
-    "eslint-config-next": "16.2.12",
+    "eslint-config-next": "16.3.4",
     "tailwindcss": "^4",
     "typescript": "^5"
   }
