@@ -121,6 +121,26 @@ export function QuantexaFilm() {
   );
 }
 
+/* "10 reasons why QBricks" — the film from qbricks.ai/why-qbricks, on the
+ * QBricks Mux account. Public playback policy: the HLS manifest serves with
+ * no referer and with an infinium-technology.com referer (checked 10 Sep
+ * 2026), so unlike the earlier domain-locked cut it plays in production.
+ * Cover is our own render rather than their thumbnail, which already carries
+ * a logo, title and play button and is only 924px wide. */
+export function QBricksFilm() {
+  return (
+    <OfficeVideo
+      embedSrc="https://player.mux.com/pBStRpuKR00m7Xe1neCepUPvoWhvtOJZhhGq8N5JCOqE?metadata-video-title=QBricks_10reasonswhy&video-title=QBricks_10reasonswhy&autoplay=any"
+      playerTitle="10 reasons why QBricks"
+      playLabel="Play the 10 reasons why QBricks film"
+      coverSrc="/img/qbricks-v3.webp"
+      location="Designed and developed in the Netherlands"
+      heading="10 reasons why QBricks"
+      description="See how governed data becomes an A.I.-ready foundation without pipelines, lock-in or runaway compute."
+    />
+  );
+}
+
 export function DubaiOfficeVideo() {
   return (
     <OfficeVideo
