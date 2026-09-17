@@ -683,27 +683,42 @@ function ProductHero({ product }: { product: "qbricks" | "vbricks" }) {
             )}
           </div>
           <h1 className="mt-8 max-w-3xl text-(length:--text-step-5) leading-[1.01]">
-            {qbricks ? "No more data pipelines." : "A major change in model testing."}
+            {qbricks ? "Fast answers from complex data." : "A major change in model testing."}
           </h1>
           <p className="mt-7 max-w-2xl text-(length:--text-step-1) leading-relaxed text-ice">
             {qbricks
-              ? "Turn systems of record into governed, A.I.-ready data products in hours, not months or years."
+              ? "QBricks combines a high-performance SQL engine with the tools to manage, govern and serve analytical data."
               : "Turn weeks of manual model validation into a repeatable, engineered process with automated test packs, challenger comparisons and complete evidence trails."}
           </p>
-          <div className="mt-9 flex flex-wrap items-center gap-5">
+          {qbricks ? (
+            <p className="mt-4 max-w-2xl text-sm leading-relaxed text-steel">
+              Designed to reduce unnecessary decoding, data movement and join processing.
+            </p>
+          ) : null}
+          <div className="mt-9 flex flex-wrap items-center gap-x-6 gap-y-5">
             {qbricks ? (
-              <a
-                href="https://qbricks.ai"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-sheen inline-flex min-h-11 items-center bg-[#d6111f] px-6 font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-white shadow-[0_8px_24px_rgba(214,17,31,0.18)] transition-[background-color,box-shadow,transform] duration-(--duration-fast) hover:bg-[#b50d19] hover:shadow-[0_10px_28px_rgba(181,13,25,0.24)] active:translate-y-px"
-              >
-                Visit the QBricks website ↗
-              </a>
+              <>
+                <Link
+                  href="/contact"
+                  className="btn-sheen inline-flex min-h-11 items-center bg-[#d6111f] px-6 font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-white shadow-[0_8px_24px_rgba(214,17,31,0.18)] transition-[background-color,box-shadow,transform] duration-(--duration-fast) hover:bg-[#b50d19] hover:shadow-[0_10px_28px_rgba(181,13,25,0.24)] active:translate-y-px"
+                >
+                  Evaluate your workload →
+                </Link>
+                <a
+                  href="https://qbricks.ai"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="link-wipe font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-[#d6111f]"
+                >
+                  Visit the QBricks website ↗
+                </a>
+              </>
             ) : (
-              <PrimaryLink href="/contact">Request a demo →</PrimaryLink>
+              <>
+                <PrimaryLink href="/contact">Request a demo →</PrimaryLink>
+                <SecondaryLink href="/contact">Talk to our team →</SecondaryLink>
+              </>
             )}
-            <SecondaryLink href="/contact">Talk to our team →</SecondaryLink>
           </div>
         </Reveal>
         <Reveal className="lg:col-span-6">
@@ -723,6 +738,12 @@ function ProductHero({ product }: { product: "qbricks" | "vbricks" }) {
 }
 
 export function QBricksPage() {
+  /* Repositioned Sept 2026 to the QBricks Marketing Brief (David, 16 Sep):
+   * high-performance analytics with platform-level control. Order follows the
+   * brief's three messages: performance, operational efficiency, platform
+   * control. Guardrails carried over from the brief: no superlatives, no
+   * DuckDB figure until the benchmark is frozen and publishable, and latency
+   * is never restated as a cost saving. */
   return (
     <>
       <ProductHero product="qbricks" />
@@ -735,8 +756,50 @@ export function QBricksPage() {
       <ContentSection>
         <SectionIntro
           eyebrow="What it does"
-          title="A governed foundation for production AI"
-          body="QBricks is a streaming data-management platform that enforces governance at the point of ingestion, so data reaches your lakehouse or database trusted, portable and ready for use."
+          title="Fast SQL, governed data, less wasted work"
+          body="QBricks brings high-performance SQL execution and data management into one platform, helping teams turn their data into usable, governed analytical products."
+        />
+        <NumberedCards
+          items={[
+            { num: "01", title: "Performance", body: "Difficult queries finish sooner. The analytical engine is built to preserve optimisation opportunities from the query planner down to compressed storage." },
+            { num: "02", title: "Operational efficiency", body: "More useful analytics from the infrastructure you already run. Filtering, compressed storage and query execution work together to avoid unnecessary work." },
+            { num: "03", title: "Platform control", body: "Manage and govern the data behind those answers, with data contracts, human-approved agentic metadata, clickable lineage and a complete audit trail." },
+          ]}
+        />
+      </ContentSection>
+      <ContentSection className="bg-abyss/20">
+        <SectionIntro
+          eyebrow="The engine"
+          title="Most analytics cost comes from work that never reaches the answer"
+          body="Most analytics costs come from processing data that never contributes to the answer. QBricks brings filtering, compressed storage and query execution together to avoid unnecessary work."
+        />
+        <div className="grid gap-px lg:grid-cols-2">
+          <article className="border hairline bg-white/72 p-8 md:p-10">
+            <p className="eyebrow text-steel">Where the time goes</p>
+            <h2 className="mt-5 text-(length:--text-step-2)">Work that never reaches the answer</h2>
+            <ul className="mt-7 space-y-4 text-ice">
+              {["Decoding data the query never uses", "Moving data between storage and compute", "Join processing on rows that are later discarded", "Governance applied after the fact", "Integration work to turn each dataset into a reusable product"].map((item) => (
+                <li key={item} className="flex gap-3 border-t hairline pt-4"><span aria-hidden className="text-steel">·</span><span>{item}</span></li>
+              ))}
+            </ul>
+          </article>
+          <article className="relative overflow-hidden border hairline bg-white p-8 shadow-[0_18px_48px_rgba(23,56,102,0.07)] md:p-10">
+            <span aria-hidden className="absolute inset-x-0 top-0 h-0.5 bg-[#d6111f]" />
+            <p className="eyebrow text-[#d6111f]">With QBricks</p>
+            <h2 className="mt-5 text-(length:--text-step-2)">Less wasted work</h2>
+            <ul className="mt-7 space-y-4 text-ice">
+              {["Filtering, compressed storage and query execution kept together", "Optimisation preserved from the query planner down to storage", "Less unnecessary decoding, data movement and join processing", "Governance enforced by data contract as data enters the platform", "Governed, reusable analytical products on your existing platforms"].map((item) => (
+                <li key={item} className="flex gap-3 border-t hairline pt-4"><span aria-hidden className="text-[#d6111f]">↳</span><span>{item}</span></li>
+              ))}
+            </ul>
+          </article>
+        </div>
+      </ContentSection>
+      <ContentSection>
+        <SectionIntro
+          eyebrow="Platform control"
+          title="Manage and govern the data behind those answers"
+          body="QBricks enforces governance at the point of ingestion, so data reaches your lakehouse or database trusted, portable and ready for use."
         />
         <NumberedCards
           items={[
@@ -750,28 +813,18 @@ export function QBricksPage() {
         />
       </ContentSection>
       <ContentSection className="bg-abyss/20">
-        <SectionIntro eyebrow="The difference" title="Replace pipeline sprawl with a controlled data-product system" />
-        <div className="grid gap-px lg:grid-cols-2">
-          <article className="border hairline bg-white/72 p-8 md:p-10">
-            <p className="eyebrow text-steel">Without QBricks</p>
-            <h2 className="mt-5 text-(length:--text-step-2)">Complexity compounds</h2>
-            <ul className="mt-7 space-y-4 text-ice">
-              {["Thousands of ungoverned notebooks", "Large teams maintaining bespoke pipelines", "Long build and deployment timelines", "AI-ready data trapped behind remediation work", "Ongoing cloud and compute overhead"].map((item) => (
-                <li key={item} className="flex gap-3 border-t hairline pt-4"><span aria-hidden className="text-steel">—</span><span>{item}</span></li>
-              ))}
-            </ul>
-          </article>
-          <article className="relative overflow-hidden border hairline bg-white p-8 shadow-[0_18px_48px_rgba(23,56,102,0.07)] md:p-10">
-            <span aria-hidden className="absolute inset-x-0 top-0 h-0.5 bg-[#d6111f]" />
-            <p className="eyebrow text-[#d6111f]">With QBricks</p>
-            <h2 className="mt-5 text-(length:--text-step-2)">Governance becomes the foundation</h2>
-            <ul className="mt-7 space-y-4 text-ice">
-              {["Governance enforced by data contract", "Automatic pipeline builds and materialised views", "AI-ready data available in hours", "Open, portable products for your existing platforms", "Lower compute with no mandatory cloud dependency"].map((item) => (
-                <li key={item} className="flex gap-3 border-t hairline pt-4"><span aria-hidden className="text-[#d6111f]">↳</span><span>{item}</span></li>
-              ))}
-            </ul>
-          </article>
-        </div>
+        <SectionIntro
+          eyebrow="Who it is for"
+          title="Data-platform teams with complex SQL workloads and existing lake data"
+          body="QBricks suits teams with a concrete problem who want to evaluate an alternative without immediately replacing their entire platform."
+        />
+        <NumberedCards
+          items={[
+            { num: "01", title: "Slow join-heavy queries", body: "Join-heavy queries are too slow, and the answers the business needs arrive late." },
+            { num: "02", title: "Compute that is hard to justify", body: "Compute costs are difficult to justify against the analytics they actually produce." },
+            { num: "03", title: "Too much integration work", body: "Turning datasets into governed, reusable products requires too much integration work." },
+          ]}
+        />
       </ContentSection>
       <ContentSection>
         <SectionIntro
@@ -797,12 +850,12 @@ export function QBricksPage() {
         <SectionIntro
           eyebrow="Use cases"
           title="Built for the work that burns data budgets"
-          body="Each use case below is drawn from programmes we have delivered by hand — QBricks packages that delivery experience into a product."
+          body="Each use case below is drawn from programmes we have delivered by hand. QBricks packages that delivery experience into a product."
         />
         <NumberedCards
           items={[
-            { title: "AML & KYC data products", body: "Entity-ready customer and counterparty data for financial-crime platforms — contracted quality and lineage that stands up to a regulator's audit trail, feeding tools like Quantexa without months of remediation." },
-            { title: "Regulatory reporting", body: "A governed, single source of trading and finance data for reporting cycles — the same problem we cut from four weeks to five minutes by hand, now productised so the pipeline builds itself." },
+            { title: "AML & KYC data products", body: "Entity-ready customer and counterparty data for financial-crime platforms, with contracted quality and lineage that stands up to a regulator's audit trail, feeding tools like Quantexa." },
+            { title: "Regulatory reporting", body: "A governed, single source of trading and finance data for reporting cycles. It is the same problem we cut from four weeks to five minutes by hand, now packaged into the product." },
             { title: "AI-ready data estates", body: "Governed data products that make AI programmes possible: contracted schema, quality and ownership per product, so models train and run on data your firm can defend." },
           ]}
         />
@@ -816,7 +869,7 @@ export function QBricksPage() {
           </div>
         </div>
       </ContentSection>
-      <CTASection title="From record to report in minutes" body="See how governed data contracts and products are created against your own use case." label="Request a demo" />
+      <CTASection title="Bring us a representative workload" body="We will show you where QBricks helps, where it does not, and what adoption would require." label="Evaluate your workload" />
     </>
   );
 }
@@ -2772,7 +2825,7 @@ export function routeFor(slug: string[]): Route {
     "/": { render: () => <HomeWirePage />, meta: { title: "Months, not years", description: "Engineering excellence combined with deep industry expertise. Turning data into decisions." } },
     "/services": { render: () => <ServicesWirePage />, meta: { title: "Our services", description: "Market-leading strategy, specialist transformation and AI-enabled automation solutions for regulated financial services." } },
     "/solutions": { render: () => <SolutionsWirePage />, meta: { title: "Our solutions", description: "Pre-built solutions and assessment tooling that shorten delivery timelines and de-risk your programmes." } },
-    "/solutions/qbricks": { render: () => <QBricksPage />, meta: { title: "QBricks", description: "Turn systems of record into governed, A.I.-ready data products in hours, not years." } },
+    "/solutions/qbricks": { render: () => <QBricksPage />, meta: { title: "QBricks", description: "QBricks combines a high-performance SQL engine with the tools to manage, govern and serve analytical data." } },
     "/solutions/vbricks": { render: () => <VBricksPage />, meta: { title: "VBricks", description: "Engineered model testing with automated test packs, challenger comparisons and complete evidence trails." } },
     "/solutions/ai-factory": { render: () => <AIFactoryPage />, meta: { title: "AI Factory", description: "From AI pilots to an industrial AI capability — one governed data engine, platform, delivery pods and operating model, engineered for regulated finance." } },
     "/solutions/esg-reporting": { render: () => <ESGReportingPage />, meta: { title: "ESG reporting platform", description: "Audit-ready ESG disclosure on one governed platform — three hubs for sourcing, processing and reporting, aligned to CSRD, CSDDD, GRI and ISSB." } },

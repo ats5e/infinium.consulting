@@ -5,7 +5,7 @@ const ROUTES: Array<[path: string, h1: RegExp]> = [
   ["/about", /business outcomes/i],
   ["/services", /Our services/i],
   ["/solutions", /Our solutions/i],
-  ["/solutions/qbricks", /No more data pipelines/i],
+  ["/solutions/qbricks", /Fast answers from complex data/i],
   ["/solutions/vbricks", /major change in model testing/i],
   ["/solutions/ai-factory", /From AI pilots to an industrial AI capability/i],
   ["/solutions/esg-reporting", /Audit-ready ESG disclosure/i],
