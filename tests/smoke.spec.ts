@@ -162,19 +162,6 @@ test("Amsterdam office film has a branded cover and loads the supplied Mux playe
   await expect(player).toHaveAttribute("src", /player\.mux\.com\/1O8URAIKZwRPiUpa74C02LIjg6AdMMykemKv014YT4Tf4/);
 });
 
-test("Quantexa partner film is click-to-load and points at the supplied Mux asset", async ({ page }) => {
-  await page.goto("/technologies/quantexa");
-  const play = page.getByRole("button", { name: /play the Quantexa and Infinium Better Together film/i });
-  await expect(play).toBeVisible();
-  // nothing is requested from Mux until the visitor asks for it
-  await expect(page.locator('iframe[title="Quantexa & Infinium — Better Together"]')).toHaveCount(0);
-
-  await play.click();
-  const player = page.locator('iframe[title="Quantexa & Infinium — Better Together"]');
-  await expect(player).toBeVisible();
-  await expect(player).toHaveAttribute("src", /player\.mux\.com\/cYgMrv9lCWOdUAA5jFzWz6P1LPAkqeBIbH02VZmrcSJ8/);
-});
-
 test("QBricks '10 reasons why' film is click-to-load and points at the qbricks.ai Mux asset", async ({ page }) => {
   await page.goto("/solutions/qbricks");
   const play = page.getByRole("button", { name: /play the 10 reasons why QBricks film/i });

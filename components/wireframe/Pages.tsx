@@ -5,7 +5,7 @@ import { GlassImage } from "@/components/GlassImage";
 import { Hero } from "@/components/hero/Hero";
 import { PartnerLogos, TechnologyLogo } from "@/components/PartnerLogos";
 import { QBricksWord } from "@/components/QBricksWord";
-import { DubaiOfficeVideo, NetherlandsOfficeVideo, QBricksFilm, QuantexaFilm } from "@/components/OfficeVideo";
+import { DubaiOfficeVideo, NetherlandsOfficeVideo, QBricksFilm } from "@/components/OfficeVideo";
 import { Reveal } from "@/components/motion/Reveal";
 import { Counter } from "@/components/motion/Counter";
 import { PhotoCollage, type CollageShot } from "@/components/PhotoCollage";
@@ -1715,14 +1715,6 @@ export function TechnologyDetailPage({ slug }: { slug: string }) {
           {t.links.filter((l) => !l.label.includes("Spotlight")).map((l) => <SecondaryLink key={l.label} href={l.href}>{l.label}</SecondaryLink>)}
         </div>
       </ContentSection>
-      {slug === "quantexa" ? (
-        <ContentSection className="bg-abyss/20">
-          <SectionIntro eyebrow="The partnership" title="Better together" />
-          <Reveal>
-            <QuantexaFilm />
-          </Reveal>
-        </ContentSection>
-      ) : null}
       {t.results ? (
         <ContentSection className="bg-abyss/20">
           <SectionIntro eyebrow={t.results.intro.eyebrow} title={t.results.intro.title} body={t.results.intro.body} />
