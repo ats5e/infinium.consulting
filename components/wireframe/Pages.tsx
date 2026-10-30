@@ -134,7 +134,12 @@ const AWARDS = [
   { src: "/awards/ecovadis-silver-2024.webp", alt: "EcoVadis Silver sustainability rating, top 15%, September 2024", w: 476, h: 478, height: 76 },
   /* NEN 4400-1 and Stichting Normering Arbeid removed per client (20 Aug):
      compliance registrations, not awards — files kept in public/awards */
-  { src: "/awards/best-workplaces-nl-2024.webp", alt: "Great Place To Work — Best Workplaces Netherlands 2024, top 5", w: 454, h: 447, height: 76 },
+  /* the full Great Place To Work set (client, 29 Oct) — certified 2024–27,
+     the GPTW mark and Best Workplaces NL 2024 — replacing the lone 2024
+     Best Workplaces badge, which stays in public/awards. Wide, so it takes
+     a short height like the Quantexa wordmark, nudged up so the badge
+     captions stay readable. */
+  { src: "/awards/gptw-nl-2024-2027.png", alt: "Great Place To Work: Certified Netherlands Nov 2024–Nov 2025, Oct 2025–Oct 2026 and Oct 2026–Oct 2027, and Best Workplaces Netherlands 2024", w: 830, h: 213, height: 60 },
   // outlined badge with a caption inside it — needs more height to read
   { src: "/awards/Appian.webp", alt: "Appian Europe 2024 Financial Services Partner of the Year", w: 364, h: 200, height: 68 },
   { src: "/awards/Consultancy Awards.png", alt: "The Consultancy Awards 2025", w: 440, h: 364, height: 70 },
@@ -2769,7 +2774,7 @@ export function ContactWireIntro({ form }: { form: React.ReactNode }) {
 export function routeFor(slug: string[]): Route {
   const path = `/${slug.join("/")}`;
   const routes: Record<string, Route> = {
-    "/": { render: () => <HomeWirePage />, meta: { title: "Months, not years", description: "Engineering excellence combined with deep industry expertise. Turning data into decisions." } },
+    "/": { render: () => <HomeWirePage />, meta: { title: "Data, Simplified", description: "Engineering excellence combined with deep industry expertise. Turning data into decisions." } },
     "/services": { render: () => <ServicesWirePage />, meta: { title: "Our services", description: "Market-leading strategy, specialist transformation and AI-enabled automation solutions for regulated financial services." } },
     "/solutions": { render: () => <SolutionsWirePage />, meta: { title: "Our solutions", description: "Pre-built solutions and assessment tooling that shorten delivery timelines and de-risk your programmes." } },
     "/solutions/qbricks": { render: () => <QBricksPage />, meta: { title: "QBricks", description: "Turn systems of record into governed, A.I.-ready data products in hours, not years." } },

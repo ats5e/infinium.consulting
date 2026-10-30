@@ -4,7 +4,7 @@ import { ContentSection, HeroSection } from "@/components/wireframe/Primitives";
 
 export const metadata: Metadata = {
   title: "Privacy notice",
-  description: "How Infinium Technology handles information submitted through this website.",
+  description: "How Infinium handles information submitted through this website.",
   alternates: { canonical: "/privacy" },
 };
 

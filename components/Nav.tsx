@@ -160,7 +160,7 @@ export function Nav() {
         className="pointer-events-auto absolute inset-x-3 top-3 z-50 flex h-14 items-center justify-between rounded-[10px] border border-navy/12 bg-white/78 pl-5 pr-2 shadow-[0_10px_34px_rgba(23,56,102,0.09)] backdrop-blur-xl md:inset-x-6 md:top-4 md:h-16 md:pl-6 md:pr-2.5 lg:inset-x-10"
       >
         <div className="flex min-w-0 items-center gap-3">
-          <Link href="/" aria-label="Infinium Technology — home" className="shrink-0">
+          <Link href="/" aria-label="Infinium — home" className="shrink-0">
             <AnimatedLockup className="h-6" />
           </Link>
           <span aria-hidden className="hidden items-baseline gap-2 text-[15px] text-steel sm:flex">

@@ -39,7 +39,7 @@ for (const [path, h1] of ROUTES) {
     await expect(h1s.first()).toContainText(h1);
 
     // the title template is applied — never the WordPress ghost
-    await expect(page).toHaveTitle(/Infinium Technology/);
+    await expect(page).toHaveTitle(/Infinium/);
     await expect(page).not.toHaveTitle(/My WordPress/);
 
     // no console errors during load

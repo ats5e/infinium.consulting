@@ -22,7 +22,7 @@ import { ApplicationForm } from "./ApplicationForm";
  */
 
 export const metadata: Metadata = {
-  title: "One4One — apply",
+  title: "One4One application",
   description: "Application page for the One4One internship programme, shared at our university events.",
   robots: { index: false, follow: false },
 };

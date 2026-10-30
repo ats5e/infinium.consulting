@@ -13,14 +13,14 @@ const SITE = "https://infinium-technology.com";
 export const metadata: Metadata = {
   metadataBase: new URL(SITE),
   title: {
-    template: "%s — Infinium Technology",
-    default: "Months, not years — Infinium Technology",
+    template: "%s | Infinium",
+    default: "Data, Simplified | Infinium",
   },
   description:
     "Engineering excellence combined with deep industry expertise. Turning data into decisions for the world's leading banks, insurers and asset managers.",
   alternates: { canonical: "/" },
   openGraph: {
-    siteName: "Infinium Technology",
+    siteName: "Infinium",
     type: "website",
     locale: "en_GB",
     // Next only emits og:url when it is set explicitly
@@ -44,7 +44,7 @@ const JSON_LD = {
     {
       "@type": "Organization",
       "@id": `${SITE}/#org`,
-      name: "Infinium Technology",
+      name: "Infinium",
       legalName: "Infinium Consulting B.V.",
       url: SITE,
       logo: `${SITE}/img/logo.png`,
@@ -88,7 +88,7 @@ const JSON_LD = {
       "@type": "WebSite",
       "@id": `${SITE}/#site`,
       url: SITE,
-      name: "Infinium Technology",
+      name: "Infinium",
       publisher: { "@id": `${SITE}/#org` },
     },
   ],
