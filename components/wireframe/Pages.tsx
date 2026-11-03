@@ -222,35 +222,29 @@ export function HomeWirePage() {
         </Reveal>
       </section>
 
-      <ContentSection className="overflow-hidden" density="compact">
-        <h2 className="eyebrow text-center">Recognised for delivery, not decks</h2>
-        <p className="mx-auto mt-4 max-w-2xl text-center text-(length:--text-body-sm) text-ice">
-          Partner-of-the-year awards from the platforms our clients run on.
-        </p>
-        {/* ruled cells, so this band reads as a set with the figures strip
-            above it. Each mark keeps its optically-matched height. */}
-        {/* flush with the page ground — no tiles, no rules — so the marks
-            read as a quiet credential row (client, 20 Aug) */}
-        <Reveal className="mt-8 grid grid-cols-2 sm:grid-cols-3">
+      {/* one tight row of marks straight under the figures, so the page
+          gets to its content sooner (David, 3 Nov). The heading stays for
+          screen readers only; the marks carry the section visually. Each
+          keeps its optically-matched height, scaled down to fit one row. */}
+      <section aria-labelledby="awards-heading" className="border-t hairline">
+        <h2 id="awards-heading" className="sr-only">Awards and partnerships</h2>
+        <Reveal className="mx-auto grid max-w-(--container-content) grid-cols-3 items-center gap-x-6 gap-y-6 px-(--spacing-gutter) py-7 md:py-8 lg:flex lg:justify-between lg:gap-8">
           {AWARDS.map((award) => (
-            <div
-              key={award.src}
-              className="flex min-h-36 items-center justify-center px-5 py-7 sm:min-h-40"
-            >
+            <div key={award.src} className="flex items-center justify-center">
               <Image
                 src={award.src}
                 alt={award.alt}
                 width={award.w}
                 height={award.h}
                 loading="lazy"
-                sizes="280px"
-                style={{ height: `${award.height}px` }}
+                sizes="240px"
+                style={{ height: `${Math.round(award.height * 0.75)}px` }}
                 className="w-auto max-w-full object-contain"
               />
             </div>
           ))}
         </Reveal>
-      </ContentSection>
+      </section>
 
       <ContentSection density="feature">
         <div className="grid gap-4 md:grid-cols-2">
