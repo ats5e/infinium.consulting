@@ -60,7 +60,7 @@ export function PhotoCollage({
               <figure
                 key={shot.slot}
                 style={{ "--drift": r.drift } as React.CSSProperties}
-                className={`collage-tile group relative overflow-hidden border hairline bg-abyss/25 md:h-full ${r.span}`}
+                className={`collage-tile group relative overflow-hidden rounded-2xl bg-tint md:h-full ${r.span}`}
               >
                 <GlassImage
                   image={siteImage(shot.slot)}

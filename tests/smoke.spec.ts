@@ -54,8 +54,10 @@ test("nav reaches every route", async ({ page }) => {
   // QBricks/VBricks are intentionally NOT top-level here — they live under
   // Solutions and remain reachable via search — so they're not asserted.
   await page.getByRole("button", { name: /open menu/i }).click();
+  // scoped to the menu dialog: the desktop bar now repeats five of these
+  const menu = page.getByRole("dialog", { name: "Site navigation" });
   for (const label of ["Services", "Solutions", "Sectors", "Technologies", "Case studies", "About", "Careers", "Contact"]) {
-    await expect(page.getByRole("link", { name: label, exact: true }).first()).toBeVisible();
+    await expect(menu.getByRole("link", { name: label, exact: true })).toBeVisible();
   }
   // home stays reachable through the wordmark
   await expect(page.getByRole("link", { name: /home/i }).first()).toBeVisible();
@@ -75,12 +77,15 @@ test("navigation overlay isolates page content and restores focus", async ({ pag
 
 test("the hero offers the two journeys", async ({ page }) => {
   await page.goto("/");
-  await expect(page.getByRole("link", { name: /explore our work/i })).toHaveAttribute("href", "/services");
-  await expect(page.getByRole("link", { name: /meet us/i })).toHaveAttribute("href", "/contact");
+  // redesign (Nov 2026): one pill to a conversation, one text link to the proof
+  const hero = page.getByTestId("home-hero");
+  await expect(hero.getByRole("link", { name: /speak to an expert/i })).toHaveAttribute("href", "/contact");
+  await expect(hero.getByRole("link", { name: /see the outcomes/i })).toHaveAttribute("href", "/insights");
   // every journey stays reachable through the menu
   await page.getByRole("button", { name: /open menu/i }).click();
-  await expect(page.getByRole("link", { name: "Services", exact: true }).first()).toBeVisible();
-  await expect(page.getByRole("link", { name: "Contact", exact: true }).first()).toBeVisible();
+  const menu = page.getByRole("dialog", { name: "Site navigation" });
+  await expect(menu.getByRole("link", { name: "Services", exact: true })).toBeVisible();
+  await expect(menu.getByRole("link", { name: "Contact", exact: true })).toBeVisible();
 });
 
 test("desktop hero keeps a compact graphic footprint", async ({ page }) => {

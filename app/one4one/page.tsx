@@ -51,7 +51,7 @@ export default function One4OneApplyPage() {
             </Reveal>
           </div>
           <Reveal>
-            <figure className="overflow-hidden border hairline bg-surface/82 shadow-[0_8px_24px_rgba(23,56,102,0.04)]">
+            <figure className="overflow-hidden rounded-2xl bg-white">
               <GlassImage
                 image={siteImage("one4one-cohort")}
                 alt="A One4One cohort with the team at our Amsterdam hub"

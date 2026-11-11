@@ -27,7 +27,7 @@ function OfficeVideo({
   const [playing, setPlaying] = useState(false);
 
   return (
-    <figure className="overflow-hidden border hairline bg-white shadow-[0_16px_42px_rgba(23,56,102,0.08)]">
+    <figure className="overflow-hidden rounded-2xl bg-white">
       <div className="relative aspect-video overflow-hidden bg-navy sm:aspect-[181/78]">
         {playing ? (
           <iframe
@@ -66,7 +66,7 @@ function OfficeVideo({
 
               <span className="flex items-end justify-between gap-5">
                 <span className="max-w-lg">
-                  <span className="block font-mono text-[9px] uppercase tracking-[0.16em] text-white/70">
+                  <span className="block font-mono text-[12px] uppercase tracking-[0.16em] text-white/70">
                     {location}
                   </span>
                   <span className="mt-2 block font-hero text-xl font-semibold leading-tight tracking-[-0.015em] text-white sm:text-2xl">
@@ -76,7 +76,7 @@ function OfficeVideo({
                     {description}
                   </span>
                 </span>
-                <span className="grid size-12 shrink-0 place-items-center rounded-full border border-white/50 bg-white/12 text-white shadow-[0_8px_24px_rgba(0,0,0,0.18)] backdrop-blur-md transition-[background-color,transform] duration-(--duration-fast) group-hover:scale-105 group-hover:bg-white/20 sm:size-14">
+                <span className="grid size-12 shrink-0 place-items-center rounded-full border border-white/50 bg-white/12 text-white backdrop-blur-md transition-[background-color,transform] duration-(--duration-fast) group-hover:scale-105 group-hover:bg-white/20 sm:size-14">
                   <svg aria-hidden viewBox="0 0 24 24" className="ml-0.5 size-5 fill-current">
                     <path d="M8.25 5.4v13.2L18 12 8.25 5.4Z" />
                   </svg>

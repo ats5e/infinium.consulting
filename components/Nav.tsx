@@ -34,6 +34,15 @@ const SECTIONS = [
   { label: "Contact", href: "/contact" },
 ];
 
+/* the five links the bar shows on wide screens */
+const TOP_LINKS = [
+  { label: "Services", href: "/services" },
+  { label: "Solutions", href: "/solutions" },
+  { label: "Case studies", href: "/insights" },
+  { label: "About", href: "/about" },
+  { label: "Careers", href: "/careers" },
+];
+
 /* deep links only — everything the NAVIGATION column already lists was
  * duplication (client review, 20 Aug) */
 const QUICK_LINKS = [
@@ -164,19 +173,44 @@ export function Nav() {
       {/* the floating pill */}
       <nav
         aria-label="Primary"
-        className="pointer-events-auto absolute inset-x-3 top-3 z-50 flex h-14 items-center justify-between rounded-[10px] border border-navy/12 bg-white/78 pl-5 pr-2 shadow-[0_10px_34px_rgba(23,56,102,0.09)] backdrop-blur-xl md:inset-x-6 md:top-4 md:h-16 md:pl-6 md:pr-2.5 lg:inset-x-10"
+        className="pointer-events-auto absolute inset-x-3 top-3 z-50 flex h-16 items-center justify-between gap-6 rounded-2xl bg-white/88 pl-5 pr-2.5 backdrop-blur-xl md:inset-x-6 md:top-4 md:h-[72px] md:pl-7 lg:inset-x-10"
       >
-        <div className="flex min-w-0 items-center gap-3">
-          <Link href="/" aria-label="Infinium — home" className="shrink-0">
-            <AnimatedLockup className="h-6" />
+        {/* the lockup exactly as on the live site — never restyle it */}
+        <Link href="/" aria-label="Infinium — home" className="shrink-0">
+          <AnimatedLockup className="h-6" />
+        </Link>
+
+        {/* visible top-level links on wide screens; the full IA stays in the menu */}
+        <ul inert={overlayOpen} className="hidden items-center gap-9 lg:flex">
+          {TOP_LINKS.map(({ label, href }) => (
+            <li key={href}>
+              <Link
+                href={href}
+                aria-current={pathname === href || pathname.startsWith(`${href}/`) ? "page" : undefined}
+                className="text-[15px] font-medium text-paper transition-colors duration-(--duration-fast) hover:text-cobalt aria-[current=page]:text-cobalt"
+              >
+                {label}
+              </Link>
+            </li>
+          ))}
+        </ul>
+
+        <div className="flex items-center gap-3">
+          <Link
+            href="/contact"
+            inert={overlayOpen}
+            className="group/pill hidden min-h-11 items-center gap-3 rounded-full bg-cobalt py-1.5 pl-5 pr-1.5 text-[15px] font-medium text-white transition-colors duration-(--duration-fast) hover:bg-navy sm:inline-flex"
+          >
+            Speak to an expert
+            <span aria-hidden className="grid size-8 place-items-center rounded-full bg-white text-cobalt transition-transform duration-(--duration-base) ease-(--ease-editorial) group-hover/pill:translate-x-0.5 motion-reduce:transition-none">
+              <svg width="13" height="13" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M2 7h10M8 3l4 4-4 4" />
+              </svg>
+            </span>
           </Link>
-          <span aria-hidden className="hidden items-baseline gap-2 text-[15px] text-steel sm:flex">
-            <span className="text-ice/35">/</span> Amsterdam · Dubai
-          </span>
-        </div>
 
         {/* joined two-cell control: search | menu */}
-        <div className="flex overflow-hidden rounded-[6px] border border-navy/18 bg-white/55">
+        <div className="flex overflow-hidden rounded-full border border-navy/14">
           <button
             ref={searchButton}
             type="button"
@@ -186,7 +220,7 @@ export function Nav() {
               setSearching((v) => !v);
               setOpen(false);
             }}
-            className="grid size-11 place-items-center border-r border-navy/18 text-paper transition-colors duration-(--duration-fast) hover:bg-signal/8 hover:text-signal"
+            className="grid size-11 place-items-center border-r border-navy/14 text-paper transition-colors duration-(--duration-fast) hover:bg-signal/8 hover:text-signal"
           >
             <span className="sr-only">{searching ? "Close search" : "Open search"}</span>
             {searching ? (
@@ -230,6 +264,7 @@ export function Nav() {
               />
             </span>
           </button>
+        </div>
         </div>
       </nav>
 

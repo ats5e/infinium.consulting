@@ -41,8 +41,7 @@ export function Hero({ staticImage: _staticImage }: { staticImage: SiteImage }) 
       tl.from(".hero-line", { yPercent: 110, duration: 0.9, stagger: 0.1, clearProps: "transform" }, 0.08)
         .from(".hero-field-wrap", { opacity: 0, x: 36, duration: 1.4, ease: "power3.out", clearProps: "transform,opacity" }, 0.3)
         .from(".hero-body", { y: 14, opacity: 0, duration: 0.6, clearProps: "transform,opacity" }, 0.55)
-        .from(".hero-actions > *", { y: 10, opacity: 0, duration: 0.5, stagger: 0.08, clearProps: "transform,opacity" }, 0.7)
-        .from(".hero-rail > *", { opacity: 0, duration: 0.6, stagger: 0.1, clearProps: "opacity" }, 0.9);
+        .from(".hero-actions > *", { y: 10, opacity: 0, duration: 0.5, stagger: 0.08, clearProps: "transform,opacity" }, 0.7);
     }, section);
     return () => ctx.revert();
   }, [still]);
@@ -51,7 +50,7 @@ export function Hero({ staticImage: _staticImage }: { staticImage: SiteImage }) 
     <section
       ref={section}
       data-testid="home-hero"
-      className="relative overflow-hidden bg-void md:min-h-[clamp(38rem,82svh,44rem)]"
+      className="relative overflow-hidden bg-void md:min-h-[clamp(38rem,86svh,50rem)]"
       aria-label="Introduction"
     >
       {/* legibility wash: the copy column stays pristine over the
@@ -61,12 +60,13 @@ export function Hero({ staticImage: _staticImage }: { staticImage: SiteImage }) 
         className="pointer-events-none absolute left-0 top-0 hidden h-[52%] w-[56%] bg-gradient-to-r from-void via-void/92 to-transparent md:block"
       />
 
-      <div className="relative z-10 mx-auto flex w-full max-w-(--container-content) flex-col px-(--spacing-gutter) pb-7 pt-24 md:min-h-[clamp(38rem,82svh,44rem)] md:pt-28">
+      <div className="relative z-10 mx-auto flex w-full max-w-(--container-content) flex-col px-(--spacing-gutter) pb-7 pt-28 md:min-h-[clamp(38rem,86svh,50rem)] md:justify-center md:pt-24">
         {/* md–lg: the field starts at 47vw, so the copy column must stop
             there — otherwise the body runs under the mark. Full 2xl measure
             returns once the viewport gives the field room of its own. */}
         <div data-testid="hero-copy-column" className="flex w-full max-w-2xl flex-col items-start pt-6 text-left md:max-w-[46vw] md:pt-6 xl:max-w-2xl">
-          <h1 className="w-full font-hero text-[clamp(3.25rem,7.5vw,6.5rem)] font-semibold leading-[0.88] tracking-[-0.02em] text-paper">
+          <p className="hero-body eyebrow mb-7">Data &amp; AI for financial services<span className="hidden lg:inline"> · Amsterdam &amp; Dubai</span></p>
+          <h1 className="w-full font-hero text-[clamp(3.5rem,8vw,7.25rem)] font-medium leading-[0.9] tracking-[-0.035em] text-paper">
             {/* David's final header (24 Aug): short, monumental, cobalt close */}
             <span className="block w-full overflow-hidden pb-[0.16em] -mb-[0.16em]">
               <span className="hero-line block">Months,</span>
@@ -78,26 +78,17 @@ export function Hero({ staticImage: _staticImage }: { staticImage: SiteImage }) 
             </span>
           </h1>
 
-          <p className="hero-body mt-7 w-full max-w-xl text-[clamp(1.15rem,1.6vw,1.45rem)] leading-[1.35] text-ice">
+          <p className="hero-body mt-7 w-full max-w-xl text-[clamp(1.125rem,1.45vw,1.3rem)] leading-[1.4] text-ice">
             Engineering excellence combined with deep industry expertise.
             Turning data into decisions.
           </p>
 
-          <div className="hero-actions mt-9 flex w-full flex-wrap items-center justify-start gap-x-8 gap-y-4">
-            <PrimaryLink href="/services">Explore our work →</PrimaryLink>
-            <SecondaryLink href="/contact">Meet us →</SecondaryLink>
+          <div className="hero-actions mt-11 flex w-full flex-wrap items-center justify-start gap-x-8 gap-y-4">
+            <PrimaryLink href="/contact">Speak to an expert</PrimaryLink>
+            <SecondaryLink href="/insights"><span aria-hidden>↳ </span>See the outcomes</SecondaryLink>
           </div>
         </div>
 
-        {/* the rail */}
-        <div className="hero-rail mt-auto hidden items-end gap-6 pt-8 md:flex">
-          <div className="flex items-center gap-3">
-            <span aria-hidden className="block h-5 w-px bg-navy/30" />
-            <span className="font-mono text-[9px] uppercase tracking-[0.16em] text-steel">
-              Scroll to explore
-            </span>
-          </div>
-        </div>
       </div>
 
       {/* the field — owns the right, bleeds to the viewport edge */}
@@ -111,10 +102,6 @@ export function Hero({ staticImage: _staticImage }: { staticImage: SiteImage }) 
       </div>
 
 
-      <div
-        aria-hidden
-        className="load-hairline absolute inset-x-0 bottom-0 h-px bg-ice/12"
-      />
     </section>
   );
 }

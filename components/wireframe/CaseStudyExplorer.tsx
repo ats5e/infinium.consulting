@@ -21,7 +21,7 @@ const FILTERS: Array<{ key: "service" | "sector" | "location"; label: string; op
 ];
 
 const selectCls =
-  "mt-2 w-full border hairline bg-white px-3 py-2.5 text-(length:--text-body-sm) text-glass shadow-[inset_0_1px_2px_rgba(23,56,102,0.04)] transition-[border-color,box-shadow] duration-(--duration-fast) focus:border-signal focus:shadow-[0_0_0_3px_rgba(27,87,200,0.1)] focus:outline-none";
+  "mt-2 w-full rounded-2xl bg-white px-3 py-2.5 text-(length:--text-body-sm) text-glass transition-[border-color,box-shadow] duration-(--duration-fast) focus:border-signal focus:shadow-[0_0_0_3px_rgba(27,87,200,0.1)] focus:outline-none";
 
 export function CaseStudyExplorer() {
   const [filters, setFilters] = useState<Record<string, string>>({
@@ -44,7 +44,7 @@ export function CaseStudyExplorer() {
     <>
       <div className="mb-8 grid gap-3 md:grid-cols-3">
         {FILTERS.map((f) => (
-          <label key={f.key} className="border hairline p-4">
+          <label key={f.key} className="rounded-2xl p-4">
             <span className="eyebrow text-signal">{f.label}</span>
             <select
               className={selectCls}
@@ -61,13 +61,13 @@ export function CaseStudyExplorer() {
         ))}
       </div>
       {studies.length ? (
-        <div className="grid gap-px md:grid-cols-3" aria-live="polite">
+        <div className="grid gap-3 md:grid-cols-3" aria-live="polite">
           {studies.map((c) => (
             <CaseStudyCard key={c.slug} c={c} />
           ))}
         </div>
       ) : (
-        <p aria-live="polite" className="grid min-h-40 place-items-center border hairline bg-abyss/25 p-8 text-center text-ice">
+        <p aria-live="polite" className="grid min-h-40 place-items-center rounded-2xl bg-tint p-8 text-center text-ice">
           No case studies match this combination of filters yet.
         </p>
       )}

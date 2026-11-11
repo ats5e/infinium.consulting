@@ -764,20 +764,20 @@ export function FactoryLineBand() {
       <div className="relative mx-auto max-w-(--container-content) px-(--spacing-gutter) pt-10">
         <div className="flex items-baseline justify-between gap-6 border-b hairline pb-4">
           <div className="hidden grid-cols-3 gap-6 sm:grid sm:grow">
-            <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-steel">
+            <p className="font-mono text-[12px] uppercase tracking-[0.16em] text-steel">
               <span className="text-signal">01</span> · Disconnected pilots
             </p>
-            <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-steel">
+            <p className="font-mono text-[12px] uppercase tracking-[0.16em] text-steel">
               <span className="text-signal">02</span> · The factory
             </p>
-            <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-steel">
+            <p className="font-mono text-[12px] uppercase tracking-[0.16em] text-steel">
               <span className="text-signal">03</span> · Production use cases
             </p>
           </div>
-          <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-steel sm:hidden">
+          <p className="font-mono text-[12px] uppercase tracking-[0.16em] text-steel sm:hidden">
             Pilots → factory → production
           </p>
-          <p aria-hidden className="shrink-0 font-mono text-[10px] uppercase tracking-[0.16em] text-steel">
+          <p aria-hidden className="shrink-0 font-mono text-[12px] uppercase tracking-[0.16em] text-steel">
             governed <span ref={governedRef} className="text-signal">—</span>
             <span className="mx-2 text-steel/50">·</span>
             shipped <span ref={shippedRef} className="text-signal">—</span>

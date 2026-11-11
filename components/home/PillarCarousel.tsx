@@ -7,7 +7,7 @@ import type { SiteImage } from "@/lib/images";
 /*
  * The homepage set piece: four pillars in one row. The active card widens
  * (flex-grow on the editorial curve) and reveals its copy; the others hold
- * only their eyebrow. All copy and imagery are the client-approved cards.
+ * an eyebrow and a short title.
  *
  * - Wide screens (xl+): hover or keyboard focus expands a card. On a touch
  *   screen with no hover, the first tap on a collapsed card expands it and
@@ -20,6 +20,7 @@ import type { SiteImage } from "@/lib/images";
  */
 export type Pillar = {
   eyebrow: string;
+  short: string;
   title: string;
   body: string;
   cta: string;
@@ -54,14 +55,14 @@ export function PillarCarousel({ pillars }: { pillars: Pillar[] }) {
                 alt=""
                 loading="lazy"
                 decoding="async"
-                className="h-full w-full object-cover transition-transform duration-(--duration-grand) ease-(--ease-editorial) group-hover:scale-[1.03] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
+                className="h-full w-full object-cover opacity-75 transition-transform duration-(--duration-grand) ease-(--ease-editorial) group-hover:scale-[1.03] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
                 style={{ backgroundImage: `url(${p.image.lqip})`, backgroundSize: "cover" }}
               />
             </picture>
             {/* deeper scrim on phones, where the full copy sits high on the photo */}
             <div
               aria-hidden
-              className="absolute inset-0 -z-10 bg-gradient-to-t from-overlay/96 via-overlay/72 to-overlay/20"
+              className="absolute inset-0 -z-10 bg-gradient-to-t from-deep/95 via-deep/75 to-deep/30 xl:from-deep/92 xl:via-deep/50 xl:to-deep/0"
             />
             <Link
               href={p.href}
@@ -75,15 +76,13 @@ export function PillarCarousel({ pillars }: { pillars: Pillar[] }) {
               }}
               className="relative flex min-h-[26rem] flex-col justify-end rounded-2xl p-7 outline-none xl:absolute xl:inset-0 xl:min-h-0 xl:p-9"
             >
-              {/* collapsed (wide screens): the eyebrow alone, set large */}
+              <span className="eyebrow text-white/85">{p.eyebrow}</span>
+              {/* collapsed: the short title only (wide screens) */}
               <span
-                className={
-                  isActive
-                    ? "eyebrow text-on-dark-accent"
-                    : "eyebrow text-on-dark-accent xl:font-hero xl:text-[22px] xl:font-normal xl:normal-case xl:tracking-[-0.01em] xl:leading-[1.15] xl:text-white"
-                }
+                aria-hidden={isActive}
+                className={`mt-3 hidden font-hero text-[22px] leading-[1.15] text-white ${isActive ? "xl:hidden" : "xl:block"}`}
               >
-                {p.eyebrow}
+                {p.short}
               </span>
               {/* expanded: always on phones and tablets, the active card on wide screens */}
               <span className={`mt-4 max-w-xl flex-col gap-4 ${isActive ? "flex" : "flex xl:hidden"}`}>
@@ -91,7 +90,10 @@ export function PillarCarousel({ pillars }: { pillars: Pillar[] }) {
                   {p.title}
                 </span>
                 <span className="leading-relaxed text-white/85">{p.body}</span>
-                <span className="mt-2 text-[15px] font-medium text-on-dark-accent">{p.cta}</span>
+                <span className="mt-2 text-[15px] font-medium text-white">
+                  <span aria-hidden>↳ </span>
+                  {p.cta}
+                </span>
               </span>
             </Link>
           </li>

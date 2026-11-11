@@ -132,7 +132,7 @@ function ScoreRing({ score, label, active }: { score: number; label: string; act
           <Counter value={score} suffix="%" />
         </p>
       </div>
-      <p className="text-center font-mono text-[10px] uppercase tracking-[0.12em] text-steel">{label}</p>
+      <p className="text-center font-mono text-[12px] uppercase tracking-[0.12em] text-steel">{label}</p>
     </div>
   );
 }
@@ -167,14 +167,14 @@ export function AssessmentDashboard() {
   const tabs = [{ key: "overview", label: "Overview", short: "Overview" }, ...AREAS];
 
   return (
-    <figure className="overflow-hidden border hairline bg-white/85 shadow-[0_20px_54px_rgba(23,56,102,0.09)]">
+    <figure className="overflow-hidden rounded-2xl bg-white">
       {/* the tool's chrome: title row with the run's live meta */}
-      <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2 border-b hairline bg-abyss/25 px-5 py-4 sm:px-7">
+      <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2 border-b hairline bg-tint px-5 py-4 sm:px-7">
         <p className="font-mono text-(length:--text-label) uppercase tracking-[0.1em] text-paper">
           Maturity assessment <span aria-hidden className="mx-2 text-steel/60">/</span>
           <span className="text-signal">{area?.label ?? "Overview"}</span>
         </p>
-        <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-steel">Client: illustrative · 750+ questions · 4 focus areas</p>
+        <p className="font-mono text-[12px] uppercase tracking-[0.12em] text-steel">Client: illustrative · 750+ questions · 4 focus areas</p>
       </div>
 
       <div className="grid md:grid-cols-12">
@@ -183,7 +183,7 @@ export function AssessmentDashboard() {
           role="tablist"
           aria-label="Assessment views"
           aria-orientation="vertical"
-          className="flex gap-px overflow-x-auto border-b hairline bg-abyss/15 p-2 md:col-span-3 md:flex-col md:justify-start md:border-b-0 md:border-r md:p-3"
+          className="flex gap-3 overflow-x-auto border-b hairline bg-abyss/15 p-2 md:col-span-3 md:flex-col md:justify-start md:border-b-0 md:border-r md:p-3"
         >
           {tabs.map((t) => {
             const selected = tab === t.key;
@@ -195,8 +195,8 @@ export function AssessmentDashboard() {
                 onClick={() => setTab(t.key)}
                 className={`shrink-0 px-4 py-2.5 text-left font-mono text-(length:--text-label) uppercase tracking-[0.08em] outline-none transition-colors duration-(--duration-fast) focus-visible:ring-2 focus-visible:ring-signal md:w-full ${
                   selected
-                    ? "bg-cobalt text-white shadow-[0_8px_24px_rgba(35,79,189,0.18)]"
-                    : "text-steel hover:bg-white/70 hover:text-paper"
+                    ? "bg-cobalt text-white"
+                    : "text-steel hover:bg-white hover:text-paper"
                 }`}
               >
                 <span className="md:hidden">{t.short}</span>
@@ -210,11 +210,11 @@ export function AssessmentDashboard() {
         <div className="p-5 sm:p-7 md:col-span-9">
           {tab === "overview" ? (
             <div key="overview">
-              <div className="grid grid-cols-2 gap-px sm:grid-cols-5">
+              <div className="grid grid-cols-2 gap-3 sm:grid-cols-5">
                 {STATUS.map(([n, label]) => (
-                  <div key={label} className="border hairline bg-surface/80 px-4 py-3">
+                  <div key={label} className="rounded-xl bg-tint px-4 py-3">
                     <p className="font-display text-(length:--text-step-2) leading-none text-paper"><Counter value={n} /></p>
-                    <p className="mt-2 font-mono text-[9px] uppercase tracking-[0.1em] text-steel">{label}</p>
+                    <p className="mt-2 font-mono text-[12px] uppercase tracking-[0.1em] text-steel">{label}</p>
                   </div>
                 ))}
               </div>
@@ -227,7 +227,7 @@ export function AssessmentDashboard() {
                     aria-label={`Open ${a.label}: scored ${a.score} percent`}
                   >
                     <ScoreRing score={a.score} label={a.label} />
-                    <p className="mt-1 text-center font-mono text-[9px] uppercase tracking-[0.1em] text-signal opacity-0 transition-opacity duration-(--duration-fast) group-hover:opacity-100 group-focus-visible:opacity-100">
+                    <p className="mt-1 text-center font-mono text-[12px] uppercase tracking-[0.1em] text-signal opacity-0 transition-opacity duration-(--duration-fast) group-hover:opacity-100 group-focus-visible:opacity-100">
                       View detail →
                     </p>
                   </button>

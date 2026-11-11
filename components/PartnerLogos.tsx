@@ -42,11 +42,11 @@ export function TechnologyLogo({
 
 export function PartnerLogos({ tileClass = "p-7" }: { tileClass?: string }) {
   return (
-    <ul className="grid grid-cols-2 gap-px lg:grid-cols-5">
+    <ul className="grid grid-cols-2 gap-3 lg:grid-cols-5">
       {TECHNOLOGY_LOGOS.map((logo) => (
         <li
           key={logo.slug}
-          className={`flex min-h-24 items-center justify-center border hairline bg-white/78 shadow-[0_8px_24px_rgba(23,56,102,0.045)] backdrop-blur-sm ${tileClass}`}
+          className={`flex min-h-24 items-center justify-center rounded-2xl bg-white ${tileClass}`}
         >
           <TechnologyLogo
             slug={logo.slug}
