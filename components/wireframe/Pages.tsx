@@ -225,7 +225,7 @@ export function HomeWirePage() {
           <h2 id="statement-heading" className="text-(length:--text-display-1) leading-[1.02] tracking-[-0.025em] md:col-span-10">
             Outcomes in weeks, not roadmaps in quarters.
           </h2>
-          <p className="text-lg leading-relaxed text-ice md:col-span-6 md:col-start-5 md:text-xl">
+          <p className="text-lg leading-relaxed text-ice md:col-span-7 md:text-xl">
             Financial services firms trust us to provide market-leading strategy, specialist transformation and AI-enabled automation solutions. We help our clients rapidly deliver business outcomes.
           </p>
         </Reveal>
