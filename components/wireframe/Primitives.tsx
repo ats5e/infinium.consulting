@@ -2,22 +2,56 @@ import Link from "next/link";
 import { Reveal } from "@/components/motion/Reveal";
 import type { CaseStudy } from "@/lib/content";
 
-export function PrimaryLink({ href, children }: { href: string; children: React.ReactNode }) {
+/* the one button: a cobalt pill with the arrow carried in a white disc.
+ * "inverse" is the same pill for cobalt or deep grounds. */
+export function ArrowDisc({ inverse = false }: { inverse?: boolean }) {
   return (
-    <Link
-      href={href}
-      className="btn-sheen inline-flex min-h-11 items-center bg-cobalt px-6 font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-white shadow-[0_8px_24px_rgba(35,79,189,0.18)] transition-[background-color,color,transform,box-shadow] duration-(--duration-fast) ease-(--ease-out-expo) hover:bg-navy hover:shadow-[0_10px_28px_rgba(23,56,102,0.24)] active:translate-y-px"
+    <span
+      aria-hidden
+      className={`grid size-9 shrink-0 place-items-center rounded-full transition-transform duration-(--duration-base) ease-(--ease-editorial) group-hover/pill:translate-x-0.5 motion-reduce:transition-none ${
+        inverse ? "bg-cobalt text-white" : "bg-white text-cobalt"
+      }`}
     >
-      {children}
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M2 7h10M8 3l4 4-4 4" />
+      </svg>
+    </span>
+  );
+}
+
+/* shared by PrimaryLink and the form submit buttons */
+export function pillClass(inverse = false) {
+  return `group/pill inline-flex min-h-12 items-center gap-3 rounded-full py-1.5 pl-[22px] pr-1.5 text-[15px] font-medium tracking-[-0.005em] transition-colors duration-(--duration-fast) ease-(--ease-out-expo) disabled:cursor-not-allowed disabled:opacity-50 ${
+    inverse ? "bg-white text-paper hover:bg-tint-deep focus-visible:outline-white" : "bg-cobalt text-white hover:bg-navy"
+  }`;
+}
+
+export function PrimaryLink({
+  href,
+  children,
+  inverse = false,
+  className = "",
+}: {
+  href: string;
+  children: React.ReactNode;
+  inverse?: boolean;
+  className?: string;
+}) {
+  return (
+    <Link href={href} className={`${pillClass(inverse)} ${className}`}>
+      {/* the disc carries the arrow — strip any "→" left in older labels */}
+      {typeof children === "string" ? children.replace(/\s*[→↗]\s*$/, "") : children}
+      <ArrowDisc inverse={inverse} />
     </Link>
   );
 }
 
+/* the one secondary action: a plain text link */
 export function SecondaryLink({ href, children }: { href: string; children: React.ReactNode }) {
   return (
     <Link
       href={href}
-      className="link-wipe font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-signal transition-colors duration-(--duration-fast) hover:text-navy"
+      className="link-wipe text-[15px] font-medium text-paper transition-colors duration-(--duration-fast) hover:text-cobalt"
     >
       {children}
     </Link>
@@ -74,7 +108,7 @@ export function HeroSection({
                   <Link
                     key={`${action.href}-${action.label}`}
                     href={action.href}
-                    className="inline-flex min-h-11 items-center border hairline bg-white/70 px-6 font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-paper shadow-[0_4px_14px_rgba(23,56,102,0.05)] transition-colors duration-(--duration-fast) hover:border-signal hover:bg-signal hover:text-white"
+                    className="inline-flex min-h-12 items-center rounded-full border border-paper/20 px-6 text-[15px] font-medium text-paper transition-colors duration-(--duration-fast) hover:border-cobalt hover:text-cobalt"
                   >
                     {action.label}
                   </Link>
@@ -268,17 +302,15 @@ export function CTASection({
   label?: string;
 }) {
   return (
-    <section className="relative overflow-hidden border-t hairline">
-      <div aria-hidden className="absolute inset-0 bg-[radial-gradient(circle_at_78%_30%,rgba(35,79,189,0.09),transparent_26rem)]" />
-      <Reveal className="relative mx-auto max-w-(--container-content) px-(--spacing-gutter) py-24">
-        <div className="relative overflow-hidden border hairline bg-surface/88 p-8 shadow-[0_18px_48px_rgba(23,56,102,0.075)] backdrop-blur-xl md:p-12">
-          <span aria-hidden className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-signal/70 to-transparent" />
-          <p className="eyebrow text-signal">next move</p>
-          <h2 className="mt-5 max-w-4xl text-(length:--text-step-4) leading-[1.02]">{title}</h2>
-          <div className="mt-8 flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
-            {body ? <p className="max-w-xl text-ice">{body}</p> : <span />}
-            <PrimaryLink href={href}>{label}</PrimaryLink>
-          </div>
+    <section className="relative">
+      <Reveal className="mx-auto max-w-(--container-content) px-(--spacing-gutter) py-28 md:py-40">
+        <div className="rounded-3xl bg-cobalt px-8 py-12 md:px-20 md:py-24">
+          <p className="eyebrow text-white/85">next move</p>
+          <h2 className="mt-5 max-w-3xl text-(length:--text-display-1) leading-[1.04] tracking-[-0.025em] text-white">{title}</h2>
+          {body ? <p className="mt-7 max-w-xl text-lg leading-relaxed text-white/85">{body}</p> : null}
+          <PrimaryLink href={href} inverse className="mt-12">
+            {label}
+          </PrimaryLink>
         </div>
       </Reveal>
     </section>

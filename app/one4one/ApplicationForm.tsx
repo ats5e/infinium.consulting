@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { submitApplication, type ApplicationState } from "./actions";
+import { ArrowDisc, pillClass } from "@/components/wireframe/Primitives";
 
 const schema = z.object({
   name: z.string().trim().min(2, "Tell us your name."),
@@ -194,9 +195,10 @@ export function ApplicationForm() {
           <button
             type="submit"
             disabled={pending}
-            className="btn-sheen inline-flex min-h-11 items-center bg-cobalt px-6 font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-white shadow-[0_8px_24px_rgba(35,79,189,0.18)] transition-[background-color,color,transform,box-shadow] duration-(--duration-fast) ease-(--ease-out-expo) hover:bg-navy hover:shadow-[0_10px_28px_rgba(23,56,102,0.24)] active:translate-y-px disabled:cursor-not-allowed disabled:opacity-60"
+            className={pillClass()}
           >
             {pending ? "Sending…" : "Submit application"}
+            <ArrowDisc />
           </button>
         </form>
       )}

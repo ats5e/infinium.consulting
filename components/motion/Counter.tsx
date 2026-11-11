@@ -41,9 +41,16 @@ export function Counter({
   }, [value, suffix]);
 
   return (
-    <span ref={ref} className={`tabular-nums ${className ?? ""}`}>
-      {value}
-      {suffix}
+    <span className={`tabular-nums ${className ?? ""}`}>
+      {/* screen readers get the final figure, never the animated "0" */}
+      <span className="sr-only">
+        {value}
+        {suffix}
+      </span>
+      <span ref={ref} aria-hidden>
+        {value}
+        {suffix}
+      </span>
     </span>
   );
 }

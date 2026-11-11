@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
-import Link from "next/link";
+import { PrimaryLink, SecondaryLink } from "@/components/wireframe/Primitives";
 import gsap from "gsap";
 import type { SiteImage } from "@/lib/images";
 import AssemblyField from "./AssemblyField";
@@ -84,18 +84,8 @@ export function Hero({ staticImage: _staticImage }: { staticImage: SiteImage }) 
           </p>
 
           <div className="hero-actions mt-9 flex w-full flex-wrap items-center justify-start gap-x-8 gap-y-4">
-            <Link
-              href="/services"
-              className="link-wipe font-mono text-(length:--text-label) uppercase tracking-[0.1em] text-cobalt transition-colors duration-(--duration-fast) hover:text-navy"
-            >
-              Explore our work →
-            </Link>
-            <Link
-              href="/contact"
-              className="link-wipe font-mono text-(length:--text-label) uppercase tracking-[0.1em] text-steel transition-colors duration-(--duration-fast) hover:text-paper"
-            >
-              Meet us →
-            </Link>
+            <PrimaryLink href="/services">Explore our work →</PrimaryLink>
+            <SecondaryLink href="/contact">Meet us →</SecondaryLink>
           </div>
         </div>
 

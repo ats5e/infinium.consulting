@@ -23,6 +23,12 @@
   --color-surface: #ffffff;
   --color-surface-muted: #eef3f9;
   --color-overlay: #07152f;
+  /* redesign tonal surfaces — sections separate by tone, not by shadow
+     or hairline: void → tint → tint-deep, and deep for the dark bands */
+  --color-tint: #eef3f9;
+  --color-tint-deep: #dfe8f4;
+  --color-deep: #07152f;
+  --color-deep-raised: #0f2650;
   --color-on-dark: #ffffff;
   --color-on-dark-muted: #d8e5f4;
   --color-on-dark-accent: #9bc4ff;
@@ -49,6 +55,14 @@
   --text-step-4: clamp(2.4414rem, 2.1755rem + 1.0906vw, 3.1573rem);
   --text-step-5: clamp(2.6rem, 2.24rem + 1.5vw, 3.6rem);
   --text-hero: clamp(2.75rem, 4.8vw, 5.5rem);
+  /* redesign display scale (Outfit, regular weight): hierarchy from size
+     and space, never from bold */
+  --text-display-1: clamp(2.5rem, 4.6vw, 4.25rem); /* 40 → 68px statements */
+  --text-display-2: clamp(2.25rem, 3.6vw, 3.25rem); /* 36 → 52px section heads */
+  --text-numeral: clamp(3.5rem, 6vw, 5.5rem); /* 56 → 88px light figures */
+
+  /* the editorial curve — slow start, long tail; for set-piece motion */
+  --ease-editorial: cubic-bezier(0.625, 0.05, 0, 1);
 
   --spacing-gutter: clamp(1.25rem, 6.11vw, 5.5rem); /* 20px → 88px */
   --container-content: 90rem; /* 1440px */
@@ -254,6 +268,8 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    /* focused elements never land under the floating nav */
+    scroll-padding-top: 6rem;
     background: var(--color-void);
     color-scheme: light;
   }

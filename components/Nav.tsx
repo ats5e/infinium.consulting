@@ -131,6 +131,21 @@ export function Nav() {
     };
   }, [overlayOpen]);
 
+  // Escape closes either overlay wherever focus is (it used to listen on the
+  // header only, so focus on the skip link left the menu open)
+  useEffect(() => {
+    if (!overlayOpen) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== "Escape") return;
+      const returnFocus = searching ? searchButton.current : menuButton.current;
+      setOpen(false);
+      setSearching(false);
+      requestAnimationFrame(() => returnFocus?.focus());
+    };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [overlayOpen, searching]);
+
   useEffect(() => {
     if (searching) searchInput.current?.focus();
   }, [searching]);
@@ -145,14 +160,6 @@ export function Nav() {
   return (
     <header
       className="fixed inset-x-0 top-0 z-50"
-      onKeyDown={(e) => {
-        if (e.key === "Escape" && overlayOpen) {
-          const returnFocus = searching ? searchButton.current : menuButton.current;
-          setOpen(false);
-          setSearching(false);
-          requestAnimationFrame(() => returnFocus?.focus());
-        }
-      }}
     >
       {/* the floating pill */}
       <nav
@@ -252,7 +259,7 @@ export function Nav() {
                     href={href}
                     tabIndex={open ? 0 : -1}
                     aria-current={pathname === href ? "page" : undefined}
-                    className={`group flex items-baseline gap-4 py-2.5 font-display text-[clamp(1.75rem,3.2vw,2.5rem)] font-medium leading-tight tracking-[-0.02em] text-paper transition-[transform,opacity,color] duration-(--duration-slow) ease-(--ease-out-expo) hover:text-signal ${
+                    className={`group flex items-baseline gap-4 py-2.5 focus-visible:outline-offset-[-2px] font-display text-[clamp(1.75rem,3.2vw,2.5rem)] font-medium leading-tight tracking-[-0.02em] text-paper transition-[transform,opacity,color] duration-(--duration-slow) ease-(--ease-out-expo) hover:text-signal ${
                       open ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
                     }`}
                     style={{ transitionDelay: open ? `${140 + i * 45}ms` : "0ms" }}

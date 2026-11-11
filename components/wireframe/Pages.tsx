@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { GlassImage } from "@/components/GlassImage";
 import { Hero } from "@/components/hero/Hero";
 import { PartnerLogos, TechnologyLogo } from "@/components/PartnerLogos";
+import { PillarCarousel } from "@/components/home/PillarCarousel";
 import { QBricksWord } from "@/components/QBricksWord";
 import { DubaiOfficeVideo, NetherlandsOfficeVideo, QBricksFilm } from "@/components/OfficeVideo";
 import { Reveal } from "@/components/motion/Reveal";
@@ -37,31 +38,6 @@ import {
 
 type PageMeta = { title: string; description: string };
 type Route = { render: () => React.ReactNode; meta: PageMeta };
-
-type PageImageSlot =
-  | "hero"
-  | "data-engineering"
-  | "data-science"
-  | "digital-transformation"
-  | "governance"
-  | "about-difc"
-  | "careers"
-  | "qbricks"
-  | "tbricks";
-
-function PageImage({
-  slot = "hero",
-  alt,
-}: {
-  slot?: PageImageSlot;
-  alt: string;
-}) {
-  return (
-    <div className="overflow-hidden border hairline">
-      <GlassImage image={siteImage(slot)} alt={alt} sizes="(min-width: 768px) 45vw, 100vw" />
-    </div>
-  );
-}
 
 function CaseStudyVisual({ study }: { study: CaseStudy }) {
   return (
@@ -188,16 +164,33 @@ const HOME_PILLARS = [
   },
 ] as const;
 
+
+const WHY_INFINIUM = [
+  { title: "Outcome-focused, not PowerPoint-focused", body: "We are measured on delivered business results — working systems, automated processes, realised savings — not decks and recommendations." },
+  { title: "Seasoned practitioners on every engagement", body: "Our team has run the functions you are transforming. We have done it ourselves, so we understand your challenges from the inside." },
+  { title: "Senior engineers in your office, not a delivery centre", body: "Highly educated engineering talent that works alongside you and your teams — on-shore, not off-shore — with the quality and pace that proximity brings." },
+  { title: "People who've run the function you're transforming", body: "More than 30 years operating across the world's financial centres — capital markets, banking, insurance, wealth and asset management." },
+  { title: "Our own solutions, designed to improve efficiency", body: "Pre-built, high-end engineered solutions like QBricks and VBricks that compress implementations from years to months and cut cost of ownership." },
+] as const;
+
 /* ---- Home -------------------------------------------------------------- */
 
+/*
+ * Redesign (Nov 2026): a visual treatment ONLY. Every word, figure, image,
+ * award mark and the section order are exactly as approved on the live site
+ * (David's and the chairman's decisions are noted inline above and below);
+ * what changed is type scale, surfaces, spacing, buttons and the pillar row.
+ */
 export function HomeWirePage() {
+  const rnd = siteImage("tbricks");
   return (
     <>
       <Hero staticImage={siteImage("hero")} />
 
-      {/* the evidence — four facts on one ruled strip, counted up on arrival */}
-      <section aria-label="Key figures" className="border-b hairline">
-        <Reveal className="mx-auto grid max-w-(--container-content) grid-cols-2 divide-x divide-navy/10 px-(--spacing-gutter) sm:grid-cols-4">
+      {/* the evidence — four facts, counted up on arrival, set in light
+          display numerals on open space instead of ruled cells */}
+      <section aria-label="Key figures">
+        <Reveal className="mx-auto grid max-w-(--container-content) grid-cols-2 gap-x-6 gap-y-10 px-(--spacing-gutter) pb-10 pt-12 sm:grid-cols-4 md:pt-16">
           {([
             [22, "", "Leading global FS clients"],
             [100, "+", "Projects completed"],
@@ -206,17 +199,15 @@ export function HomeWirePage() {
             /* chairman's note: name the hubs rather than count them */
             ["Amsterdam & Dubai", "", "Serving EMEA & MENA"],
           ] as const).map(([value, suffix, label]) => (
-            <div key={label} className="px-4 py-8 first:pl-0 sm:px-7 sm:py-10">
+            <div key={label}>
               {typeof value === "number" ? (
-                <p className="font-display text-(length:--text-step-3) leading-none text-paper">
+                <p className="font-hero text-[clamp(3rem,5vw,4.5rem)] font-light leading-none tracking-[-0.04em] text-paper">
                   <Counter value={value} suffix={suffix} />
                 </p>
               ) : (
-                <p className="font-display text-(length:--text-step-2) leading-[1.1] text-paper">{value}</p>
+                <p className="font-hero text-[clamp(1.75rem,2.6vw,2.5rem)] font-light leading-[1.05] tracking-[-0.025em] text-paper">{value}</p>
               )}
-              <p className="mt-3 font-mono text-[10px] uppercase tracking-[0.1em] text-steel">
-                {label}
-              </p>
+              <p className="mt-4 text-[13px] font-medium uppercase tracking-[0.08em] text-steel">{label}</p>
             </div>
           ))}
         </Reveal>
@@ -226,9 +217,9 @@ export function HomeWirePage() {
           gets to its content sooner (David, 3 Nov). The heading stays for
           screen readers only; the marks carry the section visually. Each
           keeps its optically-matched height, scaled down to fit one row. */}
-      <section aria-labelledby="awards-heading" className="border-t hairline">
+      <section aria-labelledby="awards-heading">
         <h2 id="awards-heading" className="sr-only">Awards and partnerships</h2>
-        <Reveal className="mx-auto grid max-w-(--container-content) grid-cols-3 items-center gap-x-6 gap-y-6 px-(--spacing-gutter) py-7 md:py-8 lg:flex lg:justify-between lg:gap-8">
+        <Reveal className="mx-auto grid max-w-(--container-content) grid-cols-3 items-center gap-x-6 gap-y-6 px-(--spacing-gutter) pb-24 pt-8 md:pb-32 lg:flex lg:justify-between lg:gap-8">
           {AWARDS.map((award) => (
             <div key={award.src} className="flex items-center justify-center">
               <Image
@@ -246,84 +237,65 @@ export function HomeWirePage() {
         </Reveal>
       </section>
 
-      <ContentSection density="feature">
-        <div className="grid gap-4 md:grid-cols-2">
-          {HOME_PILLARS.map((item) => (
-            <Link
-              key={item.title}
-              href={item.href}
-              className="spot group relative block overflow-hidden border hairline outline-none focus-visible:ring-2 focus-visible:ring-signal focus-visible:ring-offset-2 focus-visible:ring-offset-void transition-[border-color] duration-(--duration-base) ease-(--ease-out-expo) hover:border-signal/60 focus-visible:border-signal/60"
-            >
-              <picture className="absolute inset-0">
-                <source
-                  type="image/avif"
-                  srcSet={`${siteImage(item.slot).avifMob} 800w, ${siteImage(item.slot).avifHalf} ${Math.round(siteImage(item.slot).width / 2)}w`}
-                  sizes="(min-width: 768px) 50vw, 66vw"
-                />
-                <img
-                  src={siteImage(item.slot).webpHalf}
-                  alt=""
-                  loading="lazy"
-                  decoding="async"
-                  className="h-full w-full object-cover transition-transform duration-(--duration-grand) ease-(--ease-out-expo) group-hover:scale-[1.015]"
-                  style={{ backgroundImage: `url(${siteImage(item.slot).lqip})`, backgroundSize: "cover" }}
-                />
-              </picture>
-              <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-overlay/96 via-overlay/72 to-overlay/20" />
-              <div className="relative flex min-h-[25rem] flex-col justify-end p-7 md:min-h-[28rem]">
-                <p className="eyebrow text-on-dark-accent">{item.eyebrow}</p>
-                <h2 className="mt-4 text-(length:--text-step-2) leading-tight text-on-dark">{item.title}</h2>
-                <p className="mt-5 max-w-xl leading-relaxed text-on-dark-muted">{item.body}</p>
-                <p className="mt-7 font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-on-dark-accent">{item.cta}</p>
-              </div>
-            </Link>
-          ))}
-        </div>
-      </ContentSection>
+      {/* the four approved pillars, as one expanding row */}
+      <section aria-label="What we do" className="mx-auto max-w-(--container-content) px-(--spacing-gutter) pb-32 md:pb-48">
+        <PillarCarousel pillars={HOME_PILLARS.map(({ slot, ...p }) => ({ ...p, image: siteImage(slot) }))} />
+      </section>
 
-      <ContentSection>
-        <SectionIntro eyebrow="Why Infinium" title="What you get that big-brand firms can't give you" />
-        <NumberedCards
-          columns={3}
-          items={[
-            { title: "Outcome-focused, not PowerPoint-focused", body: "We are measured on delivered business results — working systems, automated processes, realised savings — not decks and recommendations." },
-            { title: "Seasoned practitioners on every engagement", body: "Our team has run the functions you are transforming. We have done it ourselves, so we understand your challenges from the inside." },
-            { title: "Senior engineers in your office, not a delivery centre", body: "Highly educated engineering talent that works alongside you and your teams — on-shore, not off-shore — with the quality and pace that proximity brings." },
-            { title: "People who've run the function you're transforming", body: "More than 30 years operating across the world's financial centres — capital markets, banking, insurance, wealth and asset management." },
-            { title: "Our own solutions, designed to improve efficiency", body: "Pre-built, high-end engineered solutions like QBricks and VBricks that compress implementations from years to months and cut cost of ownership." },
-          ]}
-        />
-      </ContentSection>
-      <ContentSection>
-        <div className="grid gap-12 md:grid-cols-2 md:items-center">
+      {/* why Infinium — the approved five, as an editorial list on the tint */}
+      <section aria-labelledby="why-heading" className="bg-tint">
+        <div className="mx-auto grid max-w-(--container-content) gap-12 px-(--spacing-gutter) py-28 md:py-40 lg:grid-cols-[1fr_1.5fr] lg:gap-16">
           <Reveal>
-            <p className="eyebrow">Research &amp; development</p>
-            <h2 className="mt-6 text-(length:--text-step-3)">Products that cut the cost of running your data estate</h2>
-            <p className="mt-6 leading-relaxed text-ice">
+            <p className="eyebrow text-signal">Why Infinium</p>
+            <h2 id="why-heading" className="mt-7 text-(length:--text-display-2) tracking-[-0.02em]">What you get that big-brand firms can&apos;t give you</h2>
+          </Reveal>
+          <Reveal as="ol" className="border-b border-paper/14">
+            {WHY_INFINIUM.map((item, i) => (
+              <li key={item.title} className="flex gap-6 border-t border-paper/14 py-8 md:gap-8">
+                <span className="w-10 shrink-0 pt-1.5 text-sm tabular-nums text-steel">0{i + 1}</span>
+                <div>
+                  <h3 className="text-[clamp(1.375rem,1.8vw,1.625rem)] leading-[1.2]">{item.title}</h3>
+                  <p className="mt-3 max-w-xl text-ice">{item.body}</p>
+                </div>
+              </li>
+            ))}
+          </Reveal>
+        </div>
+      </section>
+
+      {/* research & development — the approved section on a deep band */}
+      <section aria-labelledby="rnd-heading" className="bg-deep text-white/75">
+        <div className="mx-auto grid max-w-(--container-content) gap-14 px-(--spacing-gutter) py-28 md:grid-cols-2 md:items-center md:py-40 lg:gap-20">
+          <Reveal>
+            <p className="eyebrow text-on-dark-accent">Research &amp; development</p>
+            <h2 id="rnd-heading" className="mt-7 text-(length:--text-display-1) leading-[1.02] tracking-[-0.025em] text-white">Products that cut the cost of running your data estate</h2>
+            <p className="mt-9 max-w-xl leading-relaxed">
               Built from real delivery experience in Amsterdam and DIFC, Dubai &mdash; every solution exists to remove manual work, shorten implementations and lower cost of ownership. QBricks is designed and developed in the Netherlands, VBricks in DIFC, Dubai: fewer manual processes, faster implementations, measurable results.
             </p>
-            <p className="mt-8 flex flex-wrap gap-6">
-              <SecondaryLink href="/solutions">See what we&rsquo;ve built →</SecondaryLink>
-              <SecondaryLink href="/about/infinium-labs">Meet Infinium Labs →</SecondaryLink>
+            <p className="mt-10 flex flex-wrap gap-x-8 gap-y-4">
+              <Link href="/solutions" className="link-wipe text-[15px] font-medium text-white transition-colors duration-(--duration-fast) hover:text-on-dark-accent">See what we&rsquo;ve built →</Link>
+              <Link href="/about/infinium-labs" className="link-wipe text-[15px] font-medium text-white transition-colors duration-(--duration-fast) hover:text-on-dark-accent">Meet Infinium Labs →</Link>
             </p>
           </Reveal>
-          <PageImage slot="tbricks" alt="Abstract glass engineering structure" />
+          <div className="overflow-hidden rounded-2xl">
+            <GlassImage image={rnd} alt="Abstract glass engineering structure" sizes="(min-width: 768px) 45vw, 100vw" />
+          </div>
         </div>
-      </ContentSection>
+      </section>
 
-      <ContentSection>
-        <SectionIntro
-          eyebrow="Case studies"
-          title="Four weeks to five minutes: outcomes we've delivered"
-          body="Regulatory reporting, entity stand-ups, data strategy — measured results across regulated finance."
-        />
-        <div className="mb-8"><SecondaryLink href="/insights">View all case studies →</SecondaryLink></div>
-        <div className="grid gap-px md:grid-cols-3">
+      <section aria-labelledby="cases-heading" className="mx-auto max-w-(--container-content) px-(--spacing-gutter) py-28 md:py-40">
+        <Reveal className="mb-12 flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
+          <div className="max-w-4xl">
+            <p className="eyebrow text-signal">Case studies</p>
+            <h2 id="cases-heading" className="mt-6 text-(length:--text-display-2) tracking-[-0.02em]">Four weeks to five minutes: outcomes we&apos;ve delivered</h2>
+            <p className="mt-6 max-w-3xl leading-relaxed text-ice">Regulatory reporting, entity stand-ups, data strategy — measured results across regulated finance.</p>
+          </div>
+          <div className="shrink-0"><SecondaryLink href="/insights">View all case studies →</SecondaryLink></div>
+        </Reveal>
+        <div className="grid gap-4 md:grid-cols-3">
           {CASE_STUDIES.slice(0, 6).map((c) => <CaseStudyCard key={c.slug} c={c} />)}
         </div>
-      </ContentSection>
-
-
+      </section>
 
       <CTASection
         title="Pick one outcome. We'll show you the fastest route to it."
@@ -525,6 +497,8 @@ export function ServiceDetailPage({ slug }: { slug: string }) {
                 image={siteImage(SERVICE_IMAGE[slug])}
                 alt={service.title}
                 sizes="(min-width: 768px) 38vw, 100vw"
+                /* first image on the page: eager, or mobile LCP doubles */
+                priority
               />
             </div>
           </div>
