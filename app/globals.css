@@ -384,3 +384,58 @@
   background: linear-gradient(90deg, transparent, rgba(27, 87, 200, 0.62), transparent);
   transform: translateY(-1px);
 }
+
+/*
+ * The stack — R&D band motion graphic (components/home/StackMotion.tsx).
+ * One 8s loop: layers drop in bottom-up 0.8s apart (--i), hold, fade, repeat;
+ * each label lights with its layer. Runs only while [data-playing] (on
+ * screen); reduced motion shows the finished stack, still.
+ */
+.stack-slab {
+  --s: clamp(9.5rem, 16vw, 14rem);
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: var(--s);
+  height: var(--s);
+  margin: calc(var(--s) / -2) 0 0 calc(var(--s) / -2);
+  border-radius: 1.25rem;
+  transform: rotateX(60deg) rotateZ(45deg);
+}
+.stack-layer { translate: 0 calc((1.5 - var(--i)) * 3.6rem); }
+.stack-slab--base { background: rgb(155 196 255 / 0.16); box-shadow: inset 0 0 0 1.5px rgb(155 196 255 / 0.35); }
+.stack-slab--cobalt { background: rgb(35 79 189 / 0.94); }
+.stack-slab--bright { background: rgb(77 128 240 / 0.88); }
+.stack-slab--glass { background: rgb(155 196 255 / 0.55); box-shadow: inset 0 0 0 1.5px rgb(255 255 255 / 0.6); }
+.stack-dot { background: var(--color-on-dark-accent); }
+
+@keyframes stack-drop {
+  0% { transform: translateY(-4.5rem); opacity: 0; }
+  12%, 82% { transform: translateY(0); opacity: 1; }
+  94%, 100% { transform: translateY(0); opacity: 0; }
+}
+@keyframes stack-lit {
+  0%, 94%, 100% { opacity: 0.42; }
+  12%, 82% { opacity: 1; }
+}
+@keyframes stack-dot {
+  0%, 94%, 100% { transform: scale(0.4); background: rgb(255 255 255 / 0.3); }
+  12%, 82% { transform: scale(1); background: var(--color-on-dark-accent); }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .stack-motion .stack-layer,
+  .stack-motion .stack-label,
+  .stack-motion .stack-dot {
+    animation-duration: 8s;
+    animation-iteration-count: infinite;
+    animation-delay: calc(var(--i, 0) * 0.8s);
+    animation-play-state: paused;
+  }
+  .stack-motion .stack-layer { animation-name: stack-drop; animation-timing-function: var(--ease-editorial); }
+  .stack-motion .stack-label { animation-name: stack-lit; animation-timing-function: ease-in-out; }
+  .stack-motion .stack-dot { animation-name: stack-dot; animation-timing-function: ease-in-out; animation-delay: inherit; }
+  .stack-motion[data-playing] .stack-layer,
+  .stack-motion[data-playing] .stack-label,
+  .stack-motion[data-playing] .stack-dot { animation-play-state: running; }
+}

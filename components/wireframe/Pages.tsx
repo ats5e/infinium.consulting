@@ -5,6 +5,7 @@ import { GlassImage } from "@/components/GlassImage";
 import { Hero } from "@/components/hero/Hero";
 import { PartnerLogos, TECHNOLOGY_LOGOS, TechnologyLogo } from "@/components/PartnerLogos";
 import { PillarCarousel } from "@/components/home/PillarCarousel";
+import { StackMotion } from "@/components/home/StackMotion";
 import { QBricksWord } from "@/components/QBricksWord";
 import { DubaiOfficeVideo, NetherlandsOfficeVideo, QBricksFilm } from "@/components/OfficeVideo";
 import { Reveal } from "@/components/motion/Reveal";
@@ -189,7 +190,6 @@ export function HomeWirePage() {
   const regReporting = caseStat("regulatory-reporting");
   const bigData = caseStat("big-data-engineering");
   const featured = [regReporting, caseStat("finance-re-engineering"), caseStat("entity-stand-up")];
-  const dashboard = siteImage("quantexa-dashboard");
   const atrium = siteImage("ams-atrium");
 
   return (
@@ -276,17 +276,7 @@ export function HomeWirePage() {
                 Built from real delivery experience in Amsterdam and DIFC, Dubai — every solution exists to remove manual work, shorten implementations and lower cost of ownership.
               </p>
             </Reveal>
-            <div className="rounded-2xl bg-white/[0.07] p-6 md:p-14">
-              <Image
-                src={dashboard.webp}
-                alt="Infinium assessment dashboard: overview of delivery, testing and resource capability"
-                width={dashboard.width}
-                height={dashboard.height}
-                sizes="(min-width: 1024px) 50vw, 100vw"
-                loading="lazy"
-                className="h-auto w-full rounded-lg"
-              />
-            </div>
+            <StackMotion />
           </div>
           <Reveal as="ul" className="mt-20 grid gap-10 md:mt-24 md:grid-cols-3 md:gap-6">
             {([
