@@ -40,14 +40,14 @@ export default function PrivacyPage() {
         body="A clear account of the limited information this website handles and how to contact us about it."
       />
       <ContentSection density="compact">
-        <div className="grid gap-px border hairline lg:grid-cols-2">
+        <div className="grid gap-3 lg:grid-cols-2">
           {SECTIONS.map((section) => (
-            <section key={section.title} className="bg-white/72 p-7 sm:p-9">
+            <section key={section.title} className="rounded-2xl bg-white p-7 sm:p-9">
               <h2 className="text-(length:--text-step-1)">{section.title}</h2>
               <p className="mt-4 max-w-2xl leading-relaxed text-ice">{section.body}</p>
             </section>
           ))}
-          <section className="bg-surface/82 p-7 sm:p-9">
+          <section className="rounded-2xl bg-tint p-7 sm:p-9">
             <h2 className="text-(length:--text-step-1)">Contact us</h2>
             <p className="mt-4 leading-relaxed text-ice">
               For privacy questions or requests, email{" "}

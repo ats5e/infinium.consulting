@@ -20,7 +20,7 @@ const schema = z.object({
 type Fields = z.infer<typeof schema>;
 
 const inputCls =
-  "w-full border hairline bg-white px-4 py-3 text-glass shadow-[inset_0_1px_2px_rgba(23,56,102,0.04),0_4px_14px_rgba(23,56,102,0.035)] placeholder:text-steel transition-[border-color,box-shadow] duration-(--duration-fast) focus:border-signal focus:shadow-[0_0_0_3px_rgba(27,87,200,0.32)] focus:outline-none";
+  "w-full rounded-xl border border-paper/14 bg-white px-4 py-3 text-glass placeholder:text-steel transition-[border-color,box-shadow] duration-(--duration-fast) focus:border-signal focus:shadow-[0_0_0_3px_rgba(27,87,200,0.32)] focus:outline-none";
 const labelCls = "eyebrow block";
 const errCls = "mt-2 text-(length:--text-body-sm) text-error";
 

@@ -762,8 +762,8 @@ export function FactoryLineBand() {
       className="relative overflow-hidden bg-void"
     >
       <div className="relative mx-auto max-w-(--container-content) px-(--spacing-gutter) pt-10">
-        <div className="flex items-baseline justify-between gap-6 border-b hairline pb-4">
-          <div className="hidden grid-cols-3 gap-6 sm:grid sm:grow">
+        <div className="flex flex-col gap-2 pb-4 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6">
+          <div className="hidden grid-cols-3 gap-6 lg:grid lg:grow">
             <p className="font-mono text-[12px] uppercase tracking-[0.16em] text-steel">
               <span className="text-signal">01</span> · Disconnected pilots
             </p>
@@ -774,7 +774,7 @@ export function FactoryLineBand() {
               <span className="text-signal">03</span> · Production use cases
             </p>
           </div>
-          <p className="font-mono text-[12px] uppercase tracking-[0.16em] text-steel sm:hidden">
+          <p className="font-mono text-[12px] uppercase tracking-[0.16em] text-steel lg:hidden">
             Pilots → factory → production
           </p>
           <p aria-hidden className="shrink-0 font-mono text-[12px] uppercase tracking-[0.16em] text-steel">

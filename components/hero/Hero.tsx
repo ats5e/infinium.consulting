@@ -36,6 +36,11 @@ export function Hero({ staticImage: _staticImage }: { staticImage: SiteImage }) 
 
   useIsoLayoutEffect(() => {
     if (still || !section.current) return;
+    // The server HTML paints the whole hero. If that paint has already
+    // happened by the time we hydrate, an entrance would hide the headline
+    // and buttons and play them back in (a flash of up to a second on slow
+    // connections) — so the entrance only runs when it can start unseen.
+    if (performance.getEntriesByName("first-contentful-paint").length > 0) return;
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({ defaults: { ease: "power4.out" } });
       tl.from(".hero-line", { yPercent: 110, duration: 0.9, stagger: 0.1, clearProps: "transform" }, 0.08)
@@ -64,7 +69,7 @@ export function Hero({ staticImage: _staticImage }: { staticImage: SiteImage }) 
         {/* md–lg: the field starts at 47vw, so the copy column must stop
             there — otherwise the body runs under the mark. Full 2xl measure
             returns once the viewport gives the field room of its own. */}
-        <div data-testid="hero-copy-column" className="flex w-full max-w-2xl flex-col items-start pt-6 text-left md:max-w-[46vw] md:pt-6 xl:max-w-2xl">
+        <div data-testid="hero-copy-column" className="flex w-full max-w-2xl flex-col items-start pt-6 text-left md:max-w-[40vw] md:pt-6 xl:max-w-2xl">
           <p className="hero-body eyebrow mb-7">Data &amp; AI for financial services<span className="hidden lg:inline"> · Amsterdam &amp; Dubai</span></p>
           <h1 className="w-full font-hero text-[clamp(3.5rem,8vw,7.25rem)] font-medium leading-[0.9] tracking-[-0.035em] text-paper">
             {/* David's final header (24 Aug): short, monumental, cobalt close */}

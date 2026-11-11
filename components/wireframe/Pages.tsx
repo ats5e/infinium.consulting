@@ -29,6 +29,7 @@ import {
   CaseStudyCard,
   ContentSection,
   CTASection,
+  keepUnits,
   HeroSection,
   NumberedCards,
   PrimaryLink,
@@ -58,7 +59,7 @@ function CaseStudyVisual({ study }: { study: CaseStudy }) {
             ["Location", study.location],
           ].map(([label, value]) => (
             <div key={label} className="grid grid-cols-[5.5rem_1fr] gap-4 py-3">
-              <dt className="font-mono text-[12px] uppercase tracking-[0.1em] text-steel">
+              <dt className="text-[12px] font-medium uppercase tracking-[0.08em] text-steel">
                 {label}
               </dt>
               <dd className="text-(length:--text-body-sm) leading-snug text-paper">
@@ -73,7 +74,7 @@ function CaseStudyVisual({ study }: { study: CaseStudy }) {
         data-testid="case-study-visual"
         className="mx-auto w-full max-w-[1000px] overflow-hidden rounded-2xl bg-white"
       >
-        <div className="flex min-h-11 items-center justify-between gap-4 border-b border-navy/10 bg-surface/90 px-4 font-mono text-[12px] uppercase tracking-[0.1em] text-steel sm:px-5">
+        <div className="flex min-h-11 items-center justify-between gap-4 bg-white px-4 text-[12px] font-medium uppercase tracking-[0.08em] text-steel sm:px-5">
           <span>Case study / visual evidence</span>
           <span className="hidden text-right sm:block">{study.service}</span>
         </div>
@@ -86,7 +87,7 @@ function CaseStudyVisual({ study }: { study: CaseStudy }) {
           />
           <span
             aria-hidden
-            className="pointer-events-none absolute inset-0 ring-1 ring-inset ring-white/35"
+            className="pointer-events-none absolute inset-0 ring-1 ring-inset ring-navy/[0.06]"
           />
         </div>
       </figure>
@@ -170,12 +171,6 @@ const WHY_INFINIUM = [
   { title: "Our own solutions, designed to improve efficiency", body: "Pre-built, high-end engineered solutions like QBricks and VBricks that compress implementations from years to months and cut cost of ownership." },
 ] as const;
 
-/* "4 wks → 5 min": keep each side's number and unit together so a
-   narrow column only ever breaks at the arrow */
-function keepUnits(v: string) {
-  return v.replace(/(\d) (?=[a-z])/gi, "$1\u00a0");
-}
-
 /* a case study's headline stat, looked up so the homepage never drifts
    from the case-study page */
 function caseStat(slug: string, index = 0) {
@@ -190,7 +185,9 @@ export function HomeWirePage() {
   const regReporting = caseStat("regulatory-reporting");
   const bigData = caseStat("big-data-engineering");
   const featured = [regReporting, caseStat("finance-re-engineering"), caseStat("entity-stand-up")];
-  const atrium = siteImage("ams-atrium");
+  /* 2400px source, already on /about/amsterdam; ams-atrium is only 1059px
+     wide and pixelates full-bleed on retina */
+  const atrium = siteImage("ams-office");
 
   return (
     <>
@@ -198,9 +195,9 @@ export function HomeWirePage() {
 
       {/* delivery partners, in one calm greyscale row straight under the hero */}
       <section aria-labelledby="partners-heading">
-        <Reveal className="mx-auto flex max-w-(--container-content) flex-col gap-8 px-(--spacing-gutter) pb-20 pt-10 lg:flex-row lg:items-center lg:gap-16 md:pb-24">
+        <Reveal className="mx-auto flex max-w-(--container-content) flex-col gap-8 px-(--spacing-gutter) pb-20 pt-10 xl:flex-row xl:items-center xl:gap-16 md:pb-24">
           <h2 id="partners-heading" className="eyebrow shrink-0 font-body">Delivery partners</h2>
-          <ul className="flex flex-1 flex-wrap items-center gap-x-12 gap-y-8 lg:justify-between">
+          <ul className="flex flex-1 flex-wrap items-center gap-x-8 gap-y-8 xl:gap-x-12 xl:justify-between">
             {TECHNOLOGY_LOGOS.map((logo) => (
               <li key={logo.slug}>
                 <Image
@@ -257,7 +254,7 @@ export function HomeWirePage() {
             </li>
           ))}
         </Reveal>
-        <p className="mt-10 max-w-5xl text-[13px] leading-[1.7] text-steel">
+        <p className="mt-10 max-w-5xl text-balance text-[13px] leading-[1.7] text-steel">
           <span className="sr-only">Awards and partnerships: </span>
           {AWARDS.join(" · ")}
         </p>
@@ -278,7 +275,7 @@ export function HomeWirePage() {
             </Reveal>
             <StackMotion />
           </div>
-          <Reveal as="ul" className="mt-20 grid gap-10 md:mt-24 md:grid-cols-3 md:gap-6">
+          <Reveal as="ul" className="mt-20 grid gap-10 md:mt-24 lg:grid-cols-3 md:gap-6">
             {([
               ["Designed in the Netherlands", "QBricks", "Governed, A.I.-ready data in hours.", "Explore QBricks", "/solutions/qbricks"],
               ["Developed in DIFC, Dubai", "VBricks", "A major change in model testing.", "Explore VBricks", "/solutions/vbricks"],
@@ -326,7 +323,7 @@ export function HomeWirePage() {
         </Reveal>
         <Reveal as="ul" className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {featured.map(({ study, stat }) => (
-            <li key={study.slug}>
+            <li key={study.slug} className="md:max-lg:last:col-span-2">
               <Link
                 href={`/insights/${study.slug}`}
                 data-testid="case-study-card"
@@ -353,7 +350,7 @@ export function HomeWirePage() {
           <source type="image/avif" srcSet={`${atrium.avifMob} 800w, ${atrium.avifHalf} ${Math.round(atrium.width / 2)}w, ${atrium.avif} ${atrium.width}w`} sizes="100vw" />
           <img
             src={atrium.webp}
-            alt="The atrium of Infinium's Amsterdam office building"
+            alt="Inside Infinium's Amsterdam office"
             loading="lazy"
             decoding="async"
             className="h-full w-full object-cover"
@@ -648,7 +645,7 @@ export function SolutionsWirePage() {
             </div>
           </Link>
         </Reveal>
-        <Reveal className="mt-px">
+        <Reveal className="mt-3">
           <Link
             href="/solutions/esg-reporting"
             className="group relative block overflow-hidden rounded-2xl bg-white p-8 outline-none transition-[border-color,transform,background,box-shadow] duration-(--duration-base) ease-(--ease-out-expo) hover:bg-tint-deep focus-visible:bg-tint-deep focus-visible:ring-2 focus-visible:ring-signal focus-visible:ring-offset-2 focus-visible:ring-offset-void md:p-10"
@@ -750,7 +747,7 @@ function ProductHero({ product }: { product: "qbricks" | "vbricks" }) {
           </div>
         </Reveal>
         <Reveal className="lg:col-span-6">
-          <div className="overflow-hidden rounded-2xl bg-white p-3">
+          <div className="overflow-hidden rounded-2xl">
             <GlassImage
               image={siteImage(qbricks ? "qbricks" : "tbricks")}
               alt={qbricks ? "QBricks governed data product architecture" : "VBricks engineered model testing system"}
@@ -769,7 +766,7 @@ export function QBricksPage() {
   return (
     <>
       <ProductHero product="qbricks" />
-      <ContentSection className="bg-abyss/20">
+      <ContentSection className="bg-tint">
         <SectionIntro eyebrow="Watch" title={<>10 reasons why <QBricksWord /></>} />
         <Reveal>
           <QBricksFilm />
@@ -792,7 +789,7 @@ export function QBricksPage() {
           ]}
         />
       </ContentSection>
-      <ContentSection className="bg-abyss/20">
+      <ContentSection className="bg-tint">
         <SectionIntro eyebrow="The difference" title="Replace pipeline sprawl with a controlled data-product system" />
         <div className="grid gap-3 lg:grid-cols-2">
           <article className="rounded-2xl bg-white p-8 md:p-10">
@@ -836,7 +833,7 @@ export function QBricksPage() {
           <SecondaryLink href="/solutions/vbricks">Explore VBricks →</SecondaryLink>
         </div>
       </ContentSection>
-      <ContentSection className="bg-abyss/20">
+      <ContentSection className="bg-tint">
         <SectionIntro
           eyebrow="Use cases"
           title="Built for the work that burns data budgets"
@@ -885,7 +882,7 @@ export function VBricksPage() {
           ]}
         />
       </ContentSection>
-      <ContentSection className="bg-abyss/20">
+      <ContentSection className="bg-tint">
         <SectionIntro eyebrow="How it works" title="One controlled path from model to evidence" />
         <NumberedCards
           items={[
@@ -955,9 +952,9 @@ export function AssessmentPage({ kind }: { kind: "ai" | "quantexa" }) {
               <p>The result is not a maturity poster. It&rsquo;s a scored readiness profile, a use-case portfolio ranked by value, feasibility and risk, and a sequenced set of recommendations — what to fix, build and govern first.</p>
             </Reveal>
           </ContentSection>
-          <ContentSection className="bg-abyss/20">
+          <ContentSection className="bg-tint">
             <SectionIntro eyebrow="What we assess" title="Four dimensions, scored on evidence" />
-            <div className="space-y-px">
+            <div className="space-y-3">
               {([
                 ["01", "Data foundations", "Can your data estate feed AI reliably?",
                   "We examine quality, lineage, governance and access across the data that would feed your priority use cases: where it lives, who owns it, how it is contracted and controlled, and how much remediation stands between today's estate and model-grade inputs.",
@@ -1025,7 +1022,7 @@ export function AssessmentPage({ kind }: { kind: "ai" | "quantexa" }) {
           </ContentSection>
           <ContentSection>
             <SectionIntro eyebrow="The four focus areas" title="What we examine, and what you gain" />
-            <div className="space-y-px">
+            <div className="space-y-3">
               {([
                 ["01", "Platform & Solution Design", "Is your Quantexa estate engineered to scale — and are your solutions designed to last?",
                   "We examine the technical foundations of your deployment end to end: environment architecture, infrastructure and capacity, upgrade posture and version currency, security and access design, and operational resilience. On the solution side, we go deep into the decisions that determine long-term value — entity resolution configuration and tuning, data model and source-onboarding patterns, network generation, scoring logic, and how well your design standards keep multiple use cases coherent on one platform rather than becoming a set of disconnected builds.",
@@ -1068,7 +1065,7 @@ export function AssessmentPage({ kind }: { kind: "ai" | "quantexa" }) {
             />
 
             {/* the four pillar scores — ruled cells, weak pillars flagged */}
-            <Reveal className="grid grid-cols-2 gap-3 rounded-2xl lg:grid-cols-4">
+            <Reveal className="grid grid-cols-2 gap-3 lg:grid-cols-4">
               {([
                 ["Platform & solution design", 72, "Infrastructure the strongest area", "ok"],
                 ["Project delivery", 80, "Leadership & governance leading", "ok"],
@@ -1077,7 +1074,7 @@ export function AssessmentPage({ kind }: { kind: "ai" | "quantexa" }) {
               ] as const).map(([label, score, note, state]) => (
                 <div
                   key={label}
-                  className={`p-6 sm:p-7 ${
+                  className={`rounded-2xl p-6 sm:p-7 ${
                     state === "focus" ? "bg-error/[0.06]" : state === "watch" ? "bg-warning/[0.06]" : "bg-white"
                   }`}
                 >
@@ -1146,13 +1143,13 @@ export function AssessmentPage({ kind }: { kind: "ai" | "quantexa" }) {
             {/* where attention pays back fastest */}
             <Reveal className="mt-4 rounded-2xl bg-tint p-7">
               <p className="eyebrow text-signal">Where attention pays back fastest</p>
-              <div className="mt-6 grid gap-3 md:grid-cols-3">
+              <div className="mt-6 grid gap-3 lg:grid-cols-3">
                 {([
                   ["01", "Testing", "Coverage and automation are the clearest gap — findings are concentrated, not systemic, so focused effort moves the score quickly."],
                   ["02", "Data controls", "Controls exist but are unevenly applied across the estate; standardising them removes the widest spread of low scores."],
                   ["03", "Component adoption", "Secondary components are under-used relative to licence; adoption unlocks value already paid for."],
                 ] as const).map(([num, title, body]) => (
-                  <div key={num} className="bg-white p-6">
+                  <div key={num} className="rounded-xl bg-white p-6">
                     <p className="text-sm tabular-nums text-steel">{num}</p>
                     <h3 className="mt-4 text-(length:--text-step-1) leading-tight">{title}</h3>
                     <p className="mt-3 text-(length:--text-body-sm) leading-relaxed text-ice">{body}</p>
@@ -1178,12 +1175,12 @@ export function AssessmentPage({ kind }: { kind: "ai" | "quantexa" }) {
               <AssessmentDashboard />
             </Reveal>
 
-            <div className="mt-14 grid gap-3 rounded-2xl md:grid-cols-2">
-              <div className="bg-tint p-7 sm:p-8">
+            <div className="mt-14 grid gap-3 md:grid-cols-2">
+              <div className="rounded-2xl bg-tint p-7 sm:p-8">
                 <p className="eyebrow text-signal">Why Infinium</p>
                 <p className="mt-4 leading-relaxed text-glass">We are engineers first. Our assessors have designed, delivered, tested and run Quantexa in production at scale — the framework distils that experience into a benchmark you can act on. And because we deliver improvement programmes as well as assessments, every recommendation is one we&rsquo;d be prepared to implement ourselves.</p>
               </div>
-              <div className="flex flex-col justify-between gap-6 bg-white p-7 sm:p-8">
+              <div className="flex flex-col justify-between gap-6 rounded-2xl bg-white p-7 sm:p-8">
                 <div>
                   <p className="eyebrow text-signal">Take it with you</p>
                   <h3 className="mt-4 text-(length:--text-step-1) leading-tight">The Quantexa Benchmark, on one page</h3>
@@ -1235,13 +1232,13 @@ export function AIFactoryPage() {
             <h2 className="mt-5 text-(length:--text-display-2) leading-[1.03]">Pilots prove ideas. Factories deliver returns.</h2>
           </Reveal>
           <Reveal className="lg:col-span-7">
-            <p className="border-t hairline py-5 text-(length:--text-step-1) leading-relaxed text-ice">Every large consultancy now sells an AI factory. What they share is the right instinct: AI only pays back when data, models, governance and delivery are industrialised — not rebuilt per use case.</p>
-            <p className="border-t hairline py-5 text-(length:--text-step-1) leading-relaxed text-ice">Our difference is where we start. In a bank, the factory constraint is never the model — it&rsquo;s the data and the audit trail. So our factory is built around a data engine, <QBricksWord />, that remediates legacy data, generates pipelines and codifies data contracts before a single model ships.</p>
-            <p className="border-y hairline py-5 text-(length:--text-step-1) leading-relaxed text-ice">The result is a smaller, faster factory: pre-built components in place of programme headcount, and measurable outcomes — working systems, automated processes, realised savings — not slideware.</p>
+            <p className="py-3 text-(length:--text-step-1) leading-relaxed text-ice">Every large consultancy now sells an AI factory. What they share is the right instinct: AI only pays back when data, models, governance and delivery are industrialised — not rebuilt per use case.</p>
+            <p className="py-3 text-(length:--text-step-1) leading-relaxed text-ice">Our difference is where we start. In a bank, the factory constraint is never the model — it&rsquo;s the data and the audit trail. So our factory is built around a data engine, <QBricksWord />, that remediates legacy data, generates pipelines and codifies data contracts before a single model ships.</p>
+            <p className="py-3 text-(length:--text-step-1) leading-relaxed text-ice">The result is a smaller, faster factory: pre-built components in place of programme headcount, and measurable outcomes — working systems, automated processes, realised savings — not slideware.</p>
           </Reveal>
         </div>
       </ContentSection>
-      <ContentSection className="bg-abyss/20">
+      <ContentSection className="bg-tint">
         <SectionIntro eyebrow="The offering" title="Four services, one capability" />
         <NumberedCards
           columns={4}
@@ -1261,7 +1258,7 @@ export function AIFactoryPage() {
             <p className="mt-5 leading-relaxed text-ice">Designed and developed in the Netherlands by our R&amp;D team, QBricks compresses the most expensive phase of any AI programme — making bank data trustworthy. What competitors staff with hundreds of consultants, the factory does with pre-built, high-end engineered components.</p>
             <p className="mt-8"><SecondaryLink href="/solutions/qbricks">Explore QBricks &amp; VBricks →</SecondaryLink></p>
           </Reveal>
-          <Reveal className="space-y-px lg:col-span-6">
+          <Reveal className="space-y-3 lg:col-span-6">
             {[
               ["Data remediation", "Profiles, cleanses and standardises siloed legacy data at scale"],
               ["Pipeline generation", "Auto-generates ingestion and transformation pipelines for your cloud platform"],
@@ -1275,7 +1272,7 @@ export function AIFactoryPage() {
           </Reveal>
         </div>
       </ContentSection>
-      <ContentSection className="bg-abyss/20">
+      <ContentSection className="bg-tint">
         <SectionIntro eyebrow="How an engagement runs" title="Assess, build, scale" />
         <NumberedCards
           items={[
@@ -1341,7 +1338,7 @@ export function ESGReportingPage() {
           ))}
         </Reveal>
       </ContentSection>
-      <ContentSection className="bg-abyss/20">
+      <ContentSection className="bg-tint">
         <SectionIntro eyebrow="The platform" title="Three hubs, one governed flow from source to disclosure" />
         <NumberedCards
           items={[
@@ -1374,7 +1371,7 @@ export function ESGReportingPage() {
       </ContentSection>
       <ContentSection>
         <SectionIntro eyebrow="What reporting teams say" title="Less audit burden, faster reports, traceable regulation" />
-        <Reveal className="grid gap-3 md:grid-cols-3">
+        <Reveal className="grid gap-3 lg:grid-cols-3">
           {testimonials.map(([quote, who, org]) => (
             <article key={quote} className="flex h-full flex-col justify-between rounded-2xl bg-tint p-7">
               <blockquote className="leading-relaxed text-glass">&ldquo;{quote}&rdquo;</blockquote>
@@ -1759,7 +1756,7 @@ export function TechnologyDetailPage({ slug }: { slug: string }) {
         </div>
       </ContentSection>
       {t.results ? (
-        <ContentSection className="bg-abyss/20">
+        <ContentSection className="bg-tint">
           <SectionIntro eyebrow={t.results.intro.eyebrow} title={t.results.intro.title} body={t.results.intro.body} />
           <Reveal className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {t.results.items.map((r) => (
@@ -1777,9 +1774,9 @@ export function TechnologyDetailPage({ slug }: { slug: string }) {
         </ContentSection>
       ) : null}
       {t.fieldCases ? (
-        <ContentSection className="bg-abyss/20">
+        <ContentSection className="bg-tint">
           <SectionIntro eyebrow={t.fieldCases.intro.eyebrow} title={t.fieldCases.intro.title} body={t.fieldCases.intro.body} />
-          <div className="space-y-px">
+          <div className="space-y-3">
             {t.fieldCases.items.map((c) => (
               <Reveal key={c.title}>
                 <article className="grid gap-x-10 gap-y-6 rounded-2xl bg-white p-7 sm:p-9 md:grid-cols-12">
@@ -1807,9 +1804,9 @@ export function TechnologyDetailPage({ slug }: { slug: string }) {
         </ContentSection>
       ) : null}
       {t.caseStudies?.length ? (
-        <ContentSection className={t.results || t.fieldCases ? undefined : "bg-abyss/20"}>
+        <ContentSection className={t.results || t.fieldCases ? undefined : "bg-tint"}>
           <SectionIntro eyebrow="Proof, not promises" title="Measured outcomes delivered on this platform" />
-          <div className={`grid gap-3 ${t.caseStudies.length >= 3 ? "md:grid-cols-3" : "md:grid-cols-2"}`}>
+          <div className={`grid gap-3 ${t.caseStudies.length >= 3 ? "lg:grid-cols-3" : "md:grid-cols-2"}`}>
             {t.caseStudies.map((slug) => {
               const c = caseStudy(slug);
               return c ? <CaseStudyCard key={slug} c={c} /> : null;
@@ -1880,13 +1877,13 @@ export function InsightsWirePage() {
       <CTASection title="Focus your strategy, set your plan and modernise your financial services business." href="/services" label="Our services" />
       <ContentSection>
         <SectionIntro eyebrow="Testimonials" title="What do our clients say?" />
-        <div className="grid gap-3 md:grid-cols-3">
+        <div className="grid gap-3 lg:grid-cols-3">
           {testimonials.map((t) => (
-            <article key={t.headline} className="rounded-2xl bg-tint p-7">
+            <article key={t.headline} className="flex h-full flex-col rounded-2xl bg-tint p-7">
               <p className="font-display text-(length:--text-step-4) text-signal">“</p>
               <h3 className="mt-2 text-(length:--text-step-1)">{t.headline}</h3>
               <p className="mt-4 text-(length:--text-body-sm) leading-relaxed text-ice">{t.quote}</p>
-              <div className="mt-6 border-t hairline pt-4">
+              <div className="mt-auto pt-8">
                 <p className="text-(length:--text-body-sm) text-paper">{t.who}</p>
                 <p className="eyebrow mt-1">{t.org}</p>
               </div>
@@ -1915,7 +1912,7 @@ export function PerspectivesPage() {
             <div key={title} className="grid gap-4 py-5 md:grid-cols-[200px_1fr_auto] md:items-baseline">
               <p className="eyebrow">{tag}</p>
               <h3 className="text-(length:--text-step-1)">{title}</h3>
-              <span className="font-mono text-(length:--text-label) uppercase tracking-[0.08em] text-steel">Perspective</span>
+              <span className="eyebrow">Perspective</span>
             </div>
           ))}
         </Reveal>
@@ -1933,6 +1930,7 @@ export function CaseStudyWirePage({ slug }: { slug: string }) {
       <HeroSection
         backHref="/insights"
         backLabel="All case studies"
+        compactTitle
         eyebrow={`Case study — ${c.service} · ${c.sector} · ${c.location}`}
         title={c.title}
         body={c.summary}
@@ -1944,7 +1942,7 @@ export function CaseStudyWirePage({ slug }: { slug: string }) {
         <CaseStudyVisual study={c} />
       </ContentSection>
       <ContentSection>
-        <div className="grid gap-3 md:grid-cols-3">
+        <div className="grid gap-3 lg:grid-cols-3">
           {[
             ["The challenge", c.challenge],
             ["Our approach", c.approach],
@@ -1972,7 +1970,7 @@ export function CaseStudyWirePage({ slug }: { slug: string }) {
       <ContentSection>
         <SectionIntro eyebrow="Related" title="More case studies" />
         <div className="mb-8"><SecondaryLink href="/insights">View all case studies →</SecondaryLink></div>
-        <div className="grid gap-3 md:grid-cols-3">
+        <div className="grid gap-3 lg:grid-cols-3">
           {c.related.map((slug) => {
             const r = caseStudy(slug)!;
             return <CaseStudyCard key={slug} c={r} />;
@@ -2189,7 +2187,7 @@ export function InfiniumLabsPage() {
           />
         </div>
       </ContentSection>
-      <ContentSection className="bg-abyss/20">
+      <ContentSection className="bg-tint">
         <SectionIntro eyebrow="The product suite" title="One suite, two products, one goal: cheaper, faster data estates" />
         <div className="grid gap-3 lg:grid-cols-2">
           <article className="rounded-2xl bg-white p-8 md:p-10">
@@ -2318,7 +2316,7 @@ export function CulturePage() {
       </ContentSection>
       <ContentSection>
         <SectionIntro eyebrow="In pictures" title="Moments from the year" body="Two hubs, one team — how it looks when we're together." />
-        <Reveal className="grid grid-cols-2 gap-3 md:grid-cols-3">
+        <Reveal className="grid grid-cols-2 gap-3 lg:grid-cols-3">
           {([
             ["culture-cruise", "Summer party on the Amsterdam canals"],
             ["culture-gala", "The end-of-year gala"],
@@ -2423,7 +2421,7 @@ export function IndustryEventsPage() {
         ]} />
 
         {/* out in the industry — a staggered set rather than another even grid */}
-        <Reveal className="mt-px grid gap-3 md:grid-cols-3">
+        <Reveal className="mt-3 grid gap-3 lg:grid-cols-3">
           <figure className="overflow-hidden rounded-2xl bg-tint md:col-span-2">
             <GlassImage
               image={siteImage("event-panel")}
@@ -2457,7 +2455,7 @@ export function IndustryEventsPage() {
             />
           </figure>
         </Reveal>
-        <Reveal className="mt-px">
+        <Reveal className="mt-3">
           <figure className="overflow-hidden rounded-2xl bg-white md:grid md:grid-cols-[1fr_auto]">
             <GlassImage
               image={siteImage("events-nextwave")}
@@ -2478,7 +2476,7 @@ export function ConsultingPartnersPage() {
     <>
       <HeroSection eyebrow="Who we are" title="Our business consulting partners" body="Alongside our technology partnerships, we work with established business consultancies who share our conviction: real industry experience at the heart of consulting." />
       <ContentSection>
-        <div className="space-y-px">
+        <div className="space-y-3">
           {[
             {
               eyebrow: "Partner · GCC",
@@ -2650,7 +2648,7 @@ export function LocationPage({ city }: { city: "amsterdam" | "dubai" }) {
               </div>
             </div>
           </div>
-          <aside className="self-start rounded-2xl bg-tint p-7 lg:col-span-5">
+          <aside className="self-start rounded-2xl bg-tint p-7 lg:sticky lg:top-28 lg:col-span-5">
             <p className="eyebrow text-signal">{dubai ? "Office details" : "Head office"}</p>
             <dl className="mt-6 space-y-6">
               {(dubai ? [
@@ -2704,7 +2702,7 @@ export function ContactWireIntro({ form }: { form: React.ReactNode }) {
           <div className="mt-16 grid gap-10 lg:grid-cols-12 lg:gap-14">
             <Reveal className="lg:col-span-5">
               {/* the enquiry goes to people, and here they are */}
-              <div className="flex items-center gap-4 rounded-2xl bg-white p-5">
+              <div className="flex flex-col items-start gap-3 rounded-2xl bg-white p-5 sm:flex-row sm:items-center sm:gap-4">
                 <div aria-hidden className="flex shrink-0 -space-x-2.5">
                   {["david-aston-v2", "toby-smith-cullen", "erik-rowbotham", "helen-bull"].map((slug) => (
                     <Image

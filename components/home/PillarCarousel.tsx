@@ -46,9 +46,9 @@ export function PillarCarousel({ pillars }: { pillars: Pillar[] }) {
             <picture className="absolute inset-0 -z-10">
               <source
                 type="image/avif"
-                srcSet={`${p.image.avifMob} 800w, ${p.image.avifHalf} ${Math.round(p.image.width / 2)}w`}
-                /* real rendered widths: ~55vw open, ~15vw collapsed, full on a phone */
-                sizes={isActive ? "(min-width: 1280px) 55vw, 92vw" : "(min-width: 1280px) 15vw, 92vw"}
+                srcSet={`${p.image.avifMob} 800w, ${p.image.avifHalf} ${Math.round(p.image.width / 2)}w, ${p.image.avif} ${p.image.width}w`}
+                /* object-cover on a 600px-tall card needs ~900px of a 3:2 image, whatever the card width */
+                sizes="(min-width: 1280px) 900px, 92vw"
               />
               <img
                 src={p.image.webpHalf}
@@ -74,13 +74,13 @@ export function PillarCarousel({ pillars }: { pillars: Pillar[] }) {
                   setActive(i);
                 }
               }}
-              className="relative flex min-h-[26rem] flex-col justify-end rounded-2xl p-7 outline-none xl:absolute xl:inset-0 xl:min-h-0 xl:p-9"
+              className="relative flex min-h-[26rem] flex-col justify-end rounded-2xl p-7 outline-none xl:absolute xl:inset-0 xl:min-h-0 xl:p-6 2xl:p-9"
             >
               <span className="eyebrow text-white/85">{p.eyebrow}</span>
               {/* collapsed: the short title only (wide screens) */}
               <span
                 aria-hidden={isActive}
-                className={`mt-3 hidden font-hero text-[22px] leading-[1.15] text-white ${isActive ? "xl:hidden" : "xl:block"}`}
+                className={`mt-3 hidden font-hero text-[19px] leading-[1.15] text-white 2xl:text-[22px] ${isActive ? "xl:hidden" : "xl:block"}`}
               >
                 {p.short}
               </span>

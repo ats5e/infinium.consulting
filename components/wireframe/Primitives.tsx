@@ -4,6 +4,12 @@ import type { CaseStudy } from "@/lib/content";
 
 /* the one button: a cobalt pill with the arrow carried in a white disc.
  * "inverse" is the same pill for cobalt or deep grounds. */
+/* "4 wks → 5 min": keep each side's number and unit together so a narrow
+   column only ever breaks at the arrow */
+export function keepUnits(v: string) {
+  return v.replace(/(\d) (?=[a-z])/gi, "$1\u00a0");
+}
+
 export function ArrowDisc({ inverse = false }: { inverse?: boolean }) {
   return (
     <span
@@ -21,7 +27,7 @@ export function ArrowDisc({ inverse = false }: { inverse?: boolean }) {
 
 /* shared by PrimaryLink and the form submit buttons */
 export function pillClass(inverse = false) {
-  return `group/pill inline-flex min-h-12 items-center gap-3 rounded-full py-1.5 pl-[22px] pr-1.5 text-[15px] font-medium tracking-[-0.005em] transition-colors duration-(--duration-fast) ease-(--ease-out-expo) disabled:cursor-not-allowed disabled:opacity-50 ${
+  return `group/pill inline-flex min-h-12 items-center gap-3 whitespace-nowrap rounded-full py-1.5 pl-[22px] pr-1.5 text-[15px] font-medium tracking-[-0.005em] transition-colors duration-(--duration-fast) ease-(--ease-out-expo) disabled:cursor-not-allowed disabled:opacity-50 ${
     inverse ? "bg-white text-paper hover:bg-tint-deep focus-visible:outline-white" : "bg-cobalt text-white hover:bg-navy"
   }`;
 }
@@ -67,6 +73,7 @@ export function HeroSection({
   stats,
   backHref,
   backLabel,
+  compactTitle = false,
 }: {
   eyebrow: string;
   title: string;
@@ -76,8 +83,10 @@ export function HeroSection({
   stats?: Array<{ value: string; label: string }>;
   backHref?: string;
   backLabel?: string;
+  /* force the smaller headline so sibling pages match whatever their title length */
+  compactTitle?: boolean;
 }) {
-  const longTitle = title.length > 55;
+  const longTitle = compactTitle || title.length > 55;
 
   return (
     <section className="relative pb-16 pt-36 md:pb-24 md:pt-48">
@@ -129,14 +138,14 @@ export function StatGrid({
   className?: string;
 }) {
   const colClass =
-    stats.length >= 4 ? "md:grid-cols-4" : stats.length === 3 ? "md:grid-cols-3" : "md:grid-cols-2";
+    stats.length >= 4 ? "grid-cols-2 md:grid-cols-4" : stats.length === 3 ? "grid-cols-1 sm:grid-cols-3" : "grid-cols-2";
   return (
-    <Reveal className={`grid grid-cols-2 gap-x-6 gap-y-10 border-t border-paper/14 pt-10 ${colClass} ${className}`}>
+    <Reveal className={`grid gap-x-6 gap-y-10 border-t border-paper/14 pt-10 ${colClass} ${className}`}>
       {stats.map((stat) => (
         /* two subgrid rows: values share a baseline, labels share a line */
         <div key={`${stat.value}-${stat.label}`} className="row-span-2 grid grid-rows-subgrid gap-y-3">
-          <p className="self-end font-hero text-[clamp(2.25rem,3.6vw,3.25rem)] font-light leading-none tracking-[-0.035em] text-paper">{stat.value}</p>
-          <p className="self-start text-[13px] font-medium uppercase tracking-[0.08em] text-steel">{stat.label}</p>
+          <p className="self-end font-hero text-[clamp(2.25rem,3.6vw,3.25rem)] font-light leading-none tracking-[-0.035em] text-paper">{keepUnits(stat.value)}</p>
+          <p className="self-start text-balance text-[13px] font-medium uppercase tracking-[0.08em] text-steel">{stat.label}</p>
         </div>
       ))}
     </Reveal>
@@ -207,18 +216,18 @@ export function NumberedCards({
   const fiveItemLayout = columns === 3 && items.length === 5;
   const colClass =
     fiveItemLayout
-      ? "md:grid-cols-6"
+      ? "md:grid-cols-2 lg:grid-cols-6"
       : columns === 4
       ? "md:grid-cols-2 lg:grid-cols-4"
       : columns === 3
-        ? "md:grid-cols-3"
+        ? "md:grid-cols-2 lg:grid-cols-3"
         : columns === 2
           ? "md:grid-cols-2"
           : "grid-cols-1";
   return (
-    <Reveal className={`grid gap-4 ${colClass}`}>
+    <Reveal className={`grid gap-3 ${colClass}`}>
       {items.map((item, i) => {
-        const itemSpan = fiveItemLayout ? (i < 3 ? "md:col-span-2" : "md:col-span-3") : "";
+        const itemSpan = fiveItemLayout ? (i < 3 ? "lg:col-span-2" : "lg:col-span-3") : "";
         const content = (
           <>
             <p className="text-sm tabular-nums text-steel">{item.num ?? `0${i + 1}`}</p>
@@ -227,7 +236,7 @@ export function NumberedCards({
             {item.cta ? <p className={CARD_CTA}>{item.cta}</p> : null}
           </>
         );
-        const className = `${CARD} ${item.href ? CARD_LINK : ""} ${itemSpan} ${compact ? "p-6" : "p-8 md:p-9"}`;
+        const className = `${CARD} ${item.href ? CARD_LINK : ""} ${itemSpan} ${compact ? "p-6" : "p-8 lg:p-9"}`;
 
         return item.href ? (
           <Link key={`${item.num ?? i}-${item.title}`} href={item.href} className={className}>
@@ -254,11 +263,11 @@ export function CardGrid({
      width and centre the two-card final row instead (6-col grid, span 2,
      the fourth card starts at track 2) */
   const fiveItemLayout = columns === 3 && items.length === 5;
-  const colClass = fiveItemLayout ? "md:grid-cols-6" : columns === 2 ? "md:grid-cols-2" : "md:grid-cols-3";
+  const colClass = fiveItemLayout ? "md:grid-cols-2 lg:grid-cols-6" : columns === 2 ? "md:grid-cols-2" : "md:grid-cols-2 lg:grid-cols-3";
   return (
-    <Reveal className={`grid gap-4 ${colClass}`}>
+    <Reveal className={`grid gap-3 ${colClass}`}>
       {items.map((item, i) => {
-        const itemSpan = fiveItemLayout ? `md:col-span-2 ${i === 3 ? "md:col-start-2" : ""}` : "";
+        const itemSpan = fiveItemLayout ? `lg:col-span-2 ${i === 3 ? "lg:col-start-2" : ""}` : "";
         const inner = (
           <>
             {item.eyebrow ? <p className="eyebrow text-signal">{item.eyebrow}</p> : null}
@@ -268,7 +277,7 @@ export function CardGrid({
             {item.cta ? <p className={CARD_CTA}>{item.cta}</p> : null}
           </>
         );
-        const cls = `${CARD} ${item.href ? CARD_LINK : ""} p-8 md:p-9 ${itemSpan}`;
+        const cls = `${CARD} ${item.href ? CARD_LINK : ""} p-8 lg:p-9 ${itemSpan}`;
         return item.href ? (
           <Link key={item.title} href={item.href} className={cls}>
             {inner}
@@ -299,7 +308,7 @@ export function CTASection({
       <Reveal className="mx-auto max-w-(--container-content) px-(--spacing-gutter) py-20 md:py-28">
         {/* Navy: the brand's "deep brand / dark fills" colour (BRAND.md §2);
             cobalt stays the accent for the button, never a large fill */}
-        <div className="rounded-3xl bg-navy px-8 py-12 md:px-20 md:py-24">
+        <div className="rounded-3xl bg-navy px-6 py-12 sm:px-8 md:px-20 md:py-24">
           <p className="eyebrow text-white/85">next move</p>
           <h2 className="mt-5 max-w-3xl text-(length:--text-display-1) leading-[1.04] tracking-[-0.025em] text-white">{title}</h2>
           {body ? <p className="mt-7 max-w-xl text-lg leading-relaxed text-white/85">{body}</p> : null}
@@ -337,7 +346,7 @@ export function CaseStudyCard({ c }: { c: CaseStudy }) {
       <div className="flex flex-1 flex-col p-8">
         <p className="eyebrow text-signal">{c.service} · {c.sector}</p>
         {stat ? (
-          <p className="mt-6 font-hero text-[clamp(2rem,2.6vw,2.5rem)] font-light leading-none tracking-[-0.03em] text-paper">{stat.value}</p>
+          <p className="mt-6 font-hero text-[clamp(2rem,2.6vw,2.5rem)] font-light leading-none tracking-[-0.03em] text-paper">{keepUnits(stat.value)}</p>
         ) : null}
         <h3 className="mt-5 font-body text-[17px] leading-[1.4] tracking-[-0.01em]">{c.title}</h3>
         <p className={`${CARD_CTA} mt-auto pt-7`}>

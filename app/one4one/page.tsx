@@ -82,7 +82,7 @@ export default function One4OneApplyPage() {
               title="Tell us who you are"
               body="A few minutes, no CV upload required — a LinkedIn or CV link is enough. We review applications as each new cohort forms."
             />
-            <Reveal className="border-l-2 border-cobalt pl-6">
+            <Reveal className="rounded-2xl bg-tint p-6">
               <p className="leading-relaxed text-glass">
                 <strong className="text-paper">An unlisted page.</strong>{" "}
                 This address is shared in person at our university events. It isn&rsquo;t linked from the site or indexed by search engines — if you&rsquo;re here, we&rsquo;re already looking forward to reading your application.

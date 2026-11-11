@@ -7,8 +7,9 @@ import { useEffect, useRef, useState } from "react";
  * 11 Nov 2026): four isometric layers drop into place bottom-up — systems
  * of record, QBricks, governed data products, AI & reporting — while the
  * matching label lights. Pure CSS keyframes (globals.css, .stack-*), on the
- * editorial curve; it only runs while on screen, and reduced motion shows
- * the finished stack, still.
+ * editorial curve; it only runs while on screen, plays three times and
+ * then rests as the finished stack (WCAG 2.2.2: no endless motion), and
+ * reduced motion shows the finished stack, still.
  */
 const LAYERS = [
   { label: "AI, analytics & reporting", tone: "stack-slab--glass" },
@@ -33,7 +34,7 @@ export function StackMotion() {
     <figure
       ref={ref}
       data-playing={playing ? "" : undefined}
-      className="stack-motion grid gap-10 rounded-2xl bg-white/[0.07] p-8 sm:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] sm:items-center md:p-10"
+      className="stack-motion grid gap-10 rounded-2xl bg-white/[0.07] p-8 sm:max-lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] sm:items-center md:p-10 xl:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]"
     >
       <figcaption className="sr-only">
         How QBricks works: systems of record feed QBricks, which ingests, contracts and governs the data into governed data products for AI, analytics and reporting.

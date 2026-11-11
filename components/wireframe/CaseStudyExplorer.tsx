@@ -21,7 +21,7 @@ const FILTERS: Array<{ key: "service" | "sector" | "location"; label: string; op
 ];
 
 const selectCls =
-  "mt-2 w-full rounded-2xl bg-white px-3 py-2.5 text-(length:--text-body-sm) text-glass transition-[border-color,box-shadow] duration-(--duration-fast) focus:border-signal focus:shadow-[0_0_0_3px_rgba(27,87,200,0.1)] focus:outline-none";
+  "mt-2 w-full rounded-xl border border-paper/14 bg-white px-3 py-3 text-base text-glass transition-[border-color,box-shadow] duration-(--duration-fast) focus:border-signal focus:shadow-[0_0_0_3px_rgba(27,87,200,0.32)] focus:outline-none";
 
 export function CaseStudyExplorer() {
   const [filters, setFilters] = useState<Record<string, string>>({
@@ -44,7 +44,7 @@ export function CaseStudyExplorer() {
     <>
       <div className="mb-8 grid gap-3 md:grid-cols-3">
         {FILTERS.map((f) => (
-          <label key={f.key} className="rounded-2xl p-4">
+          <label key={f.key} className="block">
             <span className="eyebrow text-signal">{f.label}</span>
             <select
               className={selectCls}
@@ -61,7 +61,7 @@ export function CaseStudyExplorer() {
         ))}
       </div>
       {studies.length ? (
-        <div className="grid gap-3 md:grid-cols-3" aria-live="polite">
+        <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3" aria-live="polite">
           {studies.map((c) => (
             <CaseStudyCard key={c.slug} c={c} />
           ))}

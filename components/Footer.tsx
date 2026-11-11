@@ -19,7 +19,7 @@ export function Footer() {
   return (
     <footer id="site-footer" className="relative overflow-hidden">
       <div className="mx-auto max-w-(--container-content) px-(--spacing-gutter) pb-10">
-        <div className="grid gap-12 border-t border-paper/14 pt-14 md:grid-cols-[1.2fr_2fr] md:gap-16">
+        <div className="grid gap-12 border-t border-paper/14 pt-14 lg:grid-cols-[1.2fr_2fr] lg:gap-16">
           <div className="max-w-xs">
             <Lockup className="text-[28px]" />
             <p className="mt-7 text-[15px] leading-relaxed text-steel">

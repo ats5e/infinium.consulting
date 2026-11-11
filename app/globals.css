@@ -428,7 +428,8 @@
   .stack-motion .stack-label,
   .stack-motion .stack-dot {
     animation-duration: 8s;
-    animation-iteration-count: infinite;
+    /* three loops, then it rests as the finished stack (WCAG 2.2.2) */
+    animation-iteration-count: 3;
     animation-delay: calc(var(--i, 0) * 0.8s);
     animation-play-state: paused;
   }

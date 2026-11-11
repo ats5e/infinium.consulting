@@ -85,12 +85,12 @@ function ColumnHead({
         style={{ transitionDelay: open ? "160ms" : "0ms" }}
       />
       <div className="flex items-baseline justify-between pt-4">
-        <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-steel">{label}</p>
+        <p className="text-[12px] font-medium uppercase tracking-[0.14em] text-steel">{label}</p>
         {href && linkLabel ? (
           <Link
             href={href}
             tabIndex={tabbable ? 0 : -1}
-            className="group/head text-[11px] font-medium uppercase tracking-[0.14em] text-glass underline decoration-ice/40 underline-offset-4 transition-colors duration-(--duration-fast) hover:text-signal"
+            className="group/head text-[12px] font-medium uppercase tracking-[0.14em] text-glass underline decoration-ice/40 underline-offset-4 transition-colors duration-(--duration-fast) hover:text-signal"
           >
             {linkLabel}{" "}
             <span aria-hidden className="inline-block transition-transform duration-(--duration-fast) group-hover/head:-translate-y-px group-hover/head:translate-x-px">
@@ -173,7 +173,7 @@ export function Nav() {
       {/* the floating pill */}
       <nav
         aria-label="Primary"
-        className="pointer-events-auto absolute inset-x-3 top-3 z-50 flex h-16 items-center justify-between gap-6 rounded-2xl bg-white/88 pl-5 pr-2.5 backdrop-blur-xl md:inset-x-6 md:top-4 md:h-[72px] md:pl-7 lg:inset-x-10"
+        className="pointer-events-auto absolute inset-x-3 top-3 z-50 flex h-16 items-center justify-between gap-6 rounded-2xl bg-white/88 pl-5 pr-2.5 backdrop-blur-xl md:inset-x-6 md:top-4 md:h-[72px] md:pl-7 lg:inset-x-10 2xl:mx-auto 2xl:max-w-[90rem]"
       >
         {/* the lockup exactly as on the live site — never restyle it */}
         <Link href="/" aria-label="Infinium — home" className="shrink-0">
@@ -322,7 +322,7 @@ export function Nav() {
               <div className="mt-6 grid gap-8 sm:grid-cols-2">
                 {PERSPECTIVES.slice(0, 2).map(([tag, title]) => (
                   <Link key={title} href="/perspectives" tabIndex={open ? 0 : -1} className="group block">
-                    <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-steel">{tag}</p>
+                    <p className="text-[12px] font-medium uppercase tracking-[0.14em] text-steel">{tag}</p>
                     <p className="mt-3 text-(length:--text-body) leading-snug text-ice transition-colors duration-(--duration-fast) group-hover:text-paper">
                       {title}
                     </p>
@@ -355,7 +355,7 @@ export function Nav() {
           >
             <ColumnHead label="Latest case study" linkLabel="View all" href="/insights" open={open} tabbable={open} />
             <Link href={`/insights/${study.slug}`} tabIndex={open ? 0 : -1} className="group mt-6 block">
-              <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-steel">
+              <p className="text-[12px] font-medium uppercase tracking-[0.14em] text-steel">
                 Case study <span className="text-ice/40">{"//"}</span> {study.sector}
               </p>
               <span className="relative mt-3 block aspect-[16/10] overflow-hidden border hairline">
@@ -390,7 +390,7 @@ export function Nav() {
       >
         <div aria-hidden className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_8%,rgba(35,79,189,0.08),transparent_34rem)]" />
         <div className="relative mx-auto max-w-(--container-content) px-(--spacing-gutter) pb-20 pt-36">
-          <label htmlFor="site-search-input" className="text-[11px] font-medium uppercase tracking-[0.14em] text-steel">
+          <label htmlFor="site-search-input" className="text-[12px] font-medium uppercase tracking-[0.14em] text-steel">
             Search
           </label>
           <input
@@ -418,7 +418,7 @@ export function Nav() {
                     className="group flex items-baseline justify-between gap-6 py-4 text-paper transition-colors duration-(--duration-fast) hover:text-signal"
                   >
                     <span className="text-(length:--text-step-1)">{r.label}</span>
-                    <span className="shrink-0 text-[11px] font-medium uppercase tracking-[0.14em] text-steel">{r.section}</span>
+                    <span className="shrink-0 text-[12px] font-medium uppercase tracking-[0.14em] text-steel">{r.section}</span>
                   </Link>
                 </li>
               ))}

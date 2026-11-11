@@ -193,7 +193,7 @@ export function AssessmentDashboard() {
                 role="tab"
                 aria-selected={selected}
                 onClick={() => setTab(t.key)}
-                className={`shrink-0 px-4 py-2.5 text-left font-mono text-(length:--text-label) uppercase tracking-[0.08em] outline-none transition-colors duration-(--duration-fast) focus-visible:ring-2 focus-visible:ring-signal md:w-full ${
+                className={`min-h-11 shrink-0 rounded-lg px-4 py-2.5 text-left font-mono text-(length:--text-label) uppercase tracking-[0.08em] outline-none transition-colors duration-(--duration-fast) focus-visible:ring-2 focus-visible:ring-signal md:w-full ${
                   selected
                     ? "bg-cobalt text-white"
                     : "text-steel hover:bg-white hover:text-paper"
@@ -210,7 +210,7 @@ export function AssessmentDashboard() {
         <div className="p-5 sm:p-7 md:col-span-9">
           {tab === "overview" ? (
             <div key="overview">
-              <div className="grid grid-cols-2 gap-3 sm:grid-cols-5">
+              <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 xl:grid-cols-5">
                 {STATUS.map(([n, label]) => (
                   <div key={label} className="rounded-xl bg-tint px-4 py-3">
                     <p className="font-display text-(length:--text-step-2) leading-none text-paper"><Counter value={n} /></p>

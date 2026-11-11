@@ -35,12 +35,14 @@ export type CollageShot = { slot: Parameters<typeof siteImage>[0]; alt: string; 
  * and leaves a dangling hole under the last tile for any other count.
  * Drift alternates sign so neighbours separate rather than moving as a slab. */
 const RHYTHM = [
-  { span: "md:col-span-7 md:row-span-2", drift: "18px" },
-  { span: "md:col-span-5 md:row-span-2", drift: "-26px" },
-  { span: "md:col-span-4", drift: "-14px" },
-  { span: "md:col-span-4", drift: "22px" },
-  { span: "md:col-span-4", drift: "-20px" },
-  { span: "md:col-span-12 md:row-span-2", drift: "16px" },
+  /* drifts kept small: vertically stacked tiles moving in opposite
+     directions must never close the 16px gap between them */
+  { span: "md:col-span-7 md:row-span-2", drift: "6px" },
+  { span: "md:col-span-5 md:row-span-2", drift: "-6px" },
+  { span: "md:col-span-4", drift: "-4px" },
+  { span: "md:col-span-4", drift: "6px" },
+  { span: "md:col-span-4", drift: "-5px" },
+  { span: "md:col-span-12 md:row-span-2", drift: "4px" },
 ] as const;
 
 export function PhotoCollage({
@@ -51,7 +53,7 @@ export function PhotoCollage({
   label: string;
 }) {
   return (
-    <section aria-label={label} className="border-t hairline">
+    <section aria-label={label}>
       <div className="mx-auto max-w-(--container-content) px-(--spacing-gutter) py-16 md:py-20">
         <div className="grid grid-cols-1 gap-3 [grid-auto-flow:dense] sm:grid-cols-2 md:auto-rows-[11rem] md:grid-cols-12 md:gap-4">
           {shots.map((shot, i) => {
