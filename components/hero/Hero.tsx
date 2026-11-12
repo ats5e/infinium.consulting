@@ -72,7 +72,6 @@ export function Hero({ staticImage: _staticImage }: { staticImage: SiteImage }) 
             there — otherwise the body runs under the mark. Full 2xl measure
             returns once the viewport gives the field room of its own. */}
         <div data-testid="hero-copy-column" className="flex w-full max-w-2xl flex-col items-start pt-6 text-left md:max-w-[40vw] md:pt-6 xl:max-w-2xl">
-          <p className="hero-body eyebrow mb-7">Data &amp; AI for financial services<span className="hidden lg:inline"> · Amsterdam &amp; Dubai</span></p>
           <h1 className="w-full font-hero text-[clamp(3.5rem,8vw,7.25rem)] font-medium leading-[0.9] tracking-[-0.035em] text-paper">
             {/* David's final header (24 Aug): short, monumental, cobalt close */}
             <span className="block w-full overflow-hidden pb-[0.16em] -mb-[0.16em]">
