@@ -362,57 +362,88 @@
 }
 
 /*
- * The stack — R&D band motion graphic (components/home/StackMotion.tsx).
- * One 8s loop: layers drop in bottom-up 0.8s apart (--i), hold, fade, repeat;
- * each label lights with its layer. Runs only while [data-playing] (on
- * screen); reduced motion shows the finished stack, still.
+ * The stack — R&D band motion graphic, v2 (components/home/StackMotion.tsx).
+ * SVG isometric slabs with thickness and contents; data tiles rise through
+ * them. [data-entered] plays the one-off assembly; [data-moving] runs the
+ * ambient motion (scan, particles, pulses) only while the guided tour is
+ * on, so nothing loops forever. Reduced motion: finished stack, still.
  */
-.stack-slab {
-  --s: clamp(9.5rem, 16vw, 14rem);
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: var(--s);
-  height: var(--s);
-  margin: calc(var(--s) / -2) 0 0 calc(var(--s) / -2);
-  border-radius: 1.25rem;
-  transform: rotateX(60deg) rotateZ(45deg);
+.stack-face--record { fill: rgb(155 196 255 / 0.13); }
+.stack-side--record { fill: #1c3f73; }
+.stack-edge--record { fill: none; stroke: rgb(155 196 255 / 0.42); stroke-width: 1.5; }
+.stack-raw { fill: rgb(190 210 240 / 0.5); }
+
+.stack-face--qbricks { fill: #2a56c6; }
+.stack-side--qbricks { fill: #173f9e; }
+.stack-edge--qbricks { fill: none; stroke: rgb(255 255 255 / 0.22); stroke-width: 1.5; }
+.stack-cell { fill: rgb(255 255 255 / 0.14); }
+
+.stack-face--products { fill: #4d80f0; }
+.stack-side--products { fill: #2f5bd0; }
+.stack-edge--products { fill: none; stroke: rgb(255 255 255 / 0.3); stroke-width: 1.5; }
+.stack-product { fill: rgb(255 255 255 / 0.34); }
+
+.stack-face--ai { fill: rgb(196 219 255 / 0.4); }
+.stack-side--ai { fill: rgb(155 196 255 / 0.3); }
+.stack-edge--ai { fill: none; stroke: rgb(255 255 255 / 0.75); stroke-width: 1.75; }
+.stack-bar { fill: rgb(255 255 255 / 0.5); }
+.stack-line { fill: none; stroke: #ffffff; stroke-width: 5; stroke-linecap: round; stroke-linejoin: round; }
+
+.stack-particle { fill: #9bc4ff; opacity: 0; }
+.stack-scan { opacity: 0; }
+
+/* the active layer lifts and the rest recede */
+.stack-slab-g {
+  transition:
+    transform var(--duration-slow) var(--ease-editorial),
+    opacity var(--duration-base) ease-out;
 }
-.stack-layer { translate: 0 calc((1.5 - var(--i)) * 3.6rem); }
-.stack-slab--base { background: rgb(155 196 255 / 0.16); box-shadow: inset 0 0 0 1.5px rgb(155 196 255 / 0.35); }
-.stack-slab--cobalt { background: rgb(35 79 189 / 0.94); }
-.stack-slab--bright { background: rgb(77 128 240 / 0.88); }
-.stack-slab--glass { background: rgb(155 196 255 / 0.55); box-shadow: inset 0 0 0 1.5px rgb(255 255 255 / 0.6); }
-.stack-dot { background: var(--color-on-dark-accent); }
+.stack-slab-g[data-active] { transform: translateY(-16px); }
+.stack-slab-g[data-dimmed] { opacity: 0.62; }
 
 @keyframes stack-drop {
-  0% { transform: translateY(-4.5rem); opacity: 0; }
-  12%, 82% { transform: translateY(0); opacity: 1; }
-  94%, 100% { transform: translateY(0); opacity: 0; }
+  from { transform: translateY(-90px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
 }
-@keyframes stack-lit {
-  0%, 94%, 100% { opacity: 0.42; }
-  12%, 82% { opacity: 1; }
+@keyframes stack-rise {
+  0% { transform: translateY(0); opacity: 0; fill: #8fa3ba; }
+  10% { opacity: 0.9; }
+  36% { fill: #8fa3ba; }
+  44% { fill: #6f9bff; }
+  70% { fill: #b9d4ff; }
+  90% { opacity: 0.9; }
+  100% { transform: translateY(-350px); opacity: 0; fill: #ffffff; }
 }
-@keyframes stack-dot {
-  0%, 94%, 100% { transform: scale(0.4); background: rgb(255 255 255 / 0.3); }
-  12%, 82% { transform: scale(1); background: var(--color-on-dark-accent); }
+@keyframes stack-scan {
+  0% { transform: translateX(0); opacity: 0; }
+  12%, 88% { opacity: 1; }
+  100% { transform: translateX(380px); opacity: 0; }
+}
+@keyframes stack-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.55; }
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .stack-motion .stack-layer,
-  .stack-motion .stack-label,
-  .stack-motion .stack-dot {
-    animation-duration: 8s;
-    /* three loops, then it rests as the finished stack (WCAG 2.2.2) */
-    animation-iteration-count: 3;
-    animation-delay: calc(var(--i, 0) * 0.8s);
-    animation-play-state: paused;
+  /* one-off assembly, bottom-up */
+  .stack-motion .stack-enter { opacity: 0; }
+  .stack-motion[data-entered] .stack-enter {
+    animation: stack-drop 900ms var(--ease-editorial) both;
+    animation-delay: calc(var(--i, 0) * 180ms);
   }
-  .stack-motion .stack-layer { animation-name: stack-drop; animation-timing-function: var(--ease-editorial); }
-  .stack-motion .stack-label { animation-name: stack-lit; animation-timing-function: ease-in-out; }
-  .stack-motion .stack-dot { animation-name: stack-dot; animation-timing-function: ease-in-out; animation-delay: inherit; }
-  .stack-motion[data-playing] .stack-layer,
-  .stack-motion[data-playing] .stack-label,
-  .stack-motion[data-playing] .stack-dot { animation-play-state: running; }
+  /* ambient motion — only while the tour runs */
+  .stack-motion[data-moving] .stack-particle {
+    animation-name: stack-rise;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+  }
+  .stack-motion[data-moving] .stack-scan { animation: stack-scan 2.6s var(--ease-editorial) infinite; }
+  .stack-motion[data-moving] .stack-product,
+  .stack-motion[data-moving] .stack-bar {
+    animation: stack-pulse 2.4s ease-in-out infinite;
+    animation-delay: calc(var(--p, 0) * 140ms);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .stack-slab-g { transition: none; }
 }
