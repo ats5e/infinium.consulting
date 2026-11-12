@@ -108,17 +108,49 @@ function CaseStudyVisual({ study }: { study: CaseStudy }) {
  * stay legible. Without this, a 3:1 wordmark reads three times heavier than
  * a square seal at the same height.
  */
-/* awards as one quiet line of type under the figures (redesign, Nov 2026).
-   The badge files stay in public/awards; NEN 4400-1 and Stichting Normering
-   Arbeid stay off the page per client (20 Aug): registrations, not awards. */
+/* The award and partner marks exactly as on the live site (David, 3 Nov:
+   one tight row of marks; the GPTW set supplied 29 Oct). The redesign had
+   reduced them to a line of text — restored 12 Nov, and added to About. */
 const AWARDS = [
-  "Great Place To Work® Certified 2024–2027",
-  "EcoVadis Silver",
-  "Appian Europe Financial Services Partner of the Year 2024",
-  "The Consultancy Awards 2025",
-  "Quantexa Plus Alliance Partner",
-  "Alteryx Authorized Professional Services",
+  { src: "/awards/ecovadis-silver-2024.webp", alt: "EcoVadis Silver sustainability rating, top 15%, September 2024", w: 476, h: 478, height: 76 },
+  /* NEN 4400-1 and Stichting Normering Arbeid removed per client (20 Aug):
+     compliance registrations, not awards — files kept in public/awards */
+  /* the full Great Place To Work set (client, 29 Oct) — certified 2024–27,
+     the GPTW mark and Best Workplaces NL 2024 — replacing the lone 2024
+     Best Workplaces badge, which stays in public/awards. Wide, so it takes
+     a short height like the Quantexa wordmark, nudged up so the badge
+     captions stay readable. */
+  { src: "/awards/gptw-nl-2024-2027.png", alt: "Great Place To Work: Certified Netherlands Nov 2024–Nov 2025, Oct 2025–Oct 2026 and Oct 2026–Oct 2027, and Best Workplaces Netherlands 2024", w: 830, h: 213, height: 60 },
+  // outlined badge with a caption inside it — needs more height to read
+  { src: "/awards/Appian.webp", alt: "Appian Europe 2024 Financial Services Partner of the Year", w: 364, h: 200, height: 68 },
+  { src: "/awards/Consultancy Awards.png", alt: "The Consultancy Awards 2025", w: 440, h: 364, height: 70 },
+  { src: "/awards/Alteryx Partner.png", alt: "Alteryx Partner — Authorized Professional Services", w: 200, h: 232, height: 80 },
+  // re-cut with a transparent ground; the supplied file had an opaque white
+  // panel that showed as a box against the page tint
+  { src: "/awards/quantexa-plus-alliance.png", alt: "Quantexa Plus Alliance Partner", w: 2981, h: 707, height: 44 },
 ] as const;
+
+/* one row of marks; each keeps its optically-matched height, scaled to fit */
+function AwardsRow({ className = "" }: { className?: string }) {
+  return (
+    <Reveal className={`grid grid-cols-3 items-center gap-x-6 gap-y-8 lg:flex lg:justify-between lg:gap-8 ${className}`}>
+      {AWARDS.map((award) => (
+        <div key={award.src} className="flex items-center justify-center">
+          <Image
+            src={award.src}
+            alt={award.alt}
+            width={award.w}
+            height={award.h}
+            loading="lazy"
+            sizes="240px"
+            style={{ height: `${Math.round(award.height * 0.75)}px` }}
+            className="w-auto max-w-full object-contain"
+          />
+        </div>
+      ))}
+    </Reveal>
+  );
+}
 
 /* the four pillars of the expanding row, as in the approved homepage
    mockup (Jack, 11 Nov 2026) */
@@ -254,10 +286,8 @@ export function HomeWirePage() {
             </li>
           ))}
         </Reveal>
-        <p className="mt-10 max-w-5xl text-balance text-[13px] leading-[1.7] text-steel">
-          <span className="sr-only">Awards and partnerships: </span>
-          {AWARDS.join(" · ")}
-        </p>
+        <h3 className="sr-only">Awards and partnerships</h3>
+        <AwardsRow className="mt-14 md:mt-16" />
       </section>
 
       {/* the dark band — products, shown as product */}
@@ -2086,6 +2116,12 @@ export function AboutWirePage() {
           ))}
         </div>
       </ContentSection>
+
+      {/* the same row of marks as the homepage, after the people */}
+      <section aria-labelledby="about-awards-heading" className="mx-auto max-w-(--container-content) px-(--spacing-gutter) pb-8 md:pb-12">
+        <h2 id="about-awards-heading" className="sr-only">Awards and partnerships</h2>
+        <AwardsRow />
+      </section>
 
       <ContentSection density="compact">
         <SectionIntro
