@@ -153,8 +153,20 @@ function AwardsRow({ className = "" }: { className?: string }) {
 }
 
 /* the four pillars of the expanding row, as in the approved homepage
-   mockup (Jack, 11 Nov 2026) */
+   mockup (Jack, 11 Nov 2026). The people card leads ("more human" pass,
+   12 Nov): it is the one open by default. */
 const HOME_PILLARS = [
+  {
+    eyebrow: "How we do it",
+    short: "Delivery from day one",
+    title: "Delivery that starts on day one",
+    // the team in the Amsterdam lounge (already on About / Culture).
+    // Never team-together: David removed that photo (27 Jul "Image updates").
+    slot: "culture-lounge" as const,
+    body: "Hands-on practitioners, packaged methodologies, proven patterns and automation: measurable outcomes, not slideware.",
+    cta: "Our services",
+    href: "/services",
+  },
   {
     eyebrow: "What we do",
     short: "Outcomes in weeks",
@@ -174,17 +186,6 @@ const HOME_PILLARS = [
     href: "/insights",
   },
   {
-    eyebrow: "How we do it",
-    short: "Delivery from day one",
-    title: "Delivery that starts on day one",
-    // the mockup showed team-together; David removed that photo (27 Jul
-    // "Image updates"), so the Amsterdam staircase stands in
-    slot: "ams-stairs" as const,
-    body: "Hands-on practitioners, packaged methodologies, proven patterns and automation: measurable outcomes, not slideware.",
-    cta: "Our services",
-    href: "/services",
-  },
-  {
     eyebrow: "Our solutions",
     short: "QBricks & VBricks",
     title: "QBricks & VBricks: implementations compressed from years to months",
@@ -193,6 +194,15 @@ const HOME_PILLARS = [
     cta: "Explore QBricks & VBricks",
     href: "/solutions",
   },
+] as const;
+
+/* the leadership team — shared by About and the homepage people section */
+const LEADERSHIP = [
+  ["David Aston", "CEO, Infinium", "david-aston-v2", "30+ years in financial markets, founder of the NextWave Group and CEO & founder of Infinium. Has delivered complex transformation inside tier-1 banks."],
+  ["Toby Smith-Cullen", "Partner, Infinium", "toby-smith-cullen", "Twenty years in transformation and innovation in the financial industry, formerly fintech partnership lead at a leading Dutch bank. MSc, Delft University of Technology."],
+  ["Erik Rowbotham", "Partner, Infinium", "erik-rowbotham", "Regulation & Compliance practice lead. Change delivery leader with an accounting and business background, built inside major UK banking institutions."],
+  ["Helen Bull", "Partner, Infinium", "helen-bull", "Leads the Transformation practice, operating at board level with large corporate and financial services clients across the UK, Germany and the Netherlands. Certified project manager."],
+  ["Jeanette Zeilmaker", "Operations Head, Infinium", "jeanette-zeilmaker", "Head of operations for Infinium in the Netherlands — 20 years across operations, HR, contract management and compliance."],
 ] as const;
 
 const WHY_INFINIUM = [
@@ -217,9 +227,8 @@ export function HomeWirePage() {
   const regReporting = caseStat("regulatory-reporting");
   const bigData = caseStat("big-data-engineering");
   const featured = [regReporting, caseStat("finance-re-engineering"), caseStat("entity-stand-up")];
-  /* 2400px source, already on /about/amsterdam; ams-atrium is only 1059px
-     wide and pixelates full-bleed on retina */
-  const atrium = siteImage("ams-office");
+/* the team on the Amsterdam balcony — the photo from /careers */
+  const atrium = siteImage("careers");
 
   return (
     <>
@@ -345,6 +354,63 @@ export function HomeWirePage() {
         </div>
       </section>
 
+      {/* the people — "more human" pass (12 Nov). Heading and paragraph are
+          the About page's "Our firm" block word for word; the quote is the
+          opening of David's About bio with its middle clause trimmed. */}
+      <section aria-labelledby="people-heading">
+        <div className="mx-auto max-w-(--container-content) px-(--spacing-gutter) py-24 md:py-32">
+          <div className="grid gap-12 lg:grid-cols-[1fr_1.3fr] lg:gap-16">
+            <Reveal className="flex flex-col justify-between gap-10">
+              <div>
+                <p className="eyebrow">Our firm</p>
+                <h2 id="people-heading" className="mt-7 text-(length:--text-display-2) tracking-[-0.02em]">Industry practitioners at our core</h2>
+                <p className="mt-7 max-w-md leading-relaxed text-ice">Our leadership team are hands-on MD-level practitioners from major global financial services firms, with deep experience of the same challenges our clients face. Delivery teams pair seasoned industry specialists with dynamic new talent.</p>
+              </div>
+              <p><SecondaryLink href="/about"><span aria-hidden>↳ </span>Meet the team</SecondaryLink></p>
+            </Reveal>
+            <Reveal>
+              <figure className="flex h-full flex-col gap-7 rounded-2xl bg-white p-7 sm:flex-row sm:items-start sm:gap-8 md:p-10">
+                <Image
+                  src="/img/team-david-v2.avif"
+                  alt="David Aston, Chief Executive Officer"
+                  width={800}
+                  height={800}
+                  loading="lazy"
+                  sizes="(min-width: 640px) 220px, 60vw"
+                  className="aspect-square w-40 shrink-0 rounded-xl object-cover grayscale sm:w-[34%]"
+                />
+                <div className="min-w-0">
+                  <blockquote className="font-hero text-[clamp(1.25rem,1.8vw,1.625rem)] leading-[1.3] text-paper">
+                    Banks, asset managers and insurers today grapple with exponential data growth, financial crime prevention, evolving ESG mandates and rising regulatory pressure. Infinium exists to solve these challenges.
+                  </blockquote>
+                  <figcaption className="mt-6">
+                    <p className="text-[15px] font-medium text-paper">David Aston</p>
+                    <p className="eyebrow mt-1">Chief Executive Officer</p>
+                  </figcaption>
+                </div>
+              </figure>
+            </Reveal>
+          </div>
+          <Reveal as="ul" className="mt-4 grid grid-cols-2 gap-4 lg:grid-cols-4">
+            {LEADERSHIP.slice(1).map(([name, role, img]) => (
+              <li key={name} className="rounded-2xl bg-white p-5">
+                <Image
+                  src={`/img/team/${img}.webp`}
+                  alt={name}
+                  width={600}
+                  height={600}
+                  loading="lazy"
+                  sizes="(min-width: 1024px) 22vw, 44vw"
+                  className="aspect-square w-full rounded-xl object-cover grayscale"
+                />
+                <p className="mt-4 text-[15px] font-medium text-paper">{name}</p>
+                <p className="eyebrow mt-1">{role}</p>
+              </li>
+            ))}
+          </Reveal>
+        </div>
+      </section>
+
       {/* case studies — the result is the headline */}
       <section aria-labelledby="cases-heading" className="mx-auto max-w-(--container-content) px-(--spacing-gutter) py-24 md:py-32">
         <Reveal className="mb-14 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
@@ -374,16 +440,16 @@ export function HomeWirePage() {
         </Reveal>
       </section>
 
-      {/* the full-bleed moment — the place, not a render */}
+      {/* the full-bleed moment — the people, in the place */}
       <section aria-labelledby="offices-heading" className="relative flex min-h-[34rem] items-end overflow-hidden bg-deep md:min-h-[42rem]">
         <picture className="absolute inset-0">
           <source type="image/avif" srcSet={`${atrium.avifMob} 800w, ${atrium.avifHalf} ${Math.round(atrium.width / 2)}w, ${atrium.avif} ${atrium.width}w`} sizes="100vw" />
           <img
             src={atrium.webp}
-            alt="Inside Infinium's Amsterdam office"
+            alt="The Infinium team on the balcony of the Amsterdam office"
             loading="lazy"
             decoding="async"
-            className="h-full w-full object-cover"
+            className="h-full w-full object-cover object-[50%_60%]"
             style={{ backgroundImage: `url(${atrium.lqip})`, backgroundSize: "cover" }}
           />
         </picture>
@@ -2022,13 +2088,7 @@ export function CaseStudyWirePage({ slug }: { slug: string }) {
 
 export function AboutWirePage() {
   /* names, roles and bios sourced from nxwave.com/locations/infinium-amsterdam-en */
-  const leadership = [
-    ["David Aston", "CEO, Infinium", "david-aston-v2", "30+ years in financial markets, founder of the NextWave Group and CEO & founder of Infinium. Has delivered complex transformation inside tier-1 banks."],
-    ["Toby Smith-Cullen", "Partner, Infinium", "toby-smith-cullen", "Twenty years in transformation and innovation in the financial industry, formerly fintech partnership lead at a leading Dutch bank. MSc, Delft University of Technology."],
-    ["Erik Rowbotham", "Partner, Infinium", "erik-rowbotham", "Regulation & Compliance practice lead. Change delivery leader with an accounting and business background, built inside major UK banking institutions."],
-    ["Helen Bull", "Partner, Infinium", "helen-bull", "Leads the Transformation practice, operating at board level with large corporate and financial services clients across the UK, Germany and the Netherlands. Certified project manager."],
-    ["Jeanette Zeilmaker", "Operations Head, Infinium", "jeanette-zeilmaker", "Head of operations for Infinium in the Netherlands — 20 years across operations, HR, contract management and compliance."],
-  ] as const;
+  const leadership = LEADERSHIP;
 
   return (
     <>
