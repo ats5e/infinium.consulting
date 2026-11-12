@@ -6,6 +6,9 @@ export const metadata: Metadata = {
   title: "Privacy notice",
   description: "How Infinium handles information submitted through this website.",
   alternates: { canonical: "/privacy" },
+  // per-page og:url (the layout's "/" was being inherited); setting openGraph
+  // replaces the inherited object, so the share card is re-attached
+  openGraph: { url: "/privacy", siteName: "Infinium", type: "website", locale: "en_GB", images: ["/opengraph-image"] },
 };
 
 const SECTIONS = [

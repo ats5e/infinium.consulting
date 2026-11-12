@@ -6,6 +6,9 @@ export const metadata: Metadata = {
   title: "Cookie policy",
   description: "What this website stores in your browser — which is very little.",
   alternates: { canonical: "/cookies" },
+  // per-page og:url (the layout's "/" was being inherited); setting openGraph
+  // replaces the inherited object, so the share card is re-attached
+  openGraph: { url: "/cookies", siteName: "Infinium", type: "website", locale: "en_GB", images: ["/opengraph-image"] },
 };
 
 const SECTIONS = [

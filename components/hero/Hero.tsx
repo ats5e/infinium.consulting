@@ -59,10 +59,12 @@ export function Hero({ staticImage: _staticImage }: { staticImage: SiteImage }) 
       aria-label="Introduction"
     >
       {/* legibility wash: the copy column stays pristine over the
-          field's left tail */}
+          field's left tail. Fades are written as explicit rgb() stops
+          of the void colour: WebKit interpolates `transparent` (and
+          Tailwind's /opacity mixes with it) through grey, leaving bands. */}
       <div
         aria-hidden
-        className="pointer-events-none absolute left-0 top-0 hidden h-[52%] w-[56%] bg-gradient-to-r from-void via-void/92 to-transparent md:block"
+        className="pointer-events-none absolute left-0 top-0 hidden h-[52%] w-[56%] bg-[linear-gradient(to_right,rgb(247_249_252),rgb(247_249_252/0.92)_50%,rgb(247_249_252/0))] md:block"
       />
 
       <div className="relative z-10 mx-auto flex w-full max-w-(--container-content) flex-col px-(--spacing-gutter) pb-7 pt-28 md:min-h-[clamp(38rem,86svh,50rem)] md:justify-center md:pt-24">
@@ -103,7 +105,7 @@ export function Hero({ staticImage: _staticImage }: { staticImage: SiteImage }) 
         <div data-testid="hero-graphic" className="absolute inset-x-0 bottom-[9%] top-0 md:bottom-[7%] md:top-[12%]">
           <AssemblyField still={still} />
         </div>
-        <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-[16%] bg-gradient-to-b from-transparent to-void" />
+        <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-[16%] bg-[linear-gradient(to_bottom,rgb(247_249_252/0),rgb(247_249_252))]" />
       </div>
 
 

@@ -150,7 +150,7 @@ test("Quantexa branding is carried through its solution and technology pages", a
     "/technologies/quantexa",
   ]) {
     await page.goto(path);
-    const logo = page.locator('main img[src*="quantexa.png"]').first();
+    const logo = page.locator('main img[src*="quantexa-480"]').first();
     await expect(logo).toBeVisible();
   }
 });

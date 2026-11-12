@@ -6,6 +6,9 @@ export const metadata: Metadata = {
   title: "Accessibility statement",
   description: "Our accessibility target for this website, how we test it, and how to tell us when we miss.",
   alternates: { canonical: "/accessibility" },
+  // per-page og:url (the layout's "/" was being inherited); setting openGraph
+  // replaces the inherited object, so the share card is re-attached
+  openGraph: { url: "/accessibility", siteName: "Infinium", type: "website", locale: "en_GB", images: ["/opengraph-image"] },
 };
 
 const SECTIONS = [

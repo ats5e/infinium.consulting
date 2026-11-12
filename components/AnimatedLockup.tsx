@@ -34,6 +34,13 @@ export function AnimatedLockup({ className }: { className?: string }) {
       return;
     }
 
+    // The lockup is server-rendered in its resting pose. If the page has
+    // already painted by the time we hydrate, running the entrance would
+    // blank the wordmark and replay it seconds into the visit — so the
+    // roll-in only plays when it can start unseen. The mark itself is
+    // untouched either way.
+    if (performance.getEntriesByName("first-contentful-paint").length > 0) return;
+
     const ctx = gsap.context(() => {
       const width = w.offsetWidth;
       const home = CUBE_CENTER_FRAC * width;

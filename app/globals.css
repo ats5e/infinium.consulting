@@ -319,40 +319,16 @@
   }
 }
 
+/* One flat canvas (redesign, Nov 2026). The old backdrop — pointer glow,
+ * corner glows, a faint grid and a conic wash — put a different tone behind
+ * every section, so solid-void sections (the hero) met it with a visible
+ * step. Sections now separate by their own tonal surfaces only. */
 .site-backdrop {
   position: fixed;
   inset: 0;
   z-index: -1;
   pointer-events: none;
-  background:
-    radial-gradient(circle at var(--pointer-x) var(--pointer-y), rgba(35, 79, 189, 0.035), transparent 22rem),
-    radial-gradient(circle at 12% 18%, rgba(35, 79, 189, 0.055), transparent 34rem),
-    radial-gradient(circle at 84% 78%, rgba(115, 168, 251, 0.05), transparent 30rem),
-    linear-gradient(180deg, #ffffff 0%, var(--color-void) 42%, #f3f6fa 100%);
-}
-
-.site-backdrop::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  opacity: 0.5;
-  background-image:
-    linear-gradient(rgba(23, 56, 102, 0.038) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(23, 56, 102, 0.03) 1px, transparent 1px);
-  background-size: 64px 64px;
-  mask-image: radial-gradient(ellipse at 50% 28%, black 0%, transparent 72%);
-}
-
-.site-backdrop::after {
-  content: "";
-  position: absolute;
-  inset: -20%;
-  opacity: 0.055;
-  background:
-    conic-gradient(from 180deg at 50% 50%, transparent 0deg, rgba(35, 79, 189, 0.3) 70deg, transparent 135deg, rgba(115, 168, 251, 0.18) 210deg, transparent 300deg),
-    radial-gradient(circle at 50% 50%, rgba(115, 168, 251, 0.14), transparent 42%);
-  filter: blur(60px);
-  transform: rotate(8deg) scale(1.04);
+  background: var(--color-void);
 }
 
 .data-node {

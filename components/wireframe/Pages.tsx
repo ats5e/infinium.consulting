@@ -1407,6 +1407,12 @@ export function SectorsWirePage() {
         <SectionIntro eyebrow="Our coverage" title="Where our experience runs deepest" />
         <NumberedCards items={SECTORS.map((s) => ({ ...s, num: s.num, href: "/contact", cta: "Talk to us →" }))} />
       </ContentSection>
+      {/* the same closing card as /services, word for word — no new copy */}
+      <CTASection
+        title="Not sure where to start?"
+        body="We shape strategy and solution options around your goals and challenges."
+        label="Schedule a discussion"
+      />
     </>
   );
 }
@@ -2286,7 +2292,7 @@ export function CulturePage() {
           sizes="100vw"
           imageClassName="aspect-[16/10] object-cover md:aspect-[21/9]"
         />
-        <div aria-hidden className="pointer-events-none absolute inset-0 bg-gradient-to-t from-overlay/80 via-overlay/20 to-transparent" />
+        <div aria-hidden className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_top,rgb(7_21_47/0.8),rgb(7_21_47/0.2)_50%,rgb(7_21_47/0))]" />
         <div className="absolute inset-x-0 bottom-0 mx-auto w-full max-w-(--container-content) px-(--spacing-gutter) pb-8 md:pb-12">
           <p className="eyebrow text-on-dark-accent">All of us</p>
           <p className="mt-3 max-w-2xl text-(length:--text-step-2) leading-tight text-on-dark">

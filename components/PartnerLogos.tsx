@@ -5,12 +5,14 @@ import Image from "next/image";
  * through a shared tonal treatment so mixed partner palettes remain calm on
  * the light interface, while each mark keeps its native proportions.
  */
+/* 480px-wide WebP renditions (2x for the largest slot the marks appear
+ * in); the full-size originals stay beside them as sources. */
 export const TECHNOLOGY_LOGOS = [
-  { slug: "alteryx", name: "Alteryx", src: "/partners/alteryx.png", w: 449, h: 137, stripClass: "h-7" },
-  { slug: "appian", name: "Appian", src: "/partners/appian.webp", w: 1257, h: 484, stripClass: "h-7" },
-  { slug: "databricks", name: "Databricks", src: "/partners/databricks.png", w: 531, h: 87, stripClass: "h-5" },
-  { slug: "microsoft-fabric", name: "Microsoft", src: "/partners/microsoft.png", w: 1023, h: 220, stripClass: "h-6" },
-  { slug: "quantexa", name: "Quantexa", src: "/partners/quantexa.png", w: 527, h: 87, stripClass: "h-5" },
+  { slug: "alteryx", name: "Alteryx", src: "/partners/alteryx-480.webp", w: 449, h: 137, stripClass: "h-7" },
+  { slug: "appian", name: "Appian", src: "/partners/appian-480.webp", w: 480, h: 185, stripClass: "h-7" },
+  { slug: "databricks", name: "Databricks", src: "/partners/databricks-480.webp", w: 480, h: 79, stripClass: "h-5" },
+  { slug: "microsoft-fabric", name: "Microsoft", src: "/partners/microsoft-480.webp", w: 480, h: 103, stripClass: "h-6" },
+  { slug: "quantexa", name: "Quantexa", src: "/partners/quantexa-480.webp", w: 480, h: 79, stripClass: "h-5" },
 ] as const;
 
 export function TechnologyLogo({

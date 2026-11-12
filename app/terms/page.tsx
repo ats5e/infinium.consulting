@@ -6,6 +6,9 @@ export const metadata: Metadata = {
   title: "Terms of use",
   description: "The terms on which this website is provided.",
   alternates: { canonical: "/terms" },
+  // per-page og:url (the layout's "/" was being inherited); setting openGraph
+  // replaces the inherited object, so the share card is re-attached
+  openGraph: { url: "/terms", siteName: "Infinium", type: "website", locale: "en_GB", images: ["/opengraph-image"] },
 };
 
 const SECTIONS = [
