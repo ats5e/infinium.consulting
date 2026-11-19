@@ -63,7 +63,9 @@ const CHOSEN: Record<string, number> = {
   // second client drop — culture, industry events, Dubai, academic partners
   "culture-terrace": 1,
   "culture-night": 1,
-  "culture-lounge": 1,
+  // David (19 Nov 2026): the canalside whole-team photo replaces
+  // culture-lounge, which is withdrawn from the site everywhere
+  "team-canalside": 1,
   "culture-offsite": 1,
   "culture-standup": 1,
   "culture-onthe-road": 1,

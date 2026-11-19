@@ -160,9 +160,10 @@ const HOME_PILLARS = [
     eyebrow: "How we do it",
     short: "Delivery from day one",
     title: "Delivery that starts on day one",
-    // the team in the Amsterdam lounge (already on About / Culture).
-    // Never team-together: David removed that photo (27 Jul "Image updates").
-    slot: "culture-lounge" as const,
+    // the whole team canalside in Amsterdam, summer 2026 — David's pick
+    // (19 Nov) replacing the lounge group photo, which he had removed
+    // site-wide. Never team-together either (27 Jul "Image updates").
+    slot: "team-canalside" as const,
     body: "Hands-on practitioners, packaged methodologies, proven patterns and automation: measurable outcomes, not slideware.",
     cta: "Our services",
     href: "/services",
@@ -2238,7 +2239,7 @@ export function AboutWirePage() {
  * full-width closer) — adding, removing or reordering an entry without
  * updating RHYTHM in PhotoCollage.tsx will leave a gap in the grid. */
 const CULTURE_COLLAGE: readonly CollageShot[] = [
-  { slot: "culture-lounge", alt: "The team together in the Amsterdam lounge", caption: "The Amsterdam lounge" },
+  { slot: "team-canalside", alt: "The whole team together by an Amsterdam canal", caption: "Canalside in Amsterdam" },
   { slot: "culture-toast", alt: "Colleagues celebrating together", caption: "Celebrating together" },
   { slot: "culture-harbour", alt: "Summer drinks by the harbour", caption: "Summer by the harbour" },
   { slot: "culture-night", alt: "The team on a night out", caption: "A night out" },

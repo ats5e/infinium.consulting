@@ -309,16 +309,6 @@
       }
     ]
   },
-  "culture-lounge": {
-    "variants": [
-      {
-        "src": "/img/culture-lounge-v1",
-        "w": 2048,
-        "h": 1365,
-        "lqip": "data:image/webp;base64,UklGRo4AAABXRUJQVlA4IIIAAACwAwCdASoUAA0APxFysFAsJqSisAgBgCIJYwAAPijex2KgYDRugAD6i1/I/ho/aW0VLW2V5xa9ivZNZG4omi+WVP4Xk02jYJ2mhCwBPlsJNn3o10m56mW4Si79jOmHQAu2O0Xev7LonBBLo3TweRBqD7AfvXd0dR6PPGXcxIuiQmAA"
-      }
-    ]
-  },
   "culture-night": {
     "variants": [
       {
@@ -841,7 +831,17 @@
         "src": "/img/strategy-change-v1",
         "w": 2752,
         "h": 1536,
-        "lqip": "data:image/webp;base64,UklGRk4AAABXRUJQVlA4IEIAAABQAwCdASoUAAsAPxFysFAsJqSisAgBgCIJQBfJBDvx+oX7gAD+6nm4QXW3FeWI5s6KsEEVM/l9kfOnIVnz5JCaAAA="
+        "lqip": "data:image/webp;base64,UklGRkwAAABXRUJQVlA4IEAAAABwAwCdASoUAAsAPxFysFAsJqSisAgBgCIJQAALgrqzT0t55AAA/up5sXFsCmyz7QMm8H3OjKHiZtGxm6mobIAA"
+      }
+    ]
+  },
+  "team-canalside": {
+    "variants": [
+      {
+        "src": "/img/team-canalside-v1",
+        "w": 1672,
+        "h": 941,
+        "lqip": "data:image/webp;base64,UklGRmgAAABXRUJQVlA4IFwAAADQAwCdASoUAAsAPxFysFAsJqSisAgBgCIJZQC+SBq8hVSsLR2qIwAA/SJjSmOPf9qJr4z1ZiDsNTBDlPj88IgO8adQggMkT9olEclbjWusANEEcRlaxGtZY5RAAA=="
       }
     ]
   }
